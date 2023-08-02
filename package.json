@@ -1,0 +1,27 @@
+{
+  "name": "kalypso-sdk",
+  "version": "1.0.0",
+  "description": "Kalypso SDK",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "npm run build && node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marlinprotocol/Kalypso-SDK.git"
+  },
+  "author": "infy8",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marlinprotocol/Kalypso-SDK/issues"
+  },
+  "homepage": "https://github.com/marlinprotocol/Kalypso-SDK#readme",
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "ethers": "^6.6.6"
+  }
+}
