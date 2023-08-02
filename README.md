@@ -1,1 +1,1 @@
-# Kalypso-SDK
+# Kalypso SDK
