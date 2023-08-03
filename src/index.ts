@@ -8,7 +8,16 @@ import {
 
 dotenv.config();
 
-const createAsk = async () => {
+type askParameters = {
+    marketId: string;
+    reward: number;
+    timeTakenForProofGeneration: number;
+    deadline: number;
+    expiry: number;
+    proverData: any;
+}
+
+export const createAsk = async (askParameters:askParameters) => {
   try {
     if (
       process.env.PRIVATE_KEY == null ||
@@ -17,7 +26,38 @@ const createAsk = async () => {
       return "PRIVATE_KEY not found in the .env file. Please make sure to setup environment variables in your project.";
     }
 
-    const provider = new ethers.JsonRpcProvider("https://rpc.sepolia.org");
+    if (
+      process.env.RPC == null ||
+      process.env.RPC == undefined
+    ) {
+      return "RPC not found in the .env file. Please make sure to setup environment variables in your project.";
+    }
+
+    if(!askParameters.marketId){
+      return "Please provide a valid marketId."
+    }
+
+    if(askParameters.reward <= 0){
+      return "Please provide a valid reward value."
+    }
+
+    if(askParameters.timeTakenForProofGeneration <= 0){
+      return "Please provide a valid timeTakenForProofGeneration value."
+    }
+
+    if(askParameters.expiry <= 0){
+      return "Please provide a valid expiry value."
+    }
+
+    if(askParameters.deadline <= 0){
+      return "Please provide a valid deadline value."
+    }
+
+    if(!askParameters.proverData){
+      return "proverData cannot be empty."
+    }
+
+    const provider = new ethers.JsonRpcProvider(process.env.RPC);
     const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
 
     const accountAddress = await wallet.getAddress();
@@ -33,6 +73,7 @@ const createAsk = async () => {
       contractAddress,
       wallet
     );
+
     const tokenContract = MockToken__factory.connect(
       tokenContractAddress,
       wallet
@@ -41,13 +82,7 @@ const createAsk = async () => {
     const accountTokenBalance = await tokenContract.balanceOf(accountAddress);
     console.log("Account Token Balance: ", accountTokenBalance.toString());
 
-    let prover_data = [
-      "2105637085183975026416182559542404460031676306245877722261461946106804655086",
-      "19439594886189624974326337197957132519325364002450674986233170049890491717384",
-      "17143927394555365747948417026442777490360052502351480904471050303917255241440",
-      "191561942608236107294793378393788647952342390272950272000",
-      "17271989332094319463568711574612918371595219444387421875646753181212739186244",
-    ];
+    let prover_data = askParameters.proverData;
 
     let abiCoder = new ethers.AbiCoder();
 
@@ -66,21 +101,22 @@ const createAsk = async () => {
 
     const latestBlock = await provider.getBlockNumber();
 
-    let assignmentExpiry = 100; // in blocks
-    let timeTakenForProofGeneration = 1000; // in blocks
-    let maxTimeForProofGeneration = 10000; // in blocks
-    let marketId =
-      "0xb839d5bc3d6a60bb59136cf24a77c2c39952ea51a65898a886b33bbe38d7d8a8";
+    let assignmentExpiry = askParameters.expiry;
+    let timeTakenForProofGeneration = askParameters.timeTakenForProofGeneration;
+    let maxTimeForProofGeneration = askParameters.deadline;
+    let marketId = askParameters.marketId;
     let expiry = assignmentExpiry + latestBlock;
     let deadline = latestBlock + maxTimeForProofGeneration;
     let proverRefundAddress = await wallet.getAddress();
-    let reward = new BigNumber(10).pow(18).multipliedBy(5);
+    let reward = new BigNumber(10).pow(18).multipliedBy(askParameters.reward);
 
     const approvalTransaction = await tokenContract
       .connect(wallet)
       .approve(await proofMarketplaceContract.getAddress(), reward.toString());
     const approvalReceipt = await approvalTransaction.wait();
+
     console.log("Approval receipt:", approvalReceipt?.hash);
+
     const createAskFunctionTransaction =
       await proofMarketplaceContract.createAsk({
         marketId,
@@ -91,15 +127,12 @@ const createAsk = async () => {
         proverData: inputBytes,
         expiry,
       });
+
     const receipt = await createAskFunctionTransaction.wait();
 
     return `Done: ${receipt?.hash}`;
 
-    // const generatorRegistry = await proofMarketplaceContract.generatorRegistry();
-    // console.log(generatorRegistry);
   } catch (err) {
     console.log(err);
   }
 };
-
-createAsk().then(console.log).catch(console.log);
