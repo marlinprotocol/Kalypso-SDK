@@ -2,7 +2,7 @@
   "name": "kalypso-sdk",
   "version": "1.0.0",
   "description": "Kalypso SDK",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
@@ -19,9 +19,12 @@
   },
   "homepage": "https://github.com/marlinprotocol/Kalypso-SDK#readme",
   "devDependencies": {
+    "dotenv": "^16.3.1",
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "@types/node": "^20.4.5",
+    "bignumber.js": "^9.1.1",
     "ethers": "^6.6.6"
   }
 }
