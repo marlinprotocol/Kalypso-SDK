@@ -21,7 +21,7 @@ import type {
   TypedLogDescription,
   TypedListener,
   TypedContractMethod,
-} from "./common";
+} from "../common";
 
 export declare namespace IProofMarketPlace {
   export type AskStruct = {
@@ -891,9 +891,7 @@ export interface ProofMarketPlace extends BaseContract {
     [void],
     "nonpayable"
   >;
-  getFunction(
-    nameOrSignature: "listOfAsk"
-  ): TypedContractMethod<
+  getFunction(nameOrSignature: "listOfAsk"): TypedContractMethod<
     [arg0: BigNumberish],
     [
       [IProofMarketPlace.AskStructOutput, bigint] & {
