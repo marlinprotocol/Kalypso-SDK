@@ -37,6 +37,7 @@ export interface ErrorInterface extends Interface {
       | "SHOULD_BE_IN_ASSIGNED_STATE"
       | "SHOULD_BE_IN_CREATE_STATE"
       | "SHOULD_BE_IN_CROSSED_DEADLINE_STATE"
+      | "SHOULD_BE_IN_EXPIRED_STATE"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -99,6 +100,10 @@ export interface ErrorInterface extends Interface {
     functionFragment: "SHOULD_BE_IN_CROSSED_DEADLINE_STATE",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "SHOULD_BE_IN_EXPIRED_STATE",
+    values?: undefined
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "ALREADY_EXISTS",
@@ -158,6 +163,10 @@ export interface ErrorInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "SHOULD_BE_IN_CROSSED_DEADLINE_STATE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "SHOULD_BE_IN_EXPIRED_STATE",
     data: BytesLike
   ): Result;
 }
@@ -239,6 +248,8 @@ export interface Error extends BaseContract {
     "view"
   >;
 
+  SHOULD_BE_IN_EXPIRED_STATE: TypedContractMethod<[], [string], "view">;
+
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
   ): T;
@@ -287,6 +298,9 @@ export interface Error extends BaseContract {
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "SHOULD_BE_IN_CROSSED_DEADLINE_STATE"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "SHOULD_BE_IN_EXPIRED_STATE"
   ): TypedContractMethod<[], [string], "view">;
 
   filters: {};

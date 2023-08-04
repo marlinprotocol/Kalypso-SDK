@@ -108,10 +108,19 @@ export interface IGeneratorRegistryInterface extends Interface {
 }
 
 export namespace AddExtraStashEvent {
-  export type InputTuple = [generator: AddressLike, amount: BigNumberish];
-  export type OutputTuple = [generator: string, amount: bigint];
+  export type InputTuple = [
+    generator: AddressLike,
+    marketId: BytesLike,
+    amount: BigNumberish
+  ];
+  export type OutputTuple = [
+    generator: string,
+    marketId: string,
+    amount: bigint
+  ];
   export interface OutputObject {
     generator: string;
+    marketId: string;
     amount: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
@@ -287,7 +296,7 @@ export interface IGeneratorRegistry extends BaseContract {
   >;
 
   filters: {
-    "AddExtraStash(address,uint256)": TypedContractEvent<
+    "AddExtraStash(address,bytes32,uint256)": TypedContractEvent<
       AddExtraStashEvent.InputTuple,
       AddExtraStashEvent.OutputTuple,
       AddExtraStashEvent.OutputObject

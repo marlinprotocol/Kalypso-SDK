@@ -44,6 +44,8 @@ export type { IERC20 } from "./@openzeppelin/contracts/token/ERC20/IERC20";
 export { IERC20__factory } from "./factories/@openzeppelin/contracts/token/ERC20/IERC20__factory";
 export type { GeneratorRegistry } from "./contracts/GeneratorRegistry";
 export { GeneratorRegistry__factory } from "./factories/contracts/GeneratorRegistry__factory";
+export type { InputAndProofFormatRegistry } from "./contracts/InputAndProofFormat.Registry.sol/InputAndProofFormatRegistry";
+export { InputAndProofFormatRegistry__factory } from "./factories/contracts/InputAndProofFormat.Registry.sol/InputAndProofFormatRegistry__factory";
 export type { IGeneratorRegistry } from "./contracts/interfaces/IGeneratorRegsitry.sol/IGeneratorRegistry";
 export { IGeneratorRegistry__factory } from "./factories/contracts/interfaces/IGeneratorRegsitry.sol/IGeneratorRegistry__factory";
 export type { IPriorityLog } from "./contracts/interfaces/IPriorityLog";

@@ -61,9 +61,8 @@ export interface ProofMarketPlaceInterface extends Interface {
       | "UPDATER_ROLE"
       | "askCounter"
       | "assignTask"
+      | "cancelAsk"
       | "changeGeneratorRegsitry"
-      | "changeMarketCreationCost"
-      | "changePaymentToken"
       | "changeTreasuryAddressChanged"
       | "createAsk"
       | "createMarketPlace"
@@ -97,13 +96,12 @@ export interface ProofMarketPlaceInterface extends Interface {
   getEvent(
     nameOrSignatureOrTopic:
       | "AdminChanged"
+      | "AskCancelled"
       | "AskCreated"
       | "BeaconUpgraded"
       | "GeneratorRegistryChanged"
       | "Initialized"
-      | "MarketCreationCostChanged"
       | "MarketPlaceCreated"
-      | "PaymentTokenChanged"
       | "ProofCreated"
       | "ProofNotGenerated"
       | "RoleAdminChanged"
@@ -135,15 +133,11 @@ export interface ProofMarketPlaceInterface extends Interface {
     values: [BigNumberish, AddressLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "changeGeneratorRegsitry",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "changeMarketCreationCost",
+    functionFragment: "cancelAsk",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "changePaymentToken",
+    functionFragment: "changeGeneratorRegsitry",
     values: [AddressLike]
   ): string;
   encodeFunctionData(
@@ -192,7 +186,7 @@ export interface ProofMarketPlaceInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
-    values: [AddressLike, AddressLike, AddressLike, BigNumberish, AddressLike]
+    values: [AddressLike, AddressLike, AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "listOfAsk",
@@ -267,16 +261,9 @@ export interface ProofMarketPlaceInterface extends Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "askCounter", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "assignTask", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "cancelAsk", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "changeGeneratorRegsitry",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "changeMarketCreationCost",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "changePaymentToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -376,6 +363,18 @@ export namespace AdminChangedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
+export namespace AskCancelledEvent {
+  export type InputTuple = [askId: BigNumberish];
+  export type OutputTuple = [askId: bigint];
+  export interface OutputObject {
+    askId: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
 export namespace AskCreatedEvent {
   export type InputTuple = [askId: BigNumberish];
   export type OutputTuple = [askId: bigint];
@@ -425,37 +424,11 @@ export namespace InitializedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace MarketCreationCostChangedEvent {
-  export type InputTuple = [oldCost: BigNumberish, newCost: BigNumberish];
-  export type OutputTuple = [oldCost: bigint, newCost: bigint];
-  export interface OutputObject {
-    oldCost: bigint;
-    newCost: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
 export namespace MarketPlaceCreatedEvent {
   export type InputTuple = [marketId: BytesLike];
   export type OutputTuple = [marketId: string];
   export interface OutputObject {
     marketId: string;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export namespace PaymentTokenChangedEvent {
-  export type InputTuple = [oldToken: AddressLike, newToken: AddressLike];
-  export type OutputTuple = [oldToken: string, newToken: string];
-  export interface OutputObject {
-    oldToken: string;
-    newToken: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -640,20 +613,10 @@ export interface ProofMarketPlace extends BaseContract {
     "nonpayable"
   >;
 
+  cancelAsk: TypedContractMethod<[askId: BigNumberish], [void], "nonpayable">;
+
   changeGeneratorRegsitry: TypedContractMethod<
     [_newAddress: AddressLike],
-    [void],
-    "nonpayable"
-  >;
-
-  changeMarketCreationCost: TypedContractMethod<
-    [_newCost: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-
-  changePaymentToken: TypedContractMethod<
-    [_newPaymentToken: AddressLike],
     [void],
     "nonpayable"
   >;
@@ -711,9 +674,7 @@ export interface ProofMarketPlace extends BaseContract {
   initialize: TypedContractMethod<
     [
       _admin: AddressLike,
-      _paymentToken: AddressLike,
       _treasury: AddressLike,
-      _marketCreationCost: BigNumberish,
       _generatorRegistry: AddressLike
     ],
     [void],
@@ -817,14 +778,11 @@ export interface ProofMarketPlace extends BaseContract {
     "nonpayable"
   >;
   getFunction(
+    nameOrSignature: "cancelAsk"
+  ): TypedContractMethod<[askId: BigNumberish], [void], "nonpayable">;
+  getFunction(
     nameOrSignature: "changeGeneratorRegsitry"
   ): TypedContractMethod<[_newAddress: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "changeMarketCreationCost"
-  ): TypedContractMethod<[_newCost: BigNumberish], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "changePaymentToken"
-  ): TypedContractMethod<[_newPaymentToken: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "changeTreasuryAddressChanged"
   ): TypedContractMethod<[_newAddress: AddressLike], [void], "nonpayable">;
@@ -883,15 +841,15 @@ export interface ProofMarketPlace extends BaseContract {
   ): TypedContractMethod<
     [
       _admin: AddressLike,
-      _paymentToken: AddressLike,
       _treasury: AddressLike,
-      _marketCreationCost: BigNumberish,
       _generatorRegistry: AddressLike
     ],
     [void],
     "nonpayable"
   >;
-  getFunction(nameOrSignature: "listOfAsk"): TypedContractMethod<
+  getFunction(
+    nameOrSignature: "listOfAsk"
+  ): TypedContractMethod<
     [arg0: BigNumberish],
     [
       [IProofMarketPlace.AskStructOutput, bigint] & {
@@ -983,6 +941,13 @@ export interface ProofMarketPlace extends BaseContract {
     AdminChangedEvent.OutputObject
   >;
   getEvent(
+    key: "AskCancelled"
+  ): TypedContractEvent<
+    AskCancelledEvent.InputTuple,
+    AskCancelledEvent.OutputTuple,
+    AskCancelledEvent.OutputObject
+  >;
+  getEvent(
     key: "AskCreated"
   ): TypedContractEvent<
     AskCreatedEvent.InputTuple,
@@ -1011,25 +976,11 @@ export interface ProofMarketPlace extends BaseContract {
     InitializedEvent.OutputObject
   >;
   getEvent(
-    key: "MarketCreationCostChanged"
-  ): TypedContractEvent<
-    MarketCreationCostChangedEvent.InputTuple,
-    MarketCreationCostChangedEvent.OutputTuple,
-    MarketCreationCostChangedEvent.OutputObject
-  >;
-  getEvent(
     key: "MarketPlaceCreated"
   ): TypedContractEvent<
     MarketPlaceCreatedEvent.InputTuple,
     MarketPlaceCreatedEvent.OutputTuple,
     MarketPlaceCreatedEvent.OutputObject
-  >;
-  getEvent(
-    key: "PaymentTokenChanged"
-  ): TypedContractEvent<
-    PaymentTokenChangedEvent.InputTuple,
-    PaymentTokenChangedEvent.OutputTuple,
-    PaymentTokenChangedEvent.OutputObject
   >;
   getEvent(
     key: "ProofCreated"
@@ -1100,6 +1051,17 @@ export interface ProofMarketPlace extends BaseContract {
       AdminChangedEvent.OutputObject
     >;
 
+    "AskCancelled(uint256)": TypedContractEvent<
+      AskCancelledEvent.InputTuple,
+      AskCancelledEvent.OutputTuple,
+      AskCancelledEvent.OutputObject
+    >;
+    AskCancelled: TypedContractEvent<
+      AskCancelledEvent.InputTuple,
+      AskCancelledEvent.OutputTuple,
+      AskCancelledEvent.OutputObject
+    >;
+
     "AskCreated(uint256)": TypedContractEvent<
       AskCreatedEvent.InputTuple,
       AskCreatedEvent.OutputTuple,
@@ -1144,17 +1106,6 @@ export interface ProofMarketPlace extends BaseContract {
       InitializedEvent.OutputObject
     >;
 
-    "MarketCreationCostChanged(uint256,uint256)": TypedContractEvent<
-      MarketCreationCostChangedEvent.InputTuple,
-      MarketCreationCostChangedEvent.OutputTuple,
-      MarketCreationCostChangedEvent.OutputObject
-    >;
-    MarketCreationCostChanged: TypedContractEvent<
-      MarketCreationCostChangedEvent.InputTuple,
-      MarketCreationCostChangedEvent.OutputTuple,
-      MarketCreationCostChangedEvent.OutputObject
-    >;
-
     "MarketPlaceCreated(bytes32)": TypedContractEvent<
       MarketPlaceCreatedEvent.InputTuple,
       MarketPlaceCreatedEvent.OutputTuple,
@@ -1164,17 +1115,6 @@ export interface ProofMarketPlace extends BaseContract {
       MarketPlaceCreatedEvent.InputTuple,
       MarketPlaceCreatedEvent.OutputTuple,
       MarketPlaceCreatedEvent.OutputObject
-    >;
-
-    "PaymentTokenChanged(address,address)": TypedContractEvent<
-      PaymentTokenChangedEvent.InputTuple,
-      PaymentTokenChangedEvent.OutputTuple,
-      PaymentTokenChangedEvent.OutputObject
-    >;
-    PaymentTokenChanged: TypedContractEvent<
-      PaymentTokenChangedEvent.InputTuple,
-      PaymentTokenChangedEvent.OutputTuple,
-      PaymentTokenChangedEvent.OutputObject
     >;
 
     "ProofCreated(uint256)": TypedContractEvent<

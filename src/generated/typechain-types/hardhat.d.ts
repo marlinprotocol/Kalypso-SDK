@@ -90,6 +90,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.GeneratorRegistry__factory>;
     getContractFactory(
+      name: "InputAndProofFormatRegistry",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.InputAndProofFormatRegistry__factory>;
+    getContractFactory(
       name: "IGeneratorRegistry",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IGeneratorRegistry__factory>;
@@ -246,6 +250,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.GeneratorRegistry>;
     getContractAt(
+      name: "InputAndProofFormatRegistry",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.InputAndProofFormatRegistry>;
+    getContractAt(
       name: "IGeneratorRegistry",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -398,6 +407,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.GeneratorRegistry>;
     deployContract(
+      name: "InputAndProofFormatRegistry",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.InputAndProofFormatRegistry>;
+    deployContract(
       name: "IGeneratorRegistry",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IGeneratorRegistry>;
@@ -553,6 +566,11 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.GeneratorRegistry>;
+    deployContract(
+      name: "InputAndProofFormatRegistry",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.InputAndProofFormatRegistry>;
     deployContract(
       name: "IGeneratorRegistry",
       args: any[],

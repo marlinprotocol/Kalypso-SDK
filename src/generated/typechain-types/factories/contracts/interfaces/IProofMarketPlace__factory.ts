@@ -19,6 +19,19 @@ const _abi = [
         type: "uint256",
       },
     ],
+    name: "AskCancelled",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "askId",
+        type: "uint256",
+      },
+    ],
     name: "AskCreated",
     type: "event",
   },
@@ -46,50 +59,12 @@ const _abi = [
     inputs: [
       {
         indexed: true,
-        internalType: "uint256",
-        name: "oldCost",
-        type: "uint256",
-      },
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "newCost",
-        type: "uint256",
-      },
-    ],
-    name: "MarketCreationCostChanged",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
         internalType: "bytes32",
         name: "marketId",
         type: "bytes32",
       },
     ],
     name: "MarketPlaceCreated",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "contract IERC20Upgradeable",
-        name: "oldToken",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "contract IERC20Upgradeable",
-        name: "newToken",
-        type: "address",
-      },
-    ],
-    name: "PaymentTokenChanged",
     type: "event",
   },
   {

@@ -19,6 +19,12 @@ const _abi = [
         type: "address",
       },
       {
+        indexed: true,
+        internalType: "bytes32",
+        name: "marketId",
+        type: "bytes32",
+      },
+      {
         indexed: false,
         internalType: "uint256",
         name: "amount",

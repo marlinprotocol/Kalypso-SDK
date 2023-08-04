@@ -60,11 +60,10 @@ export interface IProofMarketPlaceInterface extends Interface {
 
   getEvent(
     nameOrSignatureOrTopic:
+      | "AskCancelled"
       | "AskCreated"
       | "GeneratorRegistryChanged"
-      | "MarketCreationCostChanged"
       | "MarketPlaceCreated"
-      | "PaymentTokenChanged"
       | "ProofCreated"
       | "ProofNotGenerated"
       | "TaskCreated"
@@ -95,6 +94,18 @@ export interface IProofMarketPlaceInterface extends Interface {
   ): Result;
 }
 
+export namespace AskCancelledEvent {
+  export type InputTuple = [askId: BigNumberish];
+  export type OutputTuple = [askId: bigint];
+  export interface OutputObject {
+    askId: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
 export namespace AskCreatedEvent {
   export type InputTuple = [askId: BigNumberish];
   export type OutputTuple = [askId: bigint];
@@ -120,37 +131,11 @@ export namespace GeneratorRegistryChangedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace MarketCreationCostChangedEvent {
-  export type InputTuple = [oldCost: BigNumberish, newCost: BigNumberish];
-  export type OutputTuple = [oldCost: bigint, newCost: bigint];
-  export interface OutputObject {
-    oldCost: bigint;
-    newCost: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
 export namespace MarketPlaceCreatedEvent {
   export type InputTuple = [marketId: BytesLike];
   export type OutputTuple = [marketId: string];
   export interface OutputObject {
     marketId: string;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export namespace PaymentTokenChangedEvent {
-  export type InputTuple = [oldToken: AddressLike, newToken: AddressLike];
-  export type OutputTuple = [oldToken: string, newToken: string];
-  export interface OutputObject {
-    oldToken: string;
-    newToken: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -292,6 +277,13 @@ export interface IProofMarketPlace extends BaseContract {
   ): TypedContractMethod<[marketId: BytesLike], [string], "view">;
 
   getEvent(
+    key: "AskCancelled"
+  ): TypedContractEvent<
+    AskCancelledEvent.InputTuple,
+    AskCancelledEvent.OutputTuple,
+    AskCancelledEvent.OutputObject
+  >;
+  getEvent(
     key: "AskCreated"
   ): TypedContractEvent<
     AskCreatedEvent.InputTuple,
@@ -306,25 +298,11 @@ export interface IProofMarketPlace extends BaseContract {
     GeneratorRegistryChangedEvent.OutputObject
   >;
   getEvent(
-    key: "MarketCreationCostChanged"
-  ): TypedContractEvent<
-    MarketCreationCostChangedEvent.InputTuple,
-    MarketCreationCostChangedEvent.OutputTuple,
-    MarketCreationCostChangedEvent.OutputObject
-  >;
-  getEvent(
     key: "MarketPlaceCreated"
   ): TypedContractEvent<
     MarketPlaceCreatedEvent.InputTuple,
     MarketPlaceCreatedEvent.OutputTuple,
     MarketPlaceCreatedEvent.OutputObject
-  >;
-  getEvent(
-    key: "PaymentTokenChanged"
-  ): TypedContractEvent<
-    PaymentTokenChangedEvent.InputTuple,
-    PaymentTokenChangedEvent.OutputTuple,
-    PaymentTokenChangedEvent.OutputObject
   >;
   getEvent(
     key: "ProofCreated"
@@ -356,6 +334,17 @@ export interface IProofMarketPlace extends BaseContract {
   >;
 
   filters: {
+    "AskCancelled(uint256)": TypedContractEvent<
+      AskCancelledEvent.InputTuple,
+      AskCancelledEvent.OutputTuple,
+      AskCancelledEvent.OutputObject
+    >;
+    AskCancelled: TypedContractEvent<
+      AskCancelledEvent.InputTuple,
+      AskCancelledEvent.OutputTuple,
+      AskCancelledEvent.OutputObject
+    >;
+
     "AskCreated(uint256)": TypedContractEvent<
       AskCreatedEvent.InputTuple,
       AskCreatedEvent.OutputTuple,
@@ -378,17 +367,6 @@ export interface IProofMarketPlace extends BaseContract {
       GeneratorRegistryChangedEvent.OutputObject
     >;
 
-    "MarketCreationCostChanged(uint256,uint256)": TypedContractEvent<
-      MarketCreationCostChangedEvent.InputTuple,
-      MarketCreationCostChangedEvent.OutputTuple,
-      MarketCreationCostChangedEvent.OutputObject
-    >;
-    MarketCreationCostChanged: TypedContractEvent<
-      MarketCreationCostChangedEvent.InputTuple,
-      MarketCreationCostChangedEvent.OutputTuple,
-      MarketCreationCostChangedEvent.OutputObject
-    >;
-
     "MarketPlaceCreated(bytes32)": TypedContractEvent<
       MarketPlaceCreatedEvent.InputTuple,
       MarketPlaceCreatedEvent.OutputTuple,
@@ -398,17 +376,6 @@ export interface IProofMarketPlace extends BaseContract {
       MarketPlaceCreatedEvent.InputTuple,
       MarketPlaceCreatedEvent.OutputTuple,
       MarketPlaceCreatedEvent.OutputObject
-    >;
-
-    "PaymentTokenChanged(address,address)": TypedContractEvent<
-      PaymentTokenChangedEvent.InputTuple,
-      PaymentTokenChangedEvent.OutputTuple,
-      PaymentTokenChangedEvent.OutputObject
-    >;
-    PaymentTokenChanged: TypedContractEvent<
-      PaymentTokenChangedEvent.InputTuple,
-      PaymentTokenChangedEvent.OutputTuple,
-      PaymentTokenChangedEvent.OutputObject
     >;
 
     "ProofCreated(uint256)": TypedContractEvent<
