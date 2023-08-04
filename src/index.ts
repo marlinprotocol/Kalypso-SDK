@@ -113,7 +113,6 @@ export const createAsk = async (askParameters:askParameters) => {
 
     const contractAddress = "0x56d030Fe5D75211DB0Ca84fcC1ee19615FA19105";
     const tokenContractAddress = "0x4935ea37F0ADd47B9567A36D0806a28459761b60";
-    const inputAndProofFormatContractAddress = "0xA0Fbd852C6226b3E97eA141c72713dCb851DaCdE";
 
     const proofMarketplaceContract = ProofMarketPlace__factory.connect(
       contractAddress,
@@ -124,11 +123,6 @@ export const createAsk = async (askParameters:askParameters) => {
       tokenContractAddress,
       wallet
     );
-
-    const inputAndProofFormatContract = InputAndProofFormatRegistry__factory.connect(
-      inputAndProofFormatContractAddress,
-      wallet
-    )
 
     const inputFormat = await getInputType(askParameters.marketId);
 
