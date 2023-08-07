@@ -23,6 +23,10 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const main = async() => {
+
+    const askInputType = await kalypso_sdk.getInputType("0xb839d5bc3d6a60bb59136cf24a77c2c39952ea51a65898a886b33bbe38d7d8a8");
+    console.log(askInputType);
+
     const createAskRequest = await kalypso_sdk.createAsk({
         marketId: "0xb839d5bc3d6a60bb59136cf24a77c2c39952ea51a65898a886b33bbe38d7d8a8",
         reward: 1,
@@ -39,6 +43,8 @@ const main = async() => {
     });
     console.log(createAskRequest);
 }
+
+main();
 
 main();
 ```
