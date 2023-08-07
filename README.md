@@ -3,7 +3,7 @@
 #### Installation
 
 ```
-npm i kalypso-sdk
+npm link kalypso-sdk
 ```
 
 #### Environment variable (.env) file setup
@@ -15,7 +15,6 @@ RPC= [RPC LINK]
 
 #### Usage
 
-createAsk
 ```
 const kalypso_sdk = require("kalypso-sdk");
 const dotenv = require("dotenv");
@@ -24,7 +23,10 @@ dotenv.config();
 
 const main = async() => {
 
-    const askInputType = await kalypso_sdk.getInputType("0xb839d5bc3d6a60bb59136cf24a77c2c39952ea51a65898a886b33bbe38d7d8a8");
+    const askInputType = await kalypso_sdk.getInputType({
+        marketId:"0xb839d5bc3d6a60bb59136cf24a77c2c39952ea51a65898a886b33bbe38d7d8a8",
+        inputAndProofFormatContractAddress:"0xA0Fbd852C6226b3E97eA141c72713dCb851DaCdE"
+    });
     console.log(askInputType);
 
     const createAskRequest = await kalypso_sdk.createAsk({
@@ -40,11 +42,12 @@ const main = async() => {
             "191561942608236107294793378393788647952342390272950272000",
             "17271989332094319463568711574612918371595219444387421875646753181212739186244",
         ],
+        proofMarketPlaceAddress:"0x56d030Fe5D75211DB0Ca84fcC1ee19615FA19105",
+        inputAndProofFormatContractAddress:"0xA0Fbd852C6226b3E97eA141c72713dCb851DaCdE",
+        tokenAddress:"0x4935ea37F0ADd47B9567A36D0806a28459761b60"
     });
     console.log(createAskRequest);
 }
-
-main();
 
 main();
 ```

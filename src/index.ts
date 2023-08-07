@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { AbiCoder, ethers } from "ethers";
 import dotenv from "dotenv";
 import { BigNumber } from "bignumber.js";
 import {
@@ -17,10 +17,18 @@ type askParameters = {
     deadline: number;
     expiry: number;
     proverData: any;
+    proofMarketPlaceAddress: string,
+    tokenAddress:string,
+    inputAndProofFormatContractAddress: string
+}
+
+type getInputTypeParameters = {
+  marketId: string,
+  inputAndProofFormatContractAddress: string
 }
 
 // GET the input type for a marketId
-export const getInputType = async (marketId:string) => {
+export const getInputType = async (getInputTypeParameters:getInputTypeParameters) => {
   try{
     if (
       process.env.PRIVATE_KEY == null ||
@@ -36,13 +44,21 @@ export const getInputType = async (marketId:string) => {
       throw new Error("RPC not found in the .env file. Please make sure to setup environment variables in your project.");
     }
   
-    if(!marketId){
+    if(!getInputTypeParameters.marketId){
       throw new Error("Please provide a valid marketId.");
     }
+
+    if(!getInputTypeParameters.inputAndProofFormatContractAddress){
+      throw new Error("Please provide a valid inputAndProofFormat contract address");
+    }
+
+    const marketId = getInputTypeParameters.marketId;
+    const inputAndProofFormatContractAddress = getInputTypeParameters.inputAndProofFormatContractAddress;
+
   
     const provider = new ethers.JsonRpcProvider(process.env.RPC);
     const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
-    const inputAndProofFormatContractAddress = "0xA0Fbd852C6226b3E97eA141c72713dCb851DaCdE";
+
   
     const inputAndProofFormatContract = InputAndProofFormatRegistry__factory.connect(
       inputAndProofFormatContractAddress,
@@ -102,6 +118,22 @@ export const createAsk = async (askParameters:askParameters) => {
       throw new Error("proverData cannot be empty.")
     }
 
+    if(!askParameters.proofMarketPlaceAddress){
+      throw new Error("Please provide a valid proof market place contract address")
+    }
+
+    if(!askParameters.tokenAddress){
+      throw new Error("Please provide a valid token contract address")
+    }
+
+    if(!askParameters.inputAndProofFormatContractAddress){
+      throw new Error("Please provide a valid input and proof format contract address")
+    }
+
+    const proofMarketPlaceAddress = askParameters.proofMarketPlaceAddress;
+    const tokenContractAddress = askParameters.tokenAddress;
+    const inputAndProofFormatContractAddress = askParameters.inputAndProofFormatContractAddress;
+
     const provider = new ethers.JsonRpcProvider(process.env.RPC);
     const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
 
@@ -111,11 +143,9 @@ export const createAsk = async (askParameters:askParameters) => {
     console.log("Account Address:", accountAddress);
     console.log("Account Balance (wei):", accountBalance?.toString());
 
-    const contractAddress = "0x56d030Fe5D75211DB0Ca84fcC1ee19615FA19105";
-    const tokenContractAddress = "0x4935ea37F0ADd47B9567A36D0806a28459761b60";
 
     const proofMarketplaceContract = ProofMarketPlace__factory.connect(
-      contractAddress,
+      proofMarketPlaceAddress,
       wallet
     );
 
@@ -124,7 +154,10 @@ export const createAsk = async (askParameters:askParameters) => {
       wallet
     );
 
-    const inputFormat = await getInputType(askParameters.marketId);
+    const inputFormat = await getInputType({
+      marketId:askParameters.marketId,
+      inputAndProofFormatContractAddress:inputAndProofFormatContractAddress
+    });
 
     const accountTokenBalance = await tokenContract.balanceOf(accountAddress);
     console.log("Account Token Balance: ", accountTokenBalance.toString());
@@ -152,12 +185,16 @@ export const createAsk = async (askParameters:askParameters) => {
     let reward = new BigNumber(10).pow(18).multipliedBy(askParameters.reward);
 
     console.log("Approving tokens for rewards...")
-    const approvalTransaction = await tokenContract
-      .connect(wallet)
-      .approve(await proofMarketplaceContract.getAddress(), reward.toString());
-    const approvalReceipt = await approvalTransaction.wait();
-
-    console.log("Approval receipt:", approvalReceipt?.hash);
+    const allowance = await tokenContract.connect(wallet).allowance(await wallet.getAddress(), await proofMarketplaceContract.getAddress())
+    if(new BigNumber(allowance.toString()).lt(reward)){
+      const approvalTransaction = await tokenContract
+        .connect(wallet)
+        .approve(await proofMarketplaceContract.getAddress(), reward.toString());
+      const approvalReceipt = await approvalTransaction.wait();
+      console.log("Approval receipt:", approvalReceipt?.hash);
+    }else{
+      console.log('Sufficient approval available')
+    }
 
     console.log("creating ASK...")
     const createAskFunctionTransaction =
@@ -179,4 +216,3 @@ export const createAsk = async (askParameters:askParameters) => {
     console.log(err);
   }
 };
-
