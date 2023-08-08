@@ -18,16 +18,28 @@ RPC= [RPC LINK]
 ```
 const kalypso_sdk = require("kalypso-sdk");
 const dotenv = require("dotenv");
+const ethers = require("ethers");
 
 dotenv.config();
 
 const main = async() => {
 
-    const askInputType = await kalypso_sdk.getInputType({
-        marketId:"0xb839d5bc3d6a60bb59136cf24a77c2c39952ea51a65898a886b33bbe38d7d8a8",
-        inputAndProofFormatContractAddress:"0xA0Fbd852C6226b3E97eA141c72713dCb851DaCdE"
-    });
-    console.log(askInputType);
+    if (
+        process.env.PRIVATE_KEY == null ||
+        process.env.PRIVATE_KEY == undefined
+    ) {
+        throw new Error("PRIVATE_KEY not found in the .env file. Please make sure to setup environment variables in your project.");
+    }
+
+    if (
+        process.env.RPC == null ||
+        process.env.RPC == undefined
+    ) {
+        throw new Error("RPC not found in the .env file. Please make sure to setup environment variables in your project.");
+    }
+
+    const provider = new ethers.JsonRpcProvider(process.env.RPC);
+    const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
     const createAskRequest = await kalypso_sdk.createAsk({
         marketId: "0xb839d5bc3d6a60bb59136cf24a77c2c39952ea51a65898a886b33bbe38d7d8a8",
@@ -44,7 +56,9 @@ const main = async() => {
         ],
         proofMarketPlaceAddress:"0x56d030Fe5D75211DB0Ca84fcC1ee19615FA19105",
         inputAndProofFormatContractAddress:"0xA0Fbd852C6226b3E97eA141c72713dCb851DaCdE",
-        tokenAddress:"0x4935ea37F0ADd47B9567A36D0806a28459761b60"
+        tokenAddress:"0x4935ea37F0ADd47B9567A36D0806a28459761b60",
+        wallet:wallet
+
     });
     console.log(createAskRequest);
 }
