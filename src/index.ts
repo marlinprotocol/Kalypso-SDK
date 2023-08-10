@@ -1,4 +1,4 @@
-import { AbiCoder, ethers } from "ethers";
+import { ethers } from "ethers";
 import dotenv from "dotenv";
 import { BigNumber } from "bignumber.js";
 import {
@@ -19,7 +19,6 @@ type askParameters = {
     proverData: any;
     proofMarketPlaceAddress: string,
     tokenAddress:string,
-    inputAndProofFormatContractAddress: string,
     wallet:any;
 }
 
@@ -28,6 +27,8 @@ type getInputTypeParameters = {
   inputAndProofFormatContractAddress: string,
   wallet:any;
 }
+
+
 
 // GET the input type for a marketId
 export const getInputType = async (getInputTypeParameters:getInputTypeParameters) => {
@@ -63,6 +64,7 @@ export const getInputType = async (getInputTypeParameters:getInputTypeParameters
     console.log(err);
   }
 }
+
 
 //Create ASK
 export const createAsk = async (askParameters:askParameters) => {
@@ -100,13 +102,9 @@ export const createAsk = async (askParameters:askParameters) => {
       throw new Error("Please provide a valid token contract address")
     }
 
-    if(!askParameters.inputAndProofFormatContractAddress){
-      throw new Error("Please provide a valid input and proof format contract address")
-    }
 
     const proofMarketPlaceAddress = askParameters.proofMarketPlaceAddress;
     const tokenContractAddress = askParameters.tokenAddress;
-    const inputAndProofFormatContractAddress = askParameters.inputAndProofFormatContractAddress;
     const wallet = askParameters.wallet;
     const extractedProvider = wallet.provider;
 
@@ -126,25 +124,22 @@ export const createAsk = async (askParameters:askParameters) => {
       wallet
     );
 
-    const inputFormat = await getInputType({
-      marketId:askParameters.marketId,
-      inputAndProofFormatContractAddress:inputAndProofFormatContractAddress,
-      wallet:askParameters.wallet
-    });
-
     const accountTokenBalance = await tokenContract.balanceOf(accountAddress);
     console.log("Account Token Balance: ", accountTokenBalance.toString());
 
-    let prover_data = askParameters.proverData;
+    let prover_data = JSON.stringify(askParameters.proverData);
+    console.log(prover_data);
 
     let abiCoder = new ethers.AbiCoder();
 
     let inputBytes = abiCoder.encode(
-      inputFormat!,
+      ["string"],
       [
         prover_data
-      ]
+      ],
     );
+
+    console.log(inputBytes);
 
     const latestBlock = await extractedProvider.getBlockNumber();
     console.log("Latest block : ", latestBlock);
