@@ -28,8 +28,6 @@ type getInputTypeParameters = {
   wallet:any;
 }
 
-
-
 // GET the input type for a marketId
 export const getInputType = async (getInputTypeParameters:getInputTypeParameters) => {
   try{
@@ -127,19 +125,17 @@ export const createAsk = async (askParameters:askParameters) => {
     const accountTokenBalance = await tokenContract.balanceOf(accountAddress);
     console.log("Account Token Balance: ", accountTokenBalance.toString());
 
-    let prover_data = JSON.stringify(askParameters.proverData);
+    let prover_data = askParameters.proverData['a'];
     console.log(prover_data);
 
     let abiCoder = new ethers.AbiCoder();
 
     let inputBytes = abiCoder.encode(
-      ["string"],
+      ["bytes32[]"],
       [
-        prover_data
+        [prover_data]
       ],
     );
-
-    console.log(inputBytes);
 
     const latestBlock = await extractedProvider.getBlockNumber();
     console.log("Latest block : ", latestBlock);
@@ -185,3 +181,5 @@ export const createAsk = async (askParameters:askParameters) => {
     console.log(err);
   }
 };
+
+
