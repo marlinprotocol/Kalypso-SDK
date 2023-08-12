@@ -125,7 +125,7 @@ export const createAsk = async (askParameters:askParameters) => {
     const accountTokenBalance = await tokenContract.balanceOf(accountAddress);
     console.log("Account Token Balance: ", accountTokenBalance.toString());
 
-    let prover_data = askParameters.proverData['a'];
+    let prover_data = askParameters.proverData;
     console.log(prover_data);
 
     let abiCoder = new ethers.AbiCoder();
