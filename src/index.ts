@@ -1,5 +1,4 @@
 import { ethers } from "ethers";
-import dotenv from "dotenv";
 import { BigNumber } from "bignumber.js";
 import {
   MockToken__factory,
@@ -7,8 +6,6 @@ import {
   InputAndProofFormatRegistry__factory
   
 } from "./generated/typechain-types";
-
-dotenv.config();
 
 type askParameters = {
     marketId: string;
@@ -44,7 +41,7 @@ export const getInputType = async (getInputTypeParameters:getInputTypeParameters
     const inputAndProofFormatContractAddress = getInputTypeParameters.inputAndProofFormatContractAddress;
 
     const wallet = getInputTypeParameters.wallet;
-
+    console.log(wallet);
   
     const inputAndProofFormatContract = InputAndProofFormatRegistry__factory.connect(
       inputAndProofFormatContractAddress,
@@ -67,7 +64,6 @@ export const getInputType = async (getInputTypeParameters:getInputTypeParameters
 //Create ASK
 export const createAsk = async (askParameters:askParameters) => {
   try {
-
     if(!askParameters.marketId){
       throw new Error("Please provide a valid marketId.");
     }
@@ -106,12 +102,6 @@ export const createAsk = async (askParameters:askParameters) => {
     const wallet = askParameters.wallet;
     const extractedProvider = wallet.provider;
 
-    const accountAddress = await wallet.getAddress();
-    const accountBalance = await wallet.provider?.getBalance(accountAddress);
-
-    console.log("Account Address:", accountAddress);
-    console.log("Account Balance (wei):", accountBalance?.toString());
-
     const proofMarketplaceContract = ProofMarketPlace__factory.connect(
       proofMarketPlaceAddress,
       wallet
@@ -122,11 +112,7 @@ export const createAsk = async (askParameters:askParameters) => {
       wallet
     );
 
-    const accountTokenBalance = await tokenContract.balanceOf(accountAddress);
-    console.log("Account Token Balance: ", accountTokenBalance.toString());
-
     let prover_data = askParameters.proverData;
-    console.log(prover_data);
 
     let abiCoder = new ethers.AbiCoder();
 
@@ -138,7 +124,6 @@ export const createAsk = async (askParameters:askParameters) => {
     );
 
     const latestBlock = await extractedProvider.getBlockNumber();
-    console.log("Latest block : ", latestBlock);
 
     let assignmentExpiry = askParameters.expiry;
     let timeTakenForProofGeneration = askParameters.timeTakenForProofGeneration;
