@@ -16,13 +16,13 @@ type askParameters = {
     proverData: any;
     proofMarketPlaceAddress: string,
     tokenAddress:string,
-    wallet:any;
+    wallet:any
 }
 
 type getInputTypeParameters = {
   marketId: string,
   inputAndProofFormatContractAddress: string,
-  wallet:any;
+  wallet:any
 }
 
 // GET the input type for a marketId
@@ -41,7 +41,6 @@ export const getInputType = async (getInputTypeParameters:getInputTypeParameters
     const inputAndProofFormatContractAddress = getInputTypeParameters.inputAndProofFormatContractAddress;
 
     const wallet = getInputTypeParameters.wallet;
-    console.log(wallet);
   
     const inputAndProofFormatContract = InputAndProofFormatRegistry__factory.connect(
       inputAndProofFormatContractAddress,
@@ -100,7 +99,6 @@ export const createAsk = async (askParameters:askParameters) => {
     const proofMarketPlaceAddress = askParameters.proofMarketPlaceAddress;
     const tokenContractAddress = askParameters.tokenAddress;
     const wallet = askParameters.wallet;
-    const extractedProvider = wallet.provider;
 
     const proofMarketplaceContract = ProofMarketPlace__factory.connect(
       proofMarketPlaceAddress,
@@ -123,6 +121,7 @@ export const createAsk = async (askParameters:askParameters) => {
       ],
     );
 
+    const extractedProvider = wallet.provider;
     const latestBlock = await extractedProvider.getBlockNumber();
 
     let assignmentExpiry = askParameters.expiry;
