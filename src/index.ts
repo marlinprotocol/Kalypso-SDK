@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers, Provider, Signer } from "ethers";
 import { BigNumber } from "bignumber.js";
 import { MockToken__factory, ProofMarketPlace__factory, InputAndProofFormatRegistry__factory } from "./generated/typechain-types";
 
@@ -11,7 +11,7 @@ type askParameters = {
   proverData: any;
   proofMarketPlaceAddress: string;
   inputAndProofFormatContractAddress: string;
-  wallet: any;
+  wallet: Signer;
 };
 
 type getInputTypeParameters = {
@@ -21,16 +21,16 @@ type getInputTypeParameters = {
 };
 
 type approveRewardTokensParameters = {
-  proofMarketPlaceAddress: string,
-  tokenContractAddress: string,
-  reward:number,
-  wallet: any
-}
+  proofMarketPlaceAddress: string;
+  tokenContractAddress: string;
+  reward: number;
+  wallet: any;
+};
 
 /**
  * GET the input type for a marketId
- * 
- * @param getInputTypeParameters 
+ *
+ * @param getInputTypeParameters
  * @returns the input type for the marketId used for encoding the inputs
  */
 
@@ -52,6 +52,11 @@ export const getInputType = async (getInputTypeParameters: getInputTypeParameter
     const inputAndProofFormatContract = InputAndProofFormatRegistry__factory.connect(inputAndProofFormatContractAddress, wallet);
 
     const inputsArrayLength = await inputAndProofFormatContract.inputArrayLength(marketId);
+
+    if (new BigNumber(inputsArrayLength.toString()).eq(0)) {
+      throw new Error("Encoding Format is no defined in the contracts");
+    }
+
     const inputFormat: string[] = [];
     for (let index = 0; index < inputsArrayLength; index++) {
       inputFormat.push(await inputAndProofFormatContract.inputs(marketId, index));
@@ -65,13 +70,13 @@ export const getInputType = async (getInputTypeParameters: getInputTypeParameter
 
 /**
  * Approve Rewards tokens
- * 
- * @param approveRewardTokensParameters 
+ *
+ * @param approveRewardTokensParameters
  * @returns The transaction hash of the token approval
  */
 
 export const approveRewardTokens = async (approveRewardTokensParameters: approveRewardTokensParameters) => {
-  try{
+  try {
     if (!approveRewardTokensParameters.tokenContractAddress) {
       throw new Error("Please provide a valid token contract address");
     }
@@ -86,17 +91,17 @@ export const approveRewardTokens = async (approveRewardTokensParameters: approve
 
     const wallet = approveRewardTokensParameters.wallet;
     const reward = new BigNumber(10).pow(18).multipliedBy(approveRewardTokensParameters.reward);
-  
+
     const proofMarketplaceContract = ProofMarketPlace__factory.connect(
-      approveRewardTokensParameters.proofMarketPlaceAddress, 
+      approveRewardTokensParameters.proofMarketPlaceAddress,
       approveRewardTokensParameters.wallet
     );
-  
+
     const tokenContract = MockToken__factory.connect(
-      approveRewardTokensParameters.tokenContractAddress, 
+      approveRewardTokensParameters.tokenContractAddress,
       approveRewardTokensParameters.wallet
     );
-  
+
     console.log("Approving reward tokens...");
     const allowance = await tokenContract.connect(wallet).allowance(await wallet.getAddress(), await proofMarketplaceContract.getAddress());
     if (new BigNumber(allowance.toString()).lt(reward)) {
@@ -108,15 +113,15 @@ export const approveRewardTokens = async (approveRewardTokensParameters: approve
     } else {
       return "Sufficient approval available";
     }
-  }catch(err){
+  } catch (err) {
     console.log(err);
   }
-}
+};
 
 /**
  * Create ASK
- * 
- * @param askParameters 
+ *
+ * @param askParameters
  * @returns The transaction hash for the createAsk SC call
  */
 export const createAsk = async (askParameters: askParameters) => {
@@ -152,24 +157,21 @@ export const createAsk = async (askParameters: askParameters) => {
     const proofMarketPlaceAddress = askParameters.proofMarketPlaceAddress;
     const wallet = askParameters.wallet;
 
-    const proofMarketplaceContract = ProofMarketPlace__factory.connect(
-      proofMarketPlaceAddress, 
-      wallet
-    );
+    const proofMarketplaceContract = ProofMarketPlace__factory.connect(proofMarketPlaceAddress, wallet);
 
     let prover_data = askParameters.proverData;
 
     let abiCoder = new ethers.AbiCoder();
 
     let inputType = await getInputType({
-      inputAndProofFormatContractAddress:askParameters.inputAndProofFormatContractAddress,
-      marketId:askParameters.marketId,
-      wallet:wallet
+      inputAndProofFormatContractAddress: askParameters.inputAndProofFormatContractAddress,
+      marketId: askParameters.marketId,
+      wallet: wallet,
     });
 
     let inputBytes = abiCoder.encode(inputType!, [prover_data]);
 
-    const extractedProvider = wallet.provider;
+    const extractedProvider = wallet.provider as Provider;
     const latestBlock = await extractedProvider.getBlockNumber();
 
     let assignmentExpiry = askParameters.expiry;
@@ -181,7 +183,7 @@ export const createAsk = async (askParameters: askParameters) => {
     let proverRefundAddress = await wallet.getAddress();
     let reward = new BigNumber(10).pow(18).multipliedBy(askParameters.reward);
 
-    console.log("Creating ASK...")
+    console.log("Creating ASK...");
     const createAskFunctionTransaction = await proofMarketplaceContract.createAsk({
       marketId,
       reward: reward.toFixed(),
