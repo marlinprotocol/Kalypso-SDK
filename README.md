@@ -1,13 +1,16 @@
 # Kalypso SDK
 
 ## Installation
-Inside the Kalypso-SDK folder : 
+
+Inside the Kalypso-SDK folder :
+
 ```
 tsc
 npm link
 ```
 
 Inside your project :
+
 ```
 npm link kalypso-sdk
 ```
@@ -41,17 +44,17 @@ const main = async() => {
     ) {
         throw new Error("PRIVATE_KEY not found in the .env file. Please make sure to setup environment variables in your project.");
     }
-  
+
     if (
         process.env.RPC == null ||
         process.env.RPC == undefined
     ) {
         throw new Error("RPC not found in the .env file. Please make sure to setup environment variables in your project.");
     }
-  
+
     const provider = new ethers.JsonRpcProvider(process.env.RPC);
     const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
-  
+
     const createAskRequest = await kalypso_sdk.createAsk({
       marketId: "0xfbc2bb92a741de6f00a5a06821a4ddae09f4fe84f3c3c0c82e42930d5abf2db6",
       reward: 1,
@@ -65,7 +68,7 @@ const main = async() => {
     });
     console.log(createAskRequest);
   }
-  
+
   main();
 ```
 
@@ -113,7 +116,7 @@ async function connectWallet() {
     <div className="App">
       <h1>Kalypso SDK test</h1>
       {
-        signer === "" ?<button onClick={connectWallet}>Connect Wallet</button> : <button onClick={createAskCall}>Create Ask</button> 
+        signer === "" ?<button onClick={connectWallet}>Connect Wallet</button> : <button onClick={createAskCall}>Create Ask</button>
       }
     </div>
   );
@@ -122,6 +125,3 @@ async function connectWallet() {
 export default App;
 
 ```
-
-
-

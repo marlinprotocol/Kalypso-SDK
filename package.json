@@ -6,7 +6,8 @@
   "scripts": {
     "test": "ts-node ./src/index.ts",
     "build": "tsc",
-    "start": "npm run build && node dist/index.js"
+    "start": "npm run build && node dist/index.js",
+    "prettier": "npx prettier --write ."
   },
   "repository": {
     "type": "git",

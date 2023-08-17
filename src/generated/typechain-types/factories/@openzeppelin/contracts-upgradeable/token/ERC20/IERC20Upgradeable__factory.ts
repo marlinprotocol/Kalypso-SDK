@@ -199,10 +199,7 @@ export class IERC20Upgradeable__factory {
   static createInterface(): IERC20UpgradeableInterface {
     return new Interface(_abi) as IERC20UpgradeableInterface;
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): IERC20Upgradeable {
+  static connect(address: string, runner?: ContractRunner | null): IERC20Upgradeable {
     return new Contract(address, _abi, runner) as unknown as IERC20Upgradeable;
   }
 }

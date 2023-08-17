@@ -74,14 +74,7 @@ export class ERC1967UpgradeUpgradeable__factory {
   static createInterface(): ERC1967UpgradeUpgradeableInterface {
     return new Interface(_abi) as ERC1967UpgradeUpgradeableInterface;
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): ERC1967UpgradeUpgradeable {
-    return new Contract(
-      address,
-      _abi,
-      runner
-    ) as unknown as ERC1967UpgradeUpgradeable;
+  static connect(address: string, runner?: ContractRunner | null): ERC1967UpgradeUpgradeable {
+    return new Contract(address, _abi, runner) as unknown as ERC1967UpgradeUpgradeable;
   }
 }
