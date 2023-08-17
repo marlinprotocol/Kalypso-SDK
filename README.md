@@ -1,19 +1,25 @@
 # Kalypso SDK
 
-#### Installation
+## Installation
+Inside the Kalypso-SDK folder : 
+```
+tsc
+npm link
+```
 
+Inside your project :
 ```
 npm link kalypso-sdk
 ```
 
-#### Environment variable (.env) file setup
+## Environment variable (.env) file setup
 
 ```
 PRIVATE_KEY= [YOUR PRIVATE KEY]
 RPC= [RPC LINK]
 ```
 
-#### Usage
+## Usage
 
 `Note : Tested with ethers : 6.6.6`
 
