@@ -9,5 +9,9 @@
     "strict": true,
     "esModuleInterop": true
   },
+  "typedocOptions": {
+    "entryPoints": ["src/index.ts"],
+    "out": "docs"
+  },
   "include": ["src"]
 }
