@@ -5,11 +5,13 @@ import type { BaseContract, BytesLike, FunctionFragment, Result, Interface, Cont
 import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../../common";
 
 export interface IVerifierInterface extends Interface {
-  getFunction(nameOrSignature: "verify"): FunctionFragment;
+  getFunction(nameOrSignature: "verify" | "verifyInputs"): FunctionFragment;
 
   encodeFunctionData(functionFragment: "verify", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "verifyInputs", values: [BytesLike]): string;
 
   decodeFunctionResult(functionFragment: "verify", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "verifyInputs", data: BytesLike): Result;
 }
 
 export interface IVerifier extends BaseContract {
@@ -39,11 +41,14 @@ export interface IVerifier extends BaseContract {
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
-  verify: TypedContractMethod<[encodedPublicAndPrivateInputs: BytesLike], [boolean], "view">;
+  verify: TypedContractMethod<[encodedPublicInputsAndProofs: BytesLike], [boolean], "view">;
+
+  verifyInputs: TypedContractMethod<[inputs: BytesLike], [boolean], "view">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
-  getFunction(nameOrSignature: "verify"): TypedContractMethod<[encodedPublicAndPrivateInputs: BytesLike], [boolean], "view">;
+  getFunction(nameOrSignature: "verify"): TypedContractMethod<[encodedPublicInputsAndProofs: BytesLike], [boolean], "view">;
+  getFunction(nameOrSignature: "verifyInputs"): TypedContractMethod<[inputs: BytesLike], [boolean], "view">;
 
   filters: {};
 }

@@ -99,14 +99,28 @@ declare module "hardhat/types/runtime" {
     getContractFactory(name: "MockVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.MockVerifier__factory>;
     getContractFactory(name: "PriorityLog", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.PriorityLog__factory>;
     getContractFactory(
+      name: "PrivateInputRegistry",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.PrivateInputRegistry__factory>;
+    getContractFactory(
       name: "ProofMarketPlace",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ProofMarketPlace__factory>;
+    getContractFactory(
+      name: "BaseUltraVerifier",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BaseUltraVerifier__factory>;
+    getContractFactory(name: "UltraVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.UltraVerifier__factory>;
     getContractFactory(
       name: "TransferVerifier",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TransferVerifier__factory>;
     getContractFactory(name: "XorVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.XorVerifier__factory>;
+    getContractFactory(name: "I_plonk_vk", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.I_plonk_vk__factory>;
+    getContractFactory(
+      name: "Plonk_verifier_wrapper",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Plonk_verifier_wrapper__factory>;
     getContractFactory(
       name: "I_transfer_verifier",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -225,16 +239,33 @@ declare module "hardhat/types/runtime" {
     getContractAt(name: "MockVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.MockVerifier>;
     getContractAt(name: "PriorityLog", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.PriorityLog>;
     getContractAt(
+      name: "PrivateInputRegistry",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.PrivateInputRegistry>;
+    getContractAt(
       name: "ProofMarketPlace",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.ProofMarketPlace>;
+    getContractAt(
+      name: "BaseUltraVerifier",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BaseUltraVerifier>;
+    getContractAt(name: "UltraVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.UltraVerifier>;
     getContractAt(
       name: "TransferVerifier",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.TransferVerifier>;
     getContractAt(name: "XorVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.XorVerifier>;
+    getContractAt(name: "I_plonk_vk", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.I_plonk_vk>;
+    getContractAt(
+      name: "Plonk_verifier_wrapper",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Plonk_verifier_wrapper>;
     getContractAt(
       name: "I_transfer_verifier",
       address: string | ethers.Addressable,
@@ -335,9 +366,23 @@ declare module "hardhat/types/runtime" {
     deployContract(name: "MockToken", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockToken>;
     deployContract(name: "MockVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockVerifier>;
     deployContract(name: "PriorityLog", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.PriorityLog>;
+    deployContract(
+      name: "PrivateInputRegistry",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.PrivateInputRegistry>;
     deployContract(name: "ProofMarketPlace", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ProofMarketPlace>;
+    deployContract(
+      name: "BaseUltraVerifier",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.BaseUltraVerifier>;
+    deployContract(name: "UltraVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.UltraVerifier>;
     deployContract(name: "TransferVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.TransferVerifier>;
     deployContract(name: "XorVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.XorVerifier>;
+    deployContract(name: "I_plonk_vk", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.I_plonk_vk>;
+    deployContract(
+      name: "Plonk_verifier_wrapper",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Plonk_verifier_wrapper>;
     deployContract(
       name: "I_transfer_verifier",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -473,10 +518,25 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.PriorityLog>;
     deployContract(
+      name: "PrivateInputRegistry",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.PrivateInputRegistry>;
+    deployContract(
       name: "ProofMarketPlace",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ProofMarketPlace>;
+    deployContract(
+      name: "BaseUltraVerifier",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.BaseUltraVerifier>;
+    deployContract(
+      name: "UltraVerifier",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.UltraVerifier>;
     deployContract(
       name: "TransferVerifier",
       args: any[],
@@ -487,6 +547,12 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.XorVerifier>;
+    deployContract(name: "I_plonk_vk", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.I_plonk_vk>;
+    deployContract(
+      name: "Plonk_verifier_wrapper",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Plonk_verifier_wrapper>;
     deployContract(
       name: "I_transfer_verifier",
       args: any[],

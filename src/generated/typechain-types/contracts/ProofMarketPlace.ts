@@ -63,7 +63,7 @@ export interface ProofMarketPlaceInterface extends Interface {
       | "assignTask"
       | "cancelAsk"
       | "changeGeneratorRegsitry"
-      | "changeTreasuryAddressChanged"
+      | "costPerInputBytes"
       | "createAsk"
       | "createMarketPlace"
       | "generatorRegistry"
@@ -80,6 +80,7 @@ export interface ProofMarketPlaceInterface extends Interface {
       | "marketCreationCost"
       | "marketmetadata"
       | "paymentToken"
+      | "platformToken"
       | "proxiableUUID"
       | "renounceRole"
       | "revokeRole"
@@ -119,7 +120,7 @@ export interface ProofMarketPlaceInterface extends Interface {
   encodeFunctionData(functionFragment: "assignTask", values: [BigNumberish, AddressLike]): string;
   encodeFunctionData(functionFragment: "cancelAsk", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "changeGeneratorRegsitry", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "changeTreasuryAddressChanged", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "costPerInputBytes", values?: undefined): string;
   encodeFunctionData(functionFragment: "createAsk", values: [IProofMarketPlace.AskStruct]): string;
   encodeFunctionData(functionFragment: "createMarketPlace", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "generatorRegistry", values?: undefined): string;
@@ -136,6 +137,7 @@ export interface ProofMarketPlaceInterface extends Interface {
   encodeFunctionData(functionFragment: "marketCreationCost", values?: undefined): string;
   encodeFunctionData(functionFragment: "marketmetadata", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "paymentToken", values?: undefined): string;
+  encodeFunctionData(functionFragment: "platformToken", values?: undefined): string;
   encodeFunctionData(functionFragment: "proxiableUUID", values?: undefined): string;
   encodeFunctionData(functionFragment: "renounceRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "revokeRole", values: [BytesLike, AddressLike]): string;
@@ -155,7 +157,7 @@ export interface ProofMarketPlaceInterface extends Interface {
   decodeFunctionResult(functionFragment: "assignTask", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "cancelAsk", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "changeGeneratorRegsitry", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "changeTreasuryAddressChanged", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "costPerInputBytes", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "createAsk", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "createMarketPlace", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "generatorRegistry", data: BytesLike): Result;
@@ -172,6 +174,7 @@ export interface ProofMarketPlaceInterface extends Interface {
   decodeFunctionResult(functionFragment: "marketCreationCost", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "marketmetadata", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "paymentToken", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "platformToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "proxiableUUID", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "renounceRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
@@ -416,7 +419,7 @@ export interface ProofMarketPlace extends BaseContract {
 
   changeGeneratorRegsitry: TypedContractMethod<[_newAddress: AddressLike], [void], "nonpayable">;
 
-  changeTreasuryAddressChanged: TypedContractMethod<[_newAddress: AddressLike], [void], "nonpayable">;
+  costPerInputBytes: TypedContractMethod<[], [bigint], "view">;
 
   createAsk: TypedContractMethod<[ask: IProofMarketPlace.AskStruct], [void], "nonpayable">;
 
@@ -459,6 +462,8 @@ export interface ProofMarketPlace extends BaseContract {
 
   paymentToken: TypedContractMethod<[], [string], "view">;
 
+  platformToken: TypedContractMethod<[], [string], "view">;
+
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
   renounceRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
@@ -490,7 +495,7 @@ export interface ProofMarketPlace extends BaseContract {
   getFunction(nameOrSignature: "assignTask"): TypedContractMethod<[askId: BigNumberish, generator: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "cancelAsk"): TypedContractMethod<[askId: BigNumberish], [void], "nonpayable">;
   getFunction(nameOrSignature: "changeGeneratorRegsitry"): TypedContractMethod<[_newAddress: AddressLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "changeTreasuryAddressChanged"): TypedContractMethod<[_newAddress: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "costPerInputBytes"): TypedContractMethod<[], [bigint], "view">;
   getFunction(nameOrSignature: "createAsk"): TypedContractMethod<[ask: IProofMarketPlace.AskStruct], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "createMarketPlace"
@@ -522,6 +527,7 @@ export interface ProofMarketPlace extends BaseContract {
   getFunction(nameOrSignature: "marketCreationCost"): TypedContractMethod<[], [bigint], "view">;
   getFunction(nameOrSignature: "marketmetadata"): TypedContractMethod<[arg0: BytesLike], [string], "view">;
   getFunction(nameOrSignature: "paymentToken"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "platformToken"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "proxiableUUID"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "renounceRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "revokeRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;

@@ -15,10 +15,13 @@ export interface ErrorInterface extends Interface {
       | "HAS_A_PENDING_WORK"
       | "INSUFFICIENT_REWARD"
       | "INVALID_GENERATOR"
+      | "INVALID_INPUTS"
       | "INVALID_PROOF"
+      | "INVAlID_SENDER"
       | "ONLY_ADMIN_CAN_CALL"
       | "ONLY_TO_IDLE_GENERATORS"
       | "ONLY_WORKING_GENERATORS"
+      | "SHOULD_BE_CREATED"
       | "SHOULD_BE_IN_ASSIGNED_STATE"
       | "SHOULD_BE_IN_CREATE_STATE"
       | "SHOULD_BE_IN_CROSSED_DEADLINE_STATE"
@@ -33,10 +36,13 @@ export interface ErrorInterface extends Interface {
   encodeFunctionData(functionFragment: "HAS_A_PENDING_WORK", values?: undefined): string;
   encodeFunctionData(functionFragment: "INSUFFICIENT_REWARD", values?: undefined): string;
   encodeFunctionData(functionFragment: "INVALID_GENERATOR", values?: undefined): string;
+  encodeFunctionData(functionFragment: "INVALID_INPUTS", values?: undefined): string;
   encodeFunctionData(functionFragment: "INVALID_PROOF", values?: undefined): string;
+  encodeFunctionData(functionFragment: "INVAlID_SENDER", values?: undefined): string;
   encodeFunctionData(functionFragment: "ONLY_ADMIN_CAN_CALL", values?: undefined): string;
   encodeFunctionData(functionFragment: "ONLY_TO_IDLE_GENERATORS", values?: undefined): string;
   encodeFunctionData(functionFragment: "ONLY_WORKING_GENERATORS", values?: undefined): string;
+  encodeFunctionData(functionFragment: "SHOULD_BE_CREATED", values?: undefined): string;
   encodeFunctionData(functionFragment: "SHOULD_BE_IN_ASSIGNED_STATE", values?: undefined): string;
   encodeFunctionData(functionFragment: "SHOULD_BE_IN_CREATE_STATE", values?: undefined): string;
   encodeFunctionData(functionFragment: "SHOULD_BE_IN_CROSSED_DEADLINE_STATE", values?: undefined): string;
@@ -50,10 +56,13 @@ export interface ErrorInterface extends Interface {
   decodeFunctionResult(functionFragment: "HAS_A_PENDING_WORK", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INSUFFICIENT_REWARD", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INVALID_GENERATOR", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "INVALID_INPUTS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INVALID_PROOF", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "INVAlID_SENDER", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ONLY_ADMIN_CAN_CALL", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ONLY_TO_IDLE_GENERATORS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ONLY_WORKING_GENERATORS", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "SHOULD_BE_CREATED", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "SHOULD_BE_IN_ASSIGNED_STATE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "SHOULD_BE_IN_CREATE_STATE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "SHOULD_BE_IN_CROSSED_DEADLINE_STATE", data: BytesLike): Result;
@@ -103,13 +112,19 @@ export interface Error extends BaseContract {
 
   INVALID_GENERATOR: TypedContractMethod<[], [string], "view">;
 
+  INVALID_INPUTS: TypedContractMethod<[], [string], "view">;
+
   INVALID_PROOF: TypedContractMethod<[], [string], "view">;
+
+  INVAlID_SENDER: TypedContractMethod<[], [string], "view">;
 
   ONLY_ADMIN_CAN_CALL: TypedContractMethod<[], [string], "view">;
 
   ONLY_TO_IDLE_GENERATORS: TypedContractMethod<[], [string], "view">;
 
   ONLY_WORKING_GENERATORS: TypedContractMethod<[], [string], "view">;
+
+  SHOULD_BE_CREATED: TypedContractMethod<[], [string], "view">;
 
   SHOULD_BE_IN_ASSIGNED_STATE: TypedContractMethod<[], [string], "view">;
 
@@ -129,10 +144,13 @@ export interface Error extends BaseContract {
   getFunction(nameOrSignature: "HAS_A_PENDING_WORK"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INSUFFICIENT_REWARD"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INVALID_GENERATOR"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "INVALID_INPUTS"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INVALID_PROOF"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "INVAlID_SENDER"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "ONLY_ADMIN_CAN_CALL"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "ONLY_TO_IDLE_GENERATORS"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "ONLY_WORKING_GENERATORS"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "SHOULD_BE_CREATED"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "SHOULD_BE_IN_ASSIGNED_STATE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "SHOULD_BE_IN_CREATE_STATE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "SHOULD_BE_IN_CROSSED_DEADLINE_STATE"): TypedContractMethod<[], [string], "view">;

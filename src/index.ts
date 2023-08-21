@@ -1,6 +1,7 @@
-import { ethers, Provider, Signer } from "ethers";
+import { BytesLike, ethers, Provider, Signer } from "ethers";
 import { BigNumber } from "bignumber.js";
 import { MockToken__factory, ProofMarketPlace__factory, InputAndProofFormatRegistry__factory } from "./generated/typechain-types";
+import { PrivateInputRegistry__factory } from "./generated/typechain-types/factories/contracts/PrivateInputRegistry__factory";
 
 type askParameters = {
   marketId: string;
@@ -200,4 +201,11 @@ export const createAsk = async (askParameters: askParameters) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+export const addPrivateInputs = async (privateInputRegistryAddress: string, askId: string, privateInputs: BytesLike, wallet: Signer) => {
+  const privateInputRegistry = PrivateInputRegistry__factory.connect(privateInputRegistryAddress, wallet);
+  const tx = await privateInputRegistry.addPrivateInputs(askId, privateInputs);
+  const receipt = await tx.wait();
+  console.log(`added private inputs to askId: ${askId}, tx: ${receipt?.hash}`);
 };
