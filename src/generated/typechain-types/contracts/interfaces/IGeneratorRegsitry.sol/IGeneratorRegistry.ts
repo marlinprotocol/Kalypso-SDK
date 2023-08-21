@@ -31,12 +31,7 @@ export declare namespace IGeneratorRegistry {
     generatorData: BytesLike;
   };
 
-  export type GeneratorStructOutput = [
-    rewardAddress: string,
-    amountLocked: bigint,
-    minReward: bigint,
-    generatorData: string
-  ] & {
+  export type GeneratorStructOutput = [rewardAddress: string, amountLocked: bigint, minReward: bigint, generatorData: string] & {
     rewardAddress: string;
     amountLocked: bigint;
     minReward: bigint;
@@ -46,78 +41,29 @@ export declare namespace IGeneratorRegistry {
 
 export interface IGeneratorRegistryInterface extends Interface {
   getFunction(
-    nameOrSignature:
-      | "assignGeneratorTask"
-      | "completeGeneratorTask"
-      | "deregister"
-      | "getGeneratorDetails"
-      | "register"
-      | "slashGenerator"
+    nameOrSignature: "assignGeneratorTask" | "completeGeneratorTask" | "deregister" | "getGeneratorDetails" | "register" | "slashGenerator"
   ): FunctionFragment;
 
-  getEvent(
-    nameOrSignatureOrTopic:
-      | "AddExtraStash"
-      | "DeregisteredGenerator"
-      | "RegisteredGenerator"
-  ): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "AddExtraStash" | "DeregisteredGenerator" | "RegisteredGenerator"): EventFragment;
 
-  encodeFunctionData(
-    functionFragment: "assignGeneratorTask",
-    values: [AddressLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "completeGeneratorTask",
-    values: [AddressLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "deregister",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getGeneratorDetails",
-    values: [AddressLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "register",
-    values: [IGeneratorRegistry.GeneratorStruct, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "slashGenerator",
-    values: [AddressLike, BytesLike, AddressLike]
-  ): string;
+  encodeFunctionData(functionFragment: "assignGeneratorTask", values: [AddressLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "completeGeneratorTask", values: [AddressLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "deregister", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "getGeneratorDetails", values: [AddressLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "register", values: [IGeneratorRegistry.GeneratorStruct, BytesLike]): string;
+  encodeFunctionData(functionFragment: "slashGenerator", values: [AddressLike, BytesLike, AddressLike]): string;
 
-  decodeFunctionResult(
-    functionFragment: "assignGeneratorTask",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "completeGeneratorTask",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "assignGeneratorTask", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "completeGeneratorTask", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "deregister", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "getGeneratorDetails",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "getGeneratorDetails", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "register", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "slashGenerator",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "slashGenerator", data: BytesLike): Result;
 }
 
 export namespace AddExtraStashEvent {
-  export type InputTuple = [
-    generator: AddressLike,
-    marketId: BytesLike,
-    amount: BigNumberish
-  ];
-  export type OutputTuple = [
-    generator: string,
-    marketId: string,
-    amount: bigint
-  ];
+  export type InputTuple = [generator: AddressLike, marketId: BytesLike, amount: BigNumberish];
+  export type OutputTuple = [generator: string, marketId: string, amount: bigint];
   export interface OutputObject {
     generator: string;
     marketId: string;
@@ -172,114 +118,50 @@ export interface IGeneratorRegistry extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  on<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
 
-  once<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
 
-  listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
-  ): Promise<this>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
-  assignGeneratorTask: TypedContractMethod<
-    [generator: AddressLike, marketId: BytesLike],
-    [void],
-    "nonpayable"
-  >;
+  assignGeneratorTask: TypedContractMethod<[generator: AddressLike, marketId: BytesLike], [void], "nonpayable">;
 
-  completeGeneratorTask: TypedContractMethod<
-    [generator: AddressLike, marketId: BytesLike],
-    [void],
-    "nonpayable"
-  >;
+  completeGeneratorTask: TypedContractMethod<[generator: AddressLike, marketId: BytesLike], [void], "nonpayable">;
 
   deregister: TypedContractMethod<[marketId: BytesLike], [void], "nonpayable">;
 
-  getGeneratorDetails: TypedContractMethod<
-    [generator: AddressLike, marketId: BytesLike],
-    [[bigint, bigint, string]],
-    "view"
-  >;
+  getGeneratorDetails: TypedContractMethod<[generator: AddressLike, marketId: BytesLike], [[bigint, bigint, string]], "view">;
 
-  register: TypedContractMethod<
-    [generator: IGeneratorRegistry.GeneratorStruct, marketId: BytesLike],
-    [void],
-    "nonpayable"
-  >;
+  register: TypedContractMethod<[generator: IGeneratorRegistry.GeneratorStruct, marketId: BytesLike], [void], "nonpayable">;
 
-  slashGenerator: TypedContractMethod<
-    [generator: AddressLike, marketId: BytesLike, rewardAddress: AddressLike],
-    [bigint],
-    "nonpayable"
-  >;
+  slashGenerator: TypedContractMethod<[generator: AddressLike, marketId: BytesLike, rewardAddress: AddressLike], [bigint], "nonpayable">;
 
-  getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
-  ): T;
+  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(
     nameOrSignature: "assignGeneratorTask"
-  ): TypedContractMethod<
-    [generator: AddressLike, marketId: BytesLike],
-    [void],
-    "nonpayable"
-  >;
+  ): TypedContractMethod<[generator: AddressLike, marketId: BytesLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "completeGeneratorTask"
-  ): TypedContractMethod<
-    [generator: AddressLike, marketId: BytesLike],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "deregister"
-  ): TypedContractMethod<[marketId: BytesLike], [void], "nonpayable">;
+  ): TypedContractMethod<[generator: AddressLike, marketId: BytesLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "deregister"): TypedContractMethod<[marketId: BytesLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "getGeneratorDetails"
-  ): TypedContractMethod<
-    [generator: AddressLike, marketId: BytesLike],
-    [[bigint, bigint, string]],
-    "view"
-  >;
+  ): TypedContractMethod<[generator: AddressLike, marketId: BytesLike], [[bigint, bigint, string]], "view">;
   getFunction(
     nameOrSignature: "register"
-  ): TypedContractMethod<
-    [generator: IGeneratorRegistry.GeneratorStruct, marketId: BytesLike],
-    [void],
-    "nonpayable"
-  >;
+  ): TypedContractMethod<[generator: IGeneratorRegistry.GeneratorStruct, marketId: BytesLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "slashGenerator"
-  ): TypedContractMethod<
-    [generator: AddressLike, marketId: BytesLike, rewardAddress: AddressLike],
-    [bigint],
-    "nonpayable"
-  >;
+  ): TypedContractMethod<[generator: AddressLike, marketId: BytesLike, rewardAddress: AddressLike], [bigint], "nonpayable">;
 
   getEvent(
     key: "AddExtraStash"
-  ): TypedContractEvent<
-    AddExtraStashEvent.InputTuple,
-    AddExtraStashEvent.OutputTuple,
-    AddExtraStashEvent.OutputObject
-  >;
+  ): TypedContractEvent<AddExtraStashEvent.InputTuple, AddExtraStashEvent.OutputTuple, AddExtraStashEvent.OutputObject>;
   getEvent(
     key: "DeregisteredGenerator"
   ): TypedContractEvent<
@@ -289,11 +171,7 @@ export interface IGeneratorRegistry extends BaseContract {
   >;
   getEvent(
     key: "RegisteredGenerator"
-  ): TypedContractEvent<
-    RegisteredGeneratorEvent.InputTuple,
-    RegisteredGeneratorEvent.OutputTuple,
-    RegisteredGeneratorEvent.OutputObject
-  >;
+  ): TypedContractEvent<RegisteredGeneratorEvent.InputTuple, RegisteredGeneratorEvent.OutputTuple, RegisteredGeneratorEvent.OutputObject>;
 
   filters: {
     "AddExtraStash(address,bytes32,uint256)": TypedContractEvent<
@@ -301,11 +179,7 @@ export interface IGeneratorRegistry extends BaseContract {
       AddExtraStashEvent.OutputTuple,
       AddExtraStashEvent.OutputObject
     >;
-    AddExtraStash: TypedContractEvent<
-      AddExtraStashEvent.InputTuple,
-      AddExtraStashEvent.OutputTuple,
-      AddExtraStashEvent.OutputObject
-    >;
+    AddExtraStash: TypedContractEvent<AddExtraStashEvent.InputTuple, AddExtraStashEvent.OutputTuple, AddExtraStashEvent.OutputObject>;
 
     "DeregisteredGenerator(address,bytes32)": TypedContractEvent<
       DeregisteredGeneratorEvent.InputTuple,
