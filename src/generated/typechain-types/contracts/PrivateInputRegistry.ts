@@ -8,44 +8,30 @@ import type {
   FunctionFragment,
   Result,
   Interface,
-  EventFragment,
   ContractRunner,
   ContractMethod,
   Listener,
 } from "ethers";
-import type {
-  TypedContractEvent,
-  TypedDeferredTopicFilter,
-  TypedEventLog,
-  TypedLogDescription,
-  TypedListener,
-  TypedContractMethod,
-} from "../common";
+import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../common";
 
 export interface PrivateInputRegistryInterface extends Interface {
-  getFunction(nameOrSignature: "addPrivateInputs" | "privateInputs" | "proofMarketPlace"): FunctionFragment;
-
-  getEvent(nameOrSignatureOrTopic: "AddPrivateInputs"): EventFragment;
+  getFunction(
+    nameOrSignature: "addPrivateInputs" | "complete" | "completeInputs" | "privateInputLength" | "privateInputs" | "proofMarketPlace"
+  ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "addPrivateInputs", values: [BigNumberish, BytesLike]): string;
-  encodeFunctionData(functionFragment: "privateInputs", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "complete", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "completeInputs", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "privateInputLength", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "privateInputs", values: [BigNumberish, BigNumberish]): string;
   encodeFunctionData(functionFragment: "proofMarketPlace", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "addPrivateInputs", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "complete", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "completeInputs", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "privateInputLength", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "privateInputs", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "proofMarketPlace", data: BytesLike): Result;
-}
-
-export namespace AddPrivateInputsEvent {
-  export type InputTuple = [askId: BigNumberish];
-  export type OutputTuple = [askId: bigint];
-  export interface OutputObject {
-    askId: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
 }
 
 export interface PrivateInputRegistry extends BaseContract {
@@ -77,30 +63,24 @@ export interface PrivateInputRegistry extends BaseContract {
 
   addPrivateInputs: TypedContractMethod<[askId: BigNumberish, privInputs: BytesLike], [void], "nonpayable">;
 
-  privateInputs: TypedContractMethod<[arg0: BigNumberish], [string], "view">;
+  complete: TypedContractMethod<[arg0: BigNumberish], [boolean], "view">;
+
+  completeInputs: TypedContractMethod<[askId: BigNumberish], [void], "nonpayable">;
+
+  privateInputLength: TypedContractMethod<[askId: BigNumberish], [bigint], "view">;
+
+  privateInputs: TypedContractMethod<[arg0: BigNumberish, arg1: BigNumberish], [string], "view">;
 
   proofMarketPlace: TypedContractMethod<[], [string], "view">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "addPrivateInputs"): TypedContractMethod<[askId: BigNumberish, privInputs: BytesLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "privateInputs"): TypedContractMethod<[arg0: BigNumberish], [string], "view">;
+  getFunction(nameOrSignature: "complete"): TypedContractMethod<[arg0: BigNumberish], [boolean], "view">;
+  getFunction(nameOrSignature: "completeInputs"): TypedContractMethod<[askId: BigNumberish], [void], "nonpayable">;
+  getFunction(nameOrSignature: "privateInputLength"): TypedContractMethod<[askId: BigNumberish], [bigint], "view">;
+  getFunction(nameOrSignature: "privateInputs"): TypedContractMethod<[arg0: BigNumberish, arg1: BigNumberish], [string], "view">;
   getFunction(nameOrSignature: "proofMarketPlace"): TypedContractMethod<[], [string], "view">;
 
-  getEvent(
-    key: "AddPrivateInputs"
-  ): TypedContractEvent<AddPrivateInputsEvent.InputTuple, AddPrivateInputsEvent.OutputTuple, AddPrivateInputsEvent.OutputObject>;
-
-  filters: {
-    "AddPrivateInputs(uint256)": TypedContractEvent<
-      AddPrivateInputsEvent.InputTuple,
-      AddPrivateInputsEvent.OutputTuple,
-      AddPrivateInputsEvent.OutputObject
-    >;
-    AddPrivateInputs: TypedContractEvent<
-      AddPrivateInputsEvent.InputTuple,
-      AddPrivateInputsEvent.OutputTuple,
-      AddPrivateInputsEvent.OutputObject
-    >;
-  };
+  filters: {};
 }
