@@ -1,4 +1,4 @@
-import { createAsk, approveRewardTokens, jsonToBytes } from "../src/index";
+import { createAsk, approveRewardTokens, jsonToBytes, addPrivateInputs } from "../src/index";
 import dotenv from "dotenv";
 import { ethers } from "ethers";
 
@@ -36,7 +36,8 @@ const createAskTest = async () => {
     let inputBytes = abiCoder.encode(["uint256[5]"], [[input.root, input.nullifier, input.out_commit, input.delta, input.memo]]);
 
     const secretString = jsonToBytes(secret);
-    //Create ASK request
+    // Create ASK request
+
     const askRequestId = await createAsk({
       marketId: "0x027f76939e5bed90c45d0d1809796f033f6481011d554502d4c63f7878c9ee83",
       reward,

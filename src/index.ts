@@ -146,20 +146,30 @@ export const createAsk = async (askParameters: askParameters): Promise<any> => {
   if (receipt && receipt.logs) {
     for (let index = 0; index < receipt.logs.length; index++) {
       const log = receipt.logs[index];
-      try {
-        if (log.address.toLowerCase() === proofMarketPlaceAddress.toLowerCase()) {
-          // TODO: There should be better way to do this
-          proofMarketplaceContract.interface.decodeEventLog("AskCreated", log.data, log.topics);
-          return log.topics[1];
+      if (log.address.toLowerCase() === proofMarketPlaceAddress.toLowerCase()) {
+        // TODO: There should be better way to do this
+        try {
+          const event = proofMarketplaceContract.interface.decodeEventLog("AskCreated", log.data, log.topics);
+          console.log(event);
+        } catch (ex) {}
+        if (askParameters.privateData) {
+          const askId = log.topics[1];
+          await addPrivateInputs(askParameters.privateInputRegistry, askId, askParameters.privateData, wallet);
         }
-      } catch (ex) {}
+        return log.topics[1];
+      }
     }
   }
 
   throw new Error("Could not find the given with name AskCreated");
 };
 
-export const addPrivateInputs = async (privateInputRegistryAddress: string, askId: string, secretString: string, wallet: Signer) => {
+export const addPrivateInputs = async (
+  privateInputRegistryAddress: string,
+  askId: string,
+  secretString: string,
+  wallet: Signer
+): Promise<string> => {
   const privateInputRegistry = PrivateInputRegistry__factory.connect(privateInputRegistryAddress, wallet);
 
   const splitSecrets = splitHexString(secretString, 2);
@@ -172,6 +182,8 @@ export const addPrivateInputs = async (privateInputRegistryAddress: string, askI
   }
   tx = await privateInputRegistry.completeInputs(askId);
   console.log(`complete private input for ask id ${askId}`, (await tx.wait())?.hash);
+
+  return "Done";
 };
 
 export function jsonToBytes<M>(json: M): string {
