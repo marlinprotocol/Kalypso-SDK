@@ -3,6 +3,7 @@ import { BigNumber } from "bignumber.js";
 import { MockToken__factory, ProofMarketPlace__factory } from "./generated/typechain-types";
 import { PrivateInputRegistry__factory } from "./generated/typechain-types/factories/contracts/PrivateInputRegistry__factory";
 
+export * from "./secretInputOperation";
 type askParameters = {
   marketId: string;
   reward: number;
