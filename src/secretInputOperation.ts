@@ -17,7 +17,7 @@ async function encryptRSA(publicKey: string, data: Buffer): Promise<string> {
     {
       key: publicKey,
       padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
-      oaepHash: "sha256",
+      oaepHash: "sha1",
     },
     data
   );
@@ -65,7 +65,7 @@ async function decryptRSA(privateKey: string, encryptedData: string): Promise<Bu
     {
       key: privateKey,
       padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
-      oaepHash: "sha256",
+      oaepHash: "sha1",
     },
     buffer
   );

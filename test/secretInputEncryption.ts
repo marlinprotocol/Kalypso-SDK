@@ -10,6 +10,7 @@ async function main(): Promise<string> {
   console.log(result);
 
   const privatekey = fs.readFileSync("./test/private_key.pem", "utf-8");
+
   const decryptedData = await decryptDataWithRSAandAES(result.encryptedData, result.aclData, privatekey);
 
   console.log({ data, decryptedData });
