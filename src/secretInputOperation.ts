@@ -81,3 +81,38 @@ export async function decryptDataWithRSAandAES(encryptedData: string, aclData: s
 
   return data;
 }
+
+/**
+ * Convert a Base64 encoded string to a hexadecimal string.
+ *
+ * @param base64String - The Base64 encoded string.
+ * @returns The hexadecimal string representation of the input.
+ */
+export function base64ToHex(base64String: string): string {
+  const raw = atob(base64String);
+  let result = "";
+  for (let i = 0; i < raw.length; i++) {
+    const hex = raw.charCodeAt(i).toString(16);
+    result += hex.length === 2 ? hex : "0" + hex;
+  }
+  return result;
+}
+
+/**
+ * Convert a hexadecimal string to a Base64 encoded string.
+ *
+ * @param hexString - The hexadecimal string.
+ * @returns The Base64 encoded string representation of the input.
+ */
+export function hexToBase64(hexString: string): string {
+  if (hexString.length % 2 !== 0) {
+    throw new Error("Invalid hex string");
+  }
+
+  let raw = "";
+  for (let i = 0; i < hexString.length; i += 2) {
+    const byte = parseInt(hexString.substr(i, 2), 16);
+    raw += String.fromCharCode(byte);
+  }
+  return btoa(raw);
+}

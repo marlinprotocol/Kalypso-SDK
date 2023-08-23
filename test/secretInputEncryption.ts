@@ -1,4 +1,4 @@
-import { encryptDataWithRSAandAES, decryptDataWithRSAandAES } from "../src";
+import { encryptDataWithRSAandAES, decryptDataWithRSAandAES, base64ToHex, hexToBase64 } from "../src";
 
 import * as fs from "fs";
 
@@ -9,6 +9,10 @@ async function main(): Promise<string> {
   const result = await encryptDataWithRSAandAES(data, publicKey);
   console.log(result);
 
+  const aclHex = base64ToHex(result.aclData);
+  const aclBase64 = hexToBase64(aclHex);
+
+  console.log({ acl: result.aclData, aclBase64, aclHex });
   const privatekey = fs.readFileSync("./test/private_key.pem", "utf-8");
 
   const decryptedData = await decryptDataWithRSAandAES(result.encryptedData, result.aclData, privatekey);
