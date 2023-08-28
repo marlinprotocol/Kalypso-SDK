@@ -1,27 +1,31 @@
-import { ContractTransactionResponse, Provider, Signer } from "ethers";
+import { BigNumberish, Provider, Signer } from "ethers";
 import { BigNumber } from "bignumber.js";
 import { MockToken__factory, ProofMarketPlace__factory } from "./generated/typechain-types";
-import { PrivateInputRegistry__factory } from "./generated/typechain-types/factories/contracts/PrivateInputRegistry__factory";
 
 export * from "./secretInputOperation";
+
+type secrets = {
+  secret: string;
+  acl: string;
+};
+
 type askParameters = {
   marketId: string;
-  reward: number;
+  reward: BigNumberish;
   timeTakenForProofGeneration: number;
   deadline: number;
   expiry: number;
   proverData: any;
-  privateData?: any;
-  privateInputRegistry: string;
   proofMarketPlaceAddress: string;
   inputAndProofFormatContractAddress: string;
   wallet: Signer;
+  secrets?: secrets;
 };
 
 type approveRewardTokensParameters = {
   proofMarketPlaceAddress: string;
   tokenContractAddress: string;
-  reward: number;
+  reward: BigNumberish;
   wallet: any;
 };
 
@@ -37,7 +41,7 @@ export const approveRewardTokens = async (approveRewardTokensParameters: approve
     throw new Error("Please provide a valid token contract address");
   }
 
-  if (approveRewardTokensParameters.reward <= 0) {
+  if (new BigNumber(approveRewardTokensParameters.reward.toString()).lte(0)) {
     throw new Error("Please provide a valid reward value.");
   }
 
@@ -46,7 +50,6 @@ export const approveRewardTokens = async (approveRewardTokensParameters: approve
   }
 
   const wallet = approveRewardTokensParameters.wallet;
-  const reward = new BigNumber(10).pow(18).multipliedBy(approveRewardTokensParameters.reward);
 
   const proofMarketplaceContract = ProofMarketPlace__factory.connect(
     approveRewardTokensParameters.proofMarketPlaceAddress,
@@ -62,7 +65,7 @@ export const approveRewardTokens = async (approveRewardTokensParameters: approve
   const allowance = await tokenContract.connect(wallet).allowance(await wallet.getAddress(), await proofMarketplaceContract.getAddress());
 
   // TODO: find the exact allowance number, currently just multiplying by large number
-  const expectedAllowance = reward.multipliedBy(2);
+  const expectedAllowance = new BigNumber(approveRewardTokensParameters.reward.toString()).multipliedBy(2);
 
   if (new BigNumber(allowance.toString()).lt(expectedAllowance)) {
     const approvalTransaction = await tokenContract
@@ -87,7 +90,7 @@ export const createAsk = async (askParameters: askParameters): Promise<any> => {
     throw new Error("Please provide a valid marketId.");
   }
 
-  if (askParameters.reward <= 0) {
+  if (new BigNumber(askParameters.reward.toString()).lte(0)) {
     throw new Error("Please provide a valid reward value.");
   }
 
@@ -128,63 +131,41 @@ export const createAsk = async (askParameters: askParameters): Promise<any> => {
   let expiry = assignmentExpiry + latestBlock;
   let deadline = latestBlock + maxTimeForProofGeneration;
   let proverRefundAddress = await wallet.getAddress();
-  let reward = new BigNumber(10).pow(18).multipliedBy(askParameters.reward);
+  let reward = askParameters.reward.toString();
+
+  let hasSecrets = false;
+  let secretType = 0;
+  let secretData = "0x";
+  let acl = "0x";
+
+  if (askParameters.secrets) {
+    hasSecrets = true;
+    secretType = 1; // only this is supported atm
+    secretData = askParameters.secrets.secret;
+    acl = askParameters.secrets.acl;
+  }
 
   console.log("Creating ASK...");
-  const createAskFunctionTransaction = await proofMarketplaceContract.createAsk({
-    marketId,
-    reward: reward.toFixed(),
-    timeTakenForProofGeneration,
-    deadline,
-    proverRefundAddress,
-    proverData,
-    expiry,
-  });
+  const createAskFunctionTransaction = await proofMarketplaceContract.createAsk(
+    {
+      marketId,
+      reward: reward.toString(),
+      timeTakenForProofGeneration,
+      deadline,
+      refundAddress: proverRefundAddress,
+      proverData,
+      expiry,
+    },
+    hasSecrets,
+    secretType,
+    secretData,
+    acl
+  );
 
   const receipt = await createAskFunctionTransaction.wait();
   console.log(`ask receipt hash: ${receipt?.hash}`);
 
-  if (receipt && receipt.logs) {
-    for (let index = 0; index < receipt.logs.length; index++) {
-      const log = receipt.logs[index];
-      if (log.address.toLowerCase() === proofMarketPlaceAddress.toLowerCase()) {
-        // TODO: There should be better way to do this
-        try {
-          const event = proofMarketplaceContract.interface.decodeEventLog("AskCreated", log.data, log.topics);
-          console.log(event);
-        } catch (ex) {}
-        if (askParameters.privateData) {
-          const askId = log.topics[1];
-          await addPrivateInputs(askParameters.privateInputRegistry, askId, askParameters.privateData, wallet);
-        }
-        return log.topics[1];
-      }
-    }
-  }
-
-  throw new Error("Could not find the given with name AskCreated");
-};
-
-export const addPrivateInputs = async (
-  privateInputRegistryAddress: string,
-  askId: string,
-  secretString: string,
-  wallet: Signer
-): Promise<string> => {
-  const privateInputRegistry = PrivateInputRegistry__factory.connect(privateInputRegistryAddress, wallet);
-
-  const splitSecrets = splitHexString(secretString, 2);
-
-  let tx: ContractTransactionResponse;
-  for (let index = 0; index < splitSecrets.length; index++) {
-    const element = splitSecrets[index];
-    tx = await privateInputRegistry.addPrivateInputs(askId, element);
-    console.log(`create private inputs ${askId}`, (await tx.wait())?.hash, `secret part ${index}`);
-  }
-  tx = await privateInputRegistry.completeInputs(askId);
-  console.log(`complete private input for ask id ${askId}`, (await tx.wait())?.hash);
-
-  return "Done";
+  return `${receipt?.hash}`;
 };
 
 export function jsonToBytes<M>(json: M): string {

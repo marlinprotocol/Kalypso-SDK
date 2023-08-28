@@ -42,6 +42,8 @@ export type { IERC20Metadata } from "./@openzeppelin/contracts/token/ERC20/exten
 export { IERC20Metadata__factory } from "./factories/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata__factory";
 export type { IERC20 } from "./@openzeppelin/contracts/token/ERC20/IERC20";
 export { IERC20__factory } from "./factories/@openzeppelin/contracts/token/ERC20/IERC20__factory";
+export type { RsaRegistry } from "./contracts/Acl.sol/RsaRegistry";
+export { RsaRegistry__factory } from "./factories/contracts/Acl.sol/RsaRegistry__factory";
 export type { GeneratorRegistry } from "./contracts/GeneratorRegistry";
 export { GeneratorRegistry__factory } from "./factories/contracts/GeneratorRegistry__factory";
 export type { InputAndProofFormatRegistry } from "./contracts/InputAndProofFormatRegistry";
@@ -62,8 +64,6 @@ export type { MockVerifier } from "./contracts/mock/MockVerifier";
 export { MockVerifier__factory } from "./factories/contracts/mock/MockVerifier__factory";
 export type { PriorityLog } from "./contracts/PriorityLog";
 export { PriorityLog__factory } from "./factories/contracts/PriorityLog__factory";
-export type { PrivateInputRegistry } from "./contracts/PrivateInputRegistry";
-export { PrivateInputRegistry__factory } from "./factories/contracts/PrivateInputRegistry__factory";
 export type { ProofMarketPlace } from "./contracts/ProofMarketPlace";
 export { ProofMarketPlace__factory } from "./factories/contracts/ProofMarketPlace__factory";
 export type { BaseUltraVerifier } from "./contracts/verifiers/plonk_vk.sol/BaseUltraVerifier";

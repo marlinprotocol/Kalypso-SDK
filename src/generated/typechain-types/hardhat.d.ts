@@ -76,6 +76,7 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20Metadata__factory>;
     getContractFactory(name: "IERC20", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC20__factory>;
+    getContractFactory(name: "RsaRegistry", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.RsaRegistry__factory>;
     getContractFactory(
       name: "GeneratorRegistry",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -99,13 +100,10 @@ declare module "hardhat/types/runtime" {
     getContractFactory(name: "MockVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.MockVerifier__factory>;
     getContractFactory(name: "PriorityLog", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.PriorityLog__factory>;
     getContractFactory(
-      name: "PrivateInputRegistry",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.PrivateInputRegistry__factory>;
-    getContractFactory(
       name: "ProofMarketPlace",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ProofMarketPlace__factory>;
+    getContractFactory(name: "RsaRegistry", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.RsaRegistry__factory>;
     getContractFactory(
       name: "BaseUltraVerifier",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -212,6 +210,7 @@ declare module "hardhat/types/runtime" {
     getContractAt(name: "ERC20", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.ERC20>;
     getContractAt(name: "IERC20Metadata", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20Metadata>;
     getContractAt(name: "IERC20", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20>;
+    getContractAt(name: "RsaRegistry", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.RsaRegistry>;
     getContractAt(
       name: "GeneratorRegistry",
       address: string | ethers.Addressable,
@@ -239,15 +238,11 @@ declare module "hardhat/types/runtime" {
     getContractAt(name: "MockVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.MockVerifier>;
     getContractAt(name: "PriorityLog", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.PriorityLog>;
     getContractAt(
-      name: "PrivateInputRegistry",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.PrivateInputRegistry>;
-    getContractAt(
       name: "ProofMarketPlace",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.ProofMarketPlace>;
+    getContractAt(name: "RsaRegistry", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.RsaRegistry>;
     getContractAt(
       name: "BaseUltraVerifier",
       address: string | ethers.Addressable,
@@ -344,6 +339,7 @@ declare module "hardhat/types/runtime" {
     deployContract(name: "ERC20", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ERC20>;
     deployContract(name: "IERC20Metadata", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20Metadata>;
     deployContract(name: "IERC20", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>;
+    deployContract(name: "RsaRegistry", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.RsaRegistry>;
     deployContract(
       name: "GeneratorRegistry",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -366,11 +362,8 @@ declare module "hardhat/types/runtime" {
     deployContract(name: "MockToken", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockToken>;
     deployContract(name: "MockVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockVerifier>;
     deployContract(name: "PriorityLog", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.PriorityLog>;
-    deployContract(
-      name: "PrivateInputRegistry",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.PrivateInputRegistry>;
     deployContract(name: "ProofMarketPlace", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ProofMarketPlace>;
+    deployContract(name: "RsaRegistry", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.RsaRegistry>;
     deployContract(
       name: "BaseUltraVerifier",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -480,6 +473,11 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.IERC20Metadata>;
     deployContract(name: "IERC20", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>;
     deployContract(
+      name: "RsaRegistry",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.RsaRegistry>;
+    deployContract(
       name: "GeneratorRegistry",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -518,15 +516,15 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.PriorityLog>;
     deployContract(
-      name: "PrivateInputRegistry",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.PrivateInputRegistry>;
-    deployContract(
       name: "ProofMarketPlace",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ProofMarketPlace>;
+    deployContract(
+      name: "RsaRegistry",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.RsaRegistry>;
     deployContract(
       name: "BaseUltraVerifier",
       args: any[],

@@ -7,7 +7,7 @@ function encryptAES(data: string, secretKey: Buffer): string {
   const cipher = crypto.createCipheriv("aes-256-cbc", secretKey, iv);
   let encrypted = cipher.update(data, "utf8", "hex");
   encrypted += cipher.final("hex");
-  return `${iv.toString("hex")}:${encrypted}`;
+  return `${iv.toString("hex")}${encrypted}`;
 }
 
 // 2. Asymmetrically encrypt the secret key using RSA-2048
@@ -43,13 +43,13 @@ export async function encryptDataWithRSAandAES(data: string, publicKey: string) 
 
 // 1. Decrypt a string using AES-256
 function decryptAES(encryptedData: string, secretKey: Buffer): string {
-  const parts = encryptedData.split(":");
-  if (parts.length < 2) {
+  if (encryptedData.length <= 32) {
+    // Assuming hexadecimal encoding, 32 characters represent 16 bytes
     throw new Error("Invalid encrypted data format.");
   }
 
-  const iv = Buffer.from(parts[0], "hex");
-  const encryptedText = Buffer.from(parts[1], "hex");
+  const iv = Buffer.from(encryptedData.slice(0, 32), "hex");
+  const encryptedText = Buffer.from(encryptedData.slice(32), "hex");
 
   const decipher = crypto.createDecipheriv("aes-256-cbc", secretKey, iv);
   const decryptedBuffer = Buffer.concat([decipher.update(encryptedText), decipher.final()]);

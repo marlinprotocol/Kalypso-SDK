@@ -7,6 +7,7 @@ import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, Typed
 export interface ErrorInterface extends Interface {
   getFunction(
     nameOrSignature:
+      | "ALREADY_COMPLETE"
       | "ALREADY_EXISTS"
       | "CANNOT_BE_SAME"
       | "CANNOT_BE_ZERO"
@@ -28,6 +29,7 @@ export interface ErrorInterface extends Interface {
       | "SHOULD_BE_IN_EXPIRED_STATE"
   ): FunctionFragment;
 
+  encodeFunctionData(functionFragment: "ALREADY_COMPLETE", values?: undefined): string;
   encodeFunctionData(functionFragment: "ALREADY_EXISTS", values?: undefined): string;
   encodeFunctionData(functionFragment: "CANNOT_BE_SAME", values?: undefined): string;
   encodeFunctionData(functionFragment: "CANNOT_BE_ZERO", values?: undefined): string;
@@ -48,6 +50,7 @@ export interface ErrorInterface extends Interface {
   encodeFunctionData(functionFragment: "SHOULD_BE_IN_CROSSED_DEADLINE_STATE", values?: undefined): string;
   encodeFunctionData(functionFragment: "SHOULD_BE_IN_EXPIRED_STATE", values?: undefined): string;
 
+  decodeFunctionResult(functionFragment: "ALREADY_COMPLETE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ALREADY_EXISTS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "CANNOT_BE_SAME", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "CANNOT_BE_ZERO", data: BytesLike): Result;
@@ -96,6 +99,8 @@ export interface Error extends BaseContract {
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
+  ALREADY_COMPLETE: TypedContractMethod<[], [string], "view">;
+
   ALREADY_EXISTS: TypedContractMethod<[], [string], "view">;
 
   CANNOT_BE_SAME: TypedContractMethod<[], [string], "view">;
@@ -136,6 +141,7 @@ export interface Error extends BaseContract {
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
+  getFunction(nameOrSignature: "ALREADY_COMPLETE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "ALREADY_EXISTS"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "CANNOT_BE_SAME"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "CANNOT_BE_ZERO"): TypedContractMethod<[], [string], "view">;
