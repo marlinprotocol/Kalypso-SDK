@@ -1,4 +1,4 @@
-import { BigNumberish, Provider, Signer } from "ethers";
+import { BigNumberish, Provider, Signer, ethers } from "ethers";
 import { BigNumber } from "bignumber.js";
 import { MockToken__factory, ProofMarketPlace__factory } from "./generated/typechain-types";
 
@@ -28,6 +28,12 @@ type approveRewardTokensParameters = {
   reward: BigNumberish;
   wallet: any;
 };
+
+type getProofParameters = {
+  blockNumber: number;
+  wallet:Signer;
+  proofMarketPlaceAddress: string;
+}
 
 /**
  * Approve Rewards tokens
@@ -83,7 +89,7 @@ export const approveRewardTokens = async (approveRewardTokensParameters: approve
  * Create ASK
  *
  * @param askParameters
- * @returns The transaction hash for the createAsk SC call
+ * @returns The transaction hash and the blocknumber for the createAsk SC call
  */
 export const createAsk = async (askParameters: askParameters): Promise<any> => {
   if (!askParameters.marketId) {
@@ -163,42 +169,53 @@ export const createAsk = async (askParameters: askParameters): Promise<any> => {
   );
 
   const receipt = await createAskFunctionTransaction.wait();
-  console.log(`ask receipt hash: ${receipt?.hash}`);
-
-  return `${receipt?.hash}`;
+  return {"ask_transaction_hash":receipt?.hash,"block_number":receipt?.blockNumber};
 };
 
-export function jsonToBytes<M>(json: M): string {
-  const data = JSON.stringify(json);
-  let buffer = Buffer.from(data, "utf-8");
-  return "0x" + bytesToHexString(buffer);
+/**
+ * Get proof
+ * 
+ * @param getProofParameters
+ * @returns The decoded generated proof
+ */
+
+export const getProof = async(getProofParameters:getProofParameters) => {
+  try {
+    let proofMarketPlaceAddress = getProofParameters.proofMarketPlaceAddress;
+    let blockNumber = getProofParameters.blockNumber;
+    let wallet = getProofParameters.wallet;
+    let provider = wallet.provider
+    const proofMarketplaceContract = ProofMarketPlace__factory.connect(proofMarketPlaceAddress, wallet);
+  
+    //Fetching the askID
+    const ask_created_filter = proofMarketplaceContract.filters["AskCreated(uint256,bool)"];
+    const ask_created_event = await proofMarketplaceContract.queryFilter(ask_created_filter,blockNumber,blockNumber);
+    if(ask_created_event.length == 0){
+      return {proof_generated:false,proof:[],message:"Ask not found."}
+    }
+
+    let ask_id = ask_created_event[0].args[0].toString();
+  
+    //Fetching the proof submitted calldata
+    const proof_created_filter = proofMarketplaceContract.filters.ProofCreated(ask_id);
+    const proof_created_tx_data = await proofMarketplaceContract.queryFilter(proof_created_filter);
+    if(proof_created_tx_data.length>0){
+      let proofCreatedTxHash = proof_created_tx_data[0].transactionHash;
+      let submitProofTxData = await provider?.getTransaction(proofCreatedTxHash);
+      let submitProofCallData = submitProofTxData?.data;
+
+      //Decoding the encoded data
+      let abiCoder = new ethers.AbiCoder();
+      let proof = abiCoder.decode(
+        ["uint256[8]"],
+          submitProofCallData!,
+      );
+      return {proof_generated:true,proof:proof, message:"Proof fetched."};
+    }
+    return {proof_generated:false,proof:[], message: "Proof not submitted yet."}
+  } catch (error) {
+    console.log(error)
+  }
 }
 
-export function splitHexString(hexString: string, n: number): string[] {
-  if (n <= 0) {
-    throw new Error("The value of n should be a positive integer.");
-  }
 
-  // Remove any "0x" prefix
-  const cleanHexString = hexString.startsWith("0x") ? hexString.slice(2) : hexString;
-
-  // Check if the hexString is valid
-  if (!/^([a-fA-F0-9]+)$/.test(cleanHexString)) {
-    throw new Error("Invalid hex string.");
-  }
-
-  const buffer = Buffer.from(cleanHexString, "hex");
-  const chunkSize = Math.ceil(buffer.length / n);
-
-  const chunks: string[] = [];
-  for (let i = 0; i < buffer.length; i += chunkSize) {
-    // Slice the buffer and convert it back to a hex string with "0x" prefix
-    chunks.push("0x" + buffer.slice(i, i + chunkSize).toString("hex"));
-  }
-
-  return chunks;
-}
-
-export function bytesToHexString(bytes: Buffer): string {
-  return bytes.toString("hex");
-}

@@ -60,7 +60,7 @@ const createAskTest = async () => {
     const encryptedSecret = "0x" + result.encryptedData;
     // Create ASK request
 
-    const askRequestHash = await createAsk({
+    const askRequest = await createAsk({
       marketId: "0x027f76939e5bed90c45d0d1809796f033f6481011d554502d4c63f7878c9ee83",
       reward,
       expiry: 100000,
@@ -72,7 +72,7 @@ const createAskTest = async () => {
       wallet: wallet,
       secrets: { secret: encryptedSecret, acl: aclHex },
     });
-    console.log("Ask hash : ", askRequestHash);
+    console.log(askRequest);
   } catch (err) {
     console.log(err);
   }

@@ -42,3 +42,39 @@ export const getInputType = async (getInputTypeParameters: getInputTypeParameter
 
   return inputFormat;
 };
+
+
+export function jsonToBytes<M>(json: M): string {
+  const data = JSON.stringify(json);
+  let buffer = Buffer.from(data, "utf-8");
+  return "0x" + bytesToHexString(buffer);
+}
+
+export function splitHexString(hexString: string, n: number): string[] {
+  if (n <= 0) {
+    throw new Error("The value of n should be a positive integer.");
+  }
+
+  // Remove any "0x" prefix
+  const cleanHexString = hexString.startsWith("0x") ? hexString.slice(2) : hexString;
+
+  // Check if the hexString is valid
+  if (!/^([a-fA-F0-9]+)$/.test(cleanHexString)) {
+    throw new Error("Invalid hex string.");
+  }
+
+  const buffer = Buffer.from(cleanHexString, "hex");
+  const chunkSize = Math.ceil(buffer.length / n);
+
+  const chunks: string[] = [];
+  for (let i = 0; i < buffer.length; i += chunkSize) {
+    // Slice the buffer and convert it back to a hex string with "0x" prefix
+    chunks.push("0x" + buffer.slice(i, i + chunkSize).toString("hex"));
+  }
+
+  return chunks;
+}
+
+export function bytesToHexString(bytes: Buffer): string {
+  return bytes.toString("hex");
+}
