@@ -1,13 +1,14 @@
-import { createAsk, approveRewardTokens,getPlatformFee, encryptDataWithRSAandAES, base64ToHex } from "../src/index";
+import { createAsk, approveRewardTokens,getPlatformFee, encryptDataWithRSAandAES, base64ToHex, getProof } from "../src/index";
 import dotenv from "dotenv";
 import { ethers } from "ethers";
+
 import * as secret from "./secret.json";
 import * as input from "./input.json";
 import * as fs from "fs";
 
 dotenv.config();
 
-const createAskTest = async () => {
+const createAskAndGetProof = async () => {
   try {
     if (process.env.PRIVATE_KEY == null || process.env.PRIVATE_KEY == undefined) {
       throw new Error("PRIVATE_KEY not found in the .env file. Please make sure to setup environment variables in your project.");
@@ -59,8 +60,8 @@ const createAskTest = async () => {
     const result = await encryptDataWithRSAandAES(secretString, publicKey);
     const aclHex = "0x" + base64ToHex(result.aclData);
     const encryptedSecret = "0x" + result.encryptedData;
+    
     // Create ASK request
-
     const askRequest = await createAsk({
       marketId: "0x027f76939e5bed90c45d0d1809796f033f6481011d554502d4c63f7878c9ee83",
       reward,
@@ -73,10 +74,37 @@ const createAskTest = async () => {
       wallet: wallet,
       secrets: { secret: encryptedSecret, acl: aclHex },
     });
-    console.log(askRequest);
+    
+    let block_number = askRequest.block_number;
+    console.log(`Block number : ${block_number}`);
+    if(block_number){
+        return await new Promise(resolve => {
+        let intervalId = setInterval(async ()=>{
+            console.log("\nTrying to fetch proof...")
+            let data = await getProof({
+                proofMarketPlaceAddress:proofMarketPlaceAddress,
+                blockNumber:block_number,
+                wallet:wallet
+            });
+            if(data?.proof_generated){
+                console.log(data.message);
+                resolve(data.proof);
+                clearInterval(intervalId);
+            }  else {
+                console.log(data?.message);
+            }
+        },10000);
+        });
+    }
+
   } catch (err) {
     console.log(err);
   }
 };
 
-createAskTest();
+async function main() {
+    let proof = await createAskAndGetProof()
+    console.log(proof);
+}
+
+main();

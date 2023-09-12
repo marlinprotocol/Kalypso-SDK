@@ -35,6 +35,12 @@ type getProofParameters = {
   proofMarketPlaceAddress: string;
 }
 
+type getPlatformFeeParameters = {
+  wallet:Signer;
+  proofMarketPlaceAddress: string;
+  inputbytes_length: number
+}
+
 /**
  * Approve Rewards tokens
  *
@@ -215,6 +221,19 @@ export const getProof = async(getProofParameters:getProofParameters) => {
     return {proof_generated:false,proof:[], message: "Proof not submitted yet."}
   } catch (error) {
     console.log(error)
+  }
+}
+
+export const getPlatformFee = async (getPlatformFeeParameters: getPlatformFeeParameters) => {
+  try {
+    let proof_marketplace_address = getPlatformFeeParameters.proofMarketPlaceAddress;
+    let wallet = getPlatformFeeParameters.wallet;
+    let inputbytes_length = getPlatformFeeParameters.inputbytes_length
+    const proofMarketplaceContract = ProofMarketPlace__factory.connect(proof_marketplace_address, wallet);
+    const platformFee = new BigNumber((await proofMarketplaceContract.costPerInputBytes()).toString()).multipliedBy((inputbytes_length - 2) / 2);
+    return platformFee
+  }catch(err){
+    console.log(err)
   }
 }
 

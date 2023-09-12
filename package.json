@@ -1,6 +1,6 @@
 {
   "name": "kalypso-sdk",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Kalypso SDK",
   "main": "dist/index.js",
   "files": ["dist"],
@@ -9,6 +9,7 @@
     "test-enc": "ts-node ./test/secretInputEncryption.ts",
     "test-ask-read": "ts-node ./test/decodeAskByMatchingEngine.ts",
     "test-get-proof": "ts-node ./test/getProof.ts",
+    "submit-and-get-proof" : "ts-node ./test/submitAskAndGetProofZkb.ts",
     "build": "tsc",
     "start": "npm run build && node dist/index.js",
     "prettier": "npx prettier --write .",
