@@ -15,7 +15,7 @@ RPC= [RPC LINK]
 
 `Note : Tested with ethers : 6.6.6`
 
-Create a new ASK :
+#### Create a new ASK :
 
 ```
 
@@ -33,7 +33,7 @@ const askRequest = await createAsk({
 });
 ```
 
-Get proof for a ASK : 
+#### Get proof for a ASK : 
 
 ```
 let proof_data = await getProof({
