@@ -1,8 +1,9 @@
 {
   "name": "kalypso-sdk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Kalypso SDK",
   "main": "dist/index.js",
+  "files": ["dist"],
   "scripts": {
     "test": "ts-node ./test/submitAsk_TransferVerifier.ts",
     "test-enc": "ts-node ./test/secretInputEncryption.ts",
