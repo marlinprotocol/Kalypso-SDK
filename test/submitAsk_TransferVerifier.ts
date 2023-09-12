@@ -58,8 +58,8 @@ const createAskTest = async () => {
     const result = await encryptDataWithRSAandAES(secretString, publicKey);
     const aclHex = "0x" + base64ToHex(result.aclData);
     const encryptedSecret = "0x" + result.encryptedData;
+    
     // Create ASK request
-
     const askRequest = await createAsk({
       marketId: "0x027f76939e5bed90c45d0d1809796f033f6481011d554502d4c63f7878c9ee83",
       reward,
