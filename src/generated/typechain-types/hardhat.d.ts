@@ -76,6 +76,7 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20Metadata__factory>;
     getContractFactory(name: "IERC20", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC20__factory>;
+    getContractFactory(name: "RsaRegistry", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.RsaRegistry__factory>;
     getContractFactory(
       name: "GeneratorRegistry",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -102,11 +103,22 @@ declare module "hardhat/types/runtime" {
       name: "ProofMarketPlace",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ProofMarketPlace__factory>;
+    getContractFactory(name: "RsaRegistry", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.RsaRegistry__factory>;
+    getContractFactory(
+      name: "BaseUltraVerifier",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BaseUltraVerifier__factory>;
+    getContractFactory(name: "UltraVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.UltraVerifier__factory>;
     getContractFactory(
       name: "TransferVerifier",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TransferVerifier__factory>;
     getContractFactory(name: "XorVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.XorVerifier__factory>;
+    getContractFactory(name: "I_plonk_vk", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.I_plonk_vk__factory>;
+    getContractFactory(
+      name: "Plonk_verifier_wrapper",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Plonk_verifier_wrapper__factory>;
     getContractFactory(
       name: "I_transfer_verifier",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -198,6 +210,7 @@ declare module "hardhat/types/runtime" {
     getContractAt(name: "ERC20", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.ERC20>;
     getContractAt(name: "IERC20Metadata", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20Metadata>;
     getContractAt(name: "IERC20", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20>;
+    getContractAt(name: "RsaRegistry", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.RsaRegistry>;
     getContractAt(
       name: "GeneratorRegistry",
       address: string | ethers.Addressable,
@@ -229,12 +242,25 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.ProofMarketPlace>;
+    getContractAt(name: "RsaRegistry", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.RsaRegistry>;
+    getContractAt(
+      name: "BaseUltraVerifier",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BaseUltraVerifier>;
+    getContractAt(name: "UltraVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.UltraVerifier>;
     getContractAt(
       name: "TransferVerifier",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.TransferVerifier>;
     getContractAt(name: "XorVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.XorVerifier>;
+    getContractAt(name: "I_plonk_vk", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.I_plonk_vk>;
+    getContractAt(
+      name: "Plonk_verifier_wrapper",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Plonk_verifier_wrapper>;
     getContractAt(
       name: "I_transfer_verifier",
       address: string | ethers.Addressable,
@@ -313,6 +339,7 @@ declare module "hardhat/types/runtime" {
     deployContract(name: "ERC20", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ERC20>;
     deployContract(name: "IERC20Metadata", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20Metadata>;
     deployContract(name: "IERC20", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>;
+    deployContract(name: "RsaRegistry", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.RsaRegistry>;
     deployContract(
       name: "GeneratorRegistry",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -336,8 +363,19 @@ declare module "hardhat/types/runtime" {
     deployContract(name: "MockVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockVerifier>;
     deployContract(name: "PriorityLog", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.PriorityLog>;
     deployContract(name: "ProofMarketPlace", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ProofMarketPlace>;
+    deployContract(name: "RsaRegistry", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.RsaRegistry>;
+    deployContract(
+      name: "BaseUltraVerifier",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.BaseUltraVerifier>;
+    deployContract(name: "UltraVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.UltraVerifier>;
     deployContract(name: "TransferVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.TransferVerifier>;
     deployContract(name: "XorVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.XorVerifier>;
+    deployContract(name: "I_plonk_vk", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.I_plonk_vk>;
+    deployContract(
+      name: "Plonk_verifier_wrapper",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Plonk_verifier_wrapper>;
     deployContract(
       name: "I_transfer_verifier",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -435,6 +473,11 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.IERC20Metadata>;
     deployContract(name: "IERC20", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>;
     deployContract(
+      name: "RsaRegistry",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.RsaRegistry>;
+    deployContract(
       name: "GeneratorRegistry",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -478,6 +521,21 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ProofMarketPlace>;
     deployContract(
+      name: "RsaRegistry",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.RsaRegistry>;
+    deployContract(
+      name: "BaseUltraVerifier",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.BaseUltraVerifier>;
+    deployContract(
+      name: "UltraVerifier",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.UltraVerifier>;
+    deployContract(
       name: "TransferVerifier",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -487,6 +545,12 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.XorVerifier>;
+    deployContract(name: "I_plonk_vk", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.I_plonk_vk>;
+    deployContract(
+      name: "Plonk_verifier_wrapper",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Plonk_verifier_wrapper>;
     deployContract(
       name: "I_transfer_verifier",
       args: any[],

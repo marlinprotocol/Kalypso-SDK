@@ -10,11 +10,30 @@ const _abi = [
     inputs: [
       {
         internalType: "bytes",
-        name: "encodedPublicAndPrivateInputs",
+        name: "encodedPublicInputsAndProofs",
         type: "bytes",
       },
     ],
     name: "verify",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes",
+        name: "inputs",
+        type: "bytes",
+      },
+    ],
+    name: "verifyInputs",
     outputs: [
       {
         internalType: "bool",

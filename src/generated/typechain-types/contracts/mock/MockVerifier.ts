@@ -5,11 +5,13 @@ import type { BaseContract, BytesLike, FunctionFragment, Result, Interface, Cont
 import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../../common";
 
 export interface MockVerifierInterface extends Interface {
-  getFunction(nameOrSignature: "verify"): FunctionFragment;
+  getFunction(nameOrSignature: "verify" | "verifyInputs"): FunctionFragment;
 
   encodeFunctionData(functionFragment: "verify", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "verifyInputs", values: [BytesLike]): string;
 
   decodeFunctionResult(functionFragment: "verify", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "verifyInputs", data: BytesLike): Result;
 }
 
 export interface MockVerifier extends BaseContract {
@@ -41,9 +43,12 @@ export interface MockVerifier extends BaseContract {
 
   verify: TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
 
+  verifyInputs: TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
+
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "verify"): TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
+  getFunction(nameOrSignature: "verifyInputs"): TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
 
   filters: {};
 }

@@ -4,7 +4,10 @@
   "description": "Kalypso SDK",
   "main": "dist/index.js",
   "scripts": {
-    "test": "ts-node ./test/submitAsk.ts",
+    "test": "ts-node ./test/submitAsk_TransferVerifier.ts",
+    "test-enc": "ts-node ./test/secretInputEncryption.ts",
+    "test-ask-read": "ts-node ./test/decodeAskByMatchingEngine.ts",
+    "test-get-proof": "ts-node ./test/getProof.ts",
     "build": "tsc",
     "start": "npm run build && node dist/index.js",
     "prettier": "npx prettier --write .",

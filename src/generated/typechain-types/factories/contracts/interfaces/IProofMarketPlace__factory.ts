@@ -28,6 +28,12 @@ const _abi = [
         name: "askId",
         type: "uint256",
       },
+      {
+        indexed: true,
+        internalType: "bool",
+        name: "hasPrivateInputs",
+        type: "bool",
+      },
     ],
     name: "AskCreated",
     type: "event",
@@ -70,6 +76,12 @@ const _abi = [
       {
         indexed: true,
         internalType: "uint256",
+        name: "askId",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
         name: "taskId",
         type: "uint256",
       },
@@ -80,6 +92,12 @@ const _abi = [
   {
     anonymous: false,
     inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "askId",
+        type: "uint256",
+      },
       {
         indexed: true,
         internalType: "uint256",
@@ -159,7 +177,7 @@ const _abi = [
           },
           {
             internalType: "address",
-            name: "proverRefundAddress",
+            name: "refundAddress",
             type: "address",
           },
           {
@@ -171,6 +189,26 @@ const _abi = [
         internalType: "struct IProofMarketPlace.Ask",
         name: "ask",
         type: "tuple",
+      },
+      {
+        internalType: "bool",
+        name: "hasPrivateInputs",
+        type: "bool",
+      },
+      {
+        internalType: "enum IProofMarketPlace.SecretType",
+        name: "secretType",
+        type: "uint8",
+      },
+      {
+        internalType: "bytes",
+        name: "secret",
+        type: "bytes",
+      },
+      {
+        internalType: "bytes",
+        name: "acl",
+        type: "bytes",
       },
     ],
     name: "createAsk",
@@ -204,7 +242,7 @@ const _abi = [
         type: "bytes32",
       },
     ],
-    name: "getMarketVerifier",
+    name: "verifier",
     outputs: [
       {
         internalType: "address",
@@ -212,7 +250,7 @@ const _abi = [
         type: "address",
       },
     ],
-    stateMutability: "view",
+    stateMutability: "nonpayable",
     type: "function",
   },
 ] as const;
