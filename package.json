@@ -3,13 +3,15 @@
   "version": "1.0.5",
   "description": "Kalypso SDK",
   "main": "dist/index.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "ts-node ./test/submitAsk_TransferVerifier.ts",
     "test-enc": "ts-node ./test/secretInputEncryption.ts",
     "test-ask-read": "ts-node ./test/decodeAskByMatchingEngine.ts",
     "test-get-proof": "ts-node ./test/getProof.ts",
-    "submit-and-get-proof" : "ts-node ./test/submitAskAndGetProofZkb.ts",
+    "submit-and-get-proof": "ts-node ./test/submitAskAndGetProofZkb.ts",
     "build": "tsc",
     "start": "npm run build && node dist/index.js",
     "prettier": "npx prettier --write .",
@@ -27,6 +29,7 @@
   "homepage": "https://github.com/marlinprotocol/Kalypso-SDK#readme",
   "devDependencies": {
     "@types/mocha": "^10.0.1",
+    "@types/node-gzip": "^1.1.0",
     "dotenv": "^16.3.1",
     "ts-node": "^10.9.1",
     "typedoc": "^0.24.8",
@@ -36,6 +39,7 @@
     "@nomicfoundation/hardhat-ethers": "^3.0.4",
     "@types/node": "^20.4.5",
     "bignumber.js": "^9.1.1",
-    "ethers": "^6.6.6"
+    "ethers": "^6.6.6",
+    "node-gzip": "^1.1.2"
   }
 }
