@@ -64,7 +64,7 @@ const createAskTest = async () => {
     // Create ASK request
 
     const askRequest = await createAsk({
-      marketId: "0x01dacdedd95716ca59029fd4a94987d8370a00f23d9a339a49342a80cab0de9b",
+      marketId: "0x027f76939e5bed90c45d0d1809796f033f6481011d554502d4c63f7878c9ee83",
       reward,
       expiry: 100000,
       timeTakenForProofGeneration: 100000,
