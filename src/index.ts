@@ -1,4 +1,4 @@
-import { BigNumberish, Provider, Signer, ethers, BytesLike } from "ethers";
+import { BigNumberish, ParamType, Provider, Signer, ethers } from "ethers";
 import { BigNumber } from "bignumber.js";
 import { MockToken__factory, ProofMarketPlace__factory } from "./generated/typechain-types";
 
@@ -199,7 +199,6 @@ export const getProof = async(getProofParameters:getProofParameters) => {
     if(ask_created_event.length == 0){
       return {proof_generated:false,proof:[],message:"Ask not found."}
     }
-
     let ask_id = ask_created_event[0].args[0].toString();
   
     //Fetching the proof submitted calldata
@@ -210,13 +209,41 @@ export const getProof = async(getProofParameters:getProofParameters) => {
       let submitProofTxData = await provider?.getTransaction(proofCreatedTxHash);
       let submitProofCallData = submitProofTxData?.data;
 
-      //Decoding the encoded data
-      let abiCoder = new ethers.AbiCoder();
+      //Decoding calldata
+      let abiCoder = new ethers.AbiCoder(); 
+      let calldata = "0x"+submitProofCallData?.substring(10);
+      let decoded_calldata = abiCoder.decode(
+        ["uint256","bytes"],
+        calldata!
+      );
+      let encoded_proof = decoded_calldata[1];
+
+      //Decoding the encoded proof
       let proof = abiCoder.decode(
         ["uint256[8]"],
-          submitProofCallData!,
+          encoded_proof!,
       );
-      return {proof_generated:true,proof:proof, message:"Proof fetched."};
+      let formated_proof = {
+        "a":[
+          proof[0][0].toString(),
+          proof[0][1].toString(),
+        ],
+        "b":[
+          [
+            proof[0][2].toString(),
+            proof[0][3].toString(),
+          ],
+          [
+            proof[0][4].toString(),
+            proof[0][5].toString(),
+          ]
+        ],
+        "c":[
+          proof[0][6].toString(),
+          proof[0][7].toString(),
+        ]
+      }
+      return {proof_generated:true,proof:formated_proof, message:"Proof fetched."};
     }
     return {proof_generated:false,proof:[], message: "Proof not submitted yet."}
   } catch (error) {
