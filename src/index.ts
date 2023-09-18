@@ -5,7 +5,7 @@ import { MockToken__factory, ProofMarketPlace__factory } from "./generated/typec
 export * from "./secretInputOperation";
 
 type secrets = {
-  secret: string;
+  secret: string | BytesLike;
   acl: string;
 };
 
@@ -147,7 +147,7 @@ export const createAsk = async (askParameters: askParameters): Promise<any> => {
 
   let hasSecrets = false;
   let secretType = 0;
-  let secretData = "0x";
+  let secretData = "0x" as BytesLike;
   let acl = "0x";
 
   if (askParameters.secrets) {

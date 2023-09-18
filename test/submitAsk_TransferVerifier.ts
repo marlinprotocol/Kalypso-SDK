@@ -1,6 +1,7 @@
 import { createAsk, approveRewardTokens,getPlatformFee, encryptDataWithRSAandAES, base64ToHex } from "../src/index";
 import dotenv from "dotenv";
 import { ethers } from "ethers";
+import { gzip } from "node-gzip";
 import * as secret from "./secret.json";
 import * as input from "./input.json";
 import * as fs from "fs";
@@ -59,6 +60,7 @@ const createAskTest = async () => {
     const result = await encryptDataWithRSAandAES(secretString, publicKey);
     const aclHex = "0x" + base64ToHex(result.aclData);
     const encryptedSecret = "0x" + result.encryptedData;
+    const secretCompressed = await gzip(encryptedSecret);
     // Create ASK request
 
     const askRequest = await createAsk({
@@ -71,7 +73,7 @@ const createAskTest = async () => {
       proofMarketPlaceAddress,
       inputAndProofFormatContractAddress: "0xA0Fbd852C6226b3E97eA141c72713dCb851DaCdE",
       wallet: wallet,
-      secrets: { secret: encryptedSecret, acl: aclHex },
+      secrets: { secret: secretCompressed, acl: aclHex },
     });
     console.log(askRequest);
   } catch (err) {
