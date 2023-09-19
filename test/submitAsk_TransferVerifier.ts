@@ -26,7 +26,7 @@ const createAskTest = async () => {
     let abiCoder = new ethers.AbiCoder();
     let inputBytes = abiCoder.encode(["uint256[5]"], [[input.root, input.nullifier, input.out_commit, input.delta, input.memo]]);
 
-    const proofMarketPlaceAddress = "0x57d8B74EB5c758C3D6809038E714A1c76c938076";
+    const proofMarketPlaceAddress = "0x6595525c6E7036d015dEfa3eD74Fa05065d15205";
 
     const reward = "1000000000000000";
 
@@ -40,7 +40,7 @@ const createAskTest = async () => {
     //Approve token for rewards
     const firstTokenApproval = await approveRewardTokens({
       proofMarketPlaceAddress,
-      tokenContractAddress: "0x4935ea37F0ADd47B9567A36D0806a28459761b60",
+      tokenContractAddress: "0x8147e610aF918807C393d865F3C26A6d3f41ddAE",
       reward,
       wallet: wallet,
     });
@@ -48,7 +48,7 @@ const createAskTest = async () => {
 
     const secondTokenApproval = await approveRewardTokens({
       proofMarketPlaceAddress,
-      tokenContractAddress: "0x27FDcb086Cdb0bCFa40638376CD3CbF5B8c69197",
+      tokenContractAddress: "0xFC02897B76538F2897e48146453027fFF8338BaA",
       reward: platformFee!.toFixed(),
       wallet: wallet,
     });
@@ -64,14 +64,14 @@ const createAskTest = async () => {
     // Create ASK request
 
     const askRequest = await createAsk({
-      marketId: "0x027f76939e5bed90c45d0d1809796f033f6481011d554502d4c63f7878c9ee83",
+      marketId: "0x6c2ec35f8128c43e710a84adb6c7de8978238ab2d2e2b9790847dbab464b54f6",
       reward,
-      expiry: 100000,
+      expiry: 5000000,
       timeTakenForProofGeneration: 100000,
       deadline: 10000,
       proverData: inputBytes,
       proofMarketPlaceAddress,
-      inputAndProofFormatContractAddress: "0xA0Fbd852C6226b3E97eA141c72713dCb851DaCdE",
+      inputAndProofFormatContractAddress: "0x879c498dA74f969112a4f290291A870C9e996730",
       wallet: wallet,
       secrets: { secret: secretCompressed, acl: aclHex },
     });
