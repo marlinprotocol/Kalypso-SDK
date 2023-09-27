@@ -3,10 +3,7 @@
 /* eslint-disable */
 
 import { Contract, Interface, type ContractRunner } from "ethers";
-import type {
-  IPriorityLog,
-  IPriorityLogInterface,
-} from "../../../contracts/interfaces/IPriorityLog";
+import type { IPriorityLog, IPriorityLogInterface } from "../../../contracts/interfaces/IPriorityLog";
 
 const _abi = [
   {
@@ -48,10 +45,7 @@ export class IPriorityLog__factory {
   static createInterface(): IPriorityLogInterface {
     return new Interface(_abi) as IPriorityLogInterface;
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): IPriorityLog {
+  static connect(address: string, runner?: ContractRunner | null): IPriorityLog {
     return new Contract(address, _abi, runner) as unknown as IPriorityLog;
   }
 }

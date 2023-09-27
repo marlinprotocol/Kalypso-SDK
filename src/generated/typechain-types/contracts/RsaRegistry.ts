@@ -23,49 +23,19 @@ import type {
 } from "../common";
 
 export interface RsaRegistryInterface extends Interface {
-  getFunction(
-    nameOrSignature:
-      | "attestationVerifier"
-      | "rsa_pub_key"
-      | "rsa_pub_key_hash"
-      | "updatePubkey"
-  ): FunctionFragment;
+  getFunction(nameOrSignature: "attestationVerifier" | "rsa_pub_key" | "rsa_pub_key_hash" | "updatePubkey"): FunctionFragment;
 
   getEvent(nameOrSignatureOrTopic: "UpdateRSA"): EventFragment;
 
-  encodeFunctionData(
-    functionFragment: "attestationVerifier",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "rsa_pub_key",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "rsa_pub_key_hash",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "updatePubkey",
-    values: [BytesLike, BytesLike]
-  ): string;
+  encodeFunctionData(functionFragment: "attestationVerifier", values?: undefined): string;
+  encodeFunctionData(functionFragment: "rsa_pub_key", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "rsa_pub_key_hash", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "updatePubkey", values: [BytesLike, BytesLike]): string;
 
-  decodeFunctionResult(
-    functionFragment: "attestationVerifier",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "rsa_pub_key",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "rsa_pub_key_hash",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "updatePubkey",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "attestationVerifier", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "rsa_pub_key", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "rsa_pub_key_hash", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "updatePubkey", data: BytesLike): Result;
 }
 
 export namespace UpdateRSAEvent {
@@ -90,39 +60,23 @@ export interface RsaRegistry extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  on<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
 
-  once<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
 
-  listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
-  ): Promise<this>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
   attestationVerifier: TypedContractMethod<[], [string], "view">;
 
@@ -130,51 +84,21 @@ export interface RsaRegistry extends BaseContract {
 
   rsa_pub_key_hash: TypedContractMethod<[arg0: AddressLike], [string], "view">;
 
-  updatePubkey: TypedContractMethod<
-    [rsa_pub: BytesLike, attestation_data: BytesLike],
-    [void],
-    "nonpayable"
-  >;
+  updatePubkey: TypedContractMethod<[rsa_pub: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
 
-  getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
-  ): T;
+  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
+  getFunction(nameOrSignature: "attestationVerifier"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "rsa_pub_key"): TypedContractMethod<[arg0: AddressLike], [string], "view">;
+  getFunction(nameOrSignature: "rsa_pub_key_hash"): TypedContractMethod<[arg0: AddressLike], [string], "view">;
   getFunction(
-    nameOrSignature: "attestationVerifier"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "rsa_pub_key"
-  ): TypedContractMethod<[arg0: AddressLike], [string], "view">;
-  getFunction(
-    nameOrSignature: "rsa_pub_key_hash"
-  ): TypedContractMethod<[arg0: AddressLike], [string], "view">;
-  getFunction(
-    nameOrSignature: "updatePubkey"
-  ): TypedContractMethod<
-    [rsa_pub: BytesLike, attestation_data: BytesLike],
-    [void],
-    "nonpayable"
-  >;
+    nameOrSignature: "updatePubkey",
+  ): TypedContractMethod<[rsa_pub: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
 
-  getEvent(
-    key: "UpdateRSA"
-  ): TypedContractEvent<
-    UpdateRSAEvent.InputTuple,
-    UpdateRSAEvent.OutputTuple,
-    UpdateRSAEvent.OutputObject
-  >;
+  getEvent(key: "UpdateRSA"): TypedContractEvent<UpdateRSAEvent.InputTuple, UpdateRSAEvent.OutputTuple, UpdateRSAEvent.OutputObject>;
 
   filters: {
-    "UpdateRSA(address,bytes32)": TypedContractEvent<
-      UpdateRSAEvent.InputTuple,
-      UpdateRSAEvent.OutputTuple,
-      UpdateRSAEvent.OutputObject
-    >;
-    UpdateRSA: TypedContractEvent<
-      UpdateRSAEvent.InputTuple,
-      UpdateRSAEvent.OutputTuple,
-      UpdateRSAEvent.OutputObject
-    >;
+    "UpdateRSA(address,bytes32)": TypedContractEvent<UpdateRSAEvent.InputTuple, UpdateRSAEvent.OutputTuple, UpdateRSAEvent.OutputObject>;
+    UpdateRSA: TypedContractEvent<UpdateRSAEvent.InputTuple, UpdateRSAEvent.OutputTuple, UpdateRSAEvent.OutputObject>;
   };
 }

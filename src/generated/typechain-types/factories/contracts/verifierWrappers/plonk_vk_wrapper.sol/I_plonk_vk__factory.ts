@@ -3,10 +3,7 @@
 /* eslint-disable */
 
 import { Contract, Interface, type ContractRunner } from "ethers";
-import type {
-  I_plonk_vk,
-  I_plonk_vkInterface,
-} from "../../../../contracts/verifierWrappers/plonk_vk_wrapper.sol/I_plonk_vk";
+import type { I_plonk_vk, I_plonk_vkInterface } from "../../../../contracts/verifierWrappers/plonk_vk_wrapper.sol/I_plonk_vk";
 
 const _abi = [
   {

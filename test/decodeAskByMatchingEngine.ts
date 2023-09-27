@@ -1,10 +1,14 @@
 import { BytesLike, ethers } from "ethers";
 import dotenv from "dotenv";
 import { ProofMarketPlace__factory } from "../src/generated/typechain-types";
-import { decryptDataWithRSAandAES, hexToBase64 } from "../src";
+import { KalypsoSdk } from "../src";
 
 import * as fs from "fs";
+
 dotenv.config();
+
+const decryptDataWithRSAandAES = KalypsoSdk.SecretInputOperations().decryptDataWithRSAandAES;
+const hexToBase64 = KalypsoSdk.SecretInputOperations().hexToBase64;
 
 const decodeAsk = async (transactionhash: string) => {
   console.log("decoding ask request in transaction ", transactionhash);

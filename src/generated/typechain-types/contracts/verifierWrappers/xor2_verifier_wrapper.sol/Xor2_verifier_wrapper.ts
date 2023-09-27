@@ -12,23 +12,11 @@ import type {
   ContractMethod,
   Listener,
 } from "ethers";
-import type {
-  TypedContractEvent,
-  TypedDeferredTopicFilter,
-  TypedEventLog,
-  TypedListener,
-  TypedContractMethod,
-} from "../../../common";
+import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../../../common";
 
 export interface Xor2_verifier_wrapperInterface extends Interface {
   getFunction(
-    nameOrSignature:
-      | "encodeInputAndProofForVerification"
-      | "encodeInputs"
-      | "encodeProof"
-      | "iverifier"
-      | "verify"
-      | "verifyInputs"
+    nameOrSignature: "encodeInputAndProofForVerification" | "encodeInputs" | "encodeProof" | "iverifier" | "verify" | "verifyInputs",
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -37,46 +25,24 @@ export interface Xor2_verifier_wrapperInterface extends Interface {
       [BigNumberish],
       [BigNumberish, BigNumberish],
       [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]],
-      [BigNumberish, BigNumberish]
-    ]
+      [BigNumberish, BigNumberish],
+    ],
   ): string;
-  encodeFunctionData(
-    functionFragment: "encodeInputs",
-    values: [[BigNumberish]]
-  ): string;
+  encodeFunctionData(functionFragment: "encodeInputs", values: [[BigNumberish]]): string;
   encodeFunctionData(
     functionFragment: "encodeProof",
-    values: [
-      [BigNumberish, BigNumberish],
-      [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]],
-      [BigNumberish, BigNumberish]
-    ]
+    values: [[BigNumberish, BigNumberish], [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]], [BigNumberish, BigNumberish]],
   ): string;
   encodeFunctionData(functionFragment: "iverifier", values?: undefined): string;
   encodeFunctionData(functionFragment: "verify", values: [BytesLike]): string;
-  encodeFunctionData(
-    functionFragment: "verifyInputs",
-    values: [BytesLike]
-  ): string;
+  encodeFunctionData(functionFragment: "verifyInputs", values: [BytesLike]): string;
 
-  decodeFunctionResult(
-    functionFragment: "encodeInputAndProofForVerification",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "encodeInputs",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "encodeProof",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "encodeInputAndProofForVerification", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "encodeInputs", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "encodeProof", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "iverifier", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "verify", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "verifyInputs",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "verifyInputs", data: BytesLike): Result;
 }
 
 export interface Xor2_verifier_wrapper extends BaseContract {
@@ -88,46 +54,30 @@ export interface Xor2_verifier_wrapper extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  on<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
 
-  once<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
 
-  listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
-  ): Promise<this>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
   encodeInputAndProofForVerification: TypedContractMethod<
     [
       inputs: [BigNumberish],
       a: [BigNumberish, BigNumberish],
       b: [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]],
-      c: [BigNumberish, BigNumberish]
+      c: [BigNumberish, BigNumberish],
     ],
     [string],
     "view"
@@ -136,11 +86,7 @@ export interface Xor2_verifier_wrapper extends BaseContract {
   encodeInputs: TypedContractMethod<[inputs: [BigNumberish]], [string], "view">;
 
   encodeProof: TypedContractMethod<
-    [
-      a: [BigNumberish, BigNumberish],
-      b: [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]],
-      c: [BigNumberish, BigNumberish]
-    ],
+    [a: [BigNumberish, BigNumberish], b: [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]], c: [BigNumberish, BigNumberish]],
     [string],
     "view"
   >;
@@ -151,45 +97,31 @@ export interface Xor2_verifier_wrapper extends BaseContract {
 
   verifyInputs: TypedContractMethod<[inputs: BytesLike], [boolean], "view">;
 
-  getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
-  ): T;
+  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(
-    nameOrSignature: "encodeInputAndProofForVerification"
+    nameOrSignature: "encodeInputAndProofForVerification",
   ): TypedContractMethod<
     [
       inputs: [BigNumberish],
       a: [BigNumberish, BigNumberish],
       b: [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]],
-      c: [BigNumberish, BigNumberish]
+      c: [BigNumberish, BigNumberish],
     ],
     [string],
     "view"
   >;
+  getFunction(nameOrSignature: "encodeInputs"): TypedContractMethod<[inputs: [BigNumberish]], [string], "view">;
   getFunction(
-    nameOrSignature: "encodeInputs"
-  ): TypedContractMethod<[inputs: [BigNumberish]], [string], "view">;
-  getFunction(
-    nameOrSignature: "encodeProof"
+    nameOrSignature: "encodeProof",
   ): TypedContractMethod<
-    [
-      a: [BigNumberish, BigNumberish],
-      b: [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]],
-      c: [BigNumberish, BigNumberish]
-    ],
+    [a: [BigNumberish, BigNumberish], b: [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]], c: [BigNumberish, BigNumberish]],
     [string],
     "view"
   >;
-  getFunction(
-    nameOrSignature: "iverifier"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "verify"
-  ): TypedContractMethod<[encodedData: BytesLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "verifyInputs"
-  ): TypedContractMethod<[inputs: BytesLike], [boolean], "view">;
+  getFunction(nameOrSignature: "iverifier"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "verify"): TypedContractMethod<[encodedData: BytesLike], [boolean], "view">;
+  getFunction(nameOrSignature: "verifyInputs"): TypedContractMethod<[inputs: BytesLike], [boolean], "view">;
 
   filters: {};
 }

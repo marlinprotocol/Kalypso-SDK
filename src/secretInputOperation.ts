@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import { SecretData } from "./types";
 
 // 1. Encrypt a string using AES-256
 
@@ -19,12 +20,12 @@ async function encryptRSA(publicKey: string, data: Buffer): Promise<string> {
       padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
       oaepHash: "sha1",
     },
-    data
+    data,
   );
   return encryptedBuffer.toString("base64");
 }
 
-export async function encryptDataWithRSAandAES(data: string, publicKey: string) {
+export async function encryptDataWithRSAandAES(data: string, publicKey: string): Promise<SecretData> {
   // Generate a random secret key for AES encryption
   const secretKey = crypto.randomBytes(32);
 
@@ -67,7 +68,7 @@ async function decryptRSA(privateKey: string, encryptedData: string): Promise<Bu
       padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
       oaepHash: "sha1",
     },
-    buffer
+    buffer,
   );
   return decryptedBuffer;
 }

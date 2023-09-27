@@ -29,10 +29,7 @@ export class ContextUpgradeable__factory {
   static createInterface(): ContextUpgradeableInterface {
     return new Interface(_abi) as ContextUpgradeableInterface;
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): ContextUpgradeable {
+  static connect(address: string, runner?: ContractRunner | null): ContextUpgradeable {
     return new Contract(address, _abi, runner) as unknown as ContextUpgradeable;
   }
 }

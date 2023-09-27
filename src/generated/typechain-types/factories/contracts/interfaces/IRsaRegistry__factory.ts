@@ -3,10 +3,7 @@
 /* eslint-disable */
 
 import { Contract, Interface, type ContractRunner } from "ethers";
-import type {
-  IRsaRegistry,
-  IRsaRegistryInterface,
-} from "../../../contracts/interfaces/IRsaRegistry";
+import type { IRsaRegistry, IRsaRegistryInterface } from "../../../contracts/interfaces/IRsaRegistry";
 
 const _abi = [
   {
@@ -47,10 +44,7 @@ export class IRsaRegistry__factory {
   static createInterface(): IRsaRegistryInterface {
     return new Interface(_abi) as IRsaRegistryInterface;
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): IRsaRegistry {
+  static connect(address: string, runner?: ContractRunner | null): IRsaRegistry {
     return new Contract(address, _abi, runner) as unknown as IRsaRegistry;
   }
 }

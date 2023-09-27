@@ -1,8 +1,20 @@
 import { ethers } from "ethers";
-import { getProof } from "../src/index";
+import { KalypsoSdk } from "../src";
 import dotenv from "dotenv";
 
 dotenv.config();
+
+const provider = new ethers.JsonRpcProvider(process.env.RPC);
+const wallet = new ethers.Wallet(`${process.env.PRIVATE_KEY}`, provider);
+
+const kalypso = new KalypsoSdk(wallet, {
+  proofMarketPlace: "string",
+  generatorRegistry: "string",
+  stakingTokenAddress: "string",
+  rsaRegistryAddress: "string",
+  paymentTokenAddress: "string",
+  platformTokenAddress: "string",
+});
 
 const getProofTest = async () => {
   try {
@@ -18,11 +30,7 @@ const getProofTest = async () => {
     const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
     let block_number = 4221866;
     const proofMarketPlaceAddress = "0x57d8B74EB5c758C3D6809038E714A1c76c938076";
-    let data = await getProof({
-      proofMarketPlaceAddress: proofMarketPlaceAddress,
-      blockNumber: block_number,
-      wallet: wallet,
-    });
+    let data = await kalypso.MarketPlace().getProofByAskId("1");
     console.log(data);
   } catch (error) {
     console.log(error);

@@ -7,15 +7,15 @@
     "dist"
   ],
   "scripts": {
-    "test": "ts-node ./test/submitAsk_TransferVerifier.ts",
-    "test-enc": "ts-node ./test/secretInputEncryption.ts",
-    "test-ask-read": "ts-node ./test/decodeAskByMatchingEngine.ts",
-    "test-get-proof": "ts-node ./test/getProof.ts",
-    "submit-and-get-proof": "ts-node ./test/submitAskAndGetProofZkb.ts",
     "build": "tsc",
-    "start": "npm run build && node dist/index.js",
+    "docs": "npx typedoc src/index.ts",
     "prettier": "npx prettier --write .",
-    "docs": "npx typedoc src/index.ts"
+    "start": "npm run build && node dist/index.js",
+    "submit-and-get-proof": "ts-node ./test/submitAskAndGetProofZkb.ts",
+    "test-ask-read": "ts-node ./test/decodeAskByMatchingEngine.ts",
+    "test-enc": "ts-node ./test/secretInputEncryption.ts",
+    "test-get-proof": "ts-node ./test/getProof.ts",
+    "test": "ts-node "
   },
   "repository": {
     "type": "git",

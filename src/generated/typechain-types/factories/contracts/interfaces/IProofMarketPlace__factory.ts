@@ -3,10 +3,7 @@
 /* eslint-disable */
 
 import { Contract, Interface, type ContractRunner } from "ethers";
-import type {
-  IProofMarketPlace,
-  IProofMarketPlaceInterface,
-} from "../../../contracts/interfaces/IProofMarketPlace";
+import type { IProofMarketPlace, IProofMarketPlaceInterface } from "../../../contracts/interfaces/IProofMarketPlace";
 
 const _abi = [
   {
@@ -297,10 +294,7 @@ export class IProofMarketPlace__factory {
   static createInterface(): IProofMarketPlaceInterface {
     return new Interface(_abi) as IProofMarketPlaceInterface;
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): IProofMarketPlace {
+  static connect(address: string, runner?: ContractRunner | null): IProofMarketPlace {
     return new Contract(address, _abi, runner) as unknown as IProofMarketPlace;
   }
 }

@@ -238,10 +238,7 @@ export class IERC20Metadata__factory {
   static createInterface(): IERC20MetadataInterface {
     return new Interface(_abi) as IERC20MetadataInterface;
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): IERC20Metadata {
+  static connect(address: string, runner?: ContractRunner | null): IERC20Metadata {
     return new Contract(address, _abi, runner) as unknown as IERC20Metadata;
   }
 }

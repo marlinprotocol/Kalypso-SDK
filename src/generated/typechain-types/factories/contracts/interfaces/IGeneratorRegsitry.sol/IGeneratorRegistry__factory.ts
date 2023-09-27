@@ -373,10 +373,7 @@ export class IGeneratorRegistry__factory {
   static createInterface(): IGeneratorRegistryInterface {
     return new Interface(_abi) as IGeneratorRegistryInterface;
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): IGeneratorRegistry {
+  static connect(address: string, runner?: ContractRunner | null): IGeneratorRegistry {
     return new Contract(address, _abi, runner) as unknown as IGeneratorRegistry;
   }
 }

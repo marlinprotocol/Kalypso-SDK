@@ -1,6 +1,7 @@
-import { encryptDataWithRSAandAES, decryptDataWithRSAandAES, base64ToHex, hexToBase64 } from "../src";
-
+import { KalypsoSdk } from "../src";
 import * as fs from "fs";
+
+const { encryptDataWithRSAandAES, decryptDataWithRSAandAES, base64ToHex, hexToBase64 } = KalypsoSdk.SecretInputOperations();
 
 const data = "this is the that we wish to encrypt";
 

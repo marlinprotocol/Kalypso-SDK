@@ -3,10 +3,7 @@
 /* eslint-disable */
 
 import { Contract, Interface, type ContractRunner } from "ethers";
-import type {
-  IAttestationVerifier,
-  IAttestationVerifierInterface,
-} from "../../../contracts/interfaces/IAttestationVerifier";
+import type { IAttestationVerifier, IAttestationVerifierInterface } from "../../../contracts/interfaces/IAttestationVerifier";
 
 const _abi = [
   {
@@ -35,14 +32,7 @@ export class IAttestationVerifier__factory {
   static createInterface(): IAttestationVerifierInterface {
     return new Interface(_abi) as IAttestationVerifierInterface;
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): IAttestationVerifier {
-    return new Contract(
-      address,
-      _abi,
-      runner
-    ) as unknown as IAttestationVerifier;
+  static connect(address: string, runner?: ContractRunner | null): IAttestationVerifier {
+    return new Contract(address, _abi, runner) as unknown as IAttestationVerifier;
   }
 }
