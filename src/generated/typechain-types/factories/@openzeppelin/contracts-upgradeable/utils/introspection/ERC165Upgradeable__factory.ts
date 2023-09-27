@@ -48,7 +48,10 @@ export class ERC165Upgradeable__factory {
   static createInterface(): ERC165UpgradeableInterface {
     return new Interface(_abi) as ERC165UpgradeableInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): ERC165Upgradeable {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): ERC165Upgradeable {
     return new Contract(address, _abi, runner) as unknown as ERC165Upgradeable;
   }
 }

@@ -231,7 +231,14 @@ export class IAccessControlEnumerableUpgradeable__factory {
   static createInterface(): IAccessControlEnumerableUpgradeableInterface {
     return new Interface(_abi) as IAccessControlEnumerableUpgradeableInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): IAccessControlEnumerableUpgradeable {
-    return new Contract(address, _abi, runner) as unknown as IAccessControlEnumerableUpgradeable;
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): IAccessControlEnumerableUpgradeable {
+    return new Contract(
+      address,
+      _abi,
+      runner
+    ) as unknown as IAccessControlEnumerableUpgradeable;
   }
 }

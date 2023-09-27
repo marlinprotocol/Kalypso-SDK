@@ -7,3 +7,5 @@ import type * as transferVerifierSol from "./transfer_verifier.sol";
 export type { transferVerifierSol };
 import type * as verifierXor2Sol from "./verifier_xor2.sol";
 export type { verifierXor2Sol };
+import type * as zkbVerifierSol from "./zkb_verifier.sol";
+export type { zkbVerifierSol };

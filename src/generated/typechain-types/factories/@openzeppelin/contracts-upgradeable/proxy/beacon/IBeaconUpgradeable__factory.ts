@@ -29,7 +29,10 @@ export class IBeaconUpgradeable__factory {
   static createInterface(): IBeaconUpgradeableInterface {
     return new Interface(_abi) as IBeaconUpgradeableInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): IBeaconUpgradeable {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): IBeaconUpgradeable {
     return new Contract(address, _abi, runner) as unknown as IBeaconUpgradeable;
   }
 }

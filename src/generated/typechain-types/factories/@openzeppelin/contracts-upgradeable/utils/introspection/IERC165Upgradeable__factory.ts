@@ -35,7 +35,10 @@ export class IERC165Upgradeable__factory {
   static createInterface(): IERC165UpgradeableInterface {
     return new Interface(_abi) as IERC165UpgradeableInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): IERC165Upgradeable {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): IERC165Upgradeable {
     return new Contract(address, _abi, runner) as unknown as IERC165Upgradeable;
   }
 }

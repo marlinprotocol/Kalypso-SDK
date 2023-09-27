@@ -3,7 +3,10 @@
 /* eslint-disable */
 
 import { Contract, Interface, type ContractRunner } from "ethers";
-import type { IProofMarketPlace, IProofMarketPlaceInterface } from "../../../contracts/interfaces/IProofMarketPlace";
+import type {
+  IProofMarketPlace,
+  IProofMarketPlaceInterface,
+} from "../../../contracts/interfaces/IProofMarketPlace";
 
 const _abi = [
   {
@@ -34,27 +37,20 @@ const _abi = [
         name: "hasPrivateInputs",
         type: "bool",
       },
+      {
+        indexed: false,
+        internalType: "bytes",
+        name: "secret_data",
+        type: "bytes",
+      },
+      {
+        indexed: false,
+        internalType: "bytes",
+        name: "acl",
+        type: "bytes",
+      },
     ],
     name: "AskCreated",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "oldAddress",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "newAddress",
-        type: "address",
-      },
-    ],
-    name: "GeneratorRegistryChanged",
     type: "event",
   },
   {
@@ -123,27 +119,20 @@ const _abi = [
         name: "taskId",
         type: "uint256",
       },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "generator",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "bytes",
+        name: "new_acl",
+        type: "bytes",
+      },
     ],
     name: "TaskCreated",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "oldAddress",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "newAddress",
-        type: "address",
-      },
-    ],
-    name: "TreasuryAddressChanged",
     type: "event",
   },
   {
@@ -228,10 +217,58 @@ const _abi = [
         name: "verifier",
         type: "address",
       },
+      {
+        internalType: "uint256",
+        name: "_minStake",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_slashingPenalty",
+        type: "uint256",
+      },
     ],
     name: "createMarketPlace",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "marketId",
+        type: "bytes32",
+      },
+    ],
+    name: "minStakeToJoin",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "marketId",
+        type: "bytes32",
+      },
+    ],
+    name: "slashingPenalty",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -250,7 +287,7 @@ const _abi = [
         type: "address",
       },
     ],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function",
   },
 ] as const;
@@ -260,7 +297,10 @@ export class IProofMarketPlace__factory {
   static createInterface(): IProofMarketPlaceInterface {
     return new Interface(_abi) as IProofMarketPlaceInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): IProofMarketPlace {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): IProofMarketPlace {
     return new Contract(address, _abi, runner) as unknown as IProofMarketPlace;
   }
 }

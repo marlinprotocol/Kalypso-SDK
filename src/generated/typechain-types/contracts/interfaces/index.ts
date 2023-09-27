@@ -3,6 +3,8 @@
 /* eslint-disable */
 import type * as iGeneratorRegsitrySol from "./IGeneratorRegsitry.sol";
 export type { iGeneratorRegsitrySol };
+export type { IAttestationVerifier } from "./IAttestationVerifier";
 export type { IPriorityLog } from "./IPriorityLog";
 export type { IProofMarketPlace } from "./IProofMarketPlace";
+export type { IRsaRegistry } from "./IRsaRegistry";
 export type { IVerifier } from "./IVerifier";

@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export * as iGeneratorRegsitrySol from "./IGeneratorRegsitry.sol";
+export { IAttestationVerifier__factory } from "./IAttestationVerifier__factory";
 export { IPriorityLog__factory } from "./IPriorityLog__factory";
 export { IProofMarketPlace__factory } from "./IProofMarketPlace__factory";
+export { IRsaRegistry__factory } from "./IRsaRegistry__factory";
 export { IVerifier__factory } from "./IVerifier__factory";

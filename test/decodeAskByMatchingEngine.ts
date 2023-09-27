@@ -19,7 +19,7 @@ const decodeAsk = async (transactionhash: string) => {
   const aclData = decodedData[decodedData.length - 1];
 
   const privatekey = fs.readFileSync("./test/matching_engine/private_key_2048.pem", "utf-8");
-  const decryptedData = await decryptDataWithRSAandAES(secretData.split('x')[1], hexToBase64(aclData.split("x")[1]), privatekey);
+  const decryptedData = await decryptDataWithRSAandAES(secretData.split("x")[1], hexToBase64(aclData.split("x")[1]), privatekey);
 
   console.log(JSON.parse(decryptedData));
   return "Done";

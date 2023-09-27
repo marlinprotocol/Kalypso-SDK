@@ -54,29 +54,62 @@ export declare namespace IProofMarketPlace {
 }
 
 export interface IProofMarketPlaceInterface extends Interface {
-  getFunction(nameOrSignature: "createAsk" | "createMarketPlace" | "verifier"): FunctionFragment;
+  getFunction(
+    nameOrSignature:
+      | "createAsk"
+      | "createMarketPlace"
+      | "minStakeToJoin"
+      | "slashingPenalty"
+      | "verifier"
+  ): FunctionFragment;
 
   getEvent(
     nameOrSignatureOrTopic:
       | "AskCancelled"
       | "AskCreated"
-      | "GeneratorRegistryChanged"
       | "MarketPlaceCreated"
       | "ProofCreated"
       | "ProofNotGenerated"
       | "TaskCreated"
-      | "TreasuryAddressChanged"
   ): EventFragment;
 
   encodeFunctionData(
     functionFragment: "createAsk",
-    values: [IProofMarketPlace.AskStruct, boolean, BigNumberish, BytesLike, BytesLike]
+    values: [
+      IProofMarketPlace.AskStruct,
+      boolean,
+      BigNumberish,
+      BytesLike,
+      BytesLike
+    ]
   ): string;
-  encodeFunctionData(functionFragment: "createMarketPlace", values: [BytesLike, AddressLike]): string;
+  encodeFunctionData(
+    functionFragment: "createMarketPlace",
+    values: [BytesLike, AddressLike, BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "minStakeToJoin",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "slashingPenalty",
+    values: [BytesLike]
+  ): string;
   encodeFunctionData(functionFragment: "verifier", values: [BytesLike]): string;
 
   decodeFunctionResult(functionFragment: "createAsk", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "createMarketPlace", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "createMarketPlace",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "minStakeToJoin",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "slashingPenalty",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "verifier", data: BytesLike): Result;
 }
 
@@ -93,24 +126,23 @@ export namespace AskCancelledEvent {
 }
 
 export namespace AskCreatedEvent {
-  export type InputTuple = [askId: BigNumberish, hasPrivateInputs: boolean];
-  export type OutputTuple = [askId: bigint, hasPrivateInputs: boolean];
+  export type InputTuple = [
+    askId: BigNumberish,
+    hasPrivateInputs: boolean,
+    secret_data: BytesLike,
+    acl: BytesLike
+  ];
+  export type OutputTuple = [
+    askId: bigint,
+    hasPrivateInputs: boolean,
+    secret_data: string,
+    acl: string
+  ];
   export interface OutputObject {
     askId: bigint;
     hasPrivateInputs: boolean;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export namespace GeneratorRegistryChangedEvent {
-  export type InputTuple = [oldAddress: AddressLike, newAddress: AddressLike];
-  export type OutputTuple = [oldAddress: string, newAddress: string];
-  export interface OutputObject {
-    oldAddress: string;
-    newAddress: string;
+    secret_data: string;
+    acl: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -157,24 +189,23 @@ export namespace ProofNotGeneratedEvent {
 }
 
 export namespace TaskCreatedEvent {
-  export type InputTuple = [askId: BigNumberish, taskId: BigNumberish];
-  export type OutputTuple = [askId: bigint, taskId: bigint];
+  export type InputTuple = [
+    askId: BigNumberish,
+    taskId: BigNumberish,
+    generator: AddressLike,
+    new_acl: BytesLike
+  ];
+  export type OutputTuple = [
+    askId: bigint,
+    taskId: bigint,
+    generator: string,
+    new_acl: string
+  ];
   export interface OutputObject {
     askId: bigint;
     taskId: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export namespace TreasuryAddressChangedEvent {
-  export type InputTuple = [oldAddress: AddressLike, newAddress: AddressLike];
-  export type OutputTuple = [oldAddress: string, newAddress: string];
-  export interface OutputObject {
-    oldAddress: string;
-    newAddress: string;
+    generator: string;
+    new_acl: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -199,69 +230,141 @@ export interface IProofMarketPlace extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>;
+  listeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(
+    event?: TCEvent
+  ): Promise<this>;
 
   createAsk: TypedContractMethod<
-    [ask: IProofMarketPlace.AskStruct, hasPrivateInputs: boolean, secretType: BigNumberish, secret: BytesLike, acl: BytesLike],
+    [
+      ask: IProofMarketPlace.AskStruct,
+      hasPrivateInputs: boolean,
+      secretType: BigNumberish,
+      secret: BytesLike,
+      acl: BytesLike
+    ],
     [void],
     "nonpayable"
   >;
 
-  createMarketPlace: TypedContractMethod<[marketmetadata: BytesLike, verifier: AddressLike], [void], "nonpayable">;
+  createMarketPlace: TypedContractMethod<
+    [
+      marketmetadata: BytesLike,
+      verifier: AddressLike,
+      _minStake: BigNumberish,
+      _slashingPenalty: BigNumberish
+    ],
+    [void],
+    "nonpayable"
+  >;
 
-  verifier: TypedContractMethod<[marketId: BytesLike], [string], "nonpayable">;
+  minStakeToJoin: TypedContractMethod<[marketId: BytesLike], [bigint], "view">;
 
-  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
+  slashingPenalty: TypedContractMethod<[marketId: BytesLike], [bigint], "view">;
+
+  verifier: TypedContractMethod<[marketId: BytesLike], [string], "view">;
+
+  getFunction<T extends ContractMethod = ContractMethod>(
+    key: string | FunctionFragment
+  ): T;
 
   getFunction(
     nameOrSignature: "createAsk"
   ): TypedContractMethod<
-    [ask: IProofMarketPlace.AskStruct, hasPrivateInputs: boolean, secretType: BigNumberish, secret: BytesLike, acl: BytesLike],
+    [
+      ask: IProofMarketPlace.AskStruct,
+      hasPrivateInputs: boolean,
+      secretType: BigNumberish,
+      secret: BytesLike,
+      acl: BytesLike
+    ],
     [void],
     "nonpayable"
   >;
   getFunction(
     nameOrSignature: "createMarketPlace"
-  ): TypedContractMethod<[marketmetadata: BytesLike, verifier: AddressLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "verifier"): TypedContractMethod<[marketId: BytesLike], [string], "nonpayable">;
+  ): TypedContractMethod<
+    [
+      marketmetadata: BytesLike,
+      verifier: AddressLike,
+      _minStake: BigNumberish,
+      _slashingPenalty: BigNumberish
+    ],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "minStakeToJoin"
+  ): TypedContractMethod<[marketId: BytesLike], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "slashingPenalty"
+  ): TypedContractMethod<[marketId: BytesLike], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "verifier"
+  ): TypedContractMethod<[marketId: BytesLike], [string], "view">;
 
   getEvent(
     key: "AskCancelled"
-  ): TypedContractEvent<AskCancelledEvent.InputTuple, AskCancelledEvent.OutputTuple, AskCancelledEvent.OutputObject>;
-  getEvent(key: "AskCreated"): TypedContractEvent<AskCreatedEvent.InputTuple, AskCreatedEvent.OutputTuple, AskCreatedEvent.OutputObject>;
-  getEvent(
-    key: "GeneratorRegistryChanged"
   ): TypedContractEvent<
-    GeneratorRegistryChangedEvent.InputTuple,
-    GeneratorRegistryChangedEvent.OutputTuple,
-    GeneratorRegistryChangedEvent.OutputObject
+    AskCancelledEvent.InputTuple,
+    AskCancelledEvent.OutputTuple,
+    AskCancelledEvent.OutputObject
+  >;
+  getEvent(
+    key: "AskCreated"
+  ): TypedContractEvent<
+    AskCreatedEvent.InputTuple,
+    AskCreatedEvent.OutputTuple,
+    AskCreatedEvent.OutputObject
   >;
   getEvent(
     key: "MarketPlaceCreated"
-  ): TypedContractEvent<MarketPlaceCreatedEvent.InputTuple, MarketPlaceCreatedEvent.OutputTuple, MarketPlaceCreatedEvent.OutputObject>;
+  ): TypedContractEvent<
+    MarketPlaceCreatedEvent.InputTuple,
+    MarketPlaceCreatedEvent.OutputTuple,
+    MarketPlaceCreatedEvent.OutputObject
+  >;
   getEvent(
     key: "ProofCreated"
-  ): TypedContractEvent<ProofCreatedEvent.InputTuple, ProofCreatedEvent.OutputTuple, ProofCreatedEvent.OutputObject>;
+  ): TypedContractEvent<
+    ProofCreatedEvent.InputTuple,
+    ProofCreatedEvent.OutputTuple,
+    ProofCreatedEvent.OutputObject
+  >;
   getEvent(
     key: "ProofNotGenerated"
-  ): TypedContractEvent<ProofNotGeneratedEvent.InputTuple, ProofNotGeneratedEvent.OutputTuple, ProofNotGeneratedEvent.OutputObject>;
+  ): TypedContractEvent<
+    ProofNotGeneratedEvent.InputTuple,
+    ProofNotGeneratedEvent.OutputTuple,
+    ProofNotGeneratedEvent.OutputObject
+  >;
   getEvent(
     key: "TaskCreated"
-  ): TypedContractEvent<TaskCreatedEvent.InputTuple, TaskCreatedEvent.OutputTuple, TaskCreatedEvent.OutputObject>;
-  getEvent(
-    key: "TreasuryAddressChanged"
   ): TypedContractEvent<
-    TreasuryAddressChangedEvent.InputTuple,
-    TreasuryAddressChangedEvent.OutputTuple,
-    TreasuryAddressChangedEvent.OutputObject
+    TaskCreatedEvent.InputTuple,
+    TaskCreatedEvent.OutputTuple,
+    TaskCreatedEvent.OutputObject
   >;
 
   filters: {
@@ -270,20 +373,21 @@ export interface IProofMarketPlace extends BaseContract {
       AskCancelledEvent.OutputTuple,
       AskCancelledEvent.OutputObject
     >;
-    AskCancelled: TypedContractEvent<AskCancelledEvent.InputTuple, AskCancelledEvent.OutputTuple, AskCancelledEvent.OutputObject>;
-
-    "AskCreated(uint256,bool)": TypedContractEvent<AskCreatedEvent.InputTuple, AskCreatedEvent.OutputTuple, AskCreatedEvent.OutputObject>;
-    AskCreated: TypedContractEvent<AskCreatedEvent.InputTuple, AskCreatedEvent.OutputTuple, AskCreatedEvent.OutputObject>;
-
-    "GeneratorRegistryChanged(address,address)": TypedContractEvent<
-      GeneratorRegistryChangedEvent.InputTuple,
-      GeneratorRegistryChangedEvent.OutputTuple,
-      GeneratorRegistryChangedEvent.OutputObject
+    AskCancelled: TypedContractEvent<
+      AskCancelledEvent.InputTuple,
+      AskCancelledEvent.OutputTuple,
+      AskCancelledEvent.OutputObject
     >;
-    GeneratorRegistryChanged: TypedContractEvent<
-      GeneratorRegistryChangedEvent.InputTuple,
-      GeneratorRegistryChangedEvent.OutputTuple,
-      GeneratorRegistryChangedEvent.OutputObject
+
+    "AskCreated(uint256,bool,bytes,bytes)": TypedContractEvent<
+      AskCreatedEvent.InputTuple,
+      AskCreatedEvent.OutputTuple,
+      AskCreatedEvent.OutputObject
+    >;
+    AskCreated: TypedContractEvent<
+      AskCreatedEvent.InputTuple,
+      AskCreatedEvent.OutputTuple,
+      AskCreatedEvent.OutputObject
     >;
 
     "MarketPlaceCreated(bytes32)": TypedContractEvent<
@@ -302,7 +406,11 @@ export interface IProofMarketPlace extends BaseContract {
       ProofCreatedEvent.OutputTuple,
       ProofCreatedEvent.OutputObject
     >;
-    ProofCreated: TypedContractEvent<ProofCreatedEvent.InputTuple, ProofCreatedEvent.OutputTuple, ProofCreatedEvent.OutputObject>;
+    ProofCreated: TypedContractEvent<
+      ProofCreatedEvent.InputTuple,
+      ProofCreatedEvent.OutputTuple,
+      ProofCreatedEvent.OutputObject
+    >;
 
     "ProofNotGenerated(uint256,uint256)": TypedContractEvent<
       ProofNotGeneratedEvent.InputTuple,
@@ -315,22 +423,15 @@ export interface IProofMarketPlace extends BaseContract {
       ProofNotGeneratedEvent.OutputObject
     >;
 
-    "TaskCreated(uint256,uint256)": TypedContractEvent<
+    "TaskCreated(uint256,uint256,address,bytes)": TypedContractEvent<
       TaskCreatedEvent.InputTuple,
       TaskCreatedEvent.OutputTuple,
       TaskCreatedEvent.OutputObject
     >;
-    TaskCreated: TypedContractEvent<TaskCreatedEvent.InputTuple, TaskCreatedEvent.OutputTuple, TaskCreatedEvent.OutputObject>;
-
-    "TreasuryAddressChanged(address,address)": TypedContractEvent<
-      TreasuryAddressChangedEvent.InputTuple,
-      TreasuryAddressChangedEvent.OutputTuple,
-      TreasuryAddressChangedEvent.OutputObject
-    >;
-    TreasuryAddressChanged: TypedContractEvent<
-      TreasuryAddressChangedEvent.InputTuple,
-      TreasuryAddressChangedEvent.OutputTuple,
-      TreasuryAddressChangedEvent.OutputObject
+    TaskCreated: TypedContractEvent<
+      TaskCreatedEvent.InputTuple,
+      TaskCreatedEvent.OutputTuple,
+      TaskCreatedEvent.OutputObject
     >;
   };
 }

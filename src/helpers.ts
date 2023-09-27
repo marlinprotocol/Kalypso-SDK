@@ -43,7 +43,6 @@ export const getInputType = async (getInputTypeParameters: getInputTypeParameter
   return inputFormat;
 };
 
-
 export function jsonToBytes<M>(json: M): string {
   const data = JSON.stringify(json);
   let buffer = Buffer.from(data, "utf-8");

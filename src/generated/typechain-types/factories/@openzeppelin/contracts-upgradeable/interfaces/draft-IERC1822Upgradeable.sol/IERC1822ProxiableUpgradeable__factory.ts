@@ -29,7 +29,14 @@ export class IERC1822ProxiableUpgradeable__factory {
   static createInterface(): IERC1822ProxiableUpgradeableInterface {
     return new Interface(_abi) as IERC1822ProxiableUpgradeableInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): IERC1822ProxiableUpgradeable {
-    return new Contract(address, _abi, runner) as unknown as IERC1822ProxiableUpgradeable;
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): IERC1822ProxiableUpgradeable {
+    return new Contract(
+      address,
+      _abi,
+      runner
+    ) as unknown as IERC1822ProxiableUpgradeable;
   }
 }

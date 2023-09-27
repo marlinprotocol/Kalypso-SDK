@@ -31,15 +31,15 @@ type approveRewardTokensParameters = {
 
 type getProofParameters = {
   blockNumber: number;
-  wallet:Signer;
+  wallet: Signer;
   proofMarketPlaceAddress: string;
-}
+};
 
 type getPlatformFeeParameters = {
-  wallet:Signer;
+  wallet: Signer;
   proofMarketPlaceAddress: string;
-  inputbytes_length: number
-}
+  inputbytes_length: number;
+};
 
 /**
  * Approve Rewards tokens
@@ -175,66 +175,63 @@ export const createAsk = async (askParameters: askParameters): Promise<any> => {
   );
 
   const receipt = await createAskFunctionTransaction.wait();
-  return {"ask_transaction_hash":receipt?.hash,"block_number":receipt?.blockNumber};
+  return { ask_transaction_hash: receipt?.hash, block_number: receipt?.blockNumber };
 };
 
 /**
  * Get proof
- * 
+ *
  * @param getProofParameters
  * @returns The decoded generated proof
  */
 
-export const getProof = async(getProofParameters:getProofParameters) => {
+export const getProof = async (getProofParameters: getProofParameters) => {
   try {
     let proofMarketPlaceAddress = getProofParameters.proofMarketPlaceAddress;
     let blockNumber = getProofParameters.blockNumber;
     let wallet = getProofParameters.wallet;
-    let provider = wallet.provider
+    let provider = wallet.provider;
     const proofMarketplaceContract = ProofMarketPlace__factory.connect(proofMarketPlaceAddress, wallet);
-  
+
     //Fetching the askID
     const ask_created_filter = proofMarketplaceContract.filters["AskCreated(uint256,bool)"];
-    const ask_created_event = await proofMarketplaceContract.queryFilter(ask_created_filter,blockNumber,blockNumber);
-    if(ask_created_event.length == 0){
-      return {proof_generated:false,proof:[],message:"Ask not found."}
+    const ask_created_event = await proofMarketplaceContract.queryFilter(ask_created_filter, blockNumber, blockNumber);
+    if (ask_created_event.length == 0) {
+      return { proof_generated: false, proof: [], message: "Ask not found." };
     }
 
     let ask_id = ask_created_event[0].args[0].toString();
-  
+
     //Fetching the proof submitted calldata
     const proof_created_filter = proofMarketplaceContract.filters.ProofCreated(ask_id);
     const proof_created_tx_data = await proofMarketplaceContract.queryFilter(proof_created_filter);
-    if(proof_created_tx_data.length>0){
+    if (proof_created_tx_data.length > 0) {
       let proofCreatedTxHash = proof_created_tx_data[0].transactionHash;
       let submitProofTxData = await provider?.getTransaction(proofCreatedTxHash);
       let submitProofCallData = submitProofTxData?.data;
 
       //Decoding the encoded data
       let abiCoder = new ethers.AbiCoder();
-      let proof = abiCoder.decode(
-        ["uint256[8]"],
-          submitProofCallData!,
-      );
-      return {proof_generated:true,proof:proof, message:"Proof fetched."};
+      let proof = abiCoder.decode(["uint256[8]"], submitProofCallData!);
+      return { proof_generated: true, proof: proof, message: "Proof fetched." };
     }
-    return {proof_generated:false,proof:[], message: "Proof not submitted yet."}
+    return { proof_generated: false, proof: [], message: "Proof not submitted yet." };
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
 export const getPlatformFee = async (getPlatformFeeParameters: getPlatformFeeParameters) => {
   try {
     let proof_marketplace_address = getPlatformFeeParameters.proofMarketPlaceAddress;
     let wallet = getPlatformFeeParameters.wallet;
-    let inputbytes_length = getPlatformFeeParameters.inputbytes_length
+    let inputbytes_length = getPlatformFeeParameters.inputbytes_length;
     const proofMarketplaceContract = ProofMarketPlace__factory.connect(proof_marketplace_address, wallet);
-    const platformFee = new BigNumber((await proofMarketplaceContract.costPerInputBytes()).toString()).multipliedBy((inputbytes_length - 2) / 2);
-    return platformFee
-  }catch(err){
-    console.log(err)
+    const platformFee = new BigNumber((await proofMarketplaceContract.costPerInputBytes()).toString()).multipliedBy(
+      (inputbytes_length - 2) / 2
+    );
+    return platformFee;
+  } catch (err) {
+    console.log(err);
   }
-}
-
-
+};

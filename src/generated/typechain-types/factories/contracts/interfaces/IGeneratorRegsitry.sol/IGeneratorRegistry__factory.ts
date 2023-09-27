@@ -19,19 +19,13 @@ const _abi = [
         type: "address",
       },
       {
-        indexed: true,
-        internalType: "bytes32",
-        name: "marketId",
-        type: "bytes32",
-      },
-      {
         indexed: false,
         internalType: "uint256",
         name: "amount",
         type: "uint256",
       },
     ],
-    name: "AddExtraStash",
+    name: "AddedStash",
     type: "event",
   },
   {
@@ -42,12 +36,6 @@ const _abi = [
         internalType: "address",
         name: "generator",
         type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "bytes32",
-        name: "marketId",
-        type: "bytes32",
       },
     ],
     name: "DeregisteredGenerator",
@@ -69,14 +57,65 @@ const _abi = [
         type: "bytes32",
       },
     ],
+    name: "JoinedMarketPlace",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "generator",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "marketId",
+        type: "bytes32",
+      },
+    ],
+    name: "LeftMarketplace",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "generator",
+        type: "address",
+      },
+    ],
     name: "RegisteredGenerator",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "generator",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "marketId",
+        type: "bytes32",
+      },
+    ],
+    name: "RequestExitMarketPlace",
     type: "event",
   },
   {
     inputs: [
       {
         internalType: "address",
-        name: "generator",
+        name: "generatorAddress",
         type: "address",
       },
       {
@@ -94,7 +133,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "generator",
+        name: "generatorAddress",
         type: "address",
       },
       {
@@ -111,9 +150,9 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "bytes32",
-        name: "marketId",
-        type: "bytes32",
+        internalType: "address",
+        name: "refundAddress",
+        type: "address",
       },
     ],
     name: "deregister",
@@ -125,7 +164,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "generator",
+        name: "generatorAddress",
         type: "address",
       },
       {
@@ -134,7 +173,65 @@ const _abi = [
         type: "bytes32",
       },
     ],
-    name: "getGeneratorDetails",
+    name: "getGeneratorAssignmentDetails",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "generatorAddress",
+        type: "address",
+      },
+      {
+        internalType: "bytes32",
+        name: "marketId",
+        type: "bytes32",
+      },
+    ],
+    name: "getGeneratorRewardDetails",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "generatorAddress",
+        type: "address",
+      },
+      {
+        internalType: "bytes32",
+        name: "marketId",
+        type: "bytes32",
+      },
+    ],
+    name: "getGeneratorState",
     outputs: [
       {
         internalType: "enum IGeneratorRegistry.GeneratorState",
@@ -146,11 +243,6 @@ const _abi = [
         name: "",
         type: "uint256",
       },
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
     ],
     stateMutability: "view",
     type: "function",
@@ -158,36 +250,68 @@ const _abi = [
   {
     inputs: [
       {
-        components: [
-          {
-            internalType: "address",
-            name: "rewardAddress",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "amountLocked",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "minReward",
-            type: "uint256",
-          },
-          {
-            internalType: "bytes",
-            name: "generatorData",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct IGeneratorRegistry.Generator",
-        name: "generator",
-        type: "tuple",
+        internalType: "bytes32",
+        name: "marketId",
+        type: "bytes32",
       },
+      {
+        internalType: "uint256",
+        name: "proofGenerationCost",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "proposedTime",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "maxParallelRequestsSupported",
+        type: "uint256",
+      },
+    ],
+    name: "joinMarketPlace",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
       {
         internalType: "bytes32",
         name: "marketId",
         type: "bytes32",
+      },
+    ],
+    name: "leaveMarketPlace",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32[]",
+        name: "marketIds",
+        type: "bytes32[]",
+      },
+    ],
+    name: "leaveMarketPlaces",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "rewardAddress",
+        type: "address",
+      },
+      {
+        internalType: "bytes",
+        name: "generatorData",
+        type: "bytes",
       },
     ],
     name: "register",
@@ -199,7 +323,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "generator",
+        name: "generatorAddress",
         type: "address",
       },
       {
@@ -224,6 +348,24 @@ const _abi = [
     stateMutability: "nonpayable",
     type: "function",
   },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "generator",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "stake",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
 ] as const;
 
 export class IGeneratorRegistry__factory {
@@ -231,7 +373,10 @@ export class IGeneratorRegistry__factory {
   static createInterface(): IGeneratorRegistryInterface {
     return new Interface(_abi) as IGeneratorRegistryInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): IGeneratorRegistry {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): IGeneratorRegistry {
     return new Contract(address, _abi, runner) as unknown as IGeneratorRegistry;
   }
 }

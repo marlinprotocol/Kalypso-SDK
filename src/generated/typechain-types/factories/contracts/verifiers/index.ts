@@ -4,3 +4,4 @@
 export * as plonkVkSol from "./plonk_vk.sol";
 export * as transferVerifierSol from "./transfer_verifier.sol";
 export * as verifierXor2Sol from "./verifier_xor2.sol";
+export * as zkbVerifierSol from "./zkb_verifier.sol";

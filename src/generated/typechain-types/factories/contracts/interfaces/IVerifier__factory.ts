@@ -3,7 +3,10 @@
 /* eslint-disable */
 
 import { Contract, Interface, type ContractRunner } from "ethers";
-import type { IVerifier, IVerifierInterface } from "../../../contracts/interfaces/IVerifier";
+import type {
+  IVerifier,
+  IVerifierInterface,
+} from "../../../contracts/interfaces/IVerifier";
 
 const _abi = [
   {

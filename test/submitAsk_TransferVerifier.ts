@@ -1,4 +1,4 @@
-import { createAsk, approveRewardTokens,getPlatformFee, encryptDataWithRSAandAES, base64ToHex } from "../src/index";
+import { createAsk, approveRewardTokens, getPlatformFee, encryptDataWithRSAandAES, base64ToHex } from "../src/index";
 import dotenv from "dotenv";
 import { ethers } from "ethers";
 import { gzip } from "node-gzip";
@@ -34,8 +34,8 @@ const createAskTest = async () => {
     let platformFee = await getPlatformFee({
       proofMarketPlaceAddress,
       wallet,
-      inputbytes_length
-    })
+      inputbytes_length,
+    });
 
     //Approve token for rewards
     const firstTokenApproval = await approveRewardTokens({
