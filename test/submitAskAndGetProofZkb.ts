@@ -32,7 +32,6 @@ const createAskAndGetProof = async () => {
     const kalypso = new KalypsoSdk(wallet, {
       proofMarketPlace: "string",
       generatorRegistry: "string",
-      stakingTokenAddress: "string",
       rsaRegistryAddress: "string",
       paymentTokenAddress: "string",
       platformTokenAddress: "string",
