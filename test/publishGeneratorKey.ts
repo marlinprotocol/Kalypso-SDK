@@ -19,7 +19,8 @@ async function main() {
     platformTokenAddress: "0x560FCeb707B0F4b56d43d295e45eD7FE939b96b6",
   });
 
-  const pubkey = fs.readFileSync("./test/matching_engine/public_key_2048.pem", "utf-8");
+  // this should be changed
+  const pubkey = fs.readFileSync("./test/generator/public_key.pem", "utf-8");
   const pubkeyBytes = KalypsoSdk.SecretInputOperations().utf8ToHex(pubkey);
 
   const tx = await kalypso.Generator().updateRsaKey("0x" + pubkeyBytes, "0x");
