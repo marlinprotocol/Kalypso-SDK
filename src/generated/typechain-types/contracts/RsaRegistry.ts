@@ -60,12 +60,12 @@ export interface RsaRegistry extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -92,7 +92,7 @@ export interface RsaRegistry extends BaseContract {
   getFunction(nameOrSignature: "rsa_pub_key"): TypedContractMethod<[arg0: AddressLike], [string], "view">;
   getFunction(nameOrSignature: "rsa_pub_key_hash"): TypedContractMethod<[arg0: AddressLike], [string], "view">;
   getFunction(
-    nameOrSignature: "updatePubkey",
+    nameOrSignature: "updatePubkey"
   ): TypedContractMethod<[rsa_pub: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
 
   getEvent(key: "UpdateRSA"): TypedContractEvent<UpdateRSAEvent.InputTuple, UpdateRSAEvent.OutputTuple, UpdateRSAEvent.OutputObject>;

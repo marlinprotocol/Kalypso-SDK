@@ -174,7 +174,7 @@ export class InputAndProofFormatRegistry__factory extends ContractFactory {
 
   override getDeployTransaction(
     _admin: AddressLike,
-    overrides?: NonPayableOverrides & { from?: string },
+    overrides?: NonPayableOverrides & { from?: string }
   ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(_admin, overrides || {});
   }

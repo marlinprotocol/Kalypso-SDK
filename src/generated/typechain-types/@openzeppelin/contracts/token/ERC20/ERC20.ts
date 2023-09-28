@@ -36,7 +36,7 @@ export interface ERC20Interface extends Interface {
       | "symbol"
       | "totalSupply"
       | "transfer"
-      | "transferFrom",
+      | "transferFrom"
   ): FunctionFragment;
 
   getEvent(nameOrSignatureOrTopic: "Approval" | "Transfer"): EventFragment;
@@ -103,12 +103,12 @@ export interface ERC20 extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -150,17 +150,17 @@ export interface ERC20 extends BaseContract {
   getFunction(nameOrSignature: "balanceOf"): TypedContractMethod<[account: AddressLike], [bigint], "view">;
   getFunction(nameOrSignature: "decimals"): TypedContractMethod<[], [bigint], "view">;
   getFunction(
-    nameOrSignature: "decreaseAllowance",
+    nameOrSignature: "decreaseAllowance"
   ): TypedContractMethod<[spender: AddressLike, subtractedValue: BigNumberish], [boolean], "nonpayable">;
   getFunction(
-    nameOrSignature: "increaseAllowance",
+    nameOrSignature: "increaseAllowance"
   ): TypedContractMethod<[spender: AddressLike, addedValue: BigNumberish], [boolean], "nonpayable">;
   getFunction(nameOrSignature: "name"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "symbol"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "totalSupply"): TypedContractMethod<[], [bigint], "view">;
   getFunction(nameOrSignature: "transfer"): TypedContractMethod<[to: AddressLike, amount: BigNumberish], [boolean], "nonpayable">;
   getFunction(
-    nameOrSignature: "transferFrom",
+    nameOrSignature: "transferFrom"
   ): TypedContractMethod<[from: AddressLike, to: AddressLike, amount: BigNumberish], [boolean], "nonpayable">;
 
   getEvent(key: "Approval"): TypedContractEvent<ApprovalEvent.InputTuple, ApprovalEvent.OutputTuple, ApprovalEvent.OutputObject>;

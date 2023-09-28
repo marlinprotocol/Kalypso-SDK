@@ -23,12 +23,12 @@ export interface IRsaRegistry extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -49,7 +49,7 @@ export interface IRsaRegistry extends BaseContract {
 
   getFunction(nameOrSignature: "attestationVerifier"): TypedContractMethod<[], [string], "nonpayable">;
   getFunction(
-    nameOrSignature: "updatePubkey",
+    nameOrSignature: "updatePubkey"
   ): TypedContractMethod<[rsa_pub: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
 
   filters: {};

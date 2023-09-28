@@ -26,7 +26,7 @@ export class MarketPlace {
     proofMarketPlaceAddress: string,
     paymentTokenAddress: string,
     platformTokenAddress: string,
-    rsaRegistryAddress: string,
+    rsaRegistryAddress: string
   ) {
     this.signer = signer;
     this.proofMarketPlace = ProofMarketPlace__factory.connect(proofMarketPlaceAddress, this.signer);
@@ -57,7 +57,7 @@ export class MarketPlace {
     blocksForProofGeneration: BigNumberish,
     refundAddress: string,
     secretString: string,
-    options?: Overrides,
+    options?: Overrides
   ): Promise<ContractTransactionResponse> {
     const platformFee = await this.getPlatformFee(proverData);
     const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
@@ -73,7 +73,7 @@ export class MarketPlace {
 
     const platformTokenAllowance = await this.platformToken.allowance(
       await this.signer.getAddress(),
-      await this.proofMarketPlace.getAddress(),
+      await this.proofMarketPlace.getAddress()
     );
     if (new BigNumber(platformTokenAllowance.toString()).lt(platformFee.toString())) {
       const approvalTx = await this.platformToken.approve(await this.proofMarketPlace.getAddress(), platformFee.toString());
@@ -83,7 +83,7 @@ export class MarketPlace {
 
     const paymentTokenAllowance = await this.paymentToken.allowance(
       await this.signer.getAddress(),
-      await this.proofMarketPlace.getAddress(),
+      await this.proofMarketPlace.getAddress()
     );
     if (new BigNumber(paymentTokenAllowance.toString()).lt(reward.toString())) {
       const approvalTx = await this.paymentToken.approve(await this.proofMarketPlace.getAddress(), reward.toString());
@@ -114,7 +114,7 @@ export class MarketPlace {
       0,
       secretCompressed,
       result.aclData,
-      { ...options },
+      { ...options }
     );
   }
 
@@ -123,7 +123,7 @@ export class MarketPlace {
     verifier: string,
     minStakeForGenerator: BigNumberish,
     slashingPenalty: BigNumberish,
-    options?: Overrides,
+    options?: Overrides
   ): Promise<ContractTransactionResponse> {
     if (new BigNumber(slashingPenalty.toString()).gt(this.exponent)) {
       throw new Error("Slashing penalty can't be more than " + this.exponent.toFixed(0));
@@ -158,12 +158,11 @@ export class MarketPlace {
       verifier,
       minStakeForGenerator.toString(),
       slashingPenalty.toString(),
-      { ...options },
+      { ...options }
     );
   }
 
-  // replace Promise<any> with Promise<BytesLike>
-  public async getProofByAskId(askId: string): Promise<any> {
+  public async getProofByAskId(askId: string): Promise<BytesLike> {
     const proof_created_filter = this.proofMarketPlace.filters.ProofCreated(askId);
     const topics = await proof_created_filter.getTopicFilter();
 
@@ -176,13 +175,14 @@ export class MarketPlace {
 
     // TODO: return only proof any not the whole event
     if (logs && logs.length != 0) {
-      return logs[0];
+      // only one such log should be available
+      return logs[0].data;
     }
 
     throw new Error("Proof not found");
   }
 
-  public async getProofByTaskId(taskId: string): Promise<any> {
+  public async getProofByTaskId(taskId: string): Promise<BytesLike> {
     const proof_created_filter = this.proofMarketPlace.filters.ProofCreated(undefined, taskId);
     const topics = await proof_created_filter.getTopicFilter();
 
@@ -195,7 +195,7 @@ export class MarketPlace {
 
     // Todo: return only proof and not the whole event
     if (logs && logs.length != 0) {
-      return logs[0];
+      return logs[0].data;
     }
 
     throw new Error("Proof Not Found");

@@ -62,14 +62,14 @@ export class Generator {
     proofGeneratorCost: BigNumberish,
     proposedTime: BigNumberish,
     maxParallelRequestsSupported: BigNumberish,
-    options?: Overrides,
+    options?: Overrides
   ): Promise<ContractTransactionResponse> {
     return await this.generatorRegistry.joinMarketPlace(
       marketId,
       proofGeneratorCost.toString(),
       proposedTime.toString(),
       maxParallelRequestsSupported.toString(),
-      { ...options },
+      { ...options }
     );
   }
 
@@ -85,6 +85,6 @@ export class Generator {
   }
 
   public async slashExistingRequest(taskId: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
-    return this.proofMarketplace.discardRequest(taskId);
+    return this.proofMarketplace.discardRequest(taskId, { ...options });
   }
 }

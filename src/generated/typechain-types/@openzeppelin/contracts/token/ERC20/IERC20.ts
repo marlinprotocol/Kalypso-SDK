@@ -80,12 +80,12 @@ export interface IERC20 extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -118,7 +118,7 @@ export interface IERC20 extends BaseContract {
   getFunction(nameOrSignature: "totalSupply"): TypedContractMethod<[], [bigint], "view">;
   getFunction(nameOrSignature: "transfer"): TypedContractMethod<[to: AddressLike, amount: BigNumberish], [boolean], "nonpayable">;
   getFunction(
-    nameOrSignature: "transferFrom",
+    nameOrSignature: "transferFrom"
   ): TypedContractMethod<[from: AddressLike, to: AddressLike, amount: BigNumberish], [boolean], "nonpayable">;
 
   getEvent(key: "Approval"): TypedContractEvent<ApprovalEvent.InputTuple, ApprovalEvent.OutputTuple, ApprovalEvent.OutputObject>;

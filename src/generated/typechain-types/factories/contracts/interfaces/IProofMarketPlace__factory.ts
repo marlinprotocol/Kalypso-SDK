@@ -78,6 +78,12 @@ const _abi = [
         name: "taskId",
         type: "uint256",
       },
+      {
+        indexed: false,
+        internalType: "bytes",
+        name: "proof",
+        type: "bytes",
+      },
     ],
     name: "ProofCreated",
     type: "event",

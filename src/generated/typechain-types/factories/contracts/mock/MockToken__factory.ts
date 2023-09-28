@@ -314,7 +314,7 @@ export class MockToken__factory extends ContractFactory {
   override getDeployTransaction(
     _admin: AddressLike,
     _totalSupply: BigNumberish,
-    overrides?: NonPayableOverrides & { from?: string },
+    overrides?: NonPayableOverrides & { from?: string }
   ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(_admin, _totalSupply, overrides || {});
   }

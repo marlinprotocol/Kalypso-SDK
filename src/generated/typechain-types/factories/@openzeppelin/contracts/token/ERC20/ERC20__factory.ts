@@ -314,7 +314,7 @@ export class ERC20__factory extends ContractFactory {
   override getDeployTransaction(
     name_: string,
     symbol_: string,
-    overrides?: NonPayableOverrides & { from?: string },
+    overrides?: NonPayableOverrides & { from?: string }
   ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(name_, symbol_, overrides || {});
   }

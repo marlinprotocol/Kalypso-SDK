@@ -20,7 +20,7 @@ async function encryptRSA(publicKey: string, data: Buffer): Promise<string> {
       padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
       oaepHash: "sha1",
     },
-    data,
+    data
   );
   return encryptedBuffer.toString("base64");
 }
@@ -68,7 +68,7 @@ async function decryptRSA(privateKey: string, encryptedData: string): Promise<Bu
       padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
       oaepHash: "sha1",
     },
-    buffer,
+    buffer
   );
   return decryptedBuffer;
 }

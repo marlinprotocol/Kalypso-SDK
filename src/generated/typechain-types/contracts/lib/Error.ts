@@ -38,7 +38,7 @@ export interface ErrorInterface extends Interface {
       | "SHOULD_BE_IN_CROSSED_DEADLINE_STATE"
       | "SHOULD_BE_IN_EXPIRED_STATE"
       | "SHOULD_BE_LESS_THAN_OR_EQUAL"
-      | "SHOULD_BE_SAME",
+      | "SHOULD_BE_SAME"
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "ALREADY_COMPLETE", values?: undefined): string;
@@ -117,12 +117,12 @@ export interface Error extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;

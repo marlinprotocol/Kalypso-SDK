@@ -25,7 +25,7 @@ import type {
 
 export interface AccessControlUpgradeableInterface extends Interface {
   getFunction(
-    nameOrSignature: "DEFAULT_ADMIN_ROLE" | "getRoleAdmin" | "grantRole" | "hasRole" | "renounceRole" | "revokeRole" | "supportsInterface",
+    nameOrSignature: "DEFAULT_ADMIN_ROLE" | "getRoleAdmin" | "grantRole" | "hasRole" | "renounceRole" | "revokeRole" | "supportsInterface"
   ): FunctionFragment;
 
   getEvent(nameOrSignatureOrTopic: "Initialized" | "RoleAdminChanged" | "RoleGranted" | "RoleRevoked"): EventFragment;
@@ -110,12 +110,12 @@ export interface AccessControlUpgradeable extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -153,16 +153,16 @@ export interface AccessControlUpgradeable extends BaseContract {
   getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
 
   getEvent(
-    key: "Initialized",
+    key: "Initialized"
   ): TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
   getEvent(
-    key: "RoleAdminChanged",
+    key: "RoleAdminChanged"
   ): TypedContractEvent<RoleAdminChangedEvent.InputTuple, RoleAdminChangedEvent.OutputTuple, RoleAdminChangedEvent.OutputObject>;
   getEvent(
-    key: "RoleGranted",
+    key: "RoleGranted"
   ): TypedContractEvent<RoleGrantedEvent.InputTuple, RoleGrantedEvent.OutputTuple, RoleGrantedEvent.OutputObject>;
   getEvent(
-    key: "RoleRevoked",
+    key: "RoleRevoked"
   ): TypedContractEvent<RoleRevokedEvent.InputTuple, RoleRevokedEvent.OutputTuple, RoleRevokedEvent.OutputObject>;
 
   filters: {
