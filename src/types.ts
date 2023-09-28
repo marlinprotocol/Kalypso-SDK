@@ -1,7 +1,6 @@
 export interface KalspsoConfig {
   proofMarketPlace: string;
   generatorRegistry: string;
-  stakingTokenAddress: string;
   rsaRegistryAddress: string;
   paymentTokenAddress: string;
   platformTokenAddress: string;

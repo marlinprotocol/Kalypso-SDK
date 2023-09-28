@@ -10,7 +10,6 @@ const wallet = new ethers.Wallet(`${process.env.PRIVATE_KEY}`, provider);
 const kalypso = new KalypsoSdk(wallet, {
   proofMarketPlace: "string",
   generatorRegistry: "string",
-  stakingTokenAddress: "string",
   rsaRegistryAddress: "string",
   paymentTokenAddress: "string",
   platformTokenAddress: "string",

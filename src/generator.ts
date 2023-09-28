@@ -22,17 +22,25 @@ export class Generator {
   constructor(signer: AbstractSigner, config: KalspsoConfig) {
     this.signer = signer;
     this.generatorRegistry = GeneratorRegistry__factory.connect(config.generatorRegistry, this.signer);
-    this.stakingToken = ERC20__factory.connect(config.stakingTokenAddress, this.signer);
+    this.stakingToken = ERC20__factory.connect(config.paymentTokenAddress, this.signer);
     this.rsaRegistry = RsaRegistry__factory.connect(config.rsaRegistryAddress, this.signer);
     this.proofMarketplace = ProofMarketPlace__factory.connect(config.proofMarketPlace, this.signer);
   }
 
   public async register(rewardAddress: string, generatorData: BytesLike, options?: Overrides): Promise<ContractTransactionResponse> {
+    const result = await this.generatorRegistry.generatorRegistry(await this.signer.getAddress());
+    if (result.rewardAddress != "0x0000000000000000000000000000000000000000") {
+      throw new Error("Generator is already registered");
+    }
     return this.generatorRegistry.register(rewardAddress, generatorData, { ...options });
   }
 
   public async deregister(refundAddress: string, options?: Overrides): Promise<ContractTransactionResponse> {
     return this.generatorRegistry.deregister(refundAddress, { ...options });
+  }
+
+  public async getStake(): Promise<BigNumberish> {
+    return (await this.generatorRegistry.generatorRegistry(await this.signer.getAddress())).totalStake;
   }
 
   public async stake(generatorAddress: string, amount: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
@@ -64,6 +72,18 @@ export class Generator {
     maxParallelRequestsSupported: BigNumberish,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
+    const data = await this.generatorRegistry.generatorInfoPerMarket(await this.signer.getAddress(), marketId);
+    if (!new BigNumber(data.proposedTime.toString()).eq(0)) {
+      throw new Error("Already part of this market");
+    }
+
+    const stake = (await this.generatorRegistry.generatorRegistry(await this.signer.getAddress())).totalStake;
+    const stakeRequiredForMarket = await this.proofMarketplace.minStakeToJoin(marketId);
+
+    if (new BigNumber(stake.toString()).lt(stakeRequiredForMarket.toString())) {
+      throw new Error(`${stakeRequiredForMarket.toString()} stake required to join ${marketId.toString()}`);
+    }
+
     return await this.generatorRegistry.joinMarketPlace(
       marketId,
       proofGeneratorCost.toString(),
