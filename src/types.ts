@@ -17,4 +17,6 @@ export interface SecretInputOperations {
   decryptDataWithRSAandAES(encryptedData: string, aclData: string, privateKey: string): Promise<string>;
   base64ToHex(base64String: string): string;
   hexToBase64(hexString: string): string;
+  utf8ToHex(str: string): string;
+  hexToUtf8(hex: string): string;
 }

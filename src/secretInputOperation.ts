@@ -1,8 +1,12 @@
-import crypto from "crypto";
+import crypto, { KeyObject } from "crypto";
 import { SecretData } from "./types";
 
-// 1. Encrypt a string using AES-256
+export function createPubKeyFrom(hexString: string): KeyObject {
+  const keyBuffer: Buffer = Buffer.from(hexString, "hex");
+  return crypto.createPublicKey(keyBuffer);
+}
 
+// 1. Encrypt a string using AES-256
 function encryptAES(data: string, secretKey: Buffer): string {
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv("aes-256-cbc", secretKey, iv);
@@ -116,4 +120,29 @@ export function hexToBase64(hexString: string): string {
     raw += String.fromCharCode(byte);
   }
   return btoa(raw);
+}
+
+/**
+ * @deprecated This manual conversion should not be used and prefer using an inbuilt function
+ */
+export function utf8ToHex(str: string): string {
+  let hex = "";
+  for (let i = 0; i < str.length; i++) {
+    const code = str.charCodeAt(i);
+    const n = code.toString(16);
+    hex += n.length < 2 ? "0" + n : n;
+  }
+  return hex;
+}
+
+/**
+ * @deprecated This manual conversion should not be used and prefer using an inbuilt function
+ */
+export function hexToUtf8(hex: string): string {
+  let str = "";
+  for (let i = 0; i < hex.length; i += 2) {
+    const code = parseInt(hex.substr(i, 2), 16);
+    str += String.fromCharCode(code);
+  }
+  return str;
 }

@@ -9,7 +9,7 @@ import {
 } from "./generated/typechain-types";
 import BigNumber from "bignumber.js";
 import { SecretData } from "./types";
-import { encryptDataWithRSAandAES, hexToBase64 } from "./secretInputOperation";
+import { encryptDataWithRSAandAES, createPubKeyFrom, hexToUtf8, base64ToHex } from "./secretInputOperation";
 import { gzip } from "node-gzip";
 
 export class MarketPlace {
@@ -96,9 +96,10 @@ export class MarketPlace {
       throw new Error("matching engine pub key is not updated in the registry");
     }
 
-    const pubKey = hexToBase64(matchingEnginePubKey);
+    const pubKey = hexToUtf8(matchingEnginePubKey.split("x")[1]); // trim 0x
     const result = await encryptDataWithRSAandAES(secretString, pubKey);
     const secretCompressed = await gzip(result.encryptedData);
+    const aclHex = "0x" + base64ToHex(result.aclData);
 
     return this.proofMarketPlace.createAsk(
       {
@@ -113,7 +114,7 @@ export class MarketPlace {
       true,
       0,
       secretCompressed,
-      result.aclData,
+      aclHex,
       { ...options }
     );
   }
