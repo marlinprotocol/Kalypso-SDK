@@ -38,6 +38,7 @@
   "dependencies": {
     "@nomicfoundation/hardhat-ethers": "^3.0.4",
     "@types/node": "^20.4.5",
+    "axios": "^1.5.1",
     "bignumber.js": "^9.1.1",
     "ethers": "^6.6.6",
     "node-gzip": "^1.1.2"
