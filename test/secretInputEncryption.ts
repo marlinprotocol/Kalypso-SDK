@@ -1,24 +1,20 @@
-import { KalypsoSdk } from "../src";
-import * as fs from "fs";
+import { encryptDataWithECIESandAES, decryptDataWithECIESandAES } from "../src/secretInputOperation";
+import { encrypt, decrypt, PrivateKey } from "eciesjs";
 
-const { encryptDataWithRSAandAES, decryptDataWithRSAandAES, base64ToHex, hexToBase64 } = KalypsoSdk.SecretInputOperations();
-
-const data = "this is the that we wish to encrypt";
+const data = Buffer.from("this is the data that we wish to encrypt");
 
 async function main(): Promise<string> {
-  const publicKey = fs.readFileSync("./test/public_key.pem", "utf-8");
-  const result = await encryptDataWithRSAandAES(data, publicKey);
-  console.log(result);
+  const sk = new PrivateKey(Buffer.from("ca9cbf143a43e422a307b03ec61a82ce99c053290c3053655d0ad69e863a18c4", 'hex'));
+  const pk = sk.publicKey.toHex();
+  // const addrss = pk.getAddress();
 
-  const aclHex = base64ToHex(result.aclData);
-  const aclBase64 = hexToBase64(aclHex);
+  // Encrypt data
+  const result = await encryptDataWithECIESandAES(data, pk);
 
-  console.log({ acl: result.aclData, aclBase64, aclHex });
-  const privatekey = fs.readFileSync("./test/private_key.pem", "utf-8");
+  // Decrypt data
+  const decryptedData = await decryptDataWithECIESandAES(result.encryptedData, result.aclData, sk.secret);
 
-  const decryptedData = await decryptDataWithRSAandAES(result.encryptedData, result.aclData, privatekey);
-
-  console.log({ data, decryptedData });
+  console.log({ data: data.toString(), decryptedData: decryptedData.toString() });
   return "Done";
 }
 

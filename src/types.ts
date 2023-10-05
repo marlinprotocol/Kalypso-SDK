@@ -7,15 +7,11 @@ export interface KalspsoConfig {
 }
 
 export interface SecretData {
-  encryptedData: string;
-  aclData: string;
+  encryptedData: Buffer;
+  aclData: Buffer;
 }
 
 export interface SecretInputOperations {
-  encryptDataWithRSAandAES(data: string, publicKey: string): Promise<SecretData>;
-  decryptDataWithRSAandAES(encryptedData: string, aclData: string, privateKey: string): Promise<string>;
-  base64ToHex(base64String: string): string;
-  hexToBase64(hexString: string): string;
-  utf8ToHex(str: string): string;
-  hexToUtf8(hex: string): string;
+  encryptDataWithECIESandAES(data: Buffer, publicKey: string): Promise<SecretData>;
+  decryptDataWithECIESandAES(encryptedData: Buffer, aclData: Buffer, privateKey: Buffer): Promise<Buffer>;
 }

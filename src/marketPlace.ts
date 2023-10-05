@@ -9,7 +9,7 @@ import {
 } from "./generated/typechain-types";
 import BigNumber from "bignumber.js";
 import { SecretData } from "./types";
-import { encryptDataWithRSAandAES, createPubKeyFrom, hexToUtf8, base64ToHex } from "./secretInputOperation";
+import { encryptDataWithECIESandAES, decryptDataWithECIESandAES } from "./secretInputOperation";
 import { gzip } from "node-gzip";
 
 export class MarketPlace {
@@ -56,7 +56,7 @@ export class MarketPlace {
     assignmentDeadline: BigNumberish,
     blocksForProofGeneration: BigNumberish,
     refundAddress: string,
-    secretString: string,
+    secretString: Buffer,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
     const platformFee = await this.getPlatformFee(proverData);
@@ -96,10 +96,10 @@ export class MarketPlace {
       throw new Error("matching engine pub key is not updated in the registry");
     }
 
-    const pubKey = hexToUtf8(matchingEnginePubKey.split("x")[1]); // trim 0x
-    const result = await encryptDataWithRSAandAES(secretString, pubKey);
+    const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
+    const result = await encryptDataWithECIESandAES(secretString, pubKey);
     const secretCompressed = await gzip(result.encryptedData);
-    const aclHex = "0x" + base64ToHex(result.aclData);
+    const aclHex = result.aclData.toString("hex");
 
     return this.proofMarketPlace.createAsk(
       {
