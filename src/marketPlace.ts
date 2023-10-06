@@ -1,4 +1,4 @@
-import { AbstractSigner, BigNumberish, BytesLike, ContractTransactionResponse, Overrides, ethers } from "ethers";
+import { AbstractSigner, BigNumberish, BytesLike, ContractTransactionResponse, Log, Overrides, ethers } from "ethers";
 import {
   ERC20,
   ERC20__factory,
@@ -163,24 +163,69 @@ export class MarketPlace {
     );
   }
 
-  public async getProofByAskId(askId: string): Promise<BytesLike> {
-    const proof_created_filter = this.proofMarketPlace.filters.ProofCreated(askId);
-    const topics = await proof_created_filter.getTopicFilter();
+  //Fetching the AskId
+  public async getAskId(receipt: ethers.TransactionReceipt): Promise<string> {
+    let blockNumber = receipt.blockNumber;
+    const ask_created_filter = this.proofMarketPlace.filters.AskCreated();
+    const ask_id = await this.proofMarketPlace.queryFilter(ask_created_filter,blockNumber,blockNumber);
 
-    const logs = await this.signer.provider?.getLogs({
-      fromBlock: 0,
-      toBlock: "latest",
-      address: await this.proofMarketPlace.getAddress(),
-      topics,
-    });
-
-    // TODO: return only proof any not the whole event
-    if (logs && logs.length != 0) {
-      // only one such log should be available
-      return logs[0].data;
+    if(ask_id[0].args[0]){
+      return ask_id[0].args[0].toString();
     }
 
-    throw new Error("Proof not found");
+    throw new Error("Ask Id not found for the give receipt");
+  }
+
+  //Fetching the proof by askId
+  public async getProofByAskId(askId: string) {
+    try {
+      const proof_created_filter = this.proofMarketPlace.filters.ProofCreated(askId);
+      const proof_created_tx_data = await this.proofMarketPlace.queryFilter(proof_created_filter);
+    if(proof_created_tx_data.length>0){
+      let proofCreatedTxHash = proof_created_tx_data[0].transactionHash;
+      let submitProofTxData = await this.signer.provider?.getTransaction(proofCreatedTxHash);
+      let submitProofCallData = submitProofTxData?.data;
+
+      //Decoding calldata
+      let abiCoder = new ethers.AbiCoder(); 
+      let calldata = "0x"+submitProofCallData?.substring(10);
+      let decoded_calldata = abiCoder.decode(
+        ["uint256","bytes"],
+        calldata!
+      );
+      let encoded_proof = decoded_calldata[1];
+
+      //Decoding the encoded proof
+      let proof = abiCoder.decode(
+        ["uint256[8]"],
+          encoded_proof!,
+      );
+      let formated_proof = {
+        "a":[
+          proof[0][0].toString(),
+          proof[0][1].toString(),
+        ],
+        "b":[
+          [
+            proof[0][2].toString(),
+            proof[0][3].toString(),
+          ],
+          [
+            proof[0][4].toString(),
+            proof[0][5].toString(),
+          ]
+        ],
+        "c":[
+          proof[0][6].toString(),
+          proof[0][7].toString(),
+        ]
+      }
+      return {proof_generated:true,proof:formated_proof, message:"Proof fetched."};
+    }
+    return {proof_generated:false,proof:[], message: "Proof not submitted yet."}
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   public async getProofByTaskId(taskId: string): Promise<BytesLike> {
