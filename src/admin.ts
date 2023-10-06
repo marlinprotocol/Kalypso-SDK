@@ -33,6 +33,7 @@ export class Admin {
   }
 
   public async readMatchingEngineKey(): Promise<string> {
+    console.log(await this.proofMarketPlace.getAddress());
     return this.rsaRegistry.rsa_pub_key(await this.proofMarketPlace.getAddress());
   }
 }
