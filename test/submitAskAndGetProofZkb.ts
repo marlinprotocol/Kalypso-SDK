@@ -62,11 +62,11 @@ const createAskAndGetProof = async () => {
     let receipt = await provider.getTransactionReceipt(askRequest.hash);
 
     let askId = await kalypso.MarketPlace().getAskId(receipt!);
-    console.log("Ask ID : ",askId);
+    console.log("Ask ID :",askId);
 
     if(askId){
       return await new Promise(resolve => {
-        console.log("\nTrying to fetch proof...")
+        console.log("\nTrying to fetch proof...\n")
         let intervalId = setInterval(async ()=>{
             let data = await kalypso.MarketPlace().getProofByAskId(askId.toString());
             if(data?.proof_generated){
@@ -74,7 +74,7 @@ const createAskAndGetProof = async () => {
                 resolve(data.proof);
                 clearInterval(intervalId);
             }  else {
-                console.log(data?.message);
+                console.log(`Proof not submitted yet for askId : ${askId}.`);
             }
         },10000);
         });
