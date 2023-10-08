@@ -25,13 +25,13 @@ export class MarketPlace {
     proofMarketPlaceAddress: string,
     paymentTokenAddress: string,
     platformTokenAddress: string,
-    rsaRegistryAddress: string
+    entityKeyRegistryAddress: string
   ) {
     this.signer = signer;
     this.proofMarketPlace = ProofMarketPlace__factory.connect(proofMarketPlaceAddress, this.signer);
     this.paymentToken = ERC20__factory.connect(paymentTokenAddress, this.signer);
     this.platformToken = ERC20__factory.connect(platformTokenAddress, this.signer);
-    this.entityKeyRegistry = EntityKeyRegistry__factory.connect(rsaRegistryAddress, this.signer);
+    this.entityKeyRegistry = EntityKeyRegistry__factory.connect(entityKeyRegistryAddress, this.signer);
   }
 
   public async approvePaymentTokenToMarketPlace(amount: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
@@ -153,12 +153,7 @@ export class MarketPlace {
       console.log("Approved Tokens: ", approvalReceipt?.hash);
     }
 
-    return await this.proofMarketPlace.createMarketPlace(
-      marketMetaData,
-      verifier,
-      slashingPenalty.toString(),
-      { ...options }
-    );
+    return await this.proofMarketPlace.createMarketPlace(marketMetaData, verifier, slashingPenalty.toString(), { ...options });
   }
 
   public async getProofByAskId(askId: string): Promise<BytesLike> {

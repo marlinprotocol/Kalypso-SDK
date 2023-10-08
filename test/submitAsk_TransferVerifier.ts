@@ -32,7 +32,7 @@ const createAskTest = async () => {
     const kalypso = new KalypsoSdk(wallet, {
       proofMarketPlace: "0xf747B2a788b453eE4d00BE24Cd7D7A8532dCD3Cc",
       generatorRegistry: "0x77716073aB8D14bb7470021daeb33567Dc5c1BF7",
-      rsaRegistryAddress: "0x7ce14a0dc913e35e99C1F9D95685b30E73952240",
+      entityKeyRegistry: "0x7ce14a0dc913e35e99C1F9D95685b30E73952240",
       paymentTokenAddress: "0xCe23FfE37A1669CfD0081109aFC680c8503888f8",
       platformTokenAddress: "0x560FCeb707B0F4b56d43d295e45eD7FE939b96b6",
     });
@@ -56,7 +56,7 @@ const createAskTest = async () => {
         assignmentDeadline.toFixed(0),
         proofGenerationTimeInBlocks.toFixed(0),
         await wallet.getAddress(),
-        secretString
+        Buffer.from(secretString)
       );
     console.log("Ask Request Hash: ", askRequest.hash);
   } catch (err) {

@@ -23,7 +23,7 @@ export class Generator {
     this.signer = signer;
     this.generatorRegistry = GeneratorRegistry__factory.connect(config.generatorRegistry, this.signer);
     this.stakingToken = ERC20__factory.connect(config.paymentTokenAddress, this.signer);
-    this.entityKeyRegistry = EntityKeyRegistry__factory.connect(config.rsaRegistryAddress, this.signer);
+    this.entityKeyRegistry = EntityKeyRegistry__factory.connect(config.entityKeyRegistry, this.signer);
     this.proofMarketplace = ProofMarketPlace__factory.connect(config.proofMarketPlace, this.signer);
   }
 
@@ -95,11 +95,12 @@ export class Generator {
     return await this.generatorRegistry.leaveMarketPlace(marketId, { ...options });
   }
 
-  /**
-   * @deprecated Will be replaced with updateEcisKey
-   */
-  public async updateRsaKey(rsaPub: BytesLike, attestationBytes: BytesLike, options?: Overrides): Promise<ContractTransactionResponse> {
-    return this.entityKeyRegistry.updatePubkey(rsaPub, attestationBytes, { ...options });
+  public async updateEcisKey(
+    pubKeyBytes: BytesLike,
+    attestationBytes: BytesLike,
+    options?: Overrides
+  ): Promise<ContractTransactionResponse> {
+    return this.entityKeyRegistry.updatePubkey(pubKeyBytes, attestationBytes, { ...options });
   }
 
   public async slashExistingRequest(taskId: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {

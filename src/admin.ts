@@ -19,14 +19,11 @@ export class Admin {
     return this.proofMarketPlace["grantRole(bytes32,address,bytes)"](role, matchingEngineAddress, addressAttestationBytes, { ...options });
   }
 
-  /**
-   * @deprecated This function will be removed when migrated to ECIS
-   */
   public async updateEncryptionKey(
-    rsaPub: BytesLike,
+    pubKey: BytesLike,
     attestationBytes: BytesLike,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
-    return this.proofMarketPlace.updateEncryptionKey(rsaPub, attestationBytes, { ...options });
+    return this.proofMarketPlace.updateEncryptionKey(pubKey, attestationBytes, { ...options });
   }
 }

@@ -14,18 +14,17 @@ async function main() {
   const kalypso = new KalypsoSdk(wallet, {
     proofMarketPlace: "0xf747B2a788b453eE4d00BE24Cd7D7A8532dCD3Cc",
     generatorRegistry: "0x77716073aB8D14bb7470021daeb33567Dc5c1BF7",
-    rsaRegistryAddress: "0x7ce14a0dc913e35e99C1F9D95685b30E73952240",
+    entityKeyRegistry: "0x7ce14a0dc913e35e99C1F9D95685b30E73952240",
     paymentTokenAddress: "0xCe23FfE37A1669CfD0081109aFC680c8503888f8",
     platformTokenAddress: "0x560FCeb707B0F4b56d43d295e45eD7FE939b96b6",
   });
 
   // this should be changed
-  const pubkey = fs.readFileSync("./test/generator/public_key.pem", "utf-8");
-  const pubkeyBytes = KalypsoSdk.SecretInputOperations().utf8ToHex(pubkey);
+  const pubkey = Buffer.from("read this from env variables");
 
-  const tx = await kalypso.Generator().updateRsaKey("0x" + pubkeyBytes, "0x");
+  const tx = await kalypso.Generator().updateEcisKey(pubkey, "0x");
   const receipt = await tx.wait();
-  console.log("Added Generator RSA key: ", receipt?.hash);
+  console.log("Added Generator ECIES key: ", receipt?.hash);
   return "Done";
 }
 

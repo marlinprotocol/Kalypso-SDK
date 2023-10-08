@@ -33,7 +33,7 @@ export class KalypsoSdk {
       this.config.proofMarketPlace,
       this.config.paymentTokenAddress,
       this.config.platformTokenAddress,
-      this.config.rsaRegistryAddress
+      this.config.entityKeyRegistry
     );
   }
 }

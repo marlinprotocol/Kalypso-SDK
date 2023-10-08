@@ -32,7 +32,7 @@ const createAskAndGetProof = async () => {
     const kalypso = new KalypsoSdk(wallet, {
       proofMarketPlace: "string",
       generatorRegistry: "string",
-      rsaRegistryAddress: "string",
+      entityKeyRegistry: "string",
       paymentTokenAddress: "string",
       platformTokenAddress: "string",
     });
@@ -48,7 +48,15 @@ const createAskAndGetProof = async () => {
     // Create ASK request
     const askRequest = await kalypso
       .MarketPlace()
-      .createAsk(marketId, inputBytes, reward, assignmentDeadline, proofGenerationTimeInBlocks, await wallet.getAddress(), secretString);
+      .createAsk(
+        marketId,
+        inputBytes,
+        reward,
+        assignmentDeadline,
+        proofGenerationTimeInBlocks,
+        await wallet.getAddress(),
+        Buffer.from(secretString)
+      );
 
     let receipt = await provider.getTransactionReceipt(askRequest.hash);
     // todo fetch ask id from receipt
