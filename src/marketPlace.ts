@@ -4,11 +4,10 @@ import {
   ERC20__factory,
   ProofMarketPlace,
   ProofMarketPlace__factory,
-  RsaRegistry,
-  RsaRegistry__factory,
-} from "./generated/typechain-types";
+  EntityKeyRegistry,
+  EntityKeyRegistry__factory,
+} from "./typechain-types";
 import BigNumber from "bignumber.js";
-import { SecretData } from "./types";
 import { encryptDataWithECIESandAES, decryptDataWithECIESandAES } from "./secretInputOperation";
 import { gzip } from "node-gzip";
 
@@ -17,7 +16,7 @@ export class MarketPlace {
   private proofMarketPlace: ProofMarketPlace;
   private paymentToken: ERC20;
   private platformToken: ERC20;
-  private rsaRegistry: RsaRegistry;
+  private entityKeyRegistry: EntityKeyRegistry;
 
   private exponent = new BigNumber(10).pow(18);
 
@@ -32,7 +31,7 @@ export class MarketPlace {
     this.proofMarketPlace = ProofMarketPlace__factory.connect(proofMarketPlaceAddress, this.signer);
     this.paymentToken = ERC20__factory.connect(paymentTokenAddress, this.signer);
     this.platformToken = ERC20__factory.connect(platformTokenAddress, this.signer);
-    this.rsaRegistry = RsaRegistry__factory.connect(rsaRegistryAddress, this.signer);
+    this.entityKeyRegistry = EntityKeyRegistry__factory.connect(rsaRegistryAddress, this.signer);
   }
 
   public async approvePaymentTokenToMarketPlace(amount: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
@@ -91,7 +90,7 @@ export class MarketPlace {
       console.log("Approval Tx: ", approvalReceipt?.hash);
     }
 
-    const matchingEnginePubKey = await this.rsaRegistry.rsa_pub_key(await this.proofMarketPlace.getAddress());
+    const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
     if (matchingEnginePubKey.length == 0) {
       throw new Error("matching engine pub key is not updated in the registry");
     }
@@ -157,7 +156,6 @@ export class MarketPlace {
     return await this.proofMarketPlace.createMarketPlace(
       marketMetaData,
       verifier,
-      minStakeForGenerator.toString(),
       slashingPenalty.toString(),
       { ...options }
     );

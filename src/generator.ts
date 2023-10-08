@@ -6,9 +6,9 @@ import {
   GeneratorRegistry__factory,
   ProofMarketPlace,
   ProofMarketPlace__factory,
-  RsaRegistry,
-  RsaRegistry__factory,
-} from "./generated/typechain-types";
+  EntityKeyRegistry,
+  EntityKeyRegistry__factory,
+} from "./typechain-types";
 import BigNumber from "bignumber.js";
 import { KalspsoConfig } from "./types";
 
@@ -16,23 +16,28 @@ export class Generator {
   private signer: AbstractSigner;
   private generatorRegistry: GeneratorRegistry;
   private stakingToken: ERC20;
-  private rsaRegistry: RsaRegistry;
+  private entityKeyRegistry: EntityKeyRegistry;
   private proofMarketplace: ProofMarketPlace;
 
   constructor(signer: AbstractSigner, config: KalspsoConfig) {
     this.signer = signer;
     this.generatorRegistry = GeneratorRegistry__factory.connect(config.generatorRegistry, this.signer);
     this.stakingToken = ERC20__factory.connect(config.paymentTokenAddress, this.signer);
-    this.rsaRegistry = RsaRegistry__factory.connect(config.rsaRegistryAddress, this.signer);
+    this.entityKeyRegistry = EntityKeyRegistry__factory.connect(config.rsaRegistryAddress, this.signer);
     this.proofMarketplace = ProofMarketPlace__factory.connect(config.proofMarketPlace, this.signer);
   }
 
-  public async register(rewardAddress: string, generatorData: BytesLike, options?: Overrides): Promise<ContractTransactionResponse> {
+  public async register(
+    rewardAddress: string,
+    declaredCompute: BigNumberish,
+    generatorData: BytesLike,
+    options?: Overrides
+  ): Promise<ContractTransactionResponse> {
     const result = await this.generatorRegistry.generatorRegistry(await this.signer.getAddress());
     if (result.rewardAddress != "0x0000000000000000000000000000000000000000") {
       throw new Error("Generator is already registered");
     }
-    return this.generatorRegistry.register(rewardAddress, generatorData, { ...options });
+    return this.generatorRegistry.register(rewardAddress, declaredCompute, generatorData, { ...options });
   }
 
   public async deregister(refundAddress: string, options?: Overrides): Promise<ContractTransactionResponse> {
@@ -67,9 +72,9 @@ export class Generator {
 
   public async joinMarketPlace(
     marketId: BytesLike,
+    computeAllocation: BigNumberish,
     proofGeneratorCost: BigNumberish,
     proposedTime: BigNumberish,
-    maxParallelRequestsSupported: BigNumberish,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
     const data = await this.generatorRegistry.generatorInfoPerMarket(await this.signer.getAddress(), marketId);
@@ -77,18 +82,11 @@ export class Generator {
       throw new Error("Already part of this market");
     }
 
-    const stake = (await this.generatorRegistry.generatorRegistry(await this.signer.getAddress())).totalStake;
-    const stakeRequiredForMarket = await this.proofMarketplace.minStakeToJoin(marketId);
-
-    if (new BigNumber(stake.toString()).lt(stakeRequiredForMarket.toString())) {
-      throw new Error(`${stakeRequiredForMarket.toString()} stake required to join ${marketId.toString()}`);
-    }
-
     return await this.generatorRegistry.joinMarketPlace(
       marketId,
       proofGeneratorCost.toString(),
       proposedTime.toString(),
-      maxParallelRequestsSupported.toString(),
+      computeAllocation.toString(),
       { ...options }
     );
   }
@@ -101,7 +99,7 @@ export class Generator {
    * @deprecated Will be replaced with updateEcisKey
    */
   public async updateRsaKey(rsaPub: BytesLike, attestationBytes: BytesLike, options?: Overrides): Promise<ContractTransactionResponse> {
-    return this.rsaRegistry.updatePubkey(rsaPub, attestationBytes, { ...options });
+    return this.entityKeyRegistry.updatePubkey(rsaPub, attestationBytes, { ...options });
   }
 
   public async slashExistingRequest(taskId: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {

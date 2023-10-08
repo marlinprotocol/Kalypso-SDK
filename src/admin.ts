@@ -1,5 +1,5 @@
 import { AbstractSigner, BytesLike, ContractTransactionResponse, Overrides } from "ethers";
-import { ProofMarketPlace__factory, ProofMarketPlace } from "./generated/typechain-types";
+import { ProofMarketPlace__factory, ProofMarketPlace } from "./typechain-types";
 
 export class Admin {
   private signer: AbstractSigner;

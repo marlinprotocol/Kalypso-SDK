@@ -1,4 +1,4 @@
-import { MockToken__factory, ProofMarketPlace__factory, InputAndProofFormatRegistry__factory } from "./generated/typechain-types";
+import { MockToken__factory, ProofMarketPlace__factory, InputAndProofFormatRegistry__factory } from "./typechain-types";
 import { BigNumber } from "bignumber.js";
 
 type getInputTypeParameters = {

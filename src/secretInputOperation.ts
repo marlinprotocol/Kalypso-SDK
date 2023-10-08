@@ -2,22 +2,22 @@ import { encrypt, decrypt } from "eciesjs";
 import crypto from "crypto";
 import { SecretData } from "./types";
 
-function encryptECIES(publicKey: string, data: Buffer): Buffer {
+export function encryptECIES(publicKey: string, data: Buffer): Buffer {
   return encrypt(publicKey, data);
 }
 
-function decryptECIES(privateKey: Buffer, encryptedData: Buffer): Buffer {
+export function decryptECIES(privateKey: Buffer, encryptedData: Buffer): Buffer {
   return decrypt(privateKey, encryptedData);
 }
 
-function encryptAES(data: Buffer, secretKey: Buffer): Buffer {
+export function encryptAES(data: Buffer, secretKey: Buffer): Buffer {
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv("aes-256-cbc", secretKey, iv);
   const encrypted = Buffer.concat([cipher.update(data), cipher.final()]);
   return Buffer.concat([iv, encrypted]);
 }
 
-function decryptAES(encryptedData: Buffer, secretKey: Buffer): Buffer {
+export function decryptAES(encryptedData: Buffer, secretKey: Buffer): Buffer {
   if (encryptedData.length <= 16) {
     throw new Error("Invalid encrypted data format.");
   }
