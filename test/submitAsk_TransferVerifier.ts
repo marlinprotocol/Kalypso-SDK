@@ -30,9 +30,9 @@ const createAskTest = async () => {
     const reward = "1000000000000000000";
 
     const kalypso = new KalypsoSdk(wallet, {
-      proofMarketPlace: "0xf747B2a788b453eE4d00BE24Cd7D7A8532dCD3Cc",
-      generatorRegistry: "0x77716073aB8D14bb7470021daeb33567Dc5c1BF7",
-      entityKeyRegistry: "0x7ce14a0dc913e35e99C1F9D95685b30E73952240",
+      proofMarketPlace: "0xD4B9D03fF2205DAC4F1fE3382934EcCe9dF174b1",
+      generatorRegistry: "0x6b23bA5825d6f1886e0EDBC46A5eCe846b79AEc8",
+      entityKeyRegistry: "0xf1ac28F5E2F72657DD2699B7454E9c7f5207A6D1",
       paymentTokenAddress: "0xCe23FfE37A1669CfD0081109aFC680c8503888f8",
       platformTokenAddress: "0x560FCeb707B0F4b56d43d295e45eD7FE939b96b6",
     });
@@ -41,10 +41,10 @@ const createAskTest = async () => {
 
     const latestBlock = await provider.getBlockNumber();
 
-    const marketId = "0x6c2ec35f8128c43e710a84adb6c7de8978238ab2d2e2b9790847dbab464b54f6";
-    const assignmentDeadline = new BigNumber(latestBlock).plus(100000000);
+    const marketId = "0x07b7d625c70be57115ab18fc435ed0253425671cb91bd6547b7defbc75f52082";
+    const assignmentDeadline = new BigNumber(latestBlock).plus(10000000000);
     console.log({ latestBlock, assignmentDeadline: assignmentDeadline.toFixed(0) });
-    const proofGenerationTimeInBlocks = new BigNumber(100000000);
+    const proofGenerationTimeInBlocks = new BigNumber(10000000000);
 
     // Create ASK request
     const askRequest = await kalypso

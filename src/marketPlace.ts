@@ -91,14 +91,14 @@ export class MarketPlace {
     }
 
     const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
-    if (matchingEnginePubKey.length == 0) {
+    if (matchingEnginePubKey.length == 2) {
       throw new Error("matching engine pub key is not updated in the registry");
     }
 
     const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
+
     const result = await encryptDataWithECIESandAES(secretString, pubKey);
     const secretCompressed = await gzip(result.encryptedData);
-    const aclHex = result.aclData.toString("hex");
 
     return this.proofMarketPlace.createAsk(
       {
@@ -112,8 +112,8 @@ export class MarketPlace {
       },
       true,
       0,
-      secretCompressed,
-      aclHex,
+      "0x" + secretCompressed.toString("hex"),
+      "0x" + result.aclData.toString("hex"),
       { ...options }
     );
   }
