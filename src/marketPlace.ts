@@ -1,4 +1,4 @@
-import { AbstractSigner, BigNumberish, BytesLike, ContractTransactionResponse, Log, Overrides, ethers } from "ethers";
+import { AbstractSigner, BigNumberish, BytesLike, ContractTransactionResponse, Overrides, ethers } from "ethers";
 import {
   ERC20,
   ERC20__factory,
@@ -11,6 +11,12 @@ import BigNumber from "bignumber.js";
 import { SecretData } from "./types";
 import { encryptDataWithRSAandAES, createPubKeyFrom, hexToUtf8, base64ToHex } from "./secretInputOperation";
 import { gzip } from "node-gzip";
+
+type getProofWithAskIdResponse = {
+  proof_generated:Boolean,
+  proof:BytesLike, 
+  message:string
+}
 
 export class MarketPlace {
   private signer: AbstractSigner;
@@ -48,6 +54,8 @@ export class MarketPlace {
     const proverDataLength = proverData.toString().length;
     return new BigNumber(perByte.toString()).multipliedBy(proverDataLength).toString();
   }
+
+
 
   public async createAsk(
     marketId: BytesLike,
@@ -177,7 +185,7 @@ export class MarketPlace {
   }
 
   //Fetching the proof by askId
-  public async getProofByAskId(askId: string) {
+  public async getProofByAskId(askId: string): Promise<getProofWithAskIdResponse> {
     const proof_created_filter = this.proofMarketPlace.filters.ProofCreated(askId);
     const topics = await proof_created_filter.getTopicFilter();
 
@@ -189,10 +197,10 @@ export class MarketPlace {
     });
 
     if (logs && logs.length != 0) {
-      let proof_fetched = logs[0].data;
-      return {proof_generated:true,proof:proof_fetched, message:"Proof fetched."};
+      let decoded_calldata = this.proofMarketPlace.interface.decodeEventLog("ProofCreated",logs[0].data,logs[0].topics);
+      return {proof_generated:true,proof:decoded_calldata[2], message:"Proof fetched."};
     }
-    return {proof_generated:false,proof:[], message: "Proof not submitted yet."}
+    return {proof_generated:false,proof:"0x", message: "Proof not submitted yet."}
   }
 
   public async getProofByTaskId(taskId: string): Promise<BytesLike> {

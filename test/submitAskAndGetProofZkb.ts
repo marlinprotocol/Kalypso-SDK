@@ -71,13 +71,39 @@ const createAskAndGetProof = async () => {
             let data = await kalypso.MarketPlace().getProofByAskId(askId.toString());
             if(data?.proof_generated){
                 console.log(data.message);
-                resolve(data.proof);
+                let abiCoder = new ethers.AbiCoder(); 
+                let proof = abiCoder.decode(
+                  ["uint256[8]"],
+                    data.proof,
+                );
+      
+                let formated_proof = {
+                  "a":[
+                    proof[0][0].toString(),
+                    proof[0][1].toString(),
+                  ],
+                  "b":[
+                    [
+                      proof[0][2].toString(),
+                      proof[0][3].toString(),
+                    ],
+                    [
+                      proof[0][4].toString(),
+                      proof[0][5].toString(),
+                    ]
+                  ],
+                  "c":[
+                    proof[0][6].toString(),
+                    proof[0][7].toString(),
+                  ]
+                }
+                resolve(formated_proof);
                 clearInterval(intervalId);
             }  else {
                 console.log(`Proof not submitted yet for askId : ${askId}.`);
             }
         },10000);
-        });
+      });
     }
   } catch (err) {
     console.log(err);
