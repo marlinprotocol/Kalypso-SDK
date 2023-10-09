@@ -197,8 +197,8 @@ export class MarketPlace {
     });
 
     if (logs && logs.length != 0) {
-      let decoded_calldata = this.proofMarketPlace.interface.decodeEventLog("ProofCreated",logs[0].data,logs[0].topics);
-      return {proof_generated:true,proof:decoded_calldata[2], message:"Proof fetched."};
+      let decoded_event = this.proofMarketPlace.interface.decodeEventLog("ProofCreated",logs[0].data,logs[0].topics);
+      return {proof_generated:true,proof:decoded_event[2], message:"Proof fetched."};
     }
     return {proof_generated:false,proof:"0x", message: "Proof not submitted yet."}
   }
