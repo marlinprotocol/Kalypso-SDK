@@ -73,7 +73,7 @@ async function test_aes_enc(): Promise<String> {
 
 async function test_aes_dec(): Promise<String> {
   let expected_encrypted_hex_string =
-    "dffc6c2d36b611fc380f85067928d45f36da63f40c6fc66071dc82d2c5c4de25f473f463bbee3eaf1ad2681fab47c29ce26907e1f90bbc57042536237e51d1a7";
+    "e88f31251e149a65ce71c495cb8a2db74522d5532bdfd564d2fdb099898dbdbc05093df93151cdd7119e79c643e57979274b489fad42ffb517b87920b941b988";
   let encrypted_buffer = Buffer.from(expected_encrypted_hex_string, "hex");
 
   let cipher_hex_string = "0000111100001111000011110000111100001111000011110000111100001111";

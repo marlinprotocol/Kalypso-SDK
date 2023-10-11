@@ -40,7 +40,6 @@
     "@types/node": "^20.4.5",
     "bignumber.js": "^9.1.1",
     "eciesjs": "^0.4.4",
-    "ethers": "^6.6.6",
-    "node-gzip": "^1.1.2"
+    "ethers": "^6.6.6"
   }
 }

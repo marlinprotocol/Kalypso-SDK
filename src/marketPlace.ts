@@ -9,7 +9,6 @@ import {
 } from "./typechain-types";
 import BigNumber from "bignumber.js";
 import { encryptDataWithECIESandAES, decryptDataWithECIESandAES } from "./secretInputOperation";
-import { gzip } from "node-gzip";
 
 export class MarketPlace {
   private signer: AbstractSigner;
@@ -58,8 +57,6 @@ export class MarketPlace {
     secretBuffer: Buffer,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
-    // console.log(secretBuffer.toString('utf8'));
-    // throw new Error('stopped fpr debugging');
     const platformFee = await this.getPlatformFee(proverData);
     const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
 
@@ -100,8 +97,9 @@ export class MarketPlace {
     const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
 
     const result = await encryptDataWithECIESandAES(secretBuffer, pubKey);
-    const secretCompressed = await gzip(result.encryptedData);
+    console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
 
+    throw new Error("this will work")
     return this.proofMarketPlace.createAsk(
       {
         marketId,
@@ -114,8 +112,8 @@ export class MarketPlace {
       },
       true,
       0,
-      "0x" + secretCompressed.toString("hex"),
-      "0x" + result.aclData.toString("hex"),
+      result.encryptedData,
+      result.aclData,
       { ...options }
     );
   }

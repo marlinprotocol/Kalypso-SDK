@@ -106,4 +106,8 @@ export class Generator {
   public async slashExistingRequest(taskId: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
     return this.proofMarketplace.discardRequest(taskId, { ...options });
   }
+
+  public async discardRequest(askId: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
+    return this.proofMarketplace.discardRequest(askId, { ...options });
+  }
 }
