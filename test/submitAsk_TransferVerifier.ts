@@ -7,6 +7,10 @@ import * as secret from "./secret.json";
 import * as input from "./input.json";
 import BigNumber from "bignumber.js";
 
+import * as fs from "fs";
+import { KalspsoConfig } from "../src/types";
+const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract.json", "utf-8"));
+
 dotenv.config();
 
 const createAskTest = async () => {
@@ -29,13 +33,7 @@ const createAskTest = async () => {
 
     const reward = "1000000000000000000";
 
-    const kalypso = new KalypsoSdk(wallet, {
-      proofMarketPlace: "0xD4B9D03fF2205DAC4F1fE3382934EcCe9dF174b1",
-      generatorRegistry: "0x6b23bA5825d6f1886e0EDBC46A5eCe846b79AEc8",
-      entityKeyRegistry: "0xf1ac28F5E2F72657DD2699B7454E9c7f5207A6D1",
-      paymentTokenAddress: "0xCe23FfE37A1669CfD0081109aFC680c8503888f8",
-      platformTokenAddress: "0x560FCeb707B0F4b56d43d295e45eD7FE939b96b6",
-    });
+    const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
     const secretString = JSON.stringify(secret);
 

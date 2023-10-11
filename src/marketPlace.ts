@@ -55,9 +55,11 @@ export class MarketPlace {
     assignmentDeadline: BigNumberish,
     blocksForProofGeneration: BigNumberish,
     refundAddress: string,
-    secretString: Buffer,
+    secretBuffer: Buffer,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
+    // console.log(secretBuffer.toString('utf8'));
+    // throw new Error('stopped fpr debugging');
     const platformFee = await this.getPlatformFee(proverData);
     const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
 
@@ -91,13 +93,13 @@ export class MarketPlace {
     }
 
     const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
-    if (matchingEnginePubKey.length == 2) {
+    if (matchingEnginePubKey.length <= 2) {
       throw new Error("matching engine pub key is not updated in the registry");
     }
 
     const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
 
-    const result = await encryptDataWithECIESandAES(secretString, pubKey);
+    const result = await encryptDataWithECIESandAES(secretBuffer, pubKey);
     const secretCompressed = await gzip(result.encryptedData);
 
     return this.proofMarketPlace.createAsk(

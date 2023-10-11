@@ -22,8 +22,8 @@ export class Generator {
   constructor(signer: AbstractSigner, config: KalspsoConfig) {
     this.signer = signer;
     this.generatorRegistry = GeneratorRegistry__factory.connect(config.generatorRegistry, this.signer);
-    this.stakingToken = ERC20__factory.connect(config.paymentTokenAddress, this.signer);
-    this.entityKeyRegistry = EntityKeyRegistry__factory.connect(config.entityKeyRegistry, this.signer);
+    this.stakingToken = ERC20__factory.connect(config.platformToken, this.signer);
+    this.entityKeyRegistry = EntityKeyRegistry__factory.connect(config.EntityRegistry, this.signer);
     this.proofMarketplace = ProofMarketPlace__factory.connect(config.proofMarketPlace, this.signer);
   }
 
@@ -84,9 +84,9 @@ export class Generator {
 
     return await this.generatorRegistry.joinMarketPlace(
       marketId,
+      computeAllocation.toString(),
       proofGeneratorCost.toString(),
       proposedTime.toString(),
-      computeAllocation.toString(),
       { ...options }
     );
   }

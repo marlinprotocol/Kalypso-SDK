@@ -6,19 +6,33 @@ import { ethers } from "ethers";
 
 dotenv.config();
 
-async function main() {
+import * as fs from "fs";
+import { KalspsoConfig } from "../src/types";
+const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract.json", "utf-8"));
+
+async function main1(): Promise<string> {
+  // const provider = new ethers.JsonRpcProvider(process.env.RPC);
+  // let admin_private_key = `${process.env.ADMIN_PRIVATE_KEY}`;
+  // const wallet = new ethers.Wallet(admin_private_key, provider);
+  // console.log("using address of admin", await wallet.getAddress());
+
+  // let matching_engine_private_key = `${process.env.MATCHING_ENGINE_PRIVATE_KEY}`;
+  // const me_wallet = new ethers.Wallet(matching_engine_private_key, provider);
+
+  // const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
+
+  // const tx = await kalypso.Admin().grantRoleToMatchingEngine(await me_wallet.getAddress(), "0x");
+  // const receipt = await tx.wait();
+  // console.log("Granted Role To Matching Engine ", receipt?.hash);
+  return "Done";
+}
+async function main2() {
   const provider = new ethers.JsonRpcProvider(process.env.RPC);
   let matching_engine_private_key = `${process.env.MATCHING_ENGINE_PRIVATE_KEY}`;
   const wallet = new ethers.Wallet(matching_engine_private_key, provider);
-  console.log("using address", await wallet.getAddress());
+  console.log("using address of me", await wallet.getAddress());
 
-  const kalypso = new KalypsoSdk(wallet, {
-    proofMarketPlace: "0xD4B9D03fF2205DAC4F1fE3382934EcCe9dF174b1",
-    generatorRegistry: "0x6b23bA5825d6f1886e0EDBC46A5eCe846b79AEc8",
-    entityKeyRegistry: "0xf1ac28F5E2F72657DD2699B7454E9c7f5207A6D1",
-    paymentTokenAddress: "0xCe23FfE37A1669CfD0081109aFC680c8503888f8",
-    platformTokenAddress: "0x560FCeb707B0F4b56d43d295e45eD7FE939b96b6",
-  });
+  const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
   let secret_key: PrivateKey = PrivateKey.fromHex(matching_engine_private_key);
   let pub_key = secret_key.publicKey.compressed;
@@ -31,4 +45,4 @@ async function main() {
   return "Done";
 }
 
-main().then(console.log).catch(console.log);
+main1().then(main2).then(console.log).catch(console.log);

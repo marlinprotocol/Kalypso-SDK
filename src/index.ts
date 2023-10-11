@@ -31,9 +31,9 @@ export class KalypsoSdk {
     return new MarketPlace(
       this.signer,
       this.config.proofMarketPlace,
-      this.config.paymentTokenAddress,
-      this.config.platformTokenAddress,
-      this.config.entityKeyRegistry
+      this.config.paymentToken,
+      this.config.platformToken,
+      this.config.EntityRegistry
     );
   }
 }

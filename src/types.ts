@@ -1,9 +1,14 @@
 export interface KalspsoConfig {
-  proofMarketPlace: string;
+  paymentToken: string;
+  platformToken: string;
   generatorRegistry: string;
-  entityKeyRegistry: string;
-  paymentTokenAddress: string;
-  platformTokenAddress: string;
+  attestationVerifier: string;
+  EntityRegistry: string;
+  proofMarketPlace: string;
+  transferVerifierWrapper: string;
+  zkbVerifierWrapper: string;
+  priorityList: string;
+  inputAndProofFormat: string;
 }
 
 export interface SecretData {

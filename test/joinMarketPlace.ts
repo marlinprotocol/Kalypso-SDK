@@ -4,29 +4,24 @@ import * as fs from "fs";
 
 import { ContractTransactionReceipt, ContractTransactionResponse, ethers } from "ethers";
 import BigNumber from "bignumber.js";
+import { KalspsoConfig } from "../src/types";
 
 dotenv.config();
+
+const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract.json", "utf-8"));
 
 async function main() {
   const provider = new ethers.JsonRpcProvider(process.env.RPC);
   const wallet = new ethers.Wallet(`${process.env.GENERATOR_PRIVATE_KEY}`, provider);
   console.log("using address", await wallet.getAddress());
 
-  const kalypso = new KalypsoSdk(wallet, {
-    proofMarketPlace: "0xf747B2a788b453eE4d00BE24Cd7D7A8532dCD3Cc",
-    generatorRegistry: "0x77716073aB8D14bb7470021daeb33567Dc5c1BF7",
-    entityKeyRegistry: "0x7ce14a0dc913e35e99C1F9D95685b30E73952240",
-    paymentTokenAddress: "0xCe23FfE37A1669CfD0081109aFC680c8503888f8",
-    platformTokenAddress: "0x560FCeb707B0F4b56d43d295e45eD7FE939b96b6",
-  });
+  const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  const pubkey = Buffer.from("read this from env variables");
-
-  const marketId = "0x6c2ec35f8128c43e710a84adb6c7de8978238ab2d2e2b9790847dbab464b54f6";
+  const marketId = "0x07b7d625c70be57115ab18fc435ed0253425671cb91bd6547b7defbc75f52082";
   let tx: ContractTransactionResponse;
   let receipt: ContractTransactionReceipt | null;
 
-  const declaredCompute = 100000;
+  const declaredCompute = "1000000000000000000";
   try {
     tx = await kalypso.Generator().register(await wallet.getAddress(), declaredCompute, "0xff00abcd00ff");
     receipt = await tx.wait();
@@ -45,7 +40,7 @@ async function main() {
   }
 
   try {
-    tx = await kalypso.Generator().joinMarketPlace(marketId, "100000000000000000", "10000", "3");
+    tx = await kalypso.Generator().joinMarketPlace(marketId, "100000000000000000", "10000", "10000000000");
     receipt = await tx.wait();
     console.log("Joined Market Place Transaction: ", receipt?.hash);
   } catch (ex) {

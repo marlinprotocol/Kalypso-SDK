@@ -1,28 +1,28 @@
 import { KalypsoSdk } from "../src";
 import dotenv from "dotenv";
-import * as fs from "fs";
-
+import { PublicKey, PrivateKey } from "eciesjs";
 import { ethers } from "ethers";
+
+import * as fs from "fs";
+import { KalspsoConfig } from "../src/types";
+const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract.json", "utf-8"));
 
 dotenv.config();
 
 async function main() {
   const provider = new ethers.JsonRpcProvider(process.env.RPC);
-  const wallet = new ethers.Wallet(`${process.env.GENERATOR_PRIVATE_KEY}`, provider);
+  const generator_private_key = `${process.env.GENERATOR_PRIVATE_KEY}`;
+  const wallet = new ethers.Wallet(generator_private_key, provider);
   console.log("using address", await wallet.getAddress());
 
-  const kalypso = new KalypsoSdk(wallet, {
-    proofMarketPlace: "0xf747B2a788b453eE4d00BE24Cd7D7A8532dCD3Cc",
-    generatorRegistry: "0x77716073aB8D14bb7470021daeb33567Dc5c1BF7",
-    entityKeyRegistry: "0x7ce14a0dc913e35e99C1F9D95685b30E73952240",
-    paymentTokenAddress: "0xCe23FfE37A1669CfD0081109aFC680c8503888f8",
-    platformTokenAddress: "0x560FCeb707B0F4b56d43d295e45eD7FE939b96b6",
-  });
+  const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  // this should be changed
-  const pubkey = Buffer.from("read this from env variables");
+  let secret_key: PrivateKey = PrivateKey.fromHex(generator_private_key);
+  let pub_key = secret_key.publicKey.compressed;
 
-  const tx = await kalypso.Generator().updateEcisKey(pubkey, "0x");
+  console.log({ gen_pub_key: pub_key });
+
+  const tx = await kalypso.Generator().updateEcisKey(pub_key, "0x");
   const receipt = await tx.wait();
   console.log("Added Generator ECIES key: ", receipt?.hash);
   return "Done";
