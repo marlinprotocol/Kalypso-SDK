@@ -8,13 +8,11 @@ dotenv.config();
 const provider = new ethers.JsonRpcProvider(process.env.RPC);
 const wallet = new ethers.Wallet(`${process.env.PRIVATE_KEY}`, provider);
 
-const kalypso = new KalypsoSdk(wallet, {
-  proofMarketPlace: "string",
-  generatorRegistry: "string",
-  entityKeyRegistry: "string",
-  paymentTokenAddress: "string",
-  platformTokenAddress: "string",
-});
+import * as fs from "fs";
+import { KalspsoConfig } from "../src/types";
+const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract.json", "utf-8"));
+
+const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
 const getProofTest = async () => {
   try {
