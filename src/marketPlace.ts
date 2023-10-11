@@ -99,7 +99,6 @@ export class MarketPlace {
     const result = await encryptDataWithECIESandAES(secretBuffer, pubKey);
     console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
 
-    throw new Error("this will work");
     return this.proofMarketPlace.createAsk(
       {
         marketId,
