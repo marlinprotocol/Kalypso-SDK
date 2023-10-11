@@ -1,10 +1,13 @@
 import { BytesLike, ethers } from "ethers";
 import dotenv from "dotenv";
-import { ProofMarketPlace__factory } from "../src/generated/typechain-types";
-import { decryptDataWithRSAandAES, hexToBase64 } from "../src";
+import { ProofMarketPlace__factory } from "../src/typechain-types";
+import { KalypsoSdk } from "../src";
 
 import * as fs from "fs";
+
 dotenv.config();
+
+const decryptDataWithECIESandAES = KalypsoSdk.SecretInputOperations().decryptDataWithECIESandAES;
 
 const decodeAsk = async (transactionhash: string) => {
   console.log("decoding ask request in transaction ", transactionhash);
@@ -18,10 +21,10 @@ const decodeAsk = async (transactionhash: string) => {
   const secretData = decodedData[decodedData.length - 2];
   const aclData = decodedData[decodedData.length - 1];
 
-  const privatekey = fs.readFileSync("./test/matching_engine/private_key_2048.pem", "utf-8");
-  const decryptedData = await decryptDataWithRSAandAES(secretData.split('x')[1], hexToBase64(aclData.split("x")[1]), privatekey);
+  const privatekey = Buffer.from("get this from env variables to work");
+  const decryptedData = await decryptDataWithECIESandAES(secretData.split("x")[1], aclData.split("x")[1], privatekey);
 
-  console.log(JSON.parse(decryptedData));
+  console.log(decryptedData);
   return "Done";
 };
 

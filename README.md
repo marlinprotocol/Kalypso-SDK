@@ -33,7 +33,7 @@ const askRequest = await createAsk({
 });
 ```
 
-#### Get proof for a ASK : 
+#### Get proof for a ASK :
 
 ```
 let proof_data = await getProof({
