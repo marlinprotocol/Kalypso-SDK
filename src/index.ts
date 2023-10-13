@@ -20,7 +20,7 @@ export class KalypsoSdk {
   }
 
   Admin(): Admin {
-    return new Admin(this.signer, this.config.proofMarketPlace);
+    return new Admin(this.signer, this.config.proofMarketPlace, this.config.EntityRegistry);
   }
 
   Generator(): Generator {

@@ -10,6 +10,12 @@ import {
 import BigNumber from "bignumber.js";
 import { encryptDataWithECIESandAES, decryptDataWithECIESandAES } from "./secretInputOperation";
 
+type getProofWithAskIdResponse = {
+  proof_generated:Boolean,
+  proof:BytesLike, 
+  message:string
+}
+
 export class MarketPlace {
   private signer: AbstractSigner;
   private proofMarketPlace: ProofMarketPlace;
@@ -155,7 +161,7 @@ export class MarketPlace {
     return await this.proofMarketPlace.createMarketPlace(marketMetaData, verifier, slashingPenalty.toString(), { ...options });
   }
 
-  public async getProofByAskId(askId: string): Promise<BytesLike> {
+  public async getProofByAskId(askId: string): Promise<getProofWithAskIdResponse> {
     const proof_created_filter = this.proofMarketPlace.filters.ProofCreated(askId);
     const topics = await proof_created_filter.getTopicFilter();
 
@@ -166,13 +172,11 @@ export class MarketPlace {
       topics,
     });
 
-    // TODO: return only proof any not the whole event
     if (logs && logs.length != 0) {
-      // only one such log should be available
-      return logs[0].data;
+      let decoded_event = this.proofMarketPlace.interface.decodeEventLog("ProofCreated",logs[0].data,logs[0].topics);
+      return {proof_generated:true,proof:decoded_event[2], message:"Proof fetched."};
     }
-
-    throw new Error("Proof not found");
+    return {proof_generated:false,proof:"0x", message: "Proof not submitted yet."}
   }
 
   public async getProofByTaskId(taskId: string): Promise<BytesLike> {
@@ -192,5 +196,18 @@ export class MarketPlace {
     }
 
     throw new Error("Proof Not Found");
+  }
+
+  //Fetching the AskId
+  public async getAskId(receipt: ethers.TransactionReceipt): Promise<string> {
+    let blockNumber = receipt.blockNumber;
+    const ask_created_filter = this.proofMarketPlace.filters.AskCreated();
+    const ask_id = await this.proofMarketPlace.queryFilter(ask_created_filter,blockNumber,blockNumber);
+
+    if(ask_id[0].args[0]){
+      return ask_id[0].args[0].toString();
+    }
+
+    throw new Error("Ask Id not found for the give receipt");
   }
 }
