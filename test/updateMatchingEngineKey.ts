@@ -29,7 +29,9 @@ async function main1(): Promise<string> {
 async function main2() {
   const provider = new ethers.JsonRpcProvider(process.env.RPC);
   let matching_engine_private_key = `${process.env.MATCHING_ENGINE_PRIVATE_KEY}`;
-  const wallet = new ethers.Wallet(matching_engine_private_key, provider);
+
+  let admin_private_key = `${process.env.ADMIN_PRIVATE_KEY}`;
+  const wallet = new ethers.Wallet(admin_private_key, provider);
   console.log("using address of me", await wallet.getAddress());
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);

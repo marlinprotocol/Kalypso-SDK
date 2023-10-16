@@ -4,7 +4,7 @@ import { ProofMarketPlace__factory, ProofMarketPlace, EntityKeyRegistry, EntityK
 export class Admin {
   private signer: AbstractSigner;
   private proofMarketPlace: ProofMarketPlace;
-  private entityRegistry: EntityKeyRegistry
+  private entityRegistry: EntityKeyRegistry;
 
   constructor(signer: AbstractSigner, proofMarketPlaceAddress: string, entityKeyRegistry: string) {
     this.signer = signer;

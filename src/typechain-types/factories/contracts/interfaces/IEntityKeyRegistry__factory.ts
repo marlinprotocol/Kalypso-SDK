@@ -20,6 +20,13 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "removePubkey",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "bytes",

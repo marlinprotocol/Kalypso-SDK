@@ -20,7 +20,7 @@ export class KalypsoSdk {
   }
 
   Admin(): Admin {
-    return new Admin(this.signer, this.config.proofMarketPlace, this.config.EntityRegistry);
+    return new Admin(this.signer, this.config.proof_market_place, this.config.entity_registry);
   }
 
   Generator(): Generator {
@@ -30,10 +30,10 @@ export class KalypsoSdk {
   MarketPlace(): MarketPlace {
     return new MarketPlace(
       this.signer,
-      this.config.proofMarketPlace,
-      this.config.paymentToken,
-      this.config.platformToken,
-      this.config.EntityRegistry
+      this.config.proof_market_place,
+      this.config.payment_token,
+      this.config.staking_token,
+      this.config.entity_registry
     );
   }
 }

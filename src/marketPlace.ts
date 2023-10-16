@@ -6,15 +6,17 @@ import {
   ProofMarketPlace__factory,
   EntityKeyRegistry,
   EntityKeyRegistry__factory,
+  IProofMarketPlace,
 } from "./typechain-types";
 import BigNumber from "bignumber.js";
 import { encryptDataWithECIESandAES, decryptDataWithECIESandAES } from "./secretInputOperation";
+import * as pako from "pako";
 
 type getProofWithAskIdResponse = {
-  proof_generated:Boolean,
-  proof:BytesLike, 
-  message:string
-}
+  proof_generated: Boolean;
+  proof: BytesLike;
+  message: string;
+};
 
 export class MarketPlace {
   private signer: AbstractSigner;
@@ -47,10 +49,8 @@ export class MarketPlace {
     return this.platformToken.approve(await this.proofMarketPlace.getAddress(), amount.toString(), { ...options });
   }
 
-  public async getPlatformFee(proverData: BytesLike): Promise<BigNumberish> {
-    const perByte = await this.proofMarketPlace.costPerInputBytes();
-    const proverDataLength = proverData.toString().length;
-    return new BigNumber(perByte.toString()).multipliedBy(proverDataLength).toString();
+  public async getPlatformFee(ask: IProofMarketPlace.AskStruct, encryptedSecret: BytesLike, aclData: BytesLike): Promise<BigNumberish> {
+    return this.proofMarketPlace.getPlatformFee(ask, encryptedSecret, aclData);
   }
 
   public async createAsk(
@@ -63,9 +63,30 @@ export class MarketPlace {
     secretBuffer: Buffer,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
-    const platformFee = await this.getPlatformFee(proverData);
-    const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
+    //deflate the secret buffer to reduce tx cost
+    secretBuffer = Buffer.from(pako.deflate(secretBuffer));
 
+    const askRequest: IProofMarketPlace.AskStruct = {
+      marketId,
+      proverData,
+      reward,
+      expiry: assignmentDeadline,
+      timeTakenForProofGeneration: blocksForProofGeneration,
+      deadline: 0,
+      refundAddress: refundAddress,
+    };
+    const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
+    if (matchingEnginePubKey.length <= 2) {
+      throw new Error("matching engine pub key is not updated in the registry");
+    }
+
+    const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
+    const result = await encryptDataWithECIESandAES(secretBuffer, pubKey);
+    console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
+
+    const platformFee = await this.getPlatformFee(askRequest, result.encryptedData, result.aclData);
+
+    const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
     if (new BigNumber(platformTokenBalance.toString()).lt(platformFee.toString())) {
       throw new Error("Ensure sufficient platform token balance");
     }
@@ -95,32 +116,7 @@ export class MarketPlace {
       console.log("Approval Tx: ", approvalReceipt?.hash);
     }
 
-    const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
-    if (matchingEnginePubKey.length <= 2) {
-      throw new Error("matching engine pub key is not updated in the registry");
-    }
-
-    const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
-
-    const result = await encryptDataWithECIESandAES(secretBuffer, pubKey);
-    console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
-
-    return this.proofMarketPlace.createAsk(
-      {
-        marketId,
-        proverData,
-        reward,
-        expiry: assignmentDeadline,
-        timeTakenForProofGeneration: blocksForProofGeneration,
-        deadline: 0,
-        refundAddress: refundAddress,
-      },
-      true,
-      0,
-      result.encryptedData,
-      result.aclData,
-      { ...options }
-    );
+    return this.proofMarketPlace.createAsk(askRequest, true, 0, result.encryptedData, result.aclData, { ...options });
   }
 
   public async createNewMarket(
@@ -173,10 +169,10 @@ export class MarketPlace {
     });
 
     if (logs && logs.length != 0) {
-      let decoded_event = this.proofMarketPlace.interface.decodeEventLog("ProofCreated",logs[0].data,logs[0].topics);
-      return {proof_generated:true,proof:decoded_event[2], message:"Proof fetched."};
+      let decoded_event = this.proofMarketPlace.interface.decodeEventLog("ProofCreated", logs[0].data, logs[0].topics);
+      return { proof_generated: true, proof: decoded_event[2], message: "Proof fetched." };
     }
-    return {proof_generated:false,proof:"0x", message: "Proof not submitted yet."}
+    return { proof_generated: false, proof: "0x", message: "Proof not submitted yet." };
   }
 
   public async getProofByTaskId(taskId: string): Promise<BytesLike> {
@@ -202,9 +198,9 @@ export class MarketPlace {
   public async getAskId(receipt: ethers.TransactionReceipt): Promise<string> {
     let blockNumber = receipt.blockNumber;
     const ask_created_filter = this.proofMarketPlace.filters.AskCreated();
-    const ask_id = await this.proofMarketPlace.queryFilter(ask_created_filter,blockNumber,blockNumber);
+    const ask_id = await this.proofMarketPlace.queryFilter(ask_created_filter, blockNumber, blockNumber);
 
-    if(ask_id[0].args[0]){
+    if (ask_id[0].args[0]) {
       return ask_id[0].args[0].toString();
     }
 

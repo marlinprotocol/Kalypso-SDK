@@ -30,6 +30,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.1",
     "@types/node-gzip": "^1.1.0",
+    "@types/pako": "^2.0.1",
     "dotenv": "^16.3.1",
     "ts-node": "^10.9.1",
     "typedoc": "^0.24.8",
@@ -40,6 +41,7 @@
     "@types/node": "^20.4.5",
     "bignumber.js": "^9.1.1",
     "eciesjs": "^0.4.4",
-    "ethers": "^6.6.6"
+    "ethers": "^6.6.6",
+    "pako": "^2.1.0"
   }
 }

@@ -5,12 +5,14 @@ import type { BaseContract, BytesLike, FunctionFragment, Result, Interface, Cont
 import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../../common";
 
 export interface IEntityKeyRegistryInterface extends Interface {
-  getFunction(nameOrSignature: "attestationVerifier" | "updatePubkey"): FunctionFragment;
+  getFunction(nameOrSignature: "attestationVerifier" | "removePubkey" | "updatePubkey"): FunctionFragment;
 
   encodeFunctionData(functionFragment: "attestationVerifier", values?: undefined): string;
+  encodeFunctionData(functionFragment: "removePubkey", values?: undefined): string;
   encodeFunctionData(functionFragment: "updatePubkey", values: [BytesLike, BytesLike]): string;
 
   decodeFunctionResult(functionFragment: "attestationVerifier", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "removePubkey", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "updatePubkey", data: BytesLike): Result;
 }
 
@@ -43,11 +45,14 @@ export interface IEntityKeyRegistry extends BaseContract {
 
   attestationVerifier: TypedContractMethod<[], [string], "nonpayable">;
 
+  removePubkey: TypedContractMethod<[], [void], "nonpayable">;
+
   updatePubkey: TypedContractMethod<[pub: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "attestationVerifier"): TypedContractMethod<[], [string], "nonpayable">;
+  getFunction(nameOrSignature: "removePubkey"): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(nameOrSignature: "updatePubkey"): TypedContractMethod<[pub: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
 
   filters: {};
