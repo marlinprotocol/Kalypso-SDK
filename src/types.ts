@@ -17,6 +17,7 @@ export interface SecretData {
 }
 
 export interface SecretInputOperations {
+  encryptDataWithECIESandAesGcm(data: Buffer, publicKey: string): Promise<SecretData>;
   encryptDataWithECIESandAES(data: Buffer, publicKey: string): Promise<SecretData>;
   decryptDataWithECIESandAES(encryptedData: Buffer, aclData: Buffer, privateKey: Buffer): Promise<Buffer>;
   encryptECIES(publicKey: string, data: Buffer): Buffer;

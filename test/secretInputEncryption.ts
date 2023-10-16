@@ -8,7 +8,7 @@ import {
   encryptAesGcm,
   decryptAesGcm,
 } from "../src/secretInputOperation";
-import { encrypt, decrypt, PrivateKey } from "eciesjs";
+import { PrivateKey } from "eciesjs";
 
 const data = Buffer.from("this is the data that we wish to encrypt");
 

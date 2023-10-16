@@ -77,10 +77,30 @@ export async function encryptDataWithECIESandAES(data: Buffer, publicKey: string
   };
 }
 
+export async function encryptDataWithECIESandAesGcm(data: Buffer, publicKey: string): Promise<SecretData> {
+  // Generate a random secret key for AES encryption
+  const cipher = crypto.randomBytes(32);
+
+  // Encrypt the data using the secret key
+  const encryptedData = encryptAesGcm(data, cipher);
+
+  // Encrypt the secret key using ECIES
+  const encryptedSecretKey = encryptECIES(publicKey, cipher);
+
+  return {
+    encryptedData,
+    aclData: encryptedSecretKey,
+  };
+}
+
 export async function decryptDataWithECIESandAES(encryptedData: Buffer, aclData: Buffer, privateKey: Buffer): Promise<Buffer> {
   // Decrypt the secret key using ECIES private key
   const decryptedSecretKey = decryptECIES(privateKey, aclData);
 
   // Decrypt the actual data using the decrypted AES secret key
-  return decryptAES(encryptedData, decryptedSecretKey);
+  try{
+    return decryptAesGcm(encryptedData, decryptedSecretKey);
+  }catch(ex){
+    return decryptAES(encryptedData, decryptedSecretKey);
+  }
 }

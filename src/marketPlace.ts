@@ -9,7 +9,7 @@ import {
   IProofMarketPlace,
 } from "./typechain-types";
 import BigNumber from "bignumber.js";
-import { encryptDataWithECIESandAES, decryptDataWithECIESandAES } from "./secretInputOperation";
+import { encryptDataWithECIESandAesGcm } from "./secretInputOperation";
 import * as pako from "pako";
 
 type getProofWithAskIdResponse = {
@@ -81,11 +81,10 @@ export class MarketPlace {
     }
 
     const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
-    const result = await encryptDataWithECIESandAES(secretBuffer, pubKey);
+    const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey);
     console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
 
     const platformFee = await this.getPlatformFee(askRequest, result.encryptedData, result.aclData);
-
     const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
     if (new BigNumber(platformTokenBalance.toString()).lt(platformFee.toString())) {
       throw new Error("Ensure sufficient platform token balance");
