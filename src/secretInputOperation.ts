@@ -98,9 +98,9 @@ export async function decryptDataWithECIESandAES(encryptedData: Buffer, aclData:
   const decryptedSecretKey = decryptECIES(privateKey, aclData);
 
   // Decrypt the actual data using the decrypted AES secret key
-  try{
+  try {
     return decryptAesGcm(encryptedData, decryptedSecretKey);
-  }catch(ex){
+  } catch (ex) {
     return decryptAES(encryptedData, decryptedSecretKey);
   }
 }

@@ -11,6 +11,7 @@ import {
 import BigNumber from "bignumber.js";
 import { encryptDataWithECIESandAesGcm } from "./secretInputOperation";
 import * as pako from "pako";
+import { AskState } from "./types";
 
 type getProofWithAskIdResponse = {
   proof_generated: Boolean;
@@ -204,5 +205,26 @@ export class MarketPlace {
     }
 
     throw new Error("Ask Id not found for the give receipt");
+  }
+
+  public async getAskState(askId: BigNumberish): Promise<AskState> {
+    const state = await this.proofMarketPlace.getAskState(askId);
+    const stateNumber = new BigNumber(state.toString()).toNumber();
+
+    if (stateNumber == 0) {
+      return AskState.NULL;
+    } else if (stateNumber == 1) {
+      return AskState.CREATE;
+    } else if (stateNumber == 2) {
+      return AskState.UNASSIGNED;
+    } else if (stateNumber == 3) {
+      return AskState.ASSIGNED;
+    } else if (stateNumber == 4) {
+      return AskState.COMPLETE;
+    } else if (stateNumber == 5) {
+      return AskState.DEADLINE_CROSSED;
+    }
+
+    return AskState.NULL;
   }
 }

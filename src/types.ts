@@ -25,3 +25,12 @@ export interface SecretInputOperations {
   encryptAES(data: Buffer, secretKey: Buffer): Buffer;
   decryptAES(encryptedData: Buffer, secretKey: Buffer): Buffer;
 }
+
+export enum AskState {
+  NULL = "Ddoes not exists",
+  CREATE = "create",
+  UNASSIGNED = "unassigned",
+  ASSIGNED = "assigned to a generator",
+  COMPLETE = "complete",
+  DEADLINE_CROSSED = "deadline crossed",
+}
