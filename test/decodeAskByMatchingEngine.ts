@@ -22,4 +22,5 @@ const decodeAsk = async (transactionhash: string) => {
 };
 
 decodeAsk("0xe9545de48beb40b983cfb34c1c1f524bc250e87dd7ebfe680bf272b01b3da271").then(console.log).catch(console.log);
+// { secretData: 89442, aclData: 260 }
 // { secretData: 8770, aclData: 260 }
