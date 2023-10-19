@@ -11,10 +11,10 @@ import BigNumber from "bignumber.js";
 import { encryptDataWithECIESandAES, decryptDataWithECIESandAES } from "./secretInputOperation";
 
 type getProofWithAskIdResponse = {
-  proof_generated:Boolean,
-  proof:BytesLike, 
-  message:string
-}
+  proof_generated: Boolean;
+  proof: BytesLike;
+  message: string;
+};
 
 export class MarketPlace {
   private signer: AbstractSigner;
@@ -173,10 +173,10 @@ export class MarketPlace {
     });
 
     if (logs && logs.length != 0) {
-      let decoded_event = this.proofMarketPlace.interface.decodeEventLog("ProofCreated",logs[0].data,logs[0].topics);
-      return {proof_generated:true,proof:decoded_event[2], message:"Proof fetched."};
+      let decoded_event = this.proofMarketPlace.interface.decodeEventLog("ProofCreated", logs[0].data, logs[0].topics);
+      return { proof_generated: true, proof: decoded_event[2], message: "Proof fetched." };
     }
-    return {proof_generated:false,proof:"0x", message: "Proof not submitted yet."}
+    return { proof_generated: false, proof: "0x", message: "Proof not submitted yet." };
   }
 
   public async getProofByTaskId(taskId: string): Promise<BytesLike> {
@@ -202,9 +202,9 @@ export class MarketPlace {
   public async getAskId(receipt: ethers.TransactionReceipt): Promise<string> {
     let blockNumber = receipt.blockNumber;
     const ask_created_filter = this.proofMarketPlace.filters.AskCreated();
-    const ask_id = await this.proofMarketPlace.queryFilter(ask_created_filter,blockNumber,blockNumber);
+    const ask_id = await this.proofMarketPlace.queryFilter(ask_created_filter, blockNumber, blockNumber);
 
-    if(ask_id[0].args[0]){
+    if (ask_id[0].args[0]) {
       return ask_id[0].args[0].toString();
     }
 

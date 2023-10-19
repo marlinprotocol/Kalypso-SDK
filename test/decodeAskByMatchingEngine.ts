@@ -1,13 +1,9 @@
 import { BytesLike, ethers } from "ethers";
 import dotenv from "dotenv";
 import { ProofMarketPlace__factory } from "../src/typechain-types";
-import { KalypsoSdk } from "../src";
-
-import * as fs from "fs";
 
 dotenv.config();
 
-const decryptDataWithECIESandAES = KalypsoSdk.SecretInputOperations().decryptDataWithECIESandAES;
 
 const decodeAsk = async (transactionhash: string) => {
   console.log("decoding ask request in transaction ", transactionhash);
@@ -21,11 +17,9 @@ const decodeAsk = async (transactionhash: string) => {
   const secretData = decodedData[decodedData.length - 2];
   const aclData = decodedData[decodedData.length - 1];
 
-  const privatekey = Buffer.from("get this from env variables to work");
-  const decryptedData = await decryptDataWithECIESandAES(secretData.split("x")[1], aclData.split("x")[1], privatekey);
-
-  console.log(decryptedData);
+  console.log({ secretData: secretData.length, aclData: aclData.length });
   return "Done";
 };
 
-decodeAsk("0xc6e006edbfa8e7612f9b35da1ae80be008dedc7fa9938fecb026fafad71ddcf1").then(console.log).catch(console.log);
+decodeAsk("0xe9545de48beb40b983cfb34c1c1f524bc250e87dd7ebfe680bf272b01b3da271").then(console.log).catch(console.log);
+// { secretData: 8770, aclData: 260 }
