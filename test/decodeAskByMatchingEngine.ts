@@ -4,7 +4,6 @@ import { ProofMarketPlace__factory } from "../src/typechain-types";
 
 dotenv.config();
 
-
 const decodeAsk = async (transactionhash: string) => {
   console.log("decoding ask request in transaction ", transactionhash);
   const provider = new ethers.JsonRpcProvider(process.env.RPC);

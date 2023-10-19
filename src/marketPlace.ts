@@ -53,6 +53,67 @@ export class MarketPlace {
     return new BigNumber(perByte.toString()).multipliedBy(proverDataLength).toString();
   }
 
+  public async createAskWithEncryptedSecretAndAcl(
+    marketId: BytesLike,
+    proverData: BytesLike,
+    reward: BigNumberish,
+    assignmentDeadline: BigNumberish,
+    blocksForProofGeneration: BigNumberish,
+    refundAddress: string,
+    secret: Buffer,
+    acl: Buffer,
+    options?: Overrides
+  ): Promise<ContractTransactionResponse> {
+    const platformFee = await this.getPlatformFee(proverData);
+    const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
+
+    if (new BigNumber(platformTokenBalance.toString()).lt(platformFee.toString())) {
+      throw new Error("Ensure sufficient platform token balance");
+    }
+
+    const paymentTokenBalance = await this.paymentToken.balanceOf(await this.signer.getAddress());
+    if (new BigNumber(paymentTokenBalance.toString()).lt(reward.toString())) {
+      throw new Error("Ensure sufficient payment token balance");
+    }
+
+    const platformTokenAllowance = await this.platformToken.allowance(
+      await this.signer.getAddress(),
+      await this.proofMarketPlace.getAddress()
+    );
+    if (new BigNumber(platformTokenAllowance.toString()).lt(platformFee.toString())) {
+      const approvalTx = await this.platformToken.approve(await this.proofMarketPlace.getAddress(), platformFee.toString());
+      const approvalReceipt = await approvalTx.wait();
+      console.log("Approval Tx: ", approvalReceipt?.hash);
+    }
+
+    const paymentTokenAllowance = await this.paymentToken.allowance(
+      await this.signer.getAddress(),
+      await this.proofMarketPlace.getAddress()
+    );
+    if (new BigNumber(paymentTokenAllowance.toString()).lt(reward.toString())) {
+      const approvalTx = await this.paymentToken.approve(await this.proofMarketPlace.getAddress(), reward.toString());
+      const approvalReceipt = await approvalTx.wait();
+      console.log("Approval Tx: ", approvalReceipt?.hash);
+    }
+
+    return this.proofMarketPlace.createAsk(
+      {
+        marketId,
+        proverData,
+        reward,
+        expiry: assignmentDeadline,
+        timeTakenForProofGeneration: blocksForProofGeneration,
+        deadline: 0,
+        refundAddress: refundAddress,
+      },
+      true,
+      0,
+      secret,
+      acl,
+      { ...options }
+    );
+  }
+
   public async createAsk(
     marketId: BytesLike,
     proverData: BytesLike,
