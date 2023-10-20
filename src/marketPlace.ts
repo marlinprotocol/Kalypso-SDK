@@ -6,9 +6,12 @@ import {
   ProofMarketPlace__factory,
   EntityKeyRegistry,
   EntityKeyRegistry__factory,
+  IProofMarketPlace,
 } from "./typechain-types";
 import BigNumber from "bignumber.js";
-import { encryptDataWithECIESandAES, decryptDataWithECIESandAES } from "./secretInputOperation";
+import { encryptDataWithECIESandAesGcm } from "./secretInputOperation";
+import * as pako from "pako";
+import { AskState } from "./types";
 
 type getProofWithAskIdResponse = {
   proof_generated: Boolean;
@@ -47,12 +50,9 @@ export class MarketPlace {
     return this.platformToken.approve(await this.proofMarketPlace.getAddress(), amount.toString(), { ...options });
   }
 
-  public async getPlatformFee(proverData: BytesLike): Promise<BigNumberish> {
-    const perByte = await this.proofMarketPlace.costPerInputBytes();
-    const proverDataLength = proverData.toString().length;
-    return new BigNumber(perByte.toString()).multipliedBy(proverDataLength).toString();
+  public async getPlatformFee(ask: IProofMarketPlace.AskStruct, encryptedSecret: BytesLike, aclData: BytesLike): Promise<BigNumberish> {
+    return this.proofMarketPlace.getPlatformFee(ask, encryptedSecret, aclData);
   }
-
   public async createAskWithEncryptedSecretAndAcl(
     marketId: BytesLike,
     proverData: BytesLike,
@@ -64,7 +64,26 @@ export class MarketPlace {
     acl: Buffer,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
-    const platformFee = await this.getPlatformFee(proverData);
+    const askRequest: IProofMarketPlace.AskStruct = {
+      marketId,
+      proverData,
+      reward,
+      expiry: assignmentDeadline,
+      timeTakenForProofGeneration: blocksForProofGeneration,
+      deadline: 0,
+      refundAddress: refundAddress,
+    };
+
+    const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
+    // if key is rightly updated, it should 68 chars (33 bytes in length)
+    if (matchingEnginePubKey.length !== 68) {
+      throw new Error("matching engine pub key is not updated in the registry");
+    }
+
+    const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
+    const result = await encryptDataWithECIESandAesGcm(secret, pubKey);
+
+    const platformFee = await this.getPlatformFee(askRequest, result.encryptedData, result.aclData);
     const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
 
     if (new BigNumber(platformTokenBalance.toString()).lt(platformFee.toString())) {
@@ -124,9 +143,30 @@ export class MarketPlace {
     secretBuffer: Buffer,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
-    const platformFee = await this.getPlatformFee(proverData);
-    const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
+    //deflate the secret buffer to reduce tx cost
+    secretBuffer = Buffer.from(pako.deflate(secretBuffer));
 
+    const askRequest: IProofMarketPlace.AskStruct = {
+      marketId,
+      proverData,
+      reward,
+      expiry: assignmentDeadline,
+      timeTakenForProofGeneration: blocksForProofGeneration,
+      deadline: 0,
+      refundAddress: refundAddress,
+    };
+    const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
+    // if key is rightly updated, it should 68 chars (33 bytes in length)
+    if (matchingEnginePubKey.length !== 68) {
+      throw new Error("matching engine pub key is not updated in the registry");
+    }
+
+    const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
+    const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey);
+    console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
+
+    const platformFee = await this.getPlatformFee(askRequest, result.encryptedData, result.aclData);
+    const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
     if (new BigNumber(platformTokenBalance.toString()).lt(platformFee.toString())) {
       throw new Error("Ensure sufficient platform token balance");
     }
@@ -156,32 +196,7 @@ export class MarketPlace {
       console.log("Approval Tx: ", approvalReceipt?.hash);
     }
 
-    const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
-    if (matchingEnginePubKey.length <= 2) {
-      throw new Error("matching engine pub key is not updated in the registry");
-    }
-
-    const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
-
-    const result = await encryptDataWithECIESandAES(secretBuffer, pubKey);
-    console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
-
-    return this.proofMarketPlace.createAsk(
-      {
-        marketId,
-        proverData,
-        reward,
-        expiry: assignmentDeadline,
-        timeTakenForProofGeneration: blocksForProofGeneration,
-        deadline: 0,
-        refundAddress: refundAddress,
-      },
-      true,
-      0,
-      result.encryptedData,
-      result.aclData,
-      { ...options }
-    );
+    return this.proofMarketPlace.createAsk(askRequest, true, 0, result.encryptedData, result.aclData, { ...options });
   }
 
   public async createNewMarket(
@@ -270,5 +285,26 @@ export class MarketPlace {
     }
 
     throw new Error("Ask Id not found for the give receipt");
+  }
+
+  public async getAskState(askId: BigNumberish): Promise<AskState> {
+    const state = await this.proofMarketPlace.getAskState(askId);
+    const stateNumber = new BigNumber(state.toString()).toNumber();
+
+    if (stateNumber == 0) {
+      return AskState.NULL;
+    } else if (stateNumber == 1) {
+      return AskState.CREATE;
+    } else if (stateNumber == 2) {
+      return AskState.UNASSIGNED;
+    } else if (stateNumber == 3) {
+      return AskState.ASSIGNED;
+    } else if (stateNumber == 4) {
+      return AskState.COMPLETE;
+    } else if (stateNumber == 5) {
+      return AskState.DEADLINE_CROSSED;
+    }
+
+    return AskState.NULL;
   }
 }
