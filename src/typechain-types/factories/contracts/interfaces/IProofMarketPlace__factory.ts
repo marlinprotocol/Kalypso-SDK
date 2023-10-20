@@ -211,6 +211,81 @@ const _abi = [
   {
     inputs: [
       {
+        components: [
+          {
+            internalType: "bytes32",
+            name: "marketId",
+            type: "bytes32",
+          },
+          {
+            internalType: "uint256",
+            name: "reward",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "expiry",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "timeTakenForProofGeneration",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "deadline",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "refundAddress",
+            type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "proverData",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct IProofMarketPlace.Ask",
+        name: "ask",
+        type: "tuple",
+      },
+      {
+        internalType: "bool",
+        name: "hasPrivateInputs",
+        type: "bool",
+      },
+      {
+        internalType: "address",
+        name: "payFrom",
+        type: "address",
+      },
+      {
+        internalType: "enum IProofMarketPlace.SecretType",
+        name: "secretType",
+        type: "uint8",
+      },
+      {
+        internalType: "bytes",
+        name: "secret",
+        type: "bytes",
+      },
+      {
+        internalType: "bytes",
+        name: "acl",
+        type: "bytes",
+      },
+    ],
+    name: "createAskFor",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "bytes",
         name: "marketmetadata",
         type: "bytes",

@@ -54,7 +54,7 @@ export declare namespace IProofMarketPlace {
 }
 
 export interface IProofMarketPlaceInterface extends Interface {
-  getFunction(nameOrSignature: "createAsk" | "createMarketPlace" | "slashingPenalty" | "verifier"): FunctionFragment;
+  getFunction(nameOrSignature: "createAsk" | "createAskFor" | "createMarketPlace" | "slashingPenalty" | "verifier"): FunctionFragment;
 
   getEvent(
     nameOrSignatureOrTopic: "AskCancelled" | "AskCreated" | "MarketPlaceCreated" | "ProofCreated" | "ProofNotGenerated" | "TaskCreated"
@@ -64,11 +64,16 @@ export interface IProofMarketPlaceInterface extends Interface {
     functionFragment: "createAsk",
     values: [IProofMarketPlace.AskStruct, boolean, BigNumberish, BytesLike, BytesLike]
   ): string;
+  encodeFunctionData(
+    functionFragment: "createAskFor",
+    values: [IProofMarketPlace.AskStruct, boolean, AddressLike, BigNumberish, BytesLike, BytesLike]
+  ): string;
   encodeFunctionData(functionFragment: "createMarketPlace", values: [BytesLike, AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "slashingPenalty", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "verifier", values: [BytesLike]): string;
 
   decodeFunctionResult(functionFragment: "createAsk", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "createAskFor", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "createMarketPlace", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "slashingPenalty", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "verifier", data: BytesLike): Result;
@@ -188,6 +193,19 @@ export interface IProofMarketPlace extends BaseContract {
     "nonpayable"
   >;
 
+  createAskFor: TypedContractMethod<
+    [
+      ask: IProofMarketPlace.AskStruct,
+      hasPrivateInputs: boolean,
+      payFrom: AddressLike,
+      secretType: BigNumberish,
+      secret: BytesLike,
+      acl: BytesLike
+    ],
+    [void],
+    "nonpayable"
+  >;
+
   createMarketPlace: TypedContractMethod<
     [marketmetadata: BytesLike, verifier: AddressLike, _slashingPenalty: BigNumberish],
     [void],
@@ -204,6 +222,20 @@ export interface IProofMarketPlace extends BaseContract {
     nameOrSignature: "createAsk"
   ): TypedContractMethod<
     [ask: IProofMarketPlace.AskStruct, hasPrivateInputs: boolean, secretType: BigNumberish, secret: BytesLike, acl: BytesLike],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "createAskFor"
+  ): TypedContractMethod<
+    [
+      ask: IProofMarketPlace.AskStruct,
+      hasPrivateInputs: boolean,
+      payFrom: AddressLike,
+      secretType: BigNumberish,
+      secret: BytesLike,
+      acl: BytesLike
+    ],
     [void],
     "nonpayable"
   >;

@@ -34,6 +34,7 @@ export interface ErrorInterface extends Interface {
       | "ONLY_EXPIRED_ASKS_CAN_BE_CANCELLED"
       | "ONLY_GENERATOR_CAN_DISCARD_REQUEST"
       | "ONLY_MATCHING_ENGINE_CAN_ASSIGN"
+      | "ONLY_VALID_GENERATORS_CAN_REQUEST_EXIT"
       | "ONLY_WORKING_GENERATORS"
       | "PROOF_PRICE_MISMATCH"
       | "PROOF_TIME_MISMATCH"
@@ -69,6 +70,7 @@ export interface ErrorInterface extends Interface {
   encodeFunctionData(functionFragment: "ONLY_EXPIRED_ASKS_CAN_BE_CANCELLED", values?: undefined): string;
   encodeFunctionData(functionFragment: "ONLY_GENERATOR_CAN_DISCARD_REQUEST", values?: undefined): string;
   encodeFunctionData(functionFragment: "ONLY_MATCHING_ENGINE_CAN_ASSIGN", values?: undefined): string;
+  encodeFunctionData(functionFragment: "ONLY_VALID_GENERATORS_CAN_REQUEST_EXIT", values?: undefined): string;
   encodeFunctionData(functionFragment: "ONLY_WORKING_GENERATORS", values?: undefined): string;
   encodeFunctionData(functionFragment: "PROOF_PRICE_MISMATCH", values?: undefined): string;
   encodeFunctionData(functionFragment: "PROOF_TIME_MISMATCH", values?: undefined): string;
@@ -103,6 +105,7 @@ export interface ErrorInterface extends Interface {
   decodeFunctionResult(functionFragment: "ONLY_EXPIRED_ASKS_CAN_BE_CANCELLED", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ONLY_GENERATOR_CAN_DISCARD_REQUEST", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ONLY_MATCHING_ENGINE_CAN_ASSIGN", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ONLY_VALID_GENERATORS_CAN_REQUEST_EXIT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ONLY_WORKING_GENERATORS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "PROOF_PRICE_MISMATCH", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "PROOF_TIME_MISMATCH", data: BytesLike): Result;
@@ -192,6 +195,8 @@ export interface Error extends BaseContract {
 
   ONLY_MATCHING_ENGINE_CAN_ASSIGN: TypedContractMethod<[], [string], "view">;
 
+  ONLY_VALID_GENERATORS_CAN_REQUEST_EXIT: TypedContractMethod<[], [string], "view">;
+
   ONLY_WORKING_GENERATORS: TypedContractMethod<[], [string], "view">;
 
   PROOF_PRICE_MISMATCH: TypedContractMethod<[], [string], "view">;
@@ -233,6 +238,7 @@ export interface Error extends BaseContract {
   getFunction(nameOrSignature: "ONLY_EXPIRED_ASKS_CAN_BE_CANCELLED"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "ONLY_GENERATOR_CAN_DISCARD_REQUEST"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "ONLY_MATCHING_ENGINE_CAN_ASSIGN"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "ONLY_VALID_GENERATORS_CAN_REQUEST_EXIT"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "ONLY_WORKING_GENERATORS"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "PROOF_PRICE_MISMATCH"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "PROOF_TIME_MISMATCH"): TypedContractMethod<[], [string], "view">;

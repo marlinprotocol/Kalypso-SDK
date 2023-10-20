@@ -50,6 +50,8 @@ export interface GeneratorRegistryInterface extends Interface {
       | "proxiableUUID"
       | "register"
       | "renounceRole"
+      | "requestForExitMarketPlace"
+      | "requestForExitMarketPlaces"
       | "revokeRole"
       | "slashGenerator"
       | "stake"
@@ -102,6 +104,8 @@ export interface GeneratorRegistryInterface extends Interface {
   encodeFunctionData(functionFragment: "proxiableUUID", values?: undefined): string;
   encodeFunctionData(functionFragment: "register", values: [AddressLike, BigNumberish, BytesLike]): string;
   encodeFunctionData(functionFragment: "renounceRole", values: [BytesLike, AddressLike]): string;
+  encodeFunctionData(functionFragment: "requestForExitMarketPlace", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "requestForExitMarketPlaces", values: [BytesLike[]]): string;
   encodeFunctionData(functionFragment: "revokeRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "slashGenerator", values: [AddressLike, BytesLike, BigNumberish, AddressLike]): string;
   encodeFunctionData(functionFragment: "stake", values: [AddressLike, BigNumberish]): string;
@@ -135,6 +139,8 @@ export interface GeneratorRegistryInterface extends Interface {
   decodeFunctionResult(functionFragment: "proxiableUUID", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "register", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "renounceRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "requestForExitMarketPlace", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "requestForExitMarketPlaces", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "slashGenerator", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "stake", data: BytesLike): Result;
@@ -444,6 +450,10 @@ export interface GeneratorRegistry extends BaseContract {
 
   renounceRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
 
+  requestForExitMarketPlace: TypedContractMethod<[marketId: BytesLike], [void], "nonpayable">;
+
+  requestForExitMarketPlaces: TypedContractMethod<[marketIds: BytesLike[]], [void], "nonpayable">;
+
   revokeRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
 
   slashGenerator: TypedContractMethod<
@@ -537,6 +547,8 @@ export interface GeneratorRegistry extends BaseContract {
     nameOrSignature: "register"
   ): TypedContractMethod<[rewardAddress: AddressLike, declaredCompute: BigNumberish, generatorData: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "renounceRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "requestForExitMarketPlace"): TypedContractMethod<[marketId: BytesLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "requestForExitMarketPlaces"): TypedContractMethod<[marketIds: BytesLike[]], [void], "nonpayable">;
   getFunction(nameOrSignature: "revokeRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "slashGenerator"

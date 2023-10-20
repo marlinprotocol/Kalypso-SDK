@@ -362,6 +362,32 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "bytes32",
+        name: "marketId",
+        type: "bytes32",
+      },
+    ],
+    name: "requestForExitMarketPlace",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32[]",
+        name: "marketIds",
+        type: "bytes32[]",
+      },
+    ],
+    name: "requestForExitMarketPlaces",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "generatorAddress",
         type: "address",

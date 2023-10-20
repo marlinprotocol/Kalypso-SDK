@@ -63,6 +63,7 @@ export interface ProofMarketPlaceInterface extends Interface {
       | "cancelAsk"
       | "costPerInputBytes"
       | "createAsk"
+      | "createAskFor"
       | "createMarketPlace"
       | "discardRequest"
       | "entityKeyRegistry"
@@ -127,6 +128,10 @@ export interface ProofMarketPlaceInterface extends Interface {
     functionFragment: "createAsk",
     values: [IProofMarketPlace.AskStruct, boolean, BigNumberish, BytesLike, BytesLike]
   ): string;
+  encodeFunctionData(
+    functionFragment: "createAskFor",
+    values: [IProofMarketPlace.AskStruct, boolean, AddressLike, BigNumberish, BytesLike, BytesLike]
+  ): string;
   encodeFunctionData(functionFragment: "createMarketPlace", values: [BytesLike, AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "discardRequest", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "entityKeyRegistry", values?: undefined): string;
@@ -173,6 +178,7 @@ export interface ProofMarketPlaceInterface extends Interface {
   decodeFunctionResult(functionFragment: "cancelAsk", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "costPerInputBytes", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "createAsk", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "createAskFor", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "createMarketPlace", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "discardRequest", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "entityKeyRegistry", data: BytesLike): Result;
@@ -431,6 +437,19 @@ export interface ProofMarketPlace extends BaseContract {
     "nonpayable"
   >;
 
+  createAskFor: TypedContractMethod<
+    [
+      ask: IProofMarketPlace.AskStruct,
+      hasPrivateInputs: boolean,
+      payFrom: AddressLike,
+      arg3: BigNumberish,
+      secret_inputs: BytesLike,
+      acl: BytesLike
+    ],
+    [void],
+    "nonpayable"
+  >;
+
   createMarketPlace: TypedContractMethod<
     [_marketmetadata: BytesLike, _verifier: AddressLike, _slashingPenalty: BigNumberish],
     [void],
@@ -541,6 +560,20 @@ export interface ProofMarketPlace extends BaseContract {
     nameOrSignature: "createAsk"
   ): TypedContractMethod<
     [ask: IProofMarketPlace.AskStruct, hasPrivateInputs: boolean, arg2: BigNumberish, secret_inputs: BytesLike, acl: BytesLike],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "createAskFor"
+  ): TypedContractMethod<
+    [
+      ask: IProofMarketPlace.AskStruct,
+      hasPrivateInputs: boolean,
+      payFrom: AddressLike,
+      arg3: BigNumberish,
+      secret_inputs: BytesLike,
+      acl: BytesLike
+    ],
     [void],
     "nonpayable"
   >;

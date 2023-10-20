@@ -95,6 +95,10 @@ export class Generator {
     return await this.generatorRegistry.leaveMarketPlace(marketId, { ...options });
   }
 
+  public async requestForExitMarket(marketId: BytesLike, options?: Overrides): Promise<ContractTransactionResponse> {
+    return await this.generatorRegistry.requestForExitMarketPlace(marketId, { ...options });
+  }
+
   public async updateEcisKey(
     pubKeyBytes: BytesLike,
     attestationBytes: BytesLike,

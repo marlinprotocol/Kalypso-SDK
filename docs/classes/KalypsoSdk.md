@@ -28,10 +28,10 @@
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `signer` | `AbstractSigner`<``null`` \| `Provider`\> |
-| `config` | `KalspsoConfig` |
+| Name     | Type                                    |
+| :------- | :-------------------------------------- |
+| `signer` | `AbstractSigner`<`null` \| `Provider`\> |
+| `config` | `KalspsoConfig`                         |
 
 #### Defined in
 
@@ -47,11 +47,11 @@
 
 [index.ts:11](https://github.com/marlinprotocol/Kalypso-SDK/blob/761e4c5/src/index.ts#L11)
 
-___
+---
 
 ### signer
 
-• `Private` **signer**: `AbstractSigner`<``null`` \| `Provider`\>
+• `Private` **signer**: `AbstractSigner`<`null` \| `Provider`\>
 
 #### Defined in
 
@@ -71,7 +71,7 @@ ___
 
 [index.ts:22](https://github.com/marlinprotocol/Kalypso-SDK/blob/761e4c5/src/index.ts#L22)
 
-___
+---
 
 ### Generator
 
@@ -85,7 +85,7 @@ ___
 
 [index.ts:26](https://github.com/marlinprotocol/Kalypso-SDK/blob/761e4c5/src/index.ts#L26)
 
-___
+---
 
 ### MarketPlace
 
@@ -99,7 +99,7 @@ ___
 
 [index.ts:30](https://github.com/marlinprotocol/Kalypso-SDK/blob/761e4c5/src/index.ts#L30)
 
-___
+---
 
 ### SecretInputOperations
 
