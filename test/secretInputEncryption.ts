@@ -5,8 +5,10 @@ import {
   decryptECIES,
   encryptAES,
   decryptAES,
+  encryptAesGcm,
+  decryptAesGcm,
 } from "../src/secretInputOperation";
-import { encrypt, decrypt, PrivateKey } from "eciesjs";
+import { PrivateKey } from "eciesjs";
 
 const data = Buffer.from("this is the data that we wish to encrypt");
 
@@ -72,9 +74,9 @@ async function test_aes_enc(): Promise<String> {
 }
 
 async function test_aes_dec(): Promise<String> {
-  let expected_encrypted_hex_string =
+  let encrypted_hex_string =
     "e88f31251e149a65ce71c495cb8a2db74522d5532bdfd564d2fdb099898dbdbc05093df93151cdd7119e79c643e57979274b489fad42ffb517b87920b941b988";
-  let encrypted_buffer = Buffer.from(expected_encrypted_hex_string, "hex");
+  let encrypted_buffer = Buffer.from(encrypted_hex_string, "hex");
 
   let cipher_hex_string = "0000111100001111000011110000111100001111000011110000111100001111";
   let cipher = Buffer.from(cipher_hex_string, "hex");
@@ -88,4 +90,45 @@ async function test_aes_dec(): Promise<String> {
   return "Done";
 }
 
-main().then(test_ecies_enc).then(test_ecis_dec).then(test_aes_enc).then(test_aes_dec).then(console.log).catch(console.log);
+async function test_aes_gcm_enc(): Promise<string> {
+  let expected_encrypted_hex_string =
+    "5194c886c27a03d7b918b20cf30034284487ef4631a2f0c733721f0f4abeb7457a3fb2535fc88b9317cd4d61f27343cde24029bac7d65d5b349afe2cec16be387afb7cdb";
+  let cipher_hex_string = "0000111100001111000011110000111100001111000011110000111100001111";
+  let cipher = Buffer.from(cipher_hex_string, "hex");
+
+  const data = Buffer.from("this is the data that we wish to encrypt");
+
+  let encrypted_data = encryptAesGcm(data, cipher);
+  let encrypted_data_hex = encrypted_data.toString("hex");
+
+  // values won't match
+  console.log({ expected_encrypted_hex_string, encrypted_data_hex });
+  return "Done5";
+}
+
+async function test_aes_gcm_dec(): Promise<string> {
+  let encrypted_hex_string =
+    "cb81f469f7b967519b629982c0bd3806873621151e028315a50146563a8bc6b39ae728d92634e1e1c0cbfcfe52c7ac2ba65c887be4cead48c62d2e1ecafc284143448092";
+  let encrypted_buffer = Buffer.from(encrypted_hex_string, "hex");
+
+  let cipher_hex_string = "0000111100001111000011110000111100001111000011110000111100001111";
+  let cipher = Buffer.from(cipher_hex_string, "hex");
+
+  const actual_data = "this is the data that we wish to encrypt";
+
+  let decrypted_data = decryptAesGcm(encrypted_buffer, cipher);
+  let decrypted = decrypted_data.toString();
+
+  console.log({ decrypted, actual_data });
+  return "Done";
+}
+
+main()
+  .then(test_ecies_enc)
+  .then(test_ecis_dec)
+  .then(test_aes_enc)
+  .then(test_aes_dec)
+  .then(test_aes_gcm_enc)
+  .then(test_aes_gcm_dec)
+  .then(console.log)
+  .catch(console.log);

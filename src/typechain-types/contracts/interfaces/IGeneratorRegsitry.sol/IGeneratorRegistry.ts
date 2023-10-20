@@ -36,6 +36,8 @@ export interface IGeneratorRegistryInterface extends Interface {
       | "leaveMarketPlace"
       | "leaveMarketPlaces"
       | "register"
+      | "requestForExitMarketPlace"
+      | "requestForExitMarketPlaces"
       | "slashGenerator"
       | "stake"
       | "unstake"
@@ -62,6 +64,8 @@ export interface IGeneratorRegistryInterface extends Interface {
   encodeFunctionData(functionFragment: "leaveMarketPlace", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "leaveMarketPlaces", values: [BytesLike[]]): string;
   encodeFunctionData(functionFragment: "register", values: [AddressLike, BigNumberish, BytesLike]): string;
+  encodeFunctionData(functionFragment: "requestForExitMarketPlace", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "requestForExitMarketPlaces", values: [BytesLike[]]): string;
   encodeFunctionData(functionFragment: "slashGenerator", values: [AddressLike, BytesLike, BigNumberish, AddressLike]): string;
   encodeFunctionData(functionFragment: "stake", values: [AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "unstake", values: [AddressLike, BigNumberish]): string;
@@ -76,6 +80,8 @@ export interface IGeneratorRegistryInterface extends Interface {
   decodeFunctionResult(functionFragment: "leaveMarketPlace", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "leaveMarketPlaces", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "register", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "requestForExitMarketPlace", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "requestForExitMarketPlaces", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "slashGenerator", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "stake", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "unstake", data: BytesLike): Result;
@@ -234,6 +240,10 @@ export interface IGeneratorRegistry extends BaseContract {
     "nonpayable"
   >;
 
+  requestForExitMarketPlace: TypedContractMethod<[marketId: BytesLike], [void], "nonpayable">;
+
+  requestForExitMarketPlaces: TypedContractMethod<[marketIds: BytesLike[]], [void], "nonpayable">;
+
   slashGenerator: TypedContractMethod<
     [generatorAddress: AddressLike, marketId: BytesLike, slashingAmount: BigNumberish, rewardAddress: AddressLike],
     [bigint],
@@ -274,6 +284,8 @@ export interface IGeneratorRegistry extends BaseContract {
   getFunction(
     nameOrSignature: "register"
   ): TypedContractMethod<[rewardAddress: AddressLike, declaredCompute: BigNumberish, generatorData: BytesLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "requestForExitMarketPlace"): TypedContractMethod<[marketId: BytesLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "requestForExitMarketPlaces"): TypedContractMethod<[marketIds: BytesLike[]], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "slashGenerator"
   ): TypedContractMethod<

@@ -23,17 +23,31 @@ import type {
 } from "../common";
 
 export interface EntityKeyRegistryInterface extends Interface {
-  getFunction(nameOrSignature: "attestationVerifier" | "pub_key" | "updatePubkey"): FunctionFragment;
+  getFunction(nameOrSignature: "attestationVerifier" | "pub_key" | "removePubkey" | "updatePubkey"): FunctionFragment;
 
-  getEvent(nameOrSignatureOrTopic: "UpdateKey"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RemoveKey" | "UpdateKey"): EventFragment;
 
   encodeFunctionData(functionFragment: "attestationVerifier", values?: undefined): string;
   encodeFunctionData(functionFragment: "pub_key", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "removePubkey", values?: undefined): string;
   encodeFunctionData(functionFragment: "updatePubkey", values: [BytesLike, BytesLike]): string;
 
   decodeFunctionResult(functionFragment: "attestationVerifier", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "pub_key", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "removePubkey", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "updatePubkey", data: BytesLike): Result;
+}
+
+export namespace RemoveKeyEvent {
+  export type InputTuple = [user: AddressLike];
+  export type OutputTuple = [user: string];
+  export interface OutputObject {
+    user: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
 }
 
 export namespace UpdateKeyEvent {
@@ -79,17 +93,24 @@ export interface EntityKeyRegistry extends BaseContract {
 
   pub_key: TypedContractMethod<[arg0: AddressLike], [string], "view">;
 
+  removePubkey: TypedContractMethod<[], [void], "nonpayable">;
+
   updatePubkey: TypedContractMethod<[pubkey: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "attestationVerifier"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "pub_key"): TypedContractMethod<[arg0: AddressLike], [string], "view">;
+  getFunction(nameOrSignature: "removePubkey"): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(nameOrSignature: "updatePubkey"): TypedContractMethod<[pubkey: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
 
+  getEvent(key: "RemoveKey"): TypedContractEvent<RemoveKeyEvent.InputTuple, RemoveKeyEvent.OutputTuple, RemoveKeyEvent.OutputObject>;
   getEvent(key: "UpdateKey"): TypedContractEvent<UpdateKeyEvent.InputTuple, UpdateKeyEvent.OutputTuple, UpdateKeyEvent.OutputObject>;
 
   filters: {
+    "RemoveKey(address)": TypedContractEvent<RemoveKeyEvent.InputTuple, RemoveKeyEvent.OutputTuple, RemoveKeyEvent.OutputObject>;
+    RemoveKey: TypedContractEvent<RemoveKeyEvent.InputTuple, RemoveKeyEvent.OutputTuple, RemoveKeyEvent.OutputObject>;
+
     "UpdateKey(address)": TypedContractEvent<UpdateKeyEvent.InputTuple, UpdateKeyEvent.OutputTuple, UpdateKeyEvent.OutputObject>;
     UpdateKey: TypedContractEvent<UpdateKeyEvent.InputTuple, UpdateKeyEvent.OutputTuple, UpdateKeyEvent.OutputObject>;
   };

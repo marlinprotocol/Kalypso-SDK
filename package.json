@@ -7,8 +7,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
-    "docs": "npx typedoc src/index.ts",
+    "build": "rm -rf ./dist && tsc",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts",
     "prettier": "npx prettier --write .",
     "start": "npm run build && node dist/index.js",
     "submit-and-get-proof": "ts-node ./test/submitAskAndGetProofZkb.ts",
@@ -30,9 +30,11 @@
   "devDependencies": {
     "@types/mocha": "^10.0.1",
     "@types/node-gzip": "^1.1.0",
+    "@types/pako": "^2.0.1",
     "dotenv": "^16.3.1",
     "ts-node": "^10.9.1",
     "typedoc": "^0.24.8",
+    "typedoc-plugin-markdown": "^3.16.0",
     "typescript": "^5.1.6"
   },
   "dependencies": {
@@ -40,6 +42,7 @@
     "@types/node": "^20.4.5",
     "bignumber.js": "^9.1.1",
     "eciesjs": "^0.4.4",
-    "ethers": "^6.6.6"
+    "ethers": "^6.6.6",
+    "pako": "^2.1.0"
   }
 }

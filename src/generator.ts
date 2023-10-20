@@ -21,10 +21,10 @@ export class Generator {
 
   constructor(signer: AbstractSigner, config: KalspsoConfig) {
     this.signer = signer;
-    this.generatorRegistry = GeneratorRegistry__factory.connect(config.generatorRegistry, this.signer);
-    this.stakingToken = ERC20__factory.connect(config.platformToken, this.signer);
-    this.entityKeyRegistry = EntityKeyRegistry__factory.connect(config.EntityRegistry, this.signer);
-    this.proofMarketplace = ProofMarketPlace__factory.connect(config.proofMarketPlace, this.signer);
+    this.generatorRegistry = GeneratorRegistry__factory.connect(config.generator_registry, this.signer);
+    this.stakingToken = ERC20__factory.connect(config.staking_token, this.signer);
+    this.entityKeyRegistry = EntityKeyRegistry__factory.connect(config.entity_registry, this.signer);
+    this.proofMarketplace = ProofMarketPlace__factory.connect(config.proof_market_place, this.signer);
   }
 
   public async register(
@@ -93,6 +93,10 @@ export class Generator {
 
   public async leaveMarketPlace(marketId: BytesLike, options?: Overrides): Promise<ContractTransactionResponse> {
     return await this.generatorRegistry.leaveMarketPlace(marketId, { ...options });
+  }
+
+  public async requestForExitMarket(marketId: BytesLike, options?: Overrides): Promise<ContractTransactionResponse> {
+    return await this.generatorRegistry.requestForExitMarketPlace(marketId, { ...options });
   }
 
   public async updateEcisKey(

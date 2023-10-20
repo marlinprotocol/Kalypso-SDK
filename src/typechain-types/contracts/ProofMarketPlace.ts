@@ -63,11 +63,13 @@ export interface ProofMarketPlaceInterface extends Interface {
       | "cancelAsk"
       | "costPerInputBytes"
       | "createAsk"
+      | "createAskFor"
       | "createMarketPlace"
       | "discardRequest"
       | "entityKeyRegistry"
       | "generatorRegistry"
       | "getAskState"
+      | "getPlatformFee"
       | "getRoleAdmin"
       | "getRoleMember"
       | "getRoleMemberCount"
@@ -84,6 +86,7 @@ export interface ProofMarketPlaceInterface extends Interface {
       | "proxiableUUID"
       | "relayAssignTask"
       | "relayBatchAssignTasks"
+      | "removeEncryptionKey"
       | "renounceRole"
       | "revokeRole"
       | "slashGenerator"
@@ -125,11 +128,16 @@ export interface ProofMarketPlaceInterface extends Interface {
     functionFragment: "createAsk",
     values: [IProofMarketPlace.AskStruct, boolean, BigNumberish, BytesLike, BytesLike]
   ): string;
+  encodeFunctionData(
+    functionFragment: "createAskFor",
+    values: [IProofMarketPlace.AskStruct, boolean, AddressLike, BigNumberish, BytesLike, BytesLike]
+  ): string;
   encodeFunctionData(functionFragment: "createMarketPlace", values: [BytesLike, AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "discardRequest", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "entityKeyRegistry", values?: undefined): string;
   encodeFunctionData(functionFragment: "generatorRegistry", values?: undefined): string;
   encodeFunctionData(functionFragment: "getAskState", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "getPlatformFee", values: [IProofMarketPlace.AskStruct, BytesLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "getRoleAdmin", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "getRoleMember", values: [BytesLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "getRoleMemberCount", values: [BytesLike]): string;
@@ -149,6 +157,7 @@ export interface ProofMarketPlaceInterface extends Interface {
     functionFragment: "relayBatchAssignTasks",
     values: [BigNumberish[], BigNumberish[], AddressLike[], BytesLike[], BytesLike]
   ): string;
+  encodeFunctionData(functionFragment: "removeEncryptionKey", values?: undefined): string;
   encodeFunctionData(functionFragment: "renounceRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "revokeRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "slashGenerator", values: [BigNumberish, AddressLike]): string;
@@ -169,11 +178,13 @@ export interface ProofMarketPlaceInterface extends Interface {
   decodeFunctionResult(functionFragment: "cancelAsk", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "costPerInputBytes", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "createAsk", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "createAskFor", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "createMarketPlace", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "discardRequest", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "entityKeyRegistry", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "generatorRegistry", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getAskState", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getPlatformFee", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getRoleAdmin", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getRoleMember", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getRoleMemberCount", data: BytesLike): Result;
@@ -190,6 +201,7 @@ export interface ProofMarketPlaceInterface extends Interface {
   decodeFunctionResult(functionFragment: "proxiableUUID", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "relayAssignTask", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "relayBatchAssignTasks", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "removeEncryptionKey", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "renounceRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "slashGenerator", data: BytesLike): Result;
@@ -425,6 +437,19 @@ export interface ProofMarketPlace extends BaseContract {
     "nonpayable"
   >;
 
+  createAskFor: TypedContractMethod<
+    [
+      ask: IProofMarketPlace.AskStruct,
+      hasPrivateInputs: boolean,
+      payFrom: AddressLike,
+      arg3: BigNumberish,
+      secret_inputs: BytesLike,
+      acl: BytesLike
+    ],
+    [void],
+    "nonpayable"
+  >;
+
   createMarketPlace: TypedContractMethod<
     [_marketmetadata: BytesLike, _verifier: AddressLike, _slashingPenalty: BigNumberish],
     [void],
@@ -438,6 +463,8 @@ export interface ProofMarketPlace extends BaseContract {
   generatorRegistry: TypedContractMethod<[], [string], "view">;
 
   getAskState: TypedContractMethod<[askId: BigNumberish], [bigint], "view">;
+
+  getPlatformFee: TypedContractMethod<[ask: IProofMarketPlace.AskStruct, secret_inputs: BytesLike, acl: BytesLike], [bigint], "view">;
 
   getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
 
@@ -493,6 +520,8 @@ export interface ProofMarketPlace extends BaseContract {
     "nonpayable"
   >;
 
+  removeEncryptionKey: TypedContractMethod<[], [void], "nonpayable">;
+
   renounceRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
 
   revokeRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
@@ -535,12 +564,29 @@ export interface ProofMarketPlace extends BaseContract {
     "nonpayable"
   >;
   getFunction(
+    nameOrSignature: "createAskFor"
+  ): TypedContractMethod<
+    [
+      ask: IProofMarketPlace.AskStruct,
+      hasPrivateInputs: boolean,
+      payFrom: AddressLike,
+      arg3: BigNumberish,
+      secret_inputs: BytesLike,
+      acl: BytesLike
+    ],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
     nameOrSignature: "createMarketPlace"
   ): TypedContractMethod<[_marketmetadata: BytesLike, _verifier: AddressLike, _slashingPenalty: BigNumberish], [void], "nonpayable">;
   getFunction(nameOrSignature: "discardRequest"): TypedContractMethod<[taskId: BigNumberish], [bigint], "nonpayable">;
   getFunction(nameOrSignature: "entityKeyRegistry"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "generatorRegistry"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "getAskState"): TypedContractMethod<[askId: BigNumberish], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "getPlatformFee"
+  ): TypedContractMethod<[ask: IProofMarketPlace.AskStruct, secret_inputs: BytesLike, acl: BytesLike], [bigint], "view">;
   getFunction(nameOrSignature: "getRoleAdmin"): TypedContractMethod<[role: BytesLike], [string], "view">;
   getFunction(nameOrSignature: "getRoleMember"): TypedContractMethod<[role: BytesLike, index: BigNumberish], [string], "view">;
   getFunction(nameOrSignature: "getRoleMemberCount"): TypedContractMethod<[role: BytesLike], [bigint], "view">;
@@ -585,6 +631,7 @@ export interface ProofMarketPlace extends BaseContract {
     [void],
     "nonpayable"
   >;
+  getFunction(nameOrSignature: "removeEncryptionKey"): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(nameOrSignature: "renounceRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "revokeRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(
