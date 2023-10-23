@@ -8,15 +8,17 @@ dotenv.config();
 
 import * as fs from "fs";
 import { KalspsoConfig } from "../src/types";
-const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract.json", "utf-8"));
+
+const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
+const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract/arb-sepolia.json", "utf-8"));
 
 async function main1(): Promise<string> {
-  // const provider = new ethers.JsonRpcProvider(process.env.RPC);
-  // let admin_private_key = `${process.env.ADMIN_PRIVATE_KEY}`;
+  // const provider = new ethers.JsonRpcProvider(keys.rpc);
+  // let admin_private_key = `${keys.admin_private_key}`;
   // const wallet = new ethers.Wallet(admin_private_key, provider);
   // console.log("using address of admin", await wallet.getAddress());
 
-  // let matching_engine_private_key = `${process.env.MATCHING_ENGINE_PRIVATE_KEY}`;
+  // let matching_engine_private_key = `${process.env.matching_engine_private_key}`;
   // const me_wallet = new ethers.Wallet(matching_engine_private_key, provider);
 
   // const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
@@ -27,10 +29,10 @@ async function main1(): Promise<string> {
   return "Done";
 }
 async function main2() {
-  const provider = new ethers.JsonRpcProvider(process.env.RPC);
-  let matching_engine_private_key = `${process.env.MATCHING_ENGINE_PRIVATE_KEY}`;
+  const provider = new ethers.JsonRpcProvider(keys.rpc);
+  let matching_engine_private_key = `${keys.matching_engine_private_key}`;
 
-  let admin_private_key = `${process.env.ADMIN_PRIVATE_KEY}`;
+  let admin_private_key = `${keys.admin_private_key}`;
   const wallet = new ethers.Wallet(admin_private_key, provider);
   console.log("using address of me", await wallet.getAddress());
 

@@ -5,13 +5,15 @@ import { ethers } from "ethers";
 
 import * as fs from "fs";
 import { KalspsoConfig } from "../src/types";
-const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract.json", "utf-8"));
+
+const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
+const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract/arb-sepolia.json", "utf-8"));
 
 dotenv.config();
 
 async function main() {
-  const provider = new ethers.JsonRpcProvider(process.env.RPC);
-  const generator_private_key = `${process.env.GENERATOR_PRIVATE_KEY}`;
+  const provider = new ethers.JsonRpcProvider(keys.rpc);
+  const generator_private_key = `${keys.generator_private_key}`;
   const wallet = new ethers.Wallet(generator_private_key, provider);
   console.log("using address", await wallet.getAddress());
 

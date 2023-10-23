@@ -11,3 +11,6 @@
 
 .env
 .env*
+
+keys
+keys/*

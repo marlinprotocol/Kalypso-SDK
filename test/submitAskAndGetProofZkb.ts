@@ -8,22 +8,16 @@ import BigNumber from "bignumber.js";
 
 import * as fs from "fs";
 import { KalspsoConfig } from "../src/types";
-const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract.json", "utf-8"));
+
+const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
+const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract/arb-sepolia.json", "utf-8"));
 
 dotenv.config();
 
 const createAskAndGetProof = async () => {
   try {
-    if (process.env.PRIVATE_KEY == null || process.env.PRIVATE_KEY == undefined) {
-      throw new Error("PRIVATE_KEY not found in the .env file. Please make sure to setup environment variables in your project.");
-    }
-
-    if (process.env.RPC == null || process.env.RPC == undefined) {
-      throw new Error("RPC not found in the .env file. Please make sure to setup environment variables in your project.");
-    }
-
-    const provider = new ethers.JsonRpcProvider(process.env.RPC);
-    const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+    const provider = new ethers.JsonRpcProvider(keys.rpc);
+    const wallet = new ethers.Wallet(keys.private_key, provider);
 
     console.log("using address", await wallet.getAddress());
 

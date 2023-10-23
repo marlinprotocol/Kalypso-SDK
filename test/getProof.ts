@@ -1,16 +1,17 @@
 import { ethers } from "ethers";
 import { KalypsoSdk } from "../src";
 import dotenv from "dotenv";
-import BigNumber from "ethers";
 
 dotenv.config();
 
-const provider = new ethers.JsonRpcProvider(process.env.RPC);
+const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
+
+const provider = new ethers.JsonRpcProvider(keys.rpc);
 const wallet = new ethers.Wallet(`${process.env.PRIVATE_KEY}`, provider);
 
 import * as fs from "fs";
 import { KalspsoConfig } from "../src/types";
-const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract.json", "utf-8"));
+const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract/arb-sepolia.json", "utf-8"));
 
 const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 

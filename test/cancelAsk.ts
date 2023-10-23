@@ -5,7 +5,8 @@ import { ethers } from "ethers";
 
 import * as fs from "fs";
 import { KalspsoConfig } from "../src/types";
-const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract.json", "utf-8"));
+
+const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract/arb-sepolia.json", "utf-8"));
 
 dotenv.config();
 

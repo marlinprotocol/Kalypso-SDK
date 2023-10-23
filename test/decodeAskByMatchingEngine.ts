@@ -1,12 +1,12 @@
 import { BytesLike, ethers } from "ethers";
-import dotenv from "dotenv";
 import { ProofMarketPlace__factory } from "../src/typechain-types";
+import * as fs from "fs";
 
-dotenv.config();
+const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
 
 const decodeAsk = async (transactionhash: string) => {
   console.log("decoding ask request in transaction ", transactionhash);
-  const provider = new ethers.JsonRpcProvider(process.env.RPC);
+  const provider = new ethers.JsonRpcProvider(keys.private_key);
 
   const transaction = await provider.getTransaction(transactionhash);
 
