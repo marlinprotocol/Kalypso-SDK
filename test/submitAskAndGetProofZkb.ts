@@ -10,7 +10,7 @@ import * as fs from "fs";
 import { KalspsoConfig } from "../src/types";
 
 const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
-const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract/arb-sepolia.json", "utf-8"));
+const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb-sepolia.json", "utf-8"));
 
 dotenv.config();
 
