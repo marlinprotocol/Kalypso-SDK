@@ -8,12 +8,12 @@ import { KalspsoConfig } from "../src/types";
 
 dotenv.config();
 
-const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
-const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract/arb-sepolia.json", "utf-8"));
+const keys = JSON.parse(fs.readFileSync("./keys/nova.json", "utf-8"));
+const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/nova.json", "utf-8"));
 
 async function main() {
   const provider = new ethers.JsonRpcProvider(keys.rpc);
-  const wallet = new ethers.Wallet(`${keys.private_key}`, provider);
+  const wallet = new ethers.Wallet(`${keys.generator_private_key}`, provider);
   console.log("using address", await wallet.getAddress());
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
