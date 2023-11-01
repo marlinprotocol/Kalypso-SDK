@@ -53,6 +53,7 @@ const createAskAndGetProof = async () => {
     console.log("Ask Request Hash: ", askRequest.hash);
 
     let receipt = await provider.getTransactionReceipt(askRequest.hash);
+    let blockNumber = receipt?.blockNumber;
 
     let askId = await kalypso.MarketPlace().getAskId(receipt!);
     console.log("Ask ID :", askId);
@@ -61,7 +62,7 @@ const createAskAndGetProof = async () => {
       return await new Promise((resolve) => {
         console.log("\nTrying to fetch proof...\n");
         let intervalId = setInterval(async () => {
-          let data = await kalypso.MarketPlace().getProofByAskId(askId.toString());
+          let data = await kalypso.MarketPlace().getProofByAskId(askId.toString(),blockNumber!);
           if (data?.proof_generated) {
             console.log(data.message);
             let abiCoder = new ethers.AbiCoder();
