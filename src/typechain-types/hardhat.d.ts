@@ -70,12 +70,47 @@ declare module "hardhat/types/runtime" {
       name: "IERC165Upgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165Upgradeable__factory>;
+    getContractFactory(name: "IERC5267", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC5267__factory>;
+    getContractFactory(
+      name: "ERC2771Context",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC2771Context__factory>;
+    getContractFactory(
+      name: "MinimalForwarder",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MinimalForwarder__factory>;
     getContractFactory(name: "ERC20", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.ERC20__factory>;
     getContractFactory(
       name: "IERC20Metadata",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20Metadata__factory>;
     getContractFactory(name: "IERC20", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC20__factory>;
+    getContractFactory(name: "EIP712", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.EIP712__factory>;
+    getContractFactory(name: "ShortStrings", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.ShortStrings__factory>;
+    getContractFactory(
+      name: "BattleshipGame",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BattleshipGame__factory>;
+    getContractFactory(name: "BoardVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.BoardVerifier__factory>;
+    getContractFactory(name: "Forwarder", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.Forwarder__factory>;
+    getContractFactory(
+      name: "IBattleshipGame",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IBattleshipGame__factory>;
+    getContractFactory(
+      name: "IBoardVerifier",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IBoardVerifier__factory>;
+    getContractFactory(name: "IShotVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IShotVerifier__factory>;
+    getContractFactory(name: "ShotVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.ShotVerifier__factory>;
+    getContractFactory(
+      name: "Battleship_board_wrapper",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Battleship_board_wrapper__factory>;
+    getContractFactory(
+      name: "Battleship_shot_wrapper",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Battleship_shot_wrapper__factory>;
     getContractFactory(
       name: "EntityKeyRegistry",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -222,9 +257,39 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165Upgradeable>;
+    getContractAt(name: "IERC5267", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC5267>;
+    getContractAt(name: "ERC2771Context", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.ERC2771Context>;
+    getContractAt(
+      name: "MinimalForwarder",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MinimalForwarder>;
     getContractAt(name: "ERC20", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.ERC20>;
     getContractAt(name: "IERC20Metadata", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20Metadata>;
     getContractAt(name: "IERC20", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20>;
+    getContractAt(name: "EIP712", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.EIP712>;
+    getContractAt(name: "ShortStrings", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.ShortStrings>;
+    getContractAt(name: "BattleshipGame", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.BattleshipGame>;
+    getContractAt(name: "BoardVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.BoardVerifier>;
+    getContractAt(name: "Forwarder", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.Forwarder>;
+    getContractAt(
+      name: "IBattleshipGame",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IBattleshipGame>;
+    getContractAt(name: "IBoardVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IBoardVerifier>;
+    getContractAt(name: "IShotVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IShotVerifier>;
+    getContractAt(name: "ShotVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.ShotVerifier>;
+    getContractAt(
+      name: "Battleship_board_wrapper",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Battleship_board_wrapper>;
+    getContractAt(
+      name: "Battleship_shot_wrapper",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Battleship_shot_wrapper>;
     getContractAt(
       name: "EntityKeyRegistry",
       address: string | ethers.Addressable,
@@ -370,9 +435,29 @@ declare module "hardhat/types/runtime" {
       name: "IERC165Upgradeable",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC165Upgradeable>;
+    deployContract(name: "IERC5267", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC5267>;
+    deployContract(name: "ERC2771Context", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ERC2771Context>;
+    deployContract(name: "MinimalForwarder", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MinimalForwarder>;
     deployContract(name: "ERC20", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ERC20>;
     deployContract(name: "IERC20Metadata", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20Metadata>;
     deployContract(name: "IERC20", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>;
+    deployContract(name: "EIP712", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.EIP712>;
+    deployContract(name: "ShortStrings", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ShortStrings>;
+    deployContract(name: "BattleshipGame", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.BattleshipGame>;
+    deployContract(name: "BoardVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.BoardVerifier>;
+    deployContract(name: "Forwarder", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Forwarder>;
+    deployContract(name: "IBattleshipGame", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IBattleshipGame>;
+    deployContract(name: "IBoardVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IBoardVerifier>;
+    deployContract(name: "IShotVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IShotVerifier>;
+    deployContract(name: "ShotVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ShotVerifier>;
+    deployContract(
+      name: "Battleship_board_wrapper",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Battleship_board_wrapper>;
+    deployContract(
+      name: "Battleship_shot_wrapper",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Battleship_shot_wrapper>;
     deployContract(
       name: "EntityKeyRegistry",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -514,6 +599,17 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC165Upgradeable>;
+    deployContract(name: "IERC5267", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC5267>;
+    deployContract(
+      name: "ERC2771Context",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC2771Context>;
+    deployContract(
+      name: "MinimalForwarder",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.MinimalForwarder>;
     deployContract(name: "ERC20", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ERC20>;
     deployContract(
       name: "IERC20Metadata",
@@ -521,6 +617,53 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC20Metadata>;
     deployContract(name: "IERC20", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>;
+    deployContract(name: "EIP712", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.EIP712>;
+    deployContract(
+      name: "ShortStrings",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ShortStrings>;
+    deployContract(
+      name: "BattleshipGame",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.BattleshipGame>;
+    deployContract(
+      name: "BoardVerifier",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.BoardVerifier>;
+    deployContract(name: "Forwarder", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Forwarder>;
+    deployContract(
+      name: "IBattleshipGame",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IBattleshipGame>;
+    deployContract(
+      name: "IBoardVerifier",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IBoardVerifier>;
+    deployContract(
+      name: "IShotVerifier",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IShotVerifier>;
+    deployContract(
+      name: "ShotVerifier",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ShotVerifier>;
+    deployContract(
+      name: "Battleship_board_wrapper",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Battleship_board_wrapper>;
+    deployContract(
+      name: "Battleship_shot_wrapper",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Battleship_shot_wrapper>;
     deployContract(
       name: "EntityKeyRegistry",
       args: any[],
