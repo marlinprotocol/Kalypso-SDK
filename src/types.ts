@@ -5,10 +5,6 @@ export interface KalspsoConfig {
   attestation_verifier: string;
   entity_registry: string;
   proof_market_place: string;
-  transfer_verifier_wrapper: string;
-  zkb_verifier_wrapper: string;
-  priority_list: string;
-  input_and_proof_format: string;
 }
 
 export interface SecretData {
