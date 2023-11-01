@@ -202,7 +202,6 @@ export class MarketPlace {
   public async createNewMarket(
     marketMetaData: BytesLike,
     verifier: string,
-    minStakeForGenerator: BigNumberish,
     slashingPenalty: BigNumberish,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
@@ -212,10 +211,6 @@ export class MarketPlace {
 
     const marketId = ethers.keccak256(marketMetaData);
     console.log("trying to create market", marketId);
-
-    if (this.exponent.gt(minStakeForGenerator.toString())) {
-      throw new Error("min staking for generator is " + this.exponent.toFixed(0));
-    }
 
     const marketCreationCost = await this.proofMarketPlace.marketCreationCost();
 
