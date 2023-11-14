@@ -232,21 +232,35 @@ export class MarketPlace {
     return await this.proofMarketPlace.createMarketPlace(marketMetaData, verifier, slashingPenalty.toString(), { ...options });
   }
 
-  public async getProofByAskId(askId: string): Promise<getProofWithAskIdResponse> {
+  public async getProofByAskId(askId: string, blockNumber: number): Promise<getProofWithAskIdResponse> {
     const proof_created_filter = this.proofMarketPlace.filters.ProofCreated(askId);
-    const topics = await proof_created_filter.getTopicFilter();
 
-    const logs = await this.signer.provider?.getLogs({
-      fromBlock: 0,
-      toBlock: "latest",
-      address: await this.proofMarketPlace.getAddress(),
-      topics,
-    });
+    let startBlock = blockNumber;
+    const latestBlock = await this.signer.provider?.getBlockNumber();
+    console.log("Latest block : ",latestBlock);
+    while(startBlock <= latestBlock!){
+      const _endBlock = Math.min(startBlock+9999,latestBlock!);
+      console.log(
+        `Looking for proof from block ${startBlock} to ${_endBlock}`
+      );
 
-    if (logs && logs.length != 0) {
-      let decoded_event = this.proofMarketPlace.interface.decodeEventLog("ProofCreated", logs[0].data, logs[0].topics);
-      return { proof_generated: true, proof: decoded_event[2], message: "Proof fetched." };
+      const topics = await proof_created_filter.getTopicFilter();
+
+      const logs = await this.signer.provider?.getLogs({
+        fromBlock: startBlock,
+        toBlock: _endBlock,
+        address: await this.proofMarketPlace.getAddress(),
+        topics,
+      });
+  
+      if (logs && logs.length != 0) {
+        let decoded_event = this.proofMarketPlace.interface.decodeEventLog("ProofCreated", logs[0].data, logs[0].topics);
+        return { proof_generated: true, proof: decoded_event[2], message: "Proof fetched." };
+      }
+
+      startBlock = _endBlock+1;
     }
+
     return { proof_generated: false, proof: "0x", message: "Proof not submitted yet." };
   }
 
@@ -271,14 +285,11 @@ export class MarketPlace {
 
   //Fetching the AskId
   public async getAskId(receipt: ethers.TransactionReceipt): Promise<string> {
-    let blockNumber = receipt.blockNumber;
-    const ask_created_filter = this.proofMarketPlace.filters.AskCreated();
-    const ask_id = await this.proofMarketPlace.queryFilter(ask_created_filter, blockNumber, blockNumber);
-
-    if (ask_id[0].args[0]) {
-      return ask_id[0].args[0].toString();
+    let ask_created_log = { topics : receipt.logs[4].topics.flat(), data: receipt.logs[4].data};
+    let decoded_logs = this.proofMarketPlace.interface.parseLog(ask_created_log);
+    if(decoded_logs?.args[0]){
+      return decoded_logs.args[0].toString();
     }
-
     throw new Error("Ask Id not found for the give receipt");
   }
 
