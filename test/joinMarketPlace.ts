@@ -18,7 +18,7 @@ async function main() {
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  const marketId = "0x07b7d625c70be57115ab18fc435ed0253425671cb91bd6547b7defbc75f52082";
+  const marketId = "0x9c6d84fa00bb8b56de0fc2ee1aba6b07f7da55daa8c381bf6ed04b8fa399ea8d";
   let tx: ContractTransactionResponse;
   let receipt: ContractTransactionReceipt | null;
 
@@ -41,7 +41,7 @@ async function main() {
   }
 
   try {
-    tx = await kalypso.Generator().joinMarketPlace(marketId, "100000000000000000", "10000", "10000000000");
+    tx = await kalypso.Generator().joinMarketPlace(marketId, declaredCompute, "3874465", "18272322");
     receipt = await tx.wait();
     console.log("Joined Market Place Transaction: ", receipt?.hash);
   } catch (ex) {
