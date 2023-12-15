@@ -1,7 +1,7 @@
 import { KalypsoSdk } from "../src";
 import dotenv from "dotenv";
 import { PublicKey, PrivateKey } from "eciesjs";
-import { ethers } from "ethers";
+import { ethers, AbiCoder } from "ethers";
 import axios from "axios";
 
 import * as fs from "fs";
@@ -33,7 +33,7 @@ async function main() {
     };
 
     let attestation_server_response = await axios(attestation_build_config);
-    let attestation_document = attestation_server_response.data;
+    let attestation_build_data = attestation_server_response.data;
 
     //Verifying the attestation document with whitelisted enclave
     let verify_attestation_config = {
@@ -42,25 +42,44 @@ async function main() {
       headers: {
         "Content-Type": "application/json",
       },
-      data: attestation_document,
+      data: attestation_build_data,
     };
 
     let attestation_verifier_response = await axios(verify_attestation_config);
     let attestation_verifier_response_data = attestation_verifier_response.data;
-    console.log(attestation_verifier_response_data);
+
+    let verifier_address = "0x"+ethers.keccak256("0x"+attestation_verifier_response_data.secp_key).slice(-40);
+    let generator_address = "0x"+ethers.keccak256("0x"+attestation_build_data.secp_key).slice(-40);
+
+    let abiCoder = new AbiCoder();
+    let encodedData = abiCoder.encode(
+      ["bytes", "address", "address", "bytes", "bytes", "bytes", "uint256", "uint256"],
+      [
+        "0x"+attestation_verifier_response_data.sig,
+        verifier_address,
+        generator_address,
+        "0x"+attestation_build_data.pcrs[0],
+        "0x"+attestation_build_data.pcrs[1],
+        "0x"+attestation_build_data.pcrs[2],
+        attestation_build_data.min_cpus,
+        attestation_build_data.min_mem,
+      ],
+    );
+
+    console.log("Attestation data : ", encodedData);
 
     let data = JSON.stringify({
-      "generator_address": "0xb05e1dA573707223574443AC6DD1054A9e3A451F"
+      generator_address: "0xb05e1dA573707223574443AC6DD1054A9e3A451F",
     });
 
     let public_key_config = {
-      method: 'get',
+      method: "get",
       url: `${generator_endpoint}:5000/api/getGeneratorPublicKeys`,
       headers: {
-        'api-key': generator_client_api_key,
-        'Content-Type': 'application/json'
+        "api-key": generator_client_api_key,
+        "Content-Type": "application/json",
       },
-      data : data
+      data: data,
     };
 
     let generator_public_keys_response = await axios(public_key_config);
@@ -73,10 +92,10 @@ async function main() {
 
     console.log({ gen_pub_key: pub_key });
 
-    //TODO - Add fetched attestation document to the updateEcisKey
-    const tx = await kalypso.Generator().updateEcisKey(pub_key, "0x");
-    const receipt = await tx.wait();
-    console.log("Added Generator ECIES key: ", receipt?.hash);
+    // //TODO - Add fetched attestation document to the updateEcisKey
+    // const tx = await kalypso.Generator().updateEcisKey(pub_key, encodedData);
+    // const receipt = await tx.wait();
+    // console.log("Added Generator ECIES key: ", receipt?.hash);
     return "Done";
   } catch (err) {
     console.log(err);
