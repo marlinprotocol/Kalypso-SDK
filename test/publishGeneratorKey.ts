@@ -92,7 +92,8 @@ async function main() {
 
     console.log({ gen_pub_key: pub_key });
 
-    // //TODO - Add fetched attestation document to the updateEcisKey
+    //TODO - Add fetched attestation document to the updateEcisKey
+    
     // const tx = await kalypso.Generator().updateEcisKey(pub_key, encodedData);
     // const receipt = await tx.wait();
     // console.log("Added Generator ECIES key: ", receipt?.hash);
