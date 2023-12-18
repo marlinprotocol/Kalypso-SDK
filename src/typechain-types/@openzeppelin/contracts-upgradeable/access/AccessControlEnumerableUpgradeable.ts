@@ -34,7 +34,7 @@ export interface AccessControlEnumerableUpgradeableInterface extends Interface {
       | "hasRole"
       | "renounceRole"
       | "revokeRole"
-      | "supportsInterface"
+      | "supportsInterface",
   ): FunctionFragment;
 
   getEvent(nameOrSignatureOrTopic: "Initialized" | "RoleAdminChanged" | "RoleGranted" | "RoleRevoked"): EventFragment;
@@ -123,12 +123,12 @@ export interface AccessControlEnumerableUpgradeable extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -172,16 +172,16 @@ export interface AccessControlEnumerableUpgradeable extends BaseContract {
   getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
 
   getEvent(
-    key: "Initialized"
+    key: "Initialized",
   ): TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
   getEvent(
-    key: "RoleAdminChanged"
+    key: "RoleAdminChanged",
   ): TypedContractEvent<RoleAdminChangedEvent.InputTuple, RoleAdminChangedEvent.OutputTuple, RoleAdminChangedEvent.OutputObject>;
   getEvent(
-    key: "RoleGranted"
+    key: "RoleGranted",
   ): TypedContractEvent<RoleGrantedEvent.InputTuple, RoleGrantedEvent.OutputTuple, RoleGrantedEvent.OutputObject>;
   getEvent(
-    key: "RoleRevoked"
+    key: "RoleRevoked",
   ): TypedContractEvent<RoleRevokedEvent.InputTuple, RoleRevokedEvent.OutputTuple, RoleRevokedEvent.OutputObject>;
 
   filters: {

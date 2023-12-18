@@ -33,7 +33,7 @@ export class MarketPlace {
     proofMarketPlaceAddress: string,
     paymentTokenAddress: string,
     platformTokenAddress: string,
-    entityKeyRegistryAddress: string
+    entityKeyRegistryAddress: string,
   ) {
     this.signer = signer;
     this.proofMarketPlace = ProofMarketPlace__factory.connect(proofMarketPlaceAddress, this.signer);
@@ -62,7 +62,7 @@ export class MarketPlace {
     refundAddress: string,
     secret: Buffer,
     acl: Buffer,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     const askRequest: IProofMarketPlace.AskStruct = {
       marketId,
@@ -97,7 +97,7 @@ export class MarketPlace {
 
     const platformTokenAllowance = await this.platformToken.allowance(
       await this.signer.getAddress(),
-      await this.proofMarketPlace.getAddress()
+      await this.proofMarketPlace.getAddress(),
     );
     if (new BigNumber(platformTokenAllowance.toString()).lt(platformFee.toString())) {
       const approvalTx = await this.platformToken.approve(await this.proofMarketPlace.getAddress(), platformFee.toString());
@@ -107,7 +107,7 @@ export class MarketPlace {
 
     const paymentTokenAllowance = await this.paymentToken.allowance(
       await this.signer.getAddress(),
-      await this.proofMarketPlace.getAddress()
+      await this.proofMarketPlace.getAddress(),
     );
     if (new BigNumber(paymentTokenAllowance.toString()).lt(reward.toString())) {
       const approvalTx = await this.paymentToken.approve(await this.proofMarketPlace.getAddress(), reward.toString());
@@ -129,7 +129,7 @@ export class MarketPlace {
       0,
       secret,
       acl,
-      { ...options }
+      { ...options },
     );
   }
 
@@ -141,7 +141,7 @@ export class MarketPlace {
     blocksForProofGeneration: BigNumberish,
     refundAddress: string,
     secretBuffer: Buffer,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     //deflate the secret buffer to reduce tx cost
     secretBuffer = Buffer.from(pako.deflate(secretBuffer));
@@ -178,7 +178,7 @@ export class MarketPlace {
 
     const platformTokenAllowance = await this.platformToken.allowance(
       await this.signer.getAddress(),
-      await this.proofMarketPlace.getAddress()
+      await this.proofMarketPlace.getAddress(),
     );
     if (new BigNumber(platformTokenAllowance.toString()).lt(platformFee.toString())) {
       const approvalTx = await this.platformToken.approve(await this.proofMarketPlace.getAddress(), platformFee.toString());
@@ -188,7 +188,7 @@ export class MarketPlace {
 
     const paymentTokenAllowance = await this.paymentToken.allowance(
       await this.signer.getAddress(),
-      await this.proofMarketPlace.getAddress()
+      await this.proofMarketPlace.getAddress(),
     );
     if (new BigNumber(paymentTokenAllowance.toString()).lt(reward.toString())) {
       const approvalTx = await this.paymentToken.approve(await this.proofMarketPlace.getAddress(), reward.toString());
@@ -203,7 +203,7 @@ export class MarketPlace {
     marketMetaData: BytesLike,
     verifier: string,
     slashingPenalty: BigNumberish,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     if (new BigNumber(slashingPenalty.toString()).gt(this.exponent)) {
       throw new Error("Slashing penalty can't be more than " + this.exponent.toFixed(0));
@@ -237,12 +237,10 @@ export class MarketPlace {
 
     let startBlock = blockNumber;
     const latestBlock = await this.signer.provider?.getBlockNumber();
-    console.log("Latest block : ",latestBlock);
-    while(startBlock <= latestBlock!){
-      const _endBlock = Math.min(startBlock+9999,latestBlock!);
-      console.log(
-        `Looking for proof from block ${startBlock} to ${_endBlock}`
-      );
+    console.log("Latest block : ", latestBlock);
+    while (startBlock <= latestBlock!) {
+      const _endBlock = Math.min(startBlock + 9999, latestBlock!);
+      console.log(`Looking for proof from block ${startBlock} to ${_endBlock}`);
 
       const topics = await proof_created_filter.getTopicFilter();
 
@@ -252,13 +250,13 @@ export class MarketPlace {
         address: await this.proofMarketPlace.getAddress(),
         topics,
       });
-  
+
       if (logs && logs.length != 0) {
         let decoded_event = this.proofMarketPlace.interface.decodeEventLog("ProofCreated", logs[0].data, logs[0].topics);
         return { proof_generated: true, proof: decoded_event[2], message: "Proof fetched." };
       }
 
-      startBlock = _endBlock+1;
+      startBlock = _endBlock + 1;
     }
 
     return { proof_generated: false, proof: "0x", message: "Proof not submitted yet." };
@@ -285,9 +283,9 @@ export class MarketPlace {
 
   //Fetching the AskId
   public async getAskId(receipt: ethers.TransactionReceipt): Promise<string> {
-    let ask_created_log = { topics : receipt.logs[4].topics.flat(), data: receipt.logs[4].data};
+    let ask_created_log = { topics: receipt.logs[4].topics.flat(), data: receipt.logs[4].data };
     let decoded_logs = this.proofMarketPlace.interface.parseLog(ask_created_log);
-    if(decoded_logs?.args[0]){
+    if (decoded_logs?.args[0]) {
       return decoded_logs.args[0].toString();
     }
     throw new Error("Ask Id not found for the give receipt");

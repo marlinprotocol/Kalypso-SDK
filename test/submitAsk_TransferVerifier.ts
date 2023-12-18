@@ -48,7 +48,7 @@ const createAskTest = async () => {
         assignmentDeadline.toFixed(0),
         proofGenerationTimeInBlocks.toFixed(0),
         await wallet.getAddress(),
-        Buffer.from(secretString)
+        Buffer.from(secretString),
       );
     console.log("Ask Request Hash: ", askRequest.hash);
   } catch (err) {

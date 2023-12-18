@@ -40,7 +40,7 @@ export interface ErrorInterface extends Interface {
       | "PROOF_TIME_MISMATCH"
       | "SHOULD_BE_IN_ASSIGNED_STATE"
       | "SHOULD_BE_IN_CREATE_STATE"
-      | "SHOULD_BE_IN_CROSSED_DEADLINE_STATE"
+      | "SHOULD_BE_IN_CROSSED_DEADLINE_STATE",
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "ALREADY_JOINED_MARKET", values?: undefined): string;
@@ -123,12 +123,12 @@ export interface Error extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;

@@ -23,8 +23,8 @@ export interface I_xor2_verifierInterface extends Interface {
       [BigNumberish, BigNumberish],
       [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]],
       [BigNumberish, BigNumberish],
-      [BigNumberish]
-    ]
+      [BigNumberish],
+    ],
   ): string;
 
   decodeFunctionResult(functionFragment: "verifyProof", data: BytesLike): Result;
@@ -39,12 +39,12 @@ export interface I_xor2_verifier extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -62,7 +62,7 @@ export interface I_xor2_verifier extends BaseContract {
       a: [BigNumberish, BigNumberish],
       b: [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]],
       c: [BigNumberish, BigNumberish],
-      input: [BigNumberish]
+      input: [BigNumberish],
     ],
     [boolean],
     "view"
@@ -71,13 +71,13 @@ export interface I_xor2_verifier extends BaseContract {
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(
-    nameOrSignature: "verifyProof"
+    nameOrSignature: "verifyProof",
   ): TypedContractMethod<
     [
       a: [BigNumberish, BigNumberish],
       b: [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]],
       c: [BigNumberish, BigNumberish],
-      input: [BigNumberish]
+      input: [BigNumberish],
     ],
     [boolean],
     "view"

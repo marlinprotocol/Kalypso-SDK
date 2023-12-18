@@ -40,7 +40,7 @@ export interface IGeneratorRegistryInterface extends Interface {
       | "requestForExitMarketPlaces"
       | "slashGenerator"
       | "stake"
-      | "unstake"
+      | "unstake",
   ): FunctionFragment;
 
   getEvent(
@@ -51,7 +51,7 @@ export interface IGeneratorRegistryInterface extends Interface {
       | "LeftMarketplace"
       | "RegisteredGenerator"
       | "RemovedStash"
-      | "RequestExitMarketPlace"
+      | "RequestExitMarketPlace",
   ): EventFragment;
 
   encodeFunctionData(functionFragment: "assignGeneratorTask", values: [AddressLike, BytesLike, BigNumberish]): string;
@@ -186,12 +186,12 @@ export interface IGeneratorRegistry extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -257,23 +257,23 @@ export interface IGeneratorRegistry extends BaseContract {
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(
-    nameOrSignature: "assignGeneratorTask"
+    nameOrSignature: "assignGeneratorTask",
   ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BytesLike, amountToLock: BigNumberish], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "completeGeneratorTask"
+    nameOrSignature: "completeGeneratorTask",
   ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BytesLike, amountToRelease: BigNumberish], [void], "nonpayable">;
   getFunction(nameOrSignature: "deregister"): TypedContractMethod<[refundAddress: AddressLike], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "getGeneratorAssignmentDetails"
+    nameOrSignature: "getGeneratorAssignmentDetails",
   ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BytesLike], [[bigint, bigint]], "view">;
   getFunction(
-    nameOrSignature: "getGeneratorRewardDetails"
+    nameOrSignature: "getGeneratorRewardDetails",
   ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BytesLike], [[string, bigint]], "view">;
   getFunction(
-    nameOrSignature: "getGeneratorState"
+    nameOrSignature: "getGeneratorState",
   ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BytesLike], [[bigint, bigint]], "view">;
   getFunction(
-    nameOrSignature: "joinMarketPlace"
+    nameOrSignature: "joinMarketPlace",
   ): TypedContractMethod<
     [marketId: BytesLike, computeAllocation: BigNumberish, proofGenerationCost: BigNumberish, proposedTime: BigNumberish],
     [void],
@@ -282,12 +282,12 @@ export interface IGeneratorRegistry extends BaseContract {
   getFunction(nameOrSignature: "leaveMarketPlace"): TypedContractMethod<[marketId: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "leaveMarketPlaces"): TypedContractMethod<[marketIds: BytesLike[]], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "register"
+    nameOrSignature: "register",
   ): TypedContractMethod<[rewardAddress: AddressLike, declaredCompute: BigNumberish, generatorData: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "requestForExitMarketPlace"): TypedContractMethod<[marketId: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "requestForExitMarketPlaces"): TypedContractMethod<[marketIds: BytesLike[]], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "slashGenerator"
+    nameOrSignature: "slashGenerator",
   ): TypedContractMethod<
     [generatorAddress: AddressLike, marketId: BytesLike, slashingAmount: BigNumberish, rewardAddress: AddressLike],
     [bigint],
@@ -298,26 +298,26 @@ export interface IGeneratorRegistry extends BaseContract {
 
   getEvent(key: "AddedStash"): TypedContractEvent<AddedStashEvent.InputTuple, AddedStashEvent.OutputTuple, AddedStashEvent.OutputObject>;
   getEvent(
-    key: "DeregisteredGenerator"
+    key: "DeregisteredGenerator",
   ): TypedContractEvent<
     DeregisteredGeneratorEvent.InputTuple,
     DeregisteredGeneratorEvent.OutputTuple,
     DeregisteredGeneratorEvent.OutputObject
   >;
   getEvent(
-    key: "JoinedMarketPlace"
+    key: "JoinedMarketPlace",
   ): TypedContractEvent<JoinedMarketPlaceEvent.InputTuple, JoinedMarketPlaceEvent.OutputTuple, JoinedMarketPlaceEvent.OutputObject>;
   getEvent(
-    key: "LeftMarketplace"
+    key: "LeftMarketplace",
   ): TypedContractEvent<LeftMarketplaceEvent.InputTuple, LeftMarketplaceEvent.OutputTuple, LeftMarketplaceEvent.OutputObject>;
   getEvent(
-    key: "RegisteredGenerator"
+    key: "RegisteredGenerator",
   ): TypedContractEvent<RegisteredGeneratorEvent.InputTuple, RegisteredGeneratorEvent.OutputTuple, RegisteredGeneratorEvent.OutputObject>;
   getEvent(
-    key: "RemovedStash"
+    key: "RemovedStash",
   ): TypedContractEvent<RemovedStashEvent.InputTuple, RemovedStashEvent.OutputTuple, RemovedStashEvent.OutputObject>;
   getEvent(
-    key: "RequestExitMarketPlace"
+    key: "RequestExitMarketPlace",
   ): TypedContractEvent<
     RequestExitMarketPlaceEvent.InputTuple,
     RequestExitMarketPlaceEvent.OutputTuple,

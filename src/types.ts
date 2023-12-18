@@ -25,13 +25,13 @@ export interface SecretInputOperations {
 }
 
 export interface PublicKeyResponse {
-  generator_ecies_public_key: string,
-  generator_public_key: string
+  generator_ecies_public_key: string;
+  generator_public_key: string;
 }
 
 export interface AttestationResponse {
-  attestation_document: BytesLike,
-  secp_key: BytesLike
+  attestation_document: BytesLike;
+  secp_key: BytesLike;
 }
 
 export enum AskState {

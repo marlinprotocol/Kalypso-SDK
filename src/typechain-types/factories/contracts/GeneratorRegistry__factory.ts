@@ -1013,7 +1013,7 @@ export class GeneratorRegistry__factory extends ContractFactory {
 
   override getDeployTransaction(
     _stakingToken: AddressLike,
-    overrides?: NonPayableOverrides & { from?: string }
+    overrides?: NonPayableOverrides & { from?: string },
   ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(_stakingToken, overrides || {});
   }

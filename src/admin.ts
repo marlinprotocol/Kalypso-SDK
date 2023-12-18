@@ -15,7 +15,7 @@ export class Admin {
   public async grantRoleToMatchingEngine(
     matchingEngineAddress: string,
     addressAttestationBytes: string,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     const role = await this.proofMarketPlace.MATCHING_ENGINE_ROLE();
     return this.proofMarketPlace["grantRole(bytes32,address,bytes)"](role, matchingEngineAddress, addressAttestationBytes, { ...options });
@@ -24,7 +24,7 @@ export class Admin {
   public async updateEncryptionKey(
     pubKey: BytesLike,
     attestationBytes: BytesLike,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     return this.proofMarketPlace.updateEncryptionKey(pubKey, attestationBytes, { ...options });
   }

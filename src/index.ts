@@ -33,7 +33,7 @@ export class KalypsoSdk {
       this.config.proof_market_place,
       this.config.payment_token,
       this.config.staking_token,
-      this.config.entity_registry
+      this.config.entity_registry,
     );
   }
 }

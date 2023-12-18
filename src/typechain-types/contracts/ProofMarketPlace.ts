@@ -41,7 +41,7 @@ export declare namespace IProofMarketPlace {
     timeTakenForProofGeneration: bigint,
     deadline: bigint,
     refundAddress: string,
-    proverData: string
+    proverData: string,
   ] & {
     marketId: string;
     reward: bigint;
@@ -98,7 +98,7 @@ export interface ProofMarketPlaceInterface extends Interface {
       | "updateEncryptionKey"
       | "upgradeTo"
       | "upgradeToAndCall"
-      | "verifier"
+      | "verifier",
   ): FunctionFragment;
 
   getEvent(
@@ -115,7 +115,7 @@ export interface ProofMarketPlaceInterface extends Interface {
       | "RoleGranted"
       | "RoleRevoked"
       | "TaskCreated"
-      | "Upgraded"
+      | "Upgraded",
   ): EventFragment;
 
   encodeFunctionData(functionFragment: "DEFAULT_ADMIN_ROLE", values?: undefined): string;
@@ -126,11 +126,11 @@ export interface ProofMarketPlaceInterface extends Interface {
   encodeFunctionData(functionFragment: "costPerInputBytes", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "createAsk",
-    values: [IProofMarketPlace.AskStruct, boolean, BigNumberish, BytesLike, BytesLike]
+    values: [IProofMarketPlace.AskStruct, boolean, BigNumberish, BytesLike, BytesLike],
   ): string;
   encodeFunctionData(
     functionFragment: "createAskFor",
-    values: [IProofMarketPlace.AskStruct, boolean, AddressLike, BigNumberish, BytesLike, BytesLike]
+    values: [IProofMarketPlace.AskStruct, boolean, AddressLike, BigNumberish, BytesLike, BytesLike],
   ): string;
   encodeFunctionData(functionFragment: "createMarketPlace", values: [BytesLike, AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "discardRequest", values: [BigNumberish]): string;
@@ -155,7 +155,7 @@ export interface ProofMarketPlaceInterface extends Interface {
   encodeFunctionData(functionFragment: "relayAssignTask", values: [BigNumberish, BigNumberish, AddressLike, BytesLike, BytesLike]): string;
   encodeFunctionData(
     functionFragment: "relayBatchAssignTasks",
-    values: [BigNumberish[], BigNumberish[], AddressLike[], BytesLike[], BytesLike]
+    values: [BigNumberish[], BigNumberish[], AddressLike[], BytesLike[], BytesLike],
   ): string;
   encodeFunctionData(functionFragment: "removeEncryptionKey", values?: undefined): string;
   encodeFunctionData(functionFragment: "renounceRole", values: [BytesLike, AddressLike]): string;
@@ -397,12 +397,12 @@ export interface ProofMarketPlace extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -444,7 +444,7 @@ export interface ProofMarketPlace extends BaseContract {
       payFrom: AddressLike,
       arg3: BigNumberish,
       secret_inputs: BytesLike,
-      acl: BytesLike
+      acl: BytesLike,
     ],
     [void],
     "nonpayable"
@@ -491,7 +491,7 @@ export interface ProofMarketPlace extends BaseContract {
         ask: IProofMarketPlace.AskStructOutput;
         state: bigint;
         requester: string;
-      }
+      },
     ],
     "view"
   >;
@@ -552,19 +552,19 @@ export interface ProofMarketPlace extends BaseContract {
   getFunction(nameOrSignature: "MATCHING_ENGINE_ROLE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "askCounter"): TypedContractMethod<[], [bigint], "view">;
   getFunction(
-    nameOrSignature: "assignTask"
+    nameOrSignature: "assignTask",
   ): TypedContractMethod<[askId: BigNumberish, newTaskId: BigNumberish, generator: AddressLike, new_acl: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "cancelAsk"): TypedContractMethod<[askId: BigNumberish], [void], "nonpayable">;
   getFunction(nameOrSignature: "costPerInputBytes"): TypedContractMethod<[], [bigint], "view">;
   getFunction(
-    nameOrSignature: "createAsk"
+    nameOrSignature: "createAsk",
   ): TypedContractMethod<
     [ask: IProofMarketPlace.AskStruct, hasPrivateInputs: boolean, arg2: BigNumberish, secret_inputs: BytesLike, acl: BytesLike],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "createAskFor"
+    nameOrSignature: "createAskFor",
   ): TypedContractMethod<
     [
       ask: IProofMarketPlace.AskStruct,
@@ -572,29 +572,29 @@ export interface ProofMarketPlace extends BaseContract {
       payFrom: AddressLike,
       arg3: BigNumberish,
       secret_inputs: BytesLike,
-      acl: BytesLike
+      acl: BytesLike,
     ],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "createMarketPlace"
+    nameOrSignature: "createMarketPlace",
   ): TypedContractMethod<[_marketmetadata: BytesLike, _verifier: AddressLike, _slashingPenalty: BigNumberish], [void], "nonpayable">;
   getFunction(nameOrSignature: "discardRequest"): TypedContractMethod<[taskId: BigNumberish], [bigint], "nonpayable">;
   getFunction(nameOrSignature: "entityKeyRegistry"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "generatorRegistry"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "getAskState"): TypedContractMethod<[askId: BigNumberish], [bigint], "view">;
   getFunction(
-    nameOrSignature: "getPlatformFee"
+    nameOrSignature: "getPlatformFee",
   ): TypedContractMethod<[ask: IProofMarketPlace.AskStruct, secret_inputs: BytesLike, acl: BytesLike], [bigint], "view">;
   getFunction(nameOrSignature: "getRoleAdmin"): TypedContractMethod<[role: BytesLike], [string], "view">;
   getFunction(nameOrSignature: "getRoleMember"): TypedContractMethod<[role: BytesLike, index: BigNumberish], [string], "view">;
   getFunction(nameOrSignature: "getRoleMemberCount"): TypedContractMethod<[role: BytesLike], [bigint], "view">;
   getFunction(
-    nameOrSignature: "grantRole(bytes32,address)"
+    nameOrSignature: "grantRole(bytes32,address)",
   ): TypedContractMethod<[arg0: BytesLike, arg1: AddressLike], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "grantRole(bytes32,address,bytes)"
+    nameOrSignature: "grantRole(bytes32,address,bytes)",
   ): TypedContractMethod<[role: BytesLike, account: AddressLike, attestation_data: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "hasRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
   getFunction(nameOrSignature: "initialize"): TypedContractMethod<[_admin: AddressLike], [void], "nonpayable">;
@@ -605,12 +605,12 @@ export interface ProofMarketPlace extends BaseContract {
         ask: IProofMarketPlace.AskStructOutput;
         state: bigint;
         requester: string;
-      }
+      },
     ],
     "view"
   >;
   getFunction(
-    nameOrSignature: "listOfTask"
+    nameOrSignature: "listOfTask",
   ): TypedContractMethod<[arg0: BigNumberish], [[bigint, string] & { askId: bigint; generator: string }], "view">;
   getFunction(nameOrSignature: "marketCreationCost"): TypedContractMethod<[], [bigint], "view">;
   getFunction(nameOrSignature: "marketmetadata"): TypedContractMethod<[arg0: BytesLike], [string], "view">;
@@ -618,14 +618,14 @@ export interface ProofMarketPlace extends BaseContract {
   getFunction(nameOrSignature: "platformToken"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "proxiableUUID"): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "relayAssignTask"
+    nameOrSignature: "relayAssignTask",
   ): TypedContractMethod<
     [askId: BigNumberish, newTaskId: BigNumberish, generator: AddressLike, new_acl: BytesLike, signature: BytesLike],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "relayBatchAssignTasks"
+    nameOrSignature: "relayBatchAssignTasks",
   ): TypedContractMethod<
     [askIds: BigNumberish[], newTaskIds: BigNumberish[], generators: AddressLike[], new_acls: BytesLike[], signature: BytesLike],
     [void],
@@ -635,7 +635,7 @@ export interface ProofMarketPlace extends BaseContract {
   getFunction(nameOrSignature: "renounceRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "revokeRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "slashGenerator"
+    nameOrSignature: "slashGenerator",
   ): TypedContractMethod<[taskId: BigNumberish, rewardAddress: AddressLike], [bigint], "nonpayable">;
   getFunction(nameOrSignature: "slashingPenalty"): TypedContractMethod<[arg0: BytesLike], [bigint], "view">;
   getFunction(nameOrSignature: "submitProof"): TypedContractMethod<[taskId: BigNumberish, proof: BytesLike], [void], "nonpayable">;
@@ -643,47 +643,47 @@ export interface ProofMarketPlace extends BaseContract {
   getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
   getFunction(nameOrSignature: "taskCounter"): TypedContractMethod<[], [bigint], "view">;
   getFunction(
-    nameOrSignature: "updateEncryptionKey"
+    nameOrSignature: "updateEncryptionKey",
   ): TypedContractMethod<[pubkey: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "upgradeTo"): TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "upgradeToAndCall"
+    nameOrSignature: "upgradeToAndCall",
   ): TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;
   getFunction(nameOrSignature: "verifier"): TypedContractMethod<[arg0: BytesLike], [string], "view">;
 
   getEvent(
-    key: "AdminChanged"
+    key: "AdminChanged",
   ): TypedContractEvent<AdminChangedEvent.InputTuple, AdminChangedEvent.OutputTuple, AdminChangedEvent.OutputObject>;
   getEvent(
-    key: "AskCancelled"
+    key: "AskCancelled",
   ): TypedContractEvent<AskCancelledEvent.InputTuple, AskCancelledEvent.OutputTuple, AskCancelledEvent.OutputObject>;
   getEvent(key: "AskCreated"): TypedContractEvent<AskCreatedEvent.InputTuple, AskCreatedEvent.OutputTuple, AskCreatedEvent.OutputObject>;
   getEvent(
-    key: "BeaconUpgraded"
+    key: "BeaconUpgraded",
   ): TypedContractEvent<BeaconUpgradedEvent.InputTuple, BeaconUpgradedEvent.OutputTuple, BeaconUpgradedEvent.OutputObject>;
   getEvent(
-    key: "Initialized"
+    key: "Initialized",
   ): TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
   getEvent(
-    key: "MarketPlaceCreated"
+    key: "MarketPlaceCreated",
   ): TypedContractEvent<MarketPlaceCreatedEvent.InputTuple, MarketPlaceCreatedEvent.OutputTuple, MarketPlaceCreatedEvent.OutputObject>;
   getEvent(
-    key: "ProofCreated"
+    key: "ProofCreated",
   ): TypedContractEvent<ProofCreatedEvent.InputTuple, ProofCreatedEvent.OutputTuple, ProofCreatedEvent.OutputObject>;
   getEvent(
-    key: "ProofNotGenerated"
+    key: "ProofNotGenerated",
   ): TypedContractEvent<ProofNotGeneratedEvent.InputTuple, ProofNotGeneratedEvent.OutputTuple, ProofNotGeneratedEvent.OutputObject>;
   getEvent(
-    key: "RoleAdminChanged"
+    key: "RoleAdminChanged",
   ): TypedContractEvent<RoleAdminChangedEvent.InputTuple, RoleAdminChangedEvent.OutputTuple, RoleAdminChangedEvent.OutputObject>;
   getEvent(
-    key: "RoleGranted"
+    key: "RoleGranted",
   ): TypedContractEvent<RoleGrantedEvent.InputTuple, RoleGrantedEvent.OutputTuple, RoleGrantedEvent.OutputObject>;
   getEvent(
-    key: "RoleRevoked"
+    key: "RoleRevoked",
   ): TypedContractEvent<RoleRevokedEvent.InputTuple, RoleRevokedEvent.OutputTuple, RoleRevokedEvent.OutputObject>;
   getEvent(
-    key: "TaskCreated"
+    key: "TaskCreated",
   ): TypedContractEvent<TaskCreatedEvent.InputTuple, TaskCreatedEvent.OutputTuple, TaskCreatedEvent.OutputObject>;
   getEvent(key: "Upgraded"): TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>;
 

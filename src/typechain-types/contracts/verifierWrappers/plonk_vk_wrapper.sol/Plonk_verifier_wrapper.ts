@@ -6,7 +6,7 @@ import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, Typed
 
 export interface Plonk_verifier_wrapperInterface extends Interface {
   getFunction(
-    nameOrSignature: "encodeInputAndProofForVerification" | "encodeInputs" | "encodeProof" | "iverifier" | "verify" | "verifyInputs"
+    nameOrSignature: "encodeInputAndProofForVerification" | "encodeInputs" | "encodeProof" | "iverifier" | "verify" | "verifyInputs",
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "encodeInputAndProofForVerification", values: [BytesLike[], BytesLike]): string;
@@ -33,12 +33,12 @@ export interface Plonk_verifier_wrapper extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -66,7 +66,7 @@ export interface Plonk_verifier_wrapper extends BaseContract {
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(
-    nameOrSignature: "encodeInputAndProofForVerification"
+    nameOrSignature: "encodeInputAndProofForVerification",
   ): TypedContractMethod<[inputs: BytesLike[], proof: BytesLike], [string], "view">;
   getFunction(nameOrSignature: "encodeInputs"): TypedContractMethod<[inputs: BytesLike[]], [string], "view">;
   getFunction(nameOrSignature: "encodeProof"): TypedContractMethod<[proof: BytesLike], [string], "view">;

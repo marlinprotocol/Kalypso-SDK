@@ -154,7 +154,7 @@ export class Transfer_verifier_wrapper__factory extends ContractFactory {
 
   override getDeployTransaction(
     _iverifier: AddressLike,
-    overrides?: NonPayableOverrides & { from?: string }
+    overrides?: NonPayableOverrides & { from?: string },
   ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(_iverifier, overrides || {});
   }

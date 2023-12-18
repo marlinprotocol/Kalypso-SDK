@@ -16,7 +16,7 @@ import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, Typed
 
 export interface InputAndProofFormatRegistryInterface extends Interface {
   getFunction(
-    nameOrSignature: "admin" | "inputArrayLength" | "inputs" | "proofArrayLength" | "proofs" | "setInputFormat" | "setProofFormat"
+    nameOrSignature: "admin" | "inputArrayLength" | "inputs" | "proofArrayLength" | "proofs" | "setInputFormat" | "setProofFormat",
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "admin", values?: undefined): string;
@@ -45,12 +45,12 @@ export interface InputAndProofFormatRegistry extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;

@@ -121,7 +121,7 @@ export class EntityKeyRegistry__factory extends ContractFactory {
 
   override getDeployTransaction(
     _attestationVerifier: AddressLike,
-    overrides?: NonPayableOverrides & { from?: string }
+    overrides?: NonPayableOverrides & { from?: string },
   ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(_attestationVerifier, overrides || {});
   }
