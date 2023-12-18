@@ -1,3 +1,5 @@
+import { BytesLike } from "ethers";
+
 export interface KalspsoConfig {
   payment_token: string;
   staking_token: string;
@@ -20,6 +22,16 @@ export interface SecretInputOperations {
   decryptECIES(privateKey: Buffer, encryptedData: Buffer): Buffer;
   encryptAES(data: Buffer, secretKey: Buffer): Buffer;
   decryptAES(encryptedData: Buffer, secretKey: Buffer): Buffer;
+}
+
+export interface PublicKeyResponse {
+  generator_ecies_public_key: string,
+  generator_public_key: string
+}
+
+export interface AttestationResponse {
+  attestation_document: BytesLike,
+  secp_key: BytesLike
 }
 
 export enum AskState {
