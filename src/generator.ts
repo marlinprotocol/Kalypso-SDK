@@ -16,14 +16,12 @@ export class Generator {
   private signer: AbstractSigner;
   private generatorRegistry: GeneratorRegistry;
   private stakingToken: ERC20;
-  private entityKeyRegistry: EntityKeyRegistry;
   private proofMarketplace: ProofMarketPlace;
 
   constructor(signer: AbstractSigner, config: KalspsoConfig) {
     this.signer = signer;
     this.generatorRegistry = GeneratorRegistry__factory.connect(config.generator_registry, this.signer);
     this.stakingToken = ERC20__factory.connect(config.staking_token, this.signer);
-    this.entityKeyRegistry = EntityKeyRegistry__factory.connect(config.entity_registry, this.signer);
     this.proofMarketplace = ProofMarketPlace__factory.connect(config.proof_market_place, this.signer);
   }
 
@@ -71,7 +69,7 @@ export class Generator {
   }
 
   public async joinMarketPlace(
-    marketId: BytesLike,
+    marketId: BigNumberish,
     computeAllocation: BigNumberish,
     proofGeneratorCost: BigNumberish,
     proposedTime: BigNumberish,
@@ -91,11 +89,11 @@ export class Generator {
     );
   }
 
-  public async leaveMarketPlace(marketId: BytesLike, options?: Overrides): Promise<ContractTransactionResponse> {
+  public async leaveMarketPlace(marketId: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
     return await this.generatorRegistry.leaveMarketPlace(marketId, { ...options });
   }
 
-  public async requestForExitMarket(marketId: BytesLike, options?: Overrides): Promise<ContractTransactionResponse> {
+  public async requestForExitMarket(marketId: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
     return await this.generatorRegistry.requestForExitMarketPlace(marketId, { ...options });
   }
 
@@ -104,7 +102,7 @@ export class Generator {
     attestationBytes: BytesLike,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
-    return this.entityKeyRegistry.updatePubkey(pubKeyBytes, attestationBytes, { ...options });
+    return this.generatorRegistry.updateEncryptionKey(pubKeyBytes, attestationBytes, { ...options });
   }
 
   public async slashExistingRequest(taskId: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {

@@ -34,7 +34,7 @@ export enum AskState {
 }
 
 export interface PublicAndSecretInputPair {
-  publicInputs: BytesLike,
-  encryptedSecret: Buffer,
-  acl: Buffer,
+  publicInputs: BytesLike;
+  encryptedSecret: Buffer;
+  acl: Buffer;
 }

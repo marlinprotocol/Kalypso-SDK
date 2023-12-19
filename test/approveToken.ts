@@ -7,7 +7,6 @@ import { KalspsoConfig } from "../src/types";
 
 const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/nova.json", "utf-8"));
 
-
 dotenv.config();
 
 async function main() {

@@ -41,13 +41,13 @@ export interface IAttestationVerifier extends BaseContract {
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
-  safeVerify: TypedContractMethod<[data: BytesLike], [boolean], "nonpayable">;
+  safeVerify: TypedContractMethod<[data: BytesLike], [void], "nonpayable">;
 
   verify: TypedContractMethod<[data: BytesLike], [boolean], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
-  getFunction(nameOrSignature: "safeVerify"): TypedContractMethod<[data: BytesLike], [boolean], "nonpayable">;
+  getFunction(nameOrSignature: "safeVerify"): TypedContractMethod<[data: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "verify"): TypedContractMethod<[data: BytesLike], [boolean], "nonpayable">;
 
   filters: {};

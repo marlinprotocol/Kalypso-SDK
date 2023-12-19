@@ -8,17 +8,63 @@ import type {
   FunctionFragment,
   Result,
   Interface,
+  AddressLike,
   ContractRunner,
   ContractMethod,
   Listener,
 } from "ethers";
 import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../../../common";
 
+export declare namespace ProofMarketPlace {
+  export type AskStruct = {
+    marketId: BigNumberish;
+    reward: BigNumberish;
+    expiry: BigNumberish;
+    timeTakenForProofGeneration: BigNumberish;
+    deadline: BigNumberish;
+    refundAddress: AddressLike;
+    proverData: BytesLike;
+  };
+
+  export type AskStructOutput = [
+    marketId: bigint,
+    reward: bigint,
+    expiry: bigint,
+    timeTakenForProofGeneration: bigint,
+    deadline: bigint,
+    refundAddress: string,
+    proverData: string
+  ] & {
+    marketId: bigint;
+    reward: bigint;
+    expiry: bigint;
+    timeTakenForProofGeneration: bigint;
+    deadline: bigint;
+    refundAddress: string;
+    proverData: string;
+  };
+}
+
 export interface Xor2_verifier_wrapperInterface extends Interface {
   getFunction(
-    nameOrSignature: "encodeInputAndProofForVerification" | "encodeInputs" | "encodeProof" | "iverifier" | "verify" | "verifyInputs"
+    nameOrSignature:
+      | "checkSampleInputsAndProof"
+      | "createRequest"
+      | "encodeInputAndProofForVerification"
+      | "encodeInputs"
+      | "encodeProof"
+      | "iverifier"
+      | "proofMarketPlace"
+      | "sampleInput"
+      | "sampleProof"
+      | "setProofMarketPlaceContract"
+      | "verify"
+      | "verifyAgainstSampleInputs"
+      | "verifyInputs"
   ): FunctionFragment;
 
+  encodeFunctionData(functionFragment: "checkSampleInputsAndProof", values?: undefined): string;
+  encodeFunctionData(functionFragment: "createRequest", values: [ProofMarketPlace.AskStruct, BigNumberish, BytesLike, BytesLike]): string;
   encodeFunctionData(
     functionFragment: "encodeInputAndProofForVerification",
     values: [
@@ -34,14 +80,26 @@ export interface Xor2_verifier_wrapperInterface extends Interface {
     values: [[BigNumberish, BigNumberish], [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]], [BigNumberish, BigNumberish]]
   ): string;
   encodeFunctionData(functionFragment: "iverifier", values?: undefined): string;
+  encodeFunctionData(functionFragment: "proofMarketPlace", values?: undefined): string;
+  encodeFunctionData(functionFragment: "sampleInput", values?: undefined): string;
+  encodeFunctionData(functionFragment: "sampleProof", values?: undefined): string;
+  encodeFunctionData(functionFragment: "setProofMarketPlaceContract", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "verify", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "verifyAgainstSampleInputs", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "verifyInputs", values: [BytesLike]): string;
 
+  decodeFunctionResult(functionFragment: "checkSampleInputsAndProof", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "createRequest", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "encodeInputAndProofForVerification", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "encodeInputs", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "encodeProof", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "iverifier", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "proofMarketPlace", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "sampleInput", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "sampleProof", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setProofMarketPlaceContract", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "verify", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "verifyAgainstSampleInputs", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "verifyInputs", data: BytesLike): Result;
 }
 
@@ -72,6 +130,14 @@ export interface Xor2_verifier_wrapper extends BaseContract {
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
+  checkSampleInputsAndProof: TypedContractMethod<[], [boolean], "view">;
+
+  createRequest: TypedContractMethod<
+    [ask: ProofMarketPlace.AskStruct, secretType: BigNumberish, secret_inputs: BytesLike, acl: BytesLike],
+    [void],
+    "nonpayable"
+  >;
+
   encodeInputAndProofForVerification: TypedContractMethod<
     [
       inputs: [BigNumberish],
@@ -93,12 +159,30 @@ export interface Xor2_verifier_wrapper extends BaseContract {
 
   iverifier: TypedContractMethod<[], [string], "view">;
 
+  proofMarketPlace: TypedContractMethod<[], [string], "view">;
+
+  sampleInput: TypedContractMethod<[], [string], "view">;
+
+  sampleProof: TypedContractMethod<[], [string], "view">;
+
+  setProofMarketPlaceContract: TypedContractMethod<[_proofMarketplace: AddressLike], [void], "nonpayable">;
+
   verify: TypedContractMethod<[encodedData: BytesLike], [boolean], "view">;
+
+  verifyAgainstSampleInputs: TypedContractMethod<[encodedProof: BytesLike], [boolean], "view">;
 
   verifyInputs: TypedContractMethod<[inputs: BytesLike], [boolean], "view">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
+  getFunction(nameOrSignature: "checkSampleInputsAndProof"): TypedContractMethod<[], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "createRequest"
+  ): TypedContractMethod<
+    [ask: ProofMarketPlace.AskStruct, secretType: BigNumberish, secret_inputs: BytesLike, acl: BytesLike],
+    [void],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "encodeInputAndProofForVerification"
   ): TypedContractMethod<
@@ -120,7 +204,12 @@ export interface Xor2_verifier_wrapper extends BaseContract {
     "view"
   >;
   getFunction(nameOrSignature: "iverifier"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "proofMarketPlace"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "sampleInput"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "sampleProof"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "setProofMarketPlaceContract"): TypedContractMethod<[_proofMarketplace: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "verify"): TypedContractMethod<[encodedData: BytesLike], [boolean], "view">;
+  getFunction(nameOrSignature: "verifyAgainstSampleInputs"): TypedContractMethod<[encodedProof: BytesLike], [boolean], "view">;
   getFunction(nameOrSignature: "verifyInputs"): TypedContractMethod<[inputs: BytesLike], [boolean], "view">;
 
   filters: {};

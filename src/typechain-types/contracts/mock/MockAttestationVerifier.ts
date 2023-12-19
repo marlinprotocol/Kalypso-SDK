@@ -41,14 +41,14 @@ export interface MockAttestationVerifier extends BaseContract {
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
-  safeVerify: TypedContractMethod<[data: BytesLike], [boolean], "nonpayable">;
+  safeVerify: TypedContractMethod<[arg0: BytesLike], [void], "nonpayable">;
 
-  verify: TypedContractMethod<[data: BytesLike], [boolean], "nonpayable">;
+  verify: TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
-  getFunction(nameOrSignature: "safeVerify"): TypedContractMethod<[data: BytesLike], [boolean], "nonpayable">;
-  getFunction(nameOrSignature: "verify"): TypedContractMethod<[data: BytesLike], [boolean], "nonpayable">;
+  getFunction(nameOrSignature: "safeVerify"): TypedContractMethod<[arg0: BytesLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "verify"): TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
 
   filters: {};
 }

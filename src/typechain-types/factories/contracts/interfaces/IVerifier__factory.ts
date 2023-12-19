@@ -7,6 +7,71 @@ import type { IVerifier, IVerifierInterface } from "../../../contracts/interface
 
 const _abi = [
   {
+    inputs: [],
+    name: "checkSampleInputsAndProof",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "proofMarketPlace",
+    outputs: [
+      {
+        internalType: "contract ProofMarketPlace",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "sampleInput",
+    outputs: [
+      {
+        internalType: "bytes",
+        name: "",
+        type: "bytes",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "sampleProof",
+    outputs: [
+      {
+        internalType: "bytes",
+        name: "",
+        type: "bytes",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "contract ProofMarketPlace",
+        name: "_proofMarketplace",
+        type: "address",
+      },
+    ],
+    name: "setProofMarketPlaceContract",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "bytes",
@@ -15,6 +80,25 @@ const _abi = [
       },
     ],
     name: "verify",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes",
+        name: "proof",
+        type: "bytes",
+      },
+    ],
+    name: "verifyAgainstSampleInputs",
     outputs: [
       {
         internalType: "bool",

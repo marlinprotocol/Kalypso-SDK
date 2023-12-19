@@ -17,8 +17,7 @@ export class Admin {
     addressAttestationBytes: string,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
-    const role = await this.proofMarketPlace.MATCHING_ENGINE_ROLE();
-    return this.proofMarketPlace["grantRole(bytes32,address,bytes)"](role, matchingEngineAddress, addressAttestationBytes, { ...options });
+    return this.proofMarketPlace.updateMatchingEngineEnclaveSigner(addressAttestationBytes, matchingEngineAddress, { ...options });
   }
 
   public async updateEncryptionKey(

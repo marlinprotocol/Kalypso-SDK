@@ -27,10 +27,16 @@ export interface GeneratorRegistryInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "DEFAULT_ADMIN_ROLE"
+      | "ENTITY_KEY_REGISTRY"
+      | "KEY_REGISTER_ROLE"
       | "PARALLEL_REQUESTS_UPPER_LIMIT"
       | "SLASHER_ROLE"
+      | "STAKING_TOKEN"
+      | "UNLOCK_WAIT_BLOCKS"
       | "assignGeneratorTask"
+      | "changeRewardAddress"
       | "completeGeneratorTask"
+      | "decreaseDeclaredCompute"
       | "deregister"
       | "generatorInfoPerMarket"
       | "generatorRegistry"
@@ -42,7 +48,10 @@ export interface GeneratorRegistryInterface extends Interface {
       | "getRoleMemberCount"
       | "grantRole"
       | "hasRole"
+      | "increaseDeclaredCompute"
       | "initialize"
+      | "intendToReduceCompute"
+      | "intendToReduceStake"
       | "joinMarketPlace"
       | "leaveMarketPlace"
       | "leaveMarketPlaces"
@@ -55,25 +64,30 @@ export interface GeneratorRegistryInterface extends Interface {
       | "revokeRole"
       | "slashGenerator"
       | "stake"
-      | "stakingToken"
       | "supportsInterface"
       | "unstake"
+      | "updateEncryptionKey"
       | "upgradeTo"
       | "upgradeToAndCall"
   ): FunctionFragment;
 
   getEvent(
     nameOrSignatureOrTopic:
-      | "AddedStash"
+      | "AddedStake"
       | "AdminChanged"
       | "BeaconUpgraded"
+      | "ChangedGeneratorRewardAddress"
+      | "DecreaseCompute"
       | "DeregisteredGenerator"
+      | "IncreasedCompute"
       | "Initialized"
       | "JoinedMarketPlace"
       | "LeftMarketplace"
       | "RegisteredGenerator"
-      | "RemovedStash"
+      | "RemovedStake"
+      | "RequestComputeDecrease"
       | "RequestExitMarketPlace"
+      | "RequestStakeDecrease"
       | "RoleAdminChanged"
       | "RoleGranted"
       | "RoleRevoked"
@@ -81,45 +95,60 @@ export interface GeneratorRegistryInterface extends Interface {
   ): EventFragment;
 
   encodeFunctionData(functionFragment: "DEFAULT_ADMIN_ROLE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "ENTITY_KEY_REGISTRY", values?: undefined): string;
+  encodeFunctionData(functionFragment: "KEY_REGISTER_ROLE", values?: undefined): string;
   encodeFunctionData(functionFragment: "PARALLEL_REQUESTS_UPPER_LIMIT", values?: undefined): string;
   encodeFunctionData(functionFragment: "SLASHER_ROLE", values?: undefined): string;
-  encodeFunctionData(functionFragment: "assignGeneratorTask", values: [AddressLike, BytesLike, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "completeGeneratorTask", values: [AddressLike, BytesLike, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "STAKING_TOKEN", values?: undefined): string;
+  encodeFunctionData(functionFragment: "UNLOCK_WAIT_BLOCKS", values?: undefined): string;
+  encodeFunctionData(functionFragment: "assignGeneratorTask", values: [AddressLike, BigNumberish, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "changeRewardAddress", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "completeGeneratorTask", values: [AddressLike, BigNumberish, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "decreaseDeclaredCompute", values?: undefined): string;
   encodeFunctionData(functionFragment: "deregister", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "generatorInfoPerMarket", values: [AddressLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "generatorInfoPerMarket", values: [AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "generatorRegistry", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "getGeneratorAssignmentDetails", values: [AddressLike, BytesLike]): string;
-  encodeFunctionData(functionFragment: "getGeneratorRewardDetails", values: [AddressLike, BytesLike]): string;
-  encodeFunctionData(functionFragment: "getGeneratorState", values: [AddressLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "getGeneratorAssignmentDetails", values: [AddressLike, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "getGeneratorRewardDetails", values: [AddressLike, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "getGeneratorState", values: [AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "getRoleAdmin", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "getRoleMember", values: [BytesLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "getRoleMemberCount", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "grantRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "hasRole", values: [BytesLike, AddressLike]): string;
+  encodeFunctionData(functionFragment: "increaseDeclaredCompute", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "initialize", values: [AddressLike, AddressLike]): string;
-  encodeFunctionData(functionFragment: "joinMarketPlace", values: [BytesLike, BigNumberish, BigNumberish, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "leaveMarketPlace", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "leaveMarketPlaces", values: [BytesLike[]]): string;
+  encodeFunctionData(functionFragment: "intendToReduceCompute", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "intendToReduceStake", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "joinMarketPlace", values: [BigNumberish, BigNumberish, BigNumberish, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "leaveMarketPlace", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "leaveMarketPlaces", values: [BigNumberish[]]): string;
   encodeFunctionData(functionFragment: "proofMarketPlace", values?: undefined): string;
   encodeFunctionData(functionFragment: "proxiableUUID", values?: undefined): string;
   encodeFunctionData(functionFragment: "register", values: [AddressLike, BigNumberish, BytesLike]): string;
   encodeFunctionData(functionFragment: "renounceRole", values: [BytesLike, AddressLike]): string;
-  encodeFunctionData(functionFragment: "requestForExitMarketPlace", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "requestForExitMarketPlaces", values: [BytesLike[]]): string;
+  encodeFunctionData(functionFragment: "requestForExitMarketPlace", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "requestForExitMarketPlaces", values: [BigNumberish[]]): string;
   encodeFunctionData(functionFragment: "revokeRole", values: [BytesLike, AddressLike]): string;
-  encodeFunctionData(functionFragment: "slashGenerator", values: [AddressLike, BytesLike, BigNumberish, AddressLike]): string;
+  encodeFunctionData(functionFragment: "slashGenerator", values: [AddressLike, BigNumberish, BigNumberish, AddressLike]): string;
   encodeFunctionData(functionFragment: "stake", values: [AddressLike, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "stakingToken", values?: undefined): string;
   encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "unstake", values: [AddressLike, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "unstake", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "updateEncryptionKey", values: [BytesLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "upgradeTo", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "upgradeToAndCall", values: [AddressLike, BytesLike]): string;
 
   decodeFunctionResult(functionFragment: "DEFAULT_ADMIN_ROLE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ENTITY_KEY_REGISTRY", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "KEY_REGISTER_ROLE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "PARALLEL_REQUESTS_UPPER_LIMIT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "SLASHER_ROLE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "STAKING_TOKEN", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "UNLOCK_WAIT_BLOCKS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "assignGeneratorTask", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "changeRewardAddress", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "completeGeneratorTask", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "decreaseDeclaredCompute", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "deregister", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "generatorInfoPerMarket", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "generatorRegistry", data: BytesLike): Result;
@@ -131,7 +160,10 @@ export interface GeneratorRegistryInterface extends Interface {
   decodeFunctionResult(functionFragment: "getRoleMemberCount", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "increaseDeclaredCompute", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "intendToReduceCompute", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "intendToReduceStake", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "joinMarketPlace", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "leaveMarketPlace", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "leaveMarketPlaces", data: BytesLike): Result;
@@ -144,14 +176,14 @@ export interface GeneratorRegistryInterface extends Interface {
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "slashGenerator", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "stake", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "stakingToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "supportsInterface", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "unstake", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "updateEncryptionKey", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "upgradeToAndCall", data: BytesLike): Result;
 }
 
-export namespace AddedStashEvent {
+export namespace AddedStakeEvent {
   export type InputTuple = [generator: AddressLike, amount: BigNumberish];
   export type OutputTuple = [generator: string, amount: bigint];
   export interface OutputObject {
@@ -189,11 +221,50 @@ export namespace BeaconUpgradedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
+export namespace ChangedGeneratorRewardAddressEvent {
+  export type InputTuple = [generator: AddressLike, newRewardAddress: AddressLike];
+  export type OutputTuple = [generator: string, newRewardAddress: string];
+  export interface OutputObject {
+    generator: string;
+    newRewardAddress: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace DecreaseComputeEvent {
+  export type InputTuple = [generator: AddressLike, compute: BigNumberish];
+  export type OutputTuple = [generator: string, compute: bigint];
+  export interface OutputObject {
+    generator: string;
+    compute: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
 export namespace DeregisteredGeneratorEvent {
   export type InputTuple = [generator: AddressLike];
   export type OutputTuple = [generator: string];
   export interface OutputObject {
     generator: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace IncreasedComputeEvent {
+  export type InputTuple = [generator: AddressLike, compute: BigNumberish];
+  export type OutputTuple = [generator: string, compute: bigint];
+  export interface OutputObject {
+    generator: string;
+    compute: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -214,11 +285,11 @@ export namespace InitializedEvent {
 }
 
 export namespace JoinedMarketPlaceEvent {
-  export type InputTuple = [generator: AddressLike, marketId: BytesLike, computeAllocation: BigNumberish];
-  export type OutputTuple = [generator: string, marketId: string, computeAllocation: bigint];
+  export type InputTuple = [generator: AddressLike, marketId: BigNumberish, computeAllocation: BigNumberish];
+  export type OutputTuple = [generator: string, marketId: bigint, computeAllocation: bigint];
   export interface OutputObject {
     generator: string;
-    marketId: string;
+    marketId: bigint;
     computeAllocation: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
@@ -228,11 +299,11 @@ export namespace JoinedMarketPlaceEvent {
 }
 
 export namespace LeftMarketplaceEvent {
-  export type InputTuple = [generator: AddressLike, marketId: BytesLike];
-  export type OutputTuple = [generator: string, marketId: string];
+  export type InputTuple = [generator: AddressLike, marketId: BigNumberish];
+  export type OutputTuple = [generator: string, marketId: bigint];
   export interface OutputObject {
     generator: string;
-    marketId: string;
+    marketId: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -252,12 +323,25 @@ export namespace RegisteredGeneratorEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace RemovedStashEvent {
-  export type InputTuple = [generator: AddressLike, arg1: BigNumberish];
-  export type OutputTuple = [generator: string, arg1: bigint];
+export namespace RemovedStakeEvent {
+  export type InputTuple = [generator: AddressLike, amount: BigNumberish];
+  export type OutputTuple = [generator: string, amount: bigint];
   export interface OutputObject {
     generator: string;
-    arg1: bigint;
+    amount: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace RequestComputeDecreaseEvent {
+  export type InputTuple = [generator: AddressLike, intendedUtilization: BigNumberish];
+  export type OutputTuple = [generator: string, intendedUtilization: bigint];
+  export interface OutputObject {
+    generator: string;
+    intendedUtilization: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -266,11 +350,24 @@ export namespace RemovedStashEvent {
 }
 
 export namespace RequestExitMarketPlaceEvent {
-  export type InputTuple = [generator: AddressLike, marketId: BytesLike];
-  export type OutputTuple = [generator: string, marketId: string];
+  export type InputTuple = [generator: AddressLike, marketId: BigNumberish];
+  export type OutputTuple = [generator: string, marketId: bigint];
   export interface OutputObject {
     generator: string;
-    marketId: string;
+    marketId: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace RequestStakeDecreaseEvent {
+  export type InputTuple = [generator: AddressLike, intendedUtilization: BigNumberish];
+  export type OutputTuple = [generator: string, intendedUtilization: bigint];
+  export interface OutputObject {
+    generator: string;
+    intendedUtilization: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -361,30 +458,42 @@ export interface GeneratorRegistry extends BaseContract {
 
   DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
 
+  ENTITY_KEY_REGISTRY: TypedContractMethod<[], [string], "view">;
+
+  KEY_REGISTER_ROLE: TypedContractMethod<[], [string], "view">;
+
   PARALLEL_REQUESTS_UPPER_LIMIT: TypedContractMethod<[], [bigint], "view">;
 
   SLASHER_ROLE: TypedContractMethod<[], [string], "view">;
 
+  STAKING_TOKEN: TypedContractMethod<[], [string], "view">;
+
+  UNLOCK_WAIT_BLOCKS: TypedContractMethod<[], [bigint], "view">;
+
   assignGeneratorTask: TypedContractMethod<
-    [generatorAddress: AddressLike, marketId: BytesLike, amountToLock: BigNumberish],
+    [generatorAddress: AddressLike, marketId: BigNumberish, stakeToLock: BigNumberish],
     [void],
     "nonpayable"
   >;
 
+  changeRewardAddress: TypedContractMethod<[newRewardAddress: AddressLike], [void], "nonpayable">;
+
   completeGeneratorTask: TypedContractMethod<
-    [generatorAddress: AddressLike, marketId: BytesLike, stakeToRelease: BigNumberish],
+    [generatorAddress: AddressLike, marketId: BigNumberish, stakeToRelease: BigNumberish],
     [void],
     "nonpayable"
   >;
+
+  decreaseDeclaredCompute: TypedContractMethod<[], [void], "nonpayable">;
 
   deregister: TypedContractMethod<[refundAddress: AddressLike], [void], "nonpayable">;
 
   generatorInfoPerMarket: TypedContractMethod<
-    [arg0: AddressLike, arg1: BytesLike],
+    [arg0: AddressLike, arg1: BigNumberish],
     [
       [bigint, bigint, bigint, bigint, bigint] & {
         state: bigint;
-        computeAllocation: bigint;
+        computePerRequestRequired: bigint;
         proofGenerationCost: bigint;
         proposedTime: bigint;
         activeRequests: bigint;
@@ -396,25 +505,27 @@ export interface GeneratorRegistry extends BaseContract {
   generatorRegistry: TypedContractMethod<
     [arg0: AddressLike],
     [
-      [string, bigint, bigint, bigint, bigint, bigint, bigint, string] & {
+      [string, bigint, bigint, bigint, bigint, bigint, bigint, bigint, bigint, string] & {
         rewardAddress: string;
         totalStake: bigint;
-        totalCompute: bigint;
+        sumOfComputeAllocations: bigint;
         computeConsumed: bigint;
         stakeLocked: bigint;
         activeMarketPlaces: bigint;
         declaredCompute: bigint;
+        intendedStakeUtilization: bigint;
+        intendedComputeUtilization: bigint;
         generatorData: string;
       }
     ],
     "view"
   >;
 
-  getGeneratorAssignmentDetails: TypedContractMethod<[generatorAddress: AddressLike, marketId: BytesLike], [[bigint, bigint]], "view">;
+  getGeneratorAssignmentDetails: TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[bigint, bigint]], "view">;
 
-  getGeneratorRewardDetails: TypedContractMethod<[generatorAddress: AddressLike, marketId: BytesLike], [[string, bigint]], "view">;
+  getGeneratorRewardDetails: TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[string, bigint]], "view">;
 
-  getGeneratorState: TypedContractMethod<[generatorAddress: AddressLike, marketId: BytesLike], [[bigint, bigint]], "view">;
+  getGeneratorState: TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[bigint, bigint]], "view">;
 
   getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
 
@@ -426,17 +537,23 @@ export interface GeneratorRegistry extends BaseContract {
 
   hasRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
 
+  increaseDeclaredCompute: TypedContractMethod<[computeToIncrease: BigNumberish], [void], "nonpayable">;
+
   initialize: TypedContractMethod<[_admin: AddressLike, _proofMarketPlace: AddressLike], [void], "nonpayable">;
 
+  intendToReduceCompute: TypedContractMethod<[newUtilization: BigNumberish], [void], "nonpayable">;
+
+  intendToReduceStake: TypedContractMethod<[newUtilization: BigNumberish], [void], "nonpayable">;
+
   joinMarketPlace: TypedContractMethod<
-    [marketId: BytesLike, computeAllocation: BigNumberish, proofGenerationCost: BigNumberish, proposedTime: BigNumberish],
+    [marketId: BigNumberish, computePerRequestRequired: BigNumberish, proofGenerationCost: BigNumberish, proposedTime: BigNumberish],
     [void],
     "nonpayable"
   >;
 
-  leaveMarketPlace: TypedContractMethod<[marketId: BytesLike], [void], "nonpayable">;
+  leaveMarketPlace: TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
 
-  leaveMarketPlaces: TypedContractMethod<[marketIds: BytesLike[]], [void], "nonpayable">;
+  leaveMarketPlaces: TypedContractMethod<[marketIds: BigNumberish[]], [void], "nonpayable">;
 
   proofMarketPlace: TypedContractMethod<[], [string], "view">;
 
@@ -450,25 +567,25 @@ export interface GeneratorRegistry extends BaseContract {
 
   renounceRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
 
-  requestForExitMarketPlace: TypedContractMethod<[marketId: BytesLike], [void], "nonpayable">;
+  requestForExitMarketPlace: TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
 
-  requestForExitMarketPlaces: TypedContractMethod<[marketIds: BytesLike[]], [void], "nonpayable">;
+  requestForExitMarketPlaces: TypedContractMethod<[marketIds: BigNumberish[]], [void], "nonpayable">;
 
   revokeRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
 
   slashGenerator: TypedContractMethod<
-    [generatorAddress: AddressLike, marketId: BytesLike, slashingAmount: BigNumberish, rewardAddress: AddressLike],
+    [generatorAddress: AddressLike, marketId: BigNumberish, slashingAmount: BigNumberish, rewardAddress: AddressLike],
     [bigint],
     "nonpayable"
   >;
 
   stake: TypedContractMethod<[generatorAddress: AddressLike, amount: BigNumberish], [bigint], "nonpayable">;
 
-  stakingToken: TypedContractMethod<[], [string], "view">;
-
   supportsInterface: TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
 
-  unstake: TypedContractMethod<[receipient: AddressLike, amount: BigNumberish], [bigint], "nonpayable">;
+  unstake: TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
+
+  updateEncryptionKey: TypedContractMethod<[pubkey: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
 
   upgradeTo: TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
 
@@ -477,21 +594,27 @@ export interface GeneratorRegistry extends BaseContract {
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "DEFAULT_ADMIN_ROLE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "ENTITY_KEY_REGISTRY"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "KEY_REGISTER_ROLE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "PARALLEL_REQUESTS_UPPER_LIMIT"): TypedContractMethod<[], [bigint], "view">;
   getFunction(nameOrSignature: "SLASHER_ROLE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "STAKING_TOKEN"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "UNLOCK_WAIT_BLOCKS"): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "assignGeneratorTask"
-  ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BytesLike, amountToLock: BigNumberish], [void], "nonpayable">;
+  ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish, stakeToLock: BigNumberish], [void], "nonpayable">;
+  getFunction(nameOrSignature: "changeRewardAddress"): TypedContractMethod<[newRewardAddress: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "completeGeneratorTask"
-  ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BytesLike, stakeToRelease: BigNumberish], [void], "nonpayable">;
+  ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish, stakeToRelease: BigNumberish], [void], "nonpayable">;
+  getFunction(nameOrSignature: "decreaseDeclaredCompute"): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(nameOrSignature: "deregister"): TypedContractMethod<[refundAddress: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "generatorInfoPerMarket"): TypedContractMethod<
-    [arg0: AddressLike, arg1: BytesLike],
+    [arg0: AddressLike, arg1: BigNumberish],
     [
       [bigint, bigint, bigint, bigint, bigint] & {
         state: bigint;
-        computeAllocation: bigint;
+        computePerRequestRequired: bigint;
         proofGenerationCost: bigint;
         proposedTime: bigint;
         activeRequests: bigint;
@@ -502,14 +625,16 @@ export interface GeneratorRegistry extends BaseContract {
   getFunction(nameOrSignature: "generatorRegistry"): TypedContractMethod<
     [arg0: AddressLike],
     [
-      [string, bigint, bigint, bigint, bigint, bigint, bigint, string] & {
+      [string, bigint, bigint, bigint, bigint, bigint, bigint, bigint, bigint, string] & {
         rewardAddress: string;
         totalStake: bigint;
-        totalCompute: bigint;
+        sumOfComputeAllocations: bigint;
         computeConsumed: bigint;
         stakeLocked: bigint;
         activeMarketPlaces: bigint;
         declaredCompute: bigint;
+        intendedStakeUtilization: bigint;
+        intendedComputeUtilization: bigint;
         generatorData: string;
       }
     ],
@@ -517,56 +642,61 @@ export interface GeneratorRegistry extends BaseContract {
   >;
   getFunction(
     nameOrSignature: "getGeneratorAssignmentDetails"
-  ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BytesLike], [[bigint, bigint]], "view">;
+  ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[bigint, bigint]], "view">;
   getFunction(
     nameOrSignature: "getGeneratorRewardDetails"
-  ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BytesLike], [[string, bigint]], "view">;
+  ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[string, bigint]], "view">;
   getFunction(
     nameOrSignature: "getGeneratorState"
-  ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BytesLike], [[bigint, bigint]], "view">;
+  ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[bigint, bigint]], "view">;
   getFunction(nameOrSignature: "getRoleAdmin"): TypedContractMethod<[role: BytesLike], [string], "view">;
   getFunction(nameOrSignature: "getRoleMember"): TypedContractMethod<[role: BytesLike, index: BigNumberish], [string], "view">;
   getFunction(nameOrSignature: "getRoleMemberCount"): TypedContractMethod<[role: BytesLike], [bigint], "view">;
   getFunction(nameOrSignature: "grantRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "hasRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
+  getFunction(nameOrSignature: "increaseDeclaredCompute"): TypedContractMethod<[computeToIncrease: BigNumberish], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "initialize"
   ): TypedContractMethod<[_admin: AddressLike, _proofMarketPlace: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "intendToReduceCompute"): TypedContractMethod<[newUtilization: BigNumberish], [void], "nonpayable">;
+  getFunction(nameOrSignature: "intendToReduceStake"): TypedContractMethod<[newUtilization: BigNumberish], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "joinMarketPlace"
   ): TypedContractMethod<
-    [marketId: BytesLike, computeAllocation: BigNumberish, proofGenerationCost: BigNumberish, proposedTime: BigNumberish],
+    [marketId: BigNumberish, computePerRequestRequired: BigNumberish, proofGenerationCost: BigNumberish, proposedTime: BigNumberish],
     [void],
     "nonpayable"
   >;
-  getFunction(nameOrSignature: "leaveMarketPlace"): TypedContractMethod<[marketId: BytesLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "leaveMarketPlaces"): TypedContractMethod<[marketIds: BytesLike[]], [void], "nonpayable">;
+  getFunction(nameOrSignature: "leaveMarketPlace"): TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
+  getFunction(nameOrSignature: "leaveMarketPlaces"): TypedContractMethod<[marketIds: BigNumberish[]], [void], "nonpayable">;
   getFunction(nameOrSignature: "proofMarketPlace"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "proxiableUUID"): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "register"
   ): TypedContractMethod<[rewardAddress: AddressLike, declaredCompute: BigNumberish, generatorData: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "renounceRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "requestForExitMarketPlace"): TypedContractMethod<[marketId: BytesLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "requestForExitMarketPlaces"): TypedContractMethod<[marketIds: BytesLike[]], [void], "nonpayable">;
+  getFunction(nameOrSignature: "requestForExitMarketPlace"): TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
+  getFunction(nameOrSignature: "requestForExitMarketPlaces"): TypedContractMethod<[marketIds: BigNumberish[]], [void], "nonpayable">;
   getFunction(nameOrSignature: "revokeRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "slashGenerator"
   ): TypedContractMethod<
-    [generatorAddress: AddressLike, marketId: BytesLike, slashingAmount: BigNumberish, rewardAddress: AddressLike],
+    [generatorAddress: AddressLike, marketId: BigNumberish, slashingAmount: BigNumberish, rewardAddress: AddressLike],
     [bigint],
     "nonpayable"
   >;
   getFunction(nameOrSignature: "stake"): TypedContractMethod<[generatorAddress: AddressLike, amount: BigNumberish], [bigint], "nonpayable">;
-  getFunction(nameOrSignature: "stakingToken"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
-  getFunction(nameOrSignature: "unstake"): TypedContractMethod<[receipient: AddressLike, amount: BigNumberish], [bigint], "nonpayable">;
+  getFunction(nameOrSignature: "unstake"): TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "updateEncryptionKey"
+  ): TypedContractMethod<[pubkey: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "upgradeTo"): TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "upgradeToAndCall"
   ): TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;
 
-  getEvent(key: "AddedStash"): TypedContractEvent<AddedStashEvent.InputTuple, AddedStashEvent.OutputTuple, AddedStashEvent.OutputObject>;
+  getEvent(key: "AddedStake"): TypedContractEvent<AddedStakeEvent.InputTuple, AddedStakeEvent.OutputTuple, AddedStakeEvent.OutputObject>;
   getEvent(
     key: "AdminChanged"
   ): TypedContractEvent<AdminChangedEvent.InputTuple, AdminChangedEvent.OutputTuple, AdminChangedEvent.OutputObject>;
@@ -574,12 +704,25 @@ export interface GeneratorRegistry extends BaseContract {
     key: "BeaconUpgraded"
   ): TypedContractEvent<BeaconUpgradedEvent.InputTuple, BeaconUpgradedEvent.OutputTuple, BeaconUpgradedEvent.OutputObject>;
   getEvent(
+    key: "ChangedGeneratorRewardAddress"
+  ): TypedContractEvent<
+    ChangedGeneratorRewardAddressEvent.InputTuple,
+    ChangedGeneratorRewardAddressEvent.OutputTuple,
+    ChangedGeneratorRewardAddressEvent.OutputObject
+  >;
+  getEvent(
+    key: "DecreaseCompute"
+  ): TypedContractEvent<DecreaseComputeEvent.InputTuple, DecreaseComputeEvent.OutputTuple, DecreaseComputeEvent.OutputObject>;
+  getEvent(
     key: "DeregisteredGenerator"
   ): TypedContractEvent<
     DeregisteredGeneratorEvent.InputTuple,
     DeregisteredGeneratorEvent.OutputTuple,
     DeregisteredGeneratorEvent.OutputObject
   >;
+  getEvent(
+    key: "IncreasedCompute"
+  ): TypedContractEvent<IncreasedComputeEvent.InputTuple, IncreasedComputeEvent.OutputTuple, IncreasedComputeEvent.OutputObject>;
   getEvent(
     key: "Initialized"
   ): TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
@@ -593,14 +736,28 @@ export interface GeneratorRegistry extends BaseContract {
     key: "RegisteredGenerator"
   ): TypedContractEvent<RegisteredGeneratorEvent.InputTuple, RegisteredGeneratorEvent.OutputTuple, RegisteredGeneratorEvent.OutputObject>;
   getEvent(
-    key: "RemovedStash"
-  ): TypedContractEvent<RemovedStashEvent.InputTuple, RemovedStashEvent.OutputTuple, RemovedStashEvent.OutputObject>;
+    key: "RemovedStake"
+  ): TypedContractEvent<RemovedStakeEvent.InputTuple, RemovedStakeEvent.OutputTuple, RemovedStakeEvent.OutputObject>;
+  getEvent(
+    key: "RequestComputeDecrease"
+  ): TypedContractEvent<
+    RequestComputeDecreaseEvent.InputTuple,
+    RequestComputeDecreaseEvent.OutputTuple,
+    RequestComputeDecreaseEvent.OutputObject
+  >;
   getEvent(
     key: "RequestExitMarketPlace"
   ): TypedContractEvent<
     RequestExitMarketPlaceEvent.InputTuple,
     RequestExitMarketPlaceEvent.OutputTuple,
     RequestExitMarketPlaceEvent.OutputObject
+  >;
+  getEvent(
+    key: "RequestStakeDecrease"
+  ): TypedContractEvent<
+    RequestStakeDecreaseEvent.InputTuple,
+    RequestStakeDecreaseEvent.OutputTuple,
+    RequestStakeDecreaseEvent.OutputObject
   >;
   getEvent(
     key: "RoleAdminChanged"
@@ -614,12 +771,12 @@ export interface GeneratorRegistry extends BaseContract {
   getEvent(key: "Upgraded"): TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>;
 
   filters: {
-    "AddedStash(address,uint256)": TypedContractEvent<
-      AddedStashEvent.InputTuple,
-      AddedStashEvent.OutputTuple,
-      AddedStashEvent.OutputObject
+    "AddedStake(address,uint256)": TypedContractEvent<
+      AddedStakeEvent.InputTuple,
+      AddedStakeEvent.OutputTuple,
+      AddedStakeEvent.OutputObject
     >;
-    AddedStash: TypedContractEvent<AddedStashEvent.InputTuple, AddedStashEvent.OutputTuple, AddedStashEvent.OutputObject>;
+    AddedStake: TypedContractEvent<AddedStakeEvent.InputTuple, AddedStakeEvent.OutputTuple, AddedStakeEvent.OutputObject>;
 
     "AdminChanged(address,address)": TypedContractEvent<
       AdminChangedEvent.InputTuple,
@@ -635,6 +792,28 @@ export interface GeneratorRegistry extends BaseContract {
     >;
     BeaconUpgraded: TypedContractEvent<BeaconUpgradedEvent.InputTuple, BeaconUpgradedEvent.OutputTuple, BeaconUpgradedEvent.OutputObject>;
 
+    "ChangedGeneratorRewardAddress(address,address)": TypedContractEvent<
+      ChangedGeneratorRewardAddressEvent.InputTuple,
+      ChangedGeneratorRewardAddressEvent.OutputTuple,
+      ChangedGeneratorRewardAddressEvent.OutputObject
+    >;
+    ChangedGeneratorRewardAddress: TypedContractEvent<
+      ChangedGeneratorRewardAddressEvent.InputTuple,
+      ChangedGeneratorRewardAddressEvent.OutputTuple,
+      ChangedGeneratorRewardAddressEvent.OutputObject
+    >;
+
+    "DecreaseCompute(address,uint256)": TypedContractEvent<
+      DecreaseComputeEvent.InputTuple,
+      DecreaseComputeEvent.OutputTuple,
+      DecreaseComputeEvent.OutputObject
+    >;
+    DecreaseCompute: TypedContractEvent<
+      DecreaseComputeEvent.InputTuple,
+      DecreaseComputeEvent.OutputTuple,
+      DecreaseComputeEvent.OutputObject
+    >;
+
     "DeregisteredGenerator(address)": TypedContractEvent<
       DeregisteredGeneratorEvent.InputTuple,
       DeregisteredGeneratorEvent.OutputTuple,
@@ -646,10 +825,21 @@ export interface GeneratorRegistry extends BaseContract {
       DeregisteredGeneratorEvent.OutputObject
     >;
 
+    "IncreasedCompute(address,uint256)": TypedContractEvent<
+      IncreasedComputeEvent.InputTuple,
+      IncreasedComputeEvent.OutputTuple,
+      IncreasedComputeEvent.OutputObject
+    >;
+    IncreasedCompute: TypedContractEvent<
+      IncreasedComputeEvent.InputTuple,
+      IncreasedComputeEvent.OutputTuple,
+      IncreasedComputeEvent.OutputObject
+    >;
+
     "Initialized(uint8)": TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
     Initialized: TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
 
-    "JoinedMarketPlace(address,bytes32,uint256)": TypedContractEvent<
+    "JoinedMarketPlace(address,uint256,uint256)": TypedContractEvent<
       JoinedMarketPlaceEvent.InputTuple,
       JoinedMarketPlaceEvent.OutputTuple,
       JoinedMarketPlaceEvent.OutputObject
@@ -660,7 +850,7 @@ export interface GeneratorRegistry extends BaseContract {
       JoinedMarketPlaceEvent.OutputObject
     >;
 
-    "LeftMarketplace(address,bytes32)": TypedContractEvent<
+    "LeftMarketplace(address,uint256)": TypedContractEvent<
       LeftMarketplaceEvent.InputTuple,
       LeftMarketplaceEvent.OutputTuple,
       LeftMarketplaceEvent.OutputObject
@@ -682,14 +872,25 @@ export interface GeneratorRegistry extends BaseContract {
       RegisteredGeneratorEvent.OutputObject
     >;
 
-    "RemovedStash(address,uint256)": TypedContractEvent<
-      RemovedStashEvent.InputTuple,
-      RemovedStashEvent.OutputTuple,
-      RemovedStashEvent.OutputObject
+    "RemovedStake(address,uint256)": TypedContractEvent<
+      RemovedStakeEvent.InputTuple,
+      RemovedStakeEvent.OutputTuple,
+      RemovedStakeEvent.OutputObject
     >;
-    RemovedStash: TypedContractEvent<RemovedStashEvent.InputTuple, RemovedStashEvent.OutputTuple, RemovedStashEvent.OutputObject>;
+    RemovedStake: TypedContractEvent<RemovedStakeEvent.InputTuple, RemovedStakeEvent.OutputTuple, RemovedStakeEvent.OutputObject>;
 
-    "RequestExitMarketPlace(address,bytes32)": TypedContractEvent<
+    "RequestComputeDecrease(address,uint256)": TypedContractEvent<
+      RequestComputeDecreaseEvent.InputTuple,
+      RequestComputeDecreaseEvent.OutputTuple,
+      RequestComputeDecreaseEvent.OutputObject
+    >;
+    RequestComputeDecrease: TypedContractEvent<
+      RequestComputeDecreaseEvent.InputTuple,
+      RequestComputeDecreaseEvent.OutputTuple,
+      RequestComputeDecreaseEvent.OutputObject
+    >;
+
+    "RequestExitMarketPlace(address,uint256)": TypedContractEvent<
       RequestExitMarketPlaceEvent.InputTuple,
       RequestExitMarketPlaceEvent.OutputTuple,
       RequestExitMarketPlaceEvent.OutputObject
@@ -698,6 +899,17 @@ export interface GeneratorRegistry extends BaseContract {
       RequestExitMarketPlaceEvent.InputTuple,
       RequestExitMarketPlaceEvent.OutputTuple,
       RequestExitMarketPlaceEvent.OutputObject
+    >;
+
+    "RequestStakeDecrease(address,uint256)": TypedContractEvent<
+      RequestStakeDecreaseEvent.InputTuple,
+      RequestStakeDecreaseEvent.OutputTuple,
+      RequestStakeDecreaseEvent.OutputObject
+    >;
+    RequestStakeDecrease: TypedContractEvent<
+      RequestStakeDecreaseEvent.InputTuple,
+      RequestStakeDecreaseEvent.OutputTuple,
+      RequestStakeDecreaseEvent.OutputObject
     >;
 
     "RoleAdminChanged(bytes32,bytes32,bytes32)": TypedContractEvent<

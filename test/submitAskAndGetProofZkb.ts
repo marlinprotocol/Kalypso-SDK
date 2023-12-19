@@ -63,7 +63,7 @@ const createAskAndGetProof = async () => {
       return await new Promise((resolve) => {
         console.log("\nTrying to fetch proof...\n");
         let intervalId = setInterval(async () => {
-          let data = await kalypso.MarketPlace().getProofByAskId(askId,blockNumber!);
+          let data = await kalypso.MarketPlace().getProofByAskId(askId, blockNumber!);
           if (data?.proof_generated) {
             console.log(data.message);
             let abiCoder = new ethers.AbiCoder();
