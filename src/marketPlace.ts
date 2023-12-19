@@ -11,7 +11,7 @@ import {
 import BigNumber from "bignumber.js";
 import { encryptDataWithECIESandAesGcm } from "./secretInputOperation";
 import * as pako from "pako";
-import { AskState } from "./types";
+import { AskState, PublicAndSecretInputPair } from "./types";
 
 type getProofWithAskIdResponse = {
   proof_generated: Boolean;
@@ -131,6 +131,27 @@ export class MarketPlace {
       acl,
       { ...options }
     );
+  }
+
+  public async createPublicAndEncryptedSecretPair(proverData: BytesLike, secretBuffer: Buffer): Promise<PublicAndSecretInputPair> {
+    //deflate the secret buffer to reduce tx cost
+    secretBuffer = Buffer.from(pako.deflate(secretBuffer));
+
+    const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
+    // if key is rightly updated, it should 68 chars (33 bytes in length)
+    if (matchingEnginePubKey.length !== 68) {
+      throw new Error("matching engine pub key is not updated in the registry");
+    }
+
+    const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
+    const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey);
+    console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
+
+    return {
+      publicInputs: proverData,
+      encryptedSecret: result.encryptedData,
+      acl: result.aclData,
+    };
   }
 
   public async createAsk(

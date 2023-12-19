@@ -1,3 +1,5 @@
+import { BytesLike } from "ethers";
+
 export interface KalspsoConfig {
   payment_token: string;
   staking_token: string;
@@ -29,4 +31,10 @@ export enum AskState {
   ASSIGNED = "assigned to a generator",
   COMPLETE = "complete",
   DEADLINE_CROSSED = "deadline crossed",
+}
+
+export interface PublicAndSecretInputPair {
+  publicInputs: BytesLike,
+  encryptedSecret: Buffer,
+  acl: Buffer,
 }
