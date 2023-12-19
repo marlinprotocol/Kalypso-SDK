@@ -139,7 +139,7 @@ export interface ProofMarketPlaceInterface extends Interface {
   encodeFunctionData(functionFragment: "createAsk", values: [ProofMarketPlace.AskStruct, BigNumberish, BytesLike, BytesLike]): string;
   encodeFunctionData(
     functionFragment: "createMarketPlace",
-    values: [BytesLike, AddressLike, BigNumberish, boolean, BytesLike, AddressLike]
+    values: [BytesLike, AddressLike, BigNumberish, boolean, BytesLike, BytesLike, AddressLike]
   ): string;
   encodeFunctionData(functionFragment: "discardRequest", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "getAskState", values: [BigNumberish]): string;
@@ -480,6 +480,7 @@ export interface ProofMarketPlace extends BaseContract {
       _slashingPenalty: BigNumberish,
       isEnclaveRequired: boolean,
       ivsAttestationBytes: BytesLike,
+      ivsUrl: BytesLike,
       ivsSigner: AddressLike
     ],
     [void],
@@ -526,12 +527,13 @@ export interface ProofMarketPlace extends BaseContract {
   marketData: TypedContractMethod<
     [arg0: BigNumberish],
     [
-      [string, boolean, bigint, bigint, string, string] & {
+      [string, boolean, bigint, bigint, string, string, string] & {
         verifier: string;
         isEnclaveRequired: boolean;
         slashingPenalty: bigint;
         activationBlock: bigint;
         ivsSigner: string;
+        ivsUrl: string;
         marketmetadata: string;
       }
     ],
@@ -614,6 +616,7 @@ export interface ProofMarketPlace extends BaseContract {
       _slashingPenalty: BigNumberish,
       isEnclaveRequired: boolean,
       ivsAttestationBytes: BytesLike,
+      ivsUrl: BytesLike,
       ivsSigner: AddressLike
     ],
     [void],
@@ -650,12 +653,13 @@ export interface ProofMarketPlace extends BaseContract {
   getFunction(nameOrSignature: "marketData"): TypedContractMethod<
     [arg0: BigNumberish],
     [
-      [string, boolean, bigint, bigint, string, string] & {
+      [string, boolean, bigint, bigint, string, string, string] & {
         verifier: string;
         isEnclaveRequired: boolean;
         slashingPenalty: bigint;
         activationBlock: bigint;
         ivsSigner: string;
+        ivsUrl: string;
         marketmetadata: string;
       }
     ],

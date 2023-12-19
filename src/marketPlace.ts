@@ -158,6 +158,14 @@ export class MarketPlace {
     };
   }
 
+  public async checkPublicAndEncryptedSecretPairWithIvs(marketId: BigNumberish, data: PublicAndSecretInputPair): Promise<boolean> {
+    const marketData = await this.proofMarketPlace.marketData(marketId);
+    const ivsUrl = marketData.ivsUrl; // convert from bytes to ascii
+
+    // make http post call to ivsUrl with data payload, if status is 200 and reply is OK, return true
+    throw new Error("Wip");
+  }
+
   public async createAsk(
     marketId: BigNumberish,
     proverData: BytesLike,
@@ -231,6 +239,7 @@ export class MarketPlace {
     slashingPenalty: BigNumberish,
     isEnclaveRequired: boolean,
     ivsAttestationBytes: BytesLike,
+    ivsUrl: string,
     ivsSigner: string,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
@@ -264,6 +273,7 @@ export class MarketPlace {
       slashingPenalty.toString(),
       isEnclaveRequired,
       ivsAttestationBytes,
+      Buffer.from(ivsUrl, "ascii"),
       ivsSigner,
       { ...options }
     );
