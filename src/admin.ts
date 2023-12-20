@@ -12,7 +12,7 @@ export class Admin {
     this.entityRegistry = EntityKeyRegistry__factory.connect(entityKeyRegistry, this.signer);
   }
 
-  public async grantRoleToMatchingEngine(
+  public async updateMeSigner(
     matchingEngineAddress: string,
     addressAttestationBytes: string,
     options?: Overrides
@@ -31,5 +31,10 @@ export class Admin {
   public async readMatchingEngineKey(): Promise<string> {
     console.log(await this.proofMarketPlace.getAddress());
     return this.entityRegistry.pub_key(await this.proofMarketPlace.getAddress());
+  }
+
+  public async grantKeyRegistryRoleForEntityKeyRegistry(to: string, options?: Overrides): Promise<ContractTransactionResponse> {
+    const role = await this.entityRegistry.KEY_REGISTER_ROLE();
+    return this.entityRegistry.grantRole(role, to, { ...options });
   }
 }
