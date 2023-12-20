@@ -24,8 +24,14 @@ async function main(): Promise<string> {
   const wrapperAddress = "0x_your_wrapper_address";
   const slashingPenalty = "10000000000";
   const marketBytes = Buffer.from(JSON.stringify(marketSetupData), "utf-8");
+  const isEnclaveRequired = true;
+  const ivsAttestationBytes = Buffer.from("ivs attestation to be fetched from ivs enclave", "ascii");
+  const ivsUrl = "https enclave url to check inputs";
+  const ivsSigner = await wallet.getAddress(); // this should be ideally fetched from ivs enclave and linked with ivsSigner
 
-  const tx = await kalypso.MarketPlace().createNewMarket(marketBytes, wrapperAddress, slashingPenalty);
+  const tx = await kalypso
+    .MarketPlace()
+    .createNewMarket(marketBytes, wrapperAddress, slashingPenalty, isEnclaveRequired, ivsAttestationBytes, ivsUrl, ivsSigner);
   await tx.wait();
 
   const receiptHash = tx.hash;

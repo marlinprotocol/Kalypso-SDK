@@ -20,12 +20,12 @@ export interface InputAndProofFormatRegistryInterface extends Interface {
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "admin", values?: undefined): string;
-  encodeFunctionData(functionFragment: "inputArrayLength", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "inputs", values: [BytesLike, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "proofArrayLength", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "proofs", values: [BytesLike, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "setInputFormat", values: [BytesLike, string[]]): string;
-  encodeFunctionData(functionFragment: "setProofFormat", values: [BytesLike, string[]]): string;
+  encodeFunctionData(functionFragment: "inputArrayLength", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "inputs", values: [BigNumberish, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "proofArrayLength", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "proofs", values: [BigNumberish, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "setInputFormat", values: [BigNumberish, string[]]): string;
+  encodeFunctionData(functionFragment: "setProofFormat", values: [BigNumberish, string[]]): string;
 
   decodeFunctionResult(functionFragment: "admin", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "inputArrayLength", data: BytesLike): Result;
@@ -65,27 +65,31 @@ export interface InputAndProofFormatRegistry extends BaseContract {
 
   admin: TypedContractMethod<[], [string], "view">;
 
-  inputArrayLength: TypedContractMethod<[arg0: BytesLike], [bigint], "view">;
+  inputArrayLength: TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
 
-  inputs: TypedContractMethod<[arg0: BytesLike, arg1: BigNumberish], [string], "view">;
+  inputs: TypedContractMethod<[arg0: BigNumberish, arg1: BigNumberish], [string], "view">;
 
-  proofArrayLength: TypedContractMethod<[arg0: BytesLike], [bigint], "view">;
+  proofArrayLength: TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
 
-  proofs: TypedContractMethod<[arg0: BytesLike, arg1: BigNumberish], [string], "view">;
+  proofs: TypedContractMethod<[arg0: BigNumberish, arg1: BigNumberish], [string], "view">;
 
-  setInputFormat: TypedContractMethod<[marketId: BytesLike, inputsFormat: string[]], [void], "nonpayable">;
+  setInputFormat: TypedContractMethod<[marketId: BigNumberish, inputsFormat: string[]], [void], "nonpayable">;
 
-  setProofFormat: TypedContractMethod<[marketId: BytesLike, proofFormat: string[]], [void], "nonpayable">;
+  setProofFormat: TypedContractMethod<[marketId: BigNumberish, proofFormat: string[]], [void], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "admin"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "inputArrayLength"): TypedContractMethod<[arg0: BytesLike], [bigint], "view">;
-  getFunction(nameOrSignature: "inputs"): TypedContractMethod<[arg0: BytesLike, arg1: BigNumberish], [string], "view">;
-  getFunction(nameOrSignature: "proofArrayLength"): TypedContractMethod<[arg0: BytesLike], [bigint], "view">;
-  getFunction(nameOrSignature: "proofs"): TypedContractMethod<[arg0: BytesLike, arg1: BigNumberish], [string], "view">;
-  getFunction(nameOrSignature: "setInputFormat"): TypedContractMethod<[marketId: BytesLike, inputsFormat: string[]], [void], "nonpayable">;
-  getFunction(nameOrSignature: "setProofFormat"): TypedContractMethod<[marketId: BytesLike, proofFormat: string[]], [void], "nonpayable">;
+  getFunction(nameOrSignature: "inputArrayLength"): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
+  getFunction(nameOrSignature: "inputs"): TypedContractMethod<[arg0: BigNumberish, arg1: BigNumberish], [string], "view">;
+  getFunction(nameOrSignature: "proofArrayLength"): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
+  getFunction(nameOrSignature: "proofs"): TypedContractMethod<[arg0: BigNumberish, arg1: BigNumberish], [string], "view">;
+  getFunction(
+    nameOrSignature: "setInputFormat"
+  ): TypedContractMethod<[marketId: BigNumberish, inputsFormat: string[]], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "setProofFormat"
+  ): TypedContractMethod<[marketId: BigNumberish, proofFormat: string[]], [void], "nonpayable">;
 
   filters: {};
 }

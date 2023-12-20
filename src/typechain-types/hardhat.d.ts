@@ -92,19 +92,6 @@ declare module "hardhat/types/runtime" {
       name: "IAttestationVerifier",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IAttestationVerifier__factory>;
-    getContractFactory(
-      name: "IEntityKeyRegistry",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IEntityKeyRegistry__factory>;
-    getContractFactory(
-      name: "IGeneratorRegistry",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IGeneratorRegistry__factory>;
-    getContractFactory(name: "IPriorityLog", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IPriorityLog__factory>;
-    getContractFactory(
-      name: "IProofMarketPlace",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IProofMarketPlace__factory>;
     getContractFactory(name: "IVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IVerifier__factory>;
     getContractFactory(name: "Error", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.Error__factory>;
     getContractFactory(
@@ -245,22 +232,6 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.IAttestationVerifier>;
-    getContractAt(
-      name: "IEntityKeyRegistry",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IEntityKeyRegistry>;
-    getContractAt(
-      name: "IGeneratorRegistry",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IGeneratorRegistry>;
-    getContractAt(name: "IPriorityLog", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IPriorityLog>;
-    getContractAt(
-      name: "IProofMarketPlace",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IProofMarketPlace>;
     getContractAt(name: "IVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IVerifier>;
     getContractAt(name: "Error", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.Error>;
     getContractAt(
@@ -389,19 +360,6 @@ declare module "hardhat/types/runtime" {
       name: "IAttestationVerifier",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IAttestationVerifier>;
-    deployContract(
-      name: "IEntityKeyRegistry",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IEntityKeyRegistry>;
-    deployContract(
-      name: "IGeneratorRegistry",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IGeneratorRegistry>;
-    deployContract(name: "IPriorityLog", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IPriorityLog>;
-    deployContract(
-      name: "IProofMarketPlace",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IProofMarketPlace>;
     deployContract(name: "IVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IVerifier>;
     deployContract(name: "Error", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Error>;
     deployContract(
@@ -541,26 +499,6 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IAttestationVerifier>;
-    deployContract(
-      name: "IEntityKeyRegistry",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IEntityKeyRegistry>;
-    deployContract(
-      name: "IGeneratorRegistry",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IGeneratorRegistry>;
-    deployContract(
-      name: "IPriorityLog",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IPriorityLog>;
-    deployContract(
-      name: "IProofMarketPlace",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IProofMarketPlace>;
     deployContract(name: "IVerifier", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IVerifier>;
     deployContract(name: "Error", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Error>;
     deployContract(

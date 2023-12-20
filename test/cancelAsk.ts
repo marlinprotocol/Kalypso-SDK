@@ -16,11 +16,11 @@ async function main() {
   const wallet = new ethers.Wallet(generator_private_key, provider);
   console.log("using address", await wallet.getAddress());
 
-  const taskId = 6;
+  const askId = 6;
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
-  const tx = await kalypso.Generator().discardRequest(taskId);
+  const tx = await kalypso.Generator().discardRequest(askId);
   const receipt = await tx.wait();
-  console.log("Cancelled taskId: ", taskId, receipt?.hash);
+  console.log("Cancelled taskId: ", askId, receipt?.hash);
   return "Done";
 }
 

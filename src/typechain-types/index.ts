@@ -50,14 +50,6 @@ export type { InputAndProofFormatRegistry } from "./contracts/InputAndProofForma
 export { InputAndProofFormatRegistry__factory } from "./factories/contracts/InputAndProofFormatRegistry__factory";
 export type { IAttestationVerifier } from "./contracts/interfaces/IAttestationVerifier";
 export { IAttestationVerifier__factory } from "./factories/contracts/interfaces/IAttestationVerifier__factory";
-export type { IEntityKeyRegistry } from "./contracts/interfaces/IEntityKeyRegistry";
-export { IEntityKeyRegistry__factory } from "./factories/contracts/interfaces/IEntityKeyRegistry__factory";
-export type { IGeneratorRegistry } from "./contracts/interfaces/IGeneratorRegsitry.sol/IGeneratorRegistry";
-export { IGeneratorRegistry__factory } from "./factories/contracts/interfaces/IGeneratorRegsitry.sol/IGeneratorRegistry__factory";
-export type { IPriorityLog } from "./contracts/interfaces/IPriorityLog";
-export { IPriorityLog__factory } from "./factories/contracts/interfaces/IPriorityLog__factory";
-export type { IProofMarketPlace } from "./contracts/interfaces/IProofMarketPlace";
-export { IProofMarketPlace__factory } from "./factories/contracts/interfaces/IProofMarketPlace__factory";
 export type { IVerifier } from "./contracts/interfaces/IVerifier";
 export { IVerifier__factory } from "./factories/contracts/interfaces/IVerifier__factory";
 export type { Error } from "./contracts/lib/Error";

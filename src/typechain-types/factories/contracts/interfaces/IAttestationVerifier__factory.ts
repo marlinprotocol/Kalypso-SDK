@@ -15,13 +15,7 @@ const _abi = [
       },
     ],
     name: "safeVerify",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },

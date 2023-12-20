@@ -6,12 +6,11 @@ import {
   ProofMarketPlace__factory,
   EntityKeyRegistry,
   EntityKeyRegistry__factory,
-  IProofMarketPlace,
 } from "./typechain-types";
 import BigNumber from "bignumber.js";
 import { encryptDataWithECIESandAesGcm } from "./secretInputOperation";
 import * as pako from "pako";
-import { AskState } from "./types";
+import { AskState, PublicAndSecretInputPair } from "./types";
 
 type getProofWithAskIdResponse = {
   proof_generated: Boolean;
@@ -50,21 +49,27 @@ export class MarketPlace {
     return this.platformToken.approve(await this.proofMarketPlace.getAddress(), amount.toString(), { ...options });
   }
 
-  public async getPlatformFee(ask: IProofMarketPlace.AskStruct, encryptedSecret: BytesLike, aclData: BytesLike): Promise<BigNumberish> {
-    return this.proofMarketPlace.getPlatformFee(ask, encryptedSecret, aclData);
+  public async getPlatformFee(
+    secretType: BigNumberish,
+    ask: ProofMarketPlace.AskStruct,
+    encryptedSecret: BytesLike,
+    aclData: BytesLike
+  ): Promise<BigNumberish> {
+    return this.proofMarketPlace.getPlatformFee(secretType, ask, encryptedSecret, aclData);
   }
   public async createAskWithEncryptedSecretAndAcl(
-    marketId: BytesLike,
+    marketId: BigNumberish,
     proverData: BytesLike,
     reward: BigNumberish,
     assignmentDeadline: BigNumberish,
     blocksForProofGeneration: BigNumberish,
     refundAddress: string,
+    secretType: BigNumberish,
     secret: Buffer,
     acl: Buffer,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
-    const askRequest: IProofMarketPlace.AskStruct = {
+    const askRequest: ProofMarketPlace.AskStruct = {
       marketId,
       proverData,
       reward,
@@ -83,7 +88,7 @@ export class MarketPlace {
     const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
     const result = await encryptDataWithECIESandAesGcm(secret, pubKey);
 
-    const platformFee = await this.getPlatformFee(askRequest, result.encryptedData, result.aclData);
+    const platformFee = await this.getPlatformFee(secretType, askRequest, result.encryptedData, result.aclData);
     const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
 
     if (new BigNumber(platformTokenBalance.toString()).lt(platformFee.toString())) {
@@ -125,28 +130,57 @@ export class MarketPlace {
         deadline: 0,
         refundAddress: refundAddress,
       },
-      true,
-      0,
+      secretType,
       secret,
       acl,
       { ...options }
     );
   }
 
+  public async createPublicAndEncryptedSecretPair(proverData: BytesLike, secretBuffer: Buffer): Promise<PublicAndSecretInputPair> {
+    //deflate the secret buffer to reduce tx cost
+    secretBuffer = Buffer.from(pako.deflate(secretBuffer));
+
+    const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
+    // if key is rightly updated, it should 68 chars (33 bytes in length)
+    if (matchingEnginePubKey.length !== 68) {
+      throw new Error("matching engine pub key is not updated in the registry");
+    }
+
+    const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
+    const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey);
+    console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
+
+    return {
+      publicInputs: proverData,
+      encryptedSecret: result.encryptedData,
+      acl: result.aclData,
+    };
+  }
+
+  public async checkPublicAndEncryptedSecretPairWithIvs(marketId: BigNumberish, data: PublicAndSecretInputPair): Promise<boolean> {
+    const marketData = await this.proofMarketPlace.marketData(marketId);
+    const ivsUrl = marketData.ivsUrl; // convert from bytes to ascii
+
+    // make http post call to ivsUrl with data payload, if status is 200 and reply is OK, return true
+    throw new Error("Wip");
+  }
+
   public async createAsk(
-    marketId: BytesLike,
+    marketId: BigNumberish,
     proverData: BytesLike,
     reward: BigNumberish,
     assignmentDeadline: BigNumberish,
     blocksForProofGeneration: BigNumberish,
     refundAddress: string,
+    secretType: BigNumberish,
     secretBuffer: Buffer,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
     //deflate the secret buffer to reduce tx cost
     secretBuffer = Buffer.from(pako.deflate(secretBuffer));
 
-    const askRequest: IProofMarketPlace.AskStruct = {
+    const askRequest: ProofMarketPlace.AskStruct = {
       marketId,
       proverData,
       reward,
@@ -165,7 +199,7 @@ export class MarketPlace {
     const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey);
     console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
 
-    const platformFee = await this.getPlatformFee(askRequest, result.encryptedData, result.aclData);
+    const platformFee = await this.getPlatformFee(secretType, askRequest, result.encryptedData, result.aclData);
     const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
     if (new BigNumber(platformTokenBalance.toString()).lt(platformFee.toString())) {
       throw new Error("Ensure sufficient platform token balance");
@@ -196,13 +230,17 @@ export class MarketPlace {
       console.log("Approval Tx: ", approvalReceipt?.hash);
     }
 
-    return this.proofMarketPlace.createAsk(askRequest, true, 0, result.encryptedData, result.aclData, { ...options });
+    return this.proofMarketPlace.createAsk(askRequest, secretType, result.encryptedData, result.aclData, { ...options });
   }
 
   public async createNewMarket(
     marketMetaData: BytesLike,
     verifier: string,
     slashingPenalty: BigNumberish,
+    isEnclaveRequired: boolean,
+    ivsAttestationBytes: BytesLike,
+    ivsUrl: string,
+    ivsSigner: string,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
     if (new BigNumber(slashingPenalty.toString()).gt(this.exponent)) {
@@ -212,7 +250,7 @@ export class MarketPlace {
     const marketId = ethers.keccak256(marketMetaData);
     console.log("trying to create market", marketId);
 
-    const marketCreationCost = await this.proofMarketPlace.marketCreationCost();
+    const marketCreationCost = await this.proofMarketPlace.MARKET_CREATION_COST();
 
     const availableBalance = await this.paymentToken.balanceOf(await this.signer.getAddress());
 
@@ -229,7 +267,16 @@ export class MarketPlace {
       console.log("Approved Tokens: ", approvalReceipt?.hash);
     }
 
-    return await this.proofMarketPlace.createMarketPlace(marketMetaData, verifier, slashingPenalty.toString(), { ...options });
+    return await this.proofMarketPlace.createMarketPlace(
+      marketMetaData,
+      verifier,
+      slashingPenalty.toString(),
+      isEnclaveRequired,
+      ivsAttestationBytes,
+      Buffer.from(ivsUrl, "ascii"),
+      ivsSigner,
+      { ...options }
+    );
   }
 
   public async getProofByAskId(askId: string, blockNumber: number): Promise<getProofWithAskIdResponse> {
@@ -237,12 +284,10 @@ export class MarketPlace {
 
     let startBlock = blockNumber;
     const latestBlock = await this.signer.provider?.getBlockNumber();
-    console.log("Latest block : ",latestBlock);
-    while(startBlock <= latestBlock!){
-      const _endBlock = Math.min(startBlock+9999,latestBlock!);
-      console.log(
-        `Looking for proof from block ${startBlock} to ${_endBlock}`
-      );
+    console.log("Latest block : ", latestBlock);
+    while (startBlock <= latestBlock!) {
+      const _endBlock = Math.min(startBlock + 9999, latestBlock!);
+      console.log(`Looking for proof from block ${startBlock} to ${_endBlock}`);
 
       const topics = await proof_created_filter.getTopicFilter();
 
@@ -252,13 +297,13 @@ export class MarketPlace {
         address: await this.proofMarketPlace.getAddress(),
         topics,
       });
-  
+
       if (logs && logs.length != 0) {
         let decoded_event = this.proofMarketPlace.interface.decodeEventLog("ProofCreated", logs[0].data, logs[0].topics);
         return { proof_generated: true, proof: decoded_event[2], message: "Proof fetched." };
       }
 
-      startBlock = _endBlock+1;
+      startBlock = _endBlock + 1;
     }
 
     return { proof_generated: false, proof: "0x", message: "Proof not submitted yet." };
@@ -285,9 +330,9 @@ export class MarketPlace {
 
   //Fetching the AskId
   public async getAskId(receipt: ethers.TransactionReceipt): Promise<string> {
-    let ask_created_log = { topics : receipt.logs[4].topics.flat(), data: receipt.logs[4].data};
+    let ask_created_log = { topics: receipt.logs[4].topics.flat(), data: receipt.logs[4].data };
     let decoded_logs = this.proofMarketPlace.interface.parseLog(ask_created_log);
-    if(decoded_logs?.args[0]){
+    if (decoded_logs?.args[0]) {
       return decoded_logs.args[0].toString();
     }
     throw new Error("Ask Id not found for the give receipt");

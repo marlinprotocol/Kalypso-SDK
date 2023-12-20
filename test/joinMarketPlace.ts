@@ -18,7 +18,7 @@ async function main() {
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  const marketId = "0x07b7d625c70be57115ab18fc435ed0253425671cb91bd6547b7defbc75f52082";
+  const marketId = "0";
   let tx: ContractTransactionResponse;
   let receipt: ContractTransactionReceipt | null;
 
