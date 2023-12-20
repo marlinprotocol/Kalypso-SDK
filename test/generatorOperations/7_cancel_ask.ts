@@ -5,21 +5,21 @@ import { ethers } from "ethers";
 import * as fs from "fs";
 import { KalspsoConfig } from "../../src/types";
 
-const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contract/arb-sepolia.json", "utf-8"));
+const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb-sepolia.json", "utf-8"));
+const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
 
 dotenv.config();
 
 async function main() {
-  const provider = new ethers.JsonRpcProvider(process.env.RPC);
-  const generator_private_key = `${process.env.GENERATOR_PRIVATE_KEY}`;
-  const wallet = new ethers.Wallet(generator_private_key, provider);
-  console.log("using address", await wallet.getAddress());
+  const provider = new ethers.JsonRpcProvider(keys.rpc);
+  const wallet = new ethers.Wallet(keys.generator_private_key, provider);
+  console.log("using generator", await wallet.getAddress());
 
-  const askId = 6;
+  const askId = 2;
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
   const tx = await kalypso.Generator().discardRequest(askId);
   const receipt = await tx.wait();
-  console.log("Cancelled taskId: ", askId, receipt?.hash);
+  console.log("Cancelled askId: ", askId, receipt?.hash);
   return "Done";
 }
 

@@ -10,6 +10,8 @@ const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
 const provider = new ethers.JsonRpcProvider(keys.rpc);
 const wallet = new ethers.Wallet(`${keys.generator_private_key}`, provider);
 
+let amountToStake = new BigNumber("10").pow(18);
+
 async function main() {
   console.log("using address", await wallet.getAddress());
 
@@ -17,8 +19,6 @@ async function main() {
 
   let tx: ContractTransactionResponse;
   let receipt: ContractTransactionReceipt | null;
-
-  let amountToStake = new BigNumber("10000000001");
   let currentStake = await kalypso.Generator().getStake();
 
   if (new BigNumber(currentStake.toString()).lt(amountToStake)) {

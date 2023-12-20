@@ -2,7 +2,6 @@ import { ContractTransactionReceipt, ContractTransactionResponse, ethers } from 
 import { KalspsoConfig } from "../../src/types";
 import { KalypsoSdk } from "../../src";
 import * as fs from "fs";
-import BigNumber from "bignumber.js";
 
 const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb-sepolia.json", "utf-8"));
 const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
