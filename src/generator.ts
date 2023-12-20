@@ -6,8 +6,6 @@ import {
   GeneratorRegistry__factory,
   ProofMarketPlace,
   ProofMarketPlace__factory,
-  EntityKeyRegistry,
-  EntityKeyRegistry__factory,
 } from "./typechain-types";
 import BigNumber from "bignumber.js";
 import { KalspsoConfig } from "./types";
