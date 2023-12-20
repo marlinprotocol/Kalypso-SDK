@@ -247,8 +247,8 @@ export class MarketPlace {
       throw new Error("Slashing penalty can't be more than " + this.exponent.toFixed(0));
     }
 
-    const marketId = ethers.keccak256(marketMetaData);
-    console.log("trying to create market", marketId);
+    const marketId = await this.proofMarketPlace.marketCounter();
+    console.log("trying to create market. Possible market id. Check transaction logs for exact market id", marketId.toString());
 
     const marketCreationCost = await this.proofMarketPlace.MARKET_CREATION_COST();
 
