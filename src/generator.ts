@@ -6,14 +6,13 @@ import {
   GeneratorRegistry__factory,
   ProofMarketPlace,
   ProofMarketPlace__factory,
-  EntityKeyRegistry,
-  EntityKeyRegistry__factory,
 } from "./typechain-types";
 import BigNumber from "bignumber.js";
 import fetch from "node-fetch";
 import { ethers } from "ethers";
 import { KalspsoConfig, PublicKeyResponse, AttestationResponse } from "./types";
 
+const exp = new BigNumber(10).pow(18);
 export class Generator {
   private signer: AbstractSigner;
   private generatorRegistry: GeneratorRegistry;
@@ -48,6 +47,10 @@ export class Generator {
     return (await this.generatorRegistry.generatorRegistry(await this.signer.getAddress())).totalStake;
   }
 
+  public async getCompute(): Promise<BigNumberish> {
+    return (await this.generatorRegistry.generatorRegistry(await this.signer.getAddress())).declaredCompute;
+  }
+
   public async stake(generatorAddress: string, amount: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
     const currentBalance = await this.stakingToken.balanceOf(await this.signer.getAddress());
 
@@ -64,6 +67,42 @@ export class Generator {
     }
 
     return this.generatorRegistry.stake(generatorAddress, amount.toString(), { ...options });
+  }
+
+  public async requestToReduceStake(to: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
+    const currentStake = await this.getStake();
+    let _to = new BigNumber(to.toString());
+    if (_to.gte(currentStake.toString())) {
+      throw new Error("stake to reduce to must be smaller than current stake");
+    }
+
+    let newUtilization = _to.multipliedBy(exp).dividedBy(currentStake.toString());
+
+    return this.generatorRegistry.intendToReduceStake(newUtilization.toFixed(0), { ...options });
+  }
+
+  public async unstake(to: string, options?: Overrides): Promise<ContractTransactionResponse> {
+    return this.generatorRegistry.unstake(to, { ...options });
+  }
+
+  public async increaseCompute(by: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
+    return this.generatorRegistry.increaseDeclaredCompute(by, { ...options });
+  }
+
+  public async requestToReduceCompute(to: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
+    const currentCompute = await this.getCompute();
+    let _to = new BigNumber(to.toString());
+    if (_to.gte(currentCompute.toString())) {
+      throw new Error("compute to reduce to must be smaller than current compute");
+    }
+
+    let newUtilization = _to.multipliedBy(exp).dividedBy(currentCompute.toString());
+
+    return this.generatorRegistry.intendToReduceCompute(newUtilization.toFixed(0), { ...options });
+  }
+
+  public async decreaseCompute(options?: Overrides): Promise<ContractTransactionResponse> {
+    return this.generatorRegistry.decreaseDeclaredCompute({ ...options });
   }
 
   public async approveGeneratorRegistry(amount: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
