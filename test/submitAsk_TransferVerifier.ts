@@ -39,17 +39,16 @@ const createAskTest = async () => {
     const proofGenerationTimeInBlocks = new BigNumber(10000000000);
 
     // Create ASK request
-    const askRequest = await kalypso
-      .MarketPlace()
-      .createAsk(
-        marketId,
-        inputBytes,
-        reward,
-        assignmentDeadline.toFixed(0),
-        proofGenerationTimeInBlocks.toFixed(0),
-        await wallet.getAddress(),
-        Buffer.from(secretString)
-      );
+    const askRequest = await kalypso.MarketPlace().createAsk(
+      marketId,
+      inputBytes,
+      reward,
+      assignmentDeadline.toFixed(0),
+      proofGenerationTimeInBlocks.toFixed(0),
+      await wallet.getAddress(),
+      0, // TODO: keep this 0 for now
+      Buffer.from(secretString)
+    );
     console.log("Ask Request Hash: ", askRequest.hash);
   } catch (err) {
     console.log(err);
