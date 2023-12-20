@@ -24,6 +24,16 @@ export interface SecretInputOperations {
   decryptAES(encryptedData: Buffer, secretKey: Buffer): Buffer;
 }
 
+export interface PublicKeyResponse {
+  generator_ecies_public_key: string;
+  generator_public_key: string;
+}
+
+export interface AttestationResponse {
+  attestation_document: BytesLike;
+  secp_key: BytesLike;
+}
+
 export enum AskState {
   NULL = "Ddoes not exists",
   CREATE = "create",
