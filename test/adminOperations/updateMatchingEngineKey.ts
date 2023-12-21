@@ -41,7 +41,9 @@ async function main2() {
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
   // optional if not done during setup
-  const roleTx = await kalypso.Admin().grantKeyRegistryRoleForEntityKeyRegistry(kalypsoConfig.proof_market_place);
+  let roleTx = await kalypso.Admin().grantKeyRegistryRoleForEntityKeyRegistry(kalypsoConfig.generator_registry);
+  await roleTx.wait();
+  roleTx = await kalypso.Admin().grantKeyRegistryRoleForEntityKeyRegistry(kalypsoConfig.proof_market_place);
   await roleTx.wait();
 
   let secret_key: PrivateKey = PrivateKey.fromHex(keys.matching_engine_private_key);
