@@ -10,8 +10,8 @@ import BigNumber from "bignumber.js";
 import * as fs from "fs";
 import { KalspsoConfig } from "../src/types";
 
-const keys = JSON.parse(fs.readFileSync("./keys/nova.json", "utf-8"));
-const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/nova.json", "utf-8"));
+const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
+const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb-sepolia.json", "utf-8"));
 
 dotenv.config();
 

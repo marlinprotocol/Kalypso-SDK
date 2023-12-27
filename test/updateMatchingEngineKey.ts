@@ -9,8 +9,8 @@ dotenv.config();
 import * as fs from "fs";
 import { KalspsoConfig } from "../src/types";
 
-const keys = JSON.parse(fs.readFileSync("./keys/nova.json", "utf-8"));
-const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/nova.json", "utf-8"));
+const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
+const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb-sepolia.json", "utf-8"));
 
 async function main1(): Promise<string> {
   // const provider = new ethers.JsonRpcProvider(keys.rpc);
@@ -40,13 +40,14 @@ async function main2() {
 
   let secret_key: PrivateKey = PrivateKey.fromHex(matching_engine_private_key);
   let pub_key = secret_key.publicKey.compressed;
+  let pub_key_uncompresses = secret_key.publicKey.uncompressed;
 
-  console.log({ me_pub_key: pub_key });
+  console.log({ me_pub_key: pub_key.toString("hex"), pub_key_uncompresses: pub_key_uncompresses.toString("hex") });
 
-  const tx = await kalypso.Admin().updateEncryptionKey(pub_key, "0x");
-  const receipt = await tx.wait();
-  console.log("Added Matching Engine ECIES key: ", receipt?.hash);
-  return "Done";
+  // const tx = await kalypso.Admin().updateEncryptionKey(pub_key, "0x");
+  // const receipt = await tx.wait();
+  // console.log("Added Matching Engine ECIES key: ", receipt?.hash);
+  // return "Done";
 }
 
 main1().then(main2).then(console.log).catch(console.log);

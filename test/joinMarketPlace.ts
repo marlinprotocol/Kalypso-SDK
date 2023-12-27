@@ -8,8 +8,8 @@ import { KalspsoConfig } from "../src/types";
 
 dotenv.config();
 
-const keys = JSON.parse(fs.readFileSync("./keys/nova.json", "utf-8"));
-const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/nova.json", "utf-8"));
+const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
+const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb-sepolia.json", "utf-8"));
 
 async function main() {
   const provider = new ethers.JsonRpcProvider(keys.rpc);
@@ -18,13 +18,13 @@ async function main() {
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  const marketId = "0x9c6d84fa00bb8b56de0fc2ee1aba6b07f7da55daa8c381bf6ed04b8fa399ea8d";
+  const marketId = "0x07b7d625c70be57115ab18fc435ed0253425671cb91bd6547b7defbc75f52082";
   let tx: ContractTransactionResponse;
   let receipt: ContractTransactionReceipt | null;
 
-  const declaredCompute = "1000000000000000000";
+  const declaredCompute = new BigNumber("1000000000000000000");
   try {
-    tx = await kalypso.Generator().register(await wallet.getAddress(), declaredCompute, "0xff00abcd00ff");
+    tx = await kalypso.Generator().register(await wallet.getAddress(), declaredCompute.plus(100).toFixed(0), "0xff00abcd00ff");
     receipt = await tx.wait();
     console.log("Registration Transaction: ", receipt?.hash);
   } catch (ex) {
@@ -41,7 +41,7 @@ async function main() {
   }
 
   try {
-    tx = await kalypso.Generator().joinMarketPlace(marketId, declaredCompute, "3874465", "18272322");
+    tx = await kalypso.Generator().joinMarketPlace(marketId, declaredCompute.toFixed(0), "3874465", "18272322");
     receipt = await tx.wait();
     console.log("Joined Market Place Transaction: ", receipt?.hash);
   } catch (ex) {
