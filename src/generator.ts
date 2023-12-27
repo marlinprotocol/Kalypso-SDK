@@ -27,7 +27,7 @@ export class Generator {
     this.proofMarketplace = ProofMarketPlace__factory.connect(config.proof_market_place, this.signer);
 
     if (config.generatorEnclave) {
-      this.generatorhttpClient = new GeneratorHttpClient(config.generatorEnclave.url);
+      this.generatorhttpClient = new GeneratorHttpClient(config.generatorEnclave.url, config);
     }
   }
 

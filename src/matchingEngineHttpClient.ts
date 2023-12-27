@@ -9,6 +9,14 @@ export class MatchingEngineHttpClient {
     }
   }
 
+  public async generateApiKey(): Promise<any> {
+    if (this.apikey) {
+      throw new Error("apikey is already provided");
+    }
+    // /api/generateApiKey
+    throw new Error("todo");
+  }
+
   public async getMatchingEngineStatus(): Promise<any> {
     // /api/getMatchingEngineStatus
     throw new Error("todo");
