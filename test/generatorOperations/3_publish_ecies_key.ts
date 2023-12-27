@@ -19,14 +19,18 @@ async function main() {
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  let attestation = await kalypso.Generator().getAttestation(generator_attestation_utility_endpoint, attestation_verifier_endpoint);
+  let attestation = await kalypso
+    .Generator()
+    .GeneratorEnclaveConnector()
+    .getAttestation(generator_attestation_utility_endpoint, attestation_verifier_endpoint);
 
   console.log("\nAttestation :");
   console.log(attestation);
 
   let generator_public_keys = await kalypso
     .Generator()
-    .getGeneratorPublicKeys(generator_endpoint, generator_client_api_key, "0xb05e1dA573707223574443AC6DD1054A9e3A451F");
+    .GeneratorEnclaveConnector()
+    .getGeneratorPublicKeys(generator_client_api_key, "0xb05e1dA573707223574443AC6DD1054A9e3A451F");
 
   console.log("\nGenerator public keys :");
   console.log(generator_public_keys);

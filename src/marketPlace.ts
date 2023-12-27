@@ -10,7 +10,9 @@ import {
 import BigNumber from "bignumber.js";
 import { encryptDataWithECIESandAesGcm } from "./secretInputOperation";
 import * as pako from "pako";
-import { AskState, PublicAndSecretInputPair } from "./types";
+import { AskState, KalspsoConfig, PublicAndSecretInputPair } from "./types";
+import { MatchingEngineHttpClient } from "./matchingEngineHttpClient";
+import { IvsHttpClient } from "./ivsHttpClient";
 
 type getProofWithAskIdResponse = {
   proof_generated: Boolean;
@@ -27,18 +29,39 @@ export class MarketPlace {
 
   private exponent = new BigNumber(10).pow(18);
 
-  constructor(
-    signer: AbstractSigner,
-    proofMarketPlaceAddress: string,
-    paymentTokenAddress: string,
-    platformTokenAddress: string,
-    entityKeyRegistryAddress: string
-  ) {
+  private matchingEngineHttpClient!: MatchingEngineHttpClient;
+
+  private ivsHttpClient!: IvsHttpClient;
+
+  constructor(signer: AbstractSigner, config: KalspsoConfig) {
     this.signer = signer;
-    this.proofMarketPlace = ProofMarketPlace__factory.connect(proofMarketPlaceAddress, this.signer);
-    this.paymentToken = ERC20__factory.connect(paymentTokenAddress, this.signer);
-    this.platformToken = ERC20__factory.connect(platformTokenAddress, this.signer);
-    this.entityKeyRegistry = EntityKeyRegistry__factory.connect(entityKeyRegistryAddress, this.signer);
+    this.proofMarketPlace = ProofMarketPlace__factory.connect(config.proof_market_place, this.signer);
+    this.paymentToken = ERC20__factory.connect(config.payment_token, this.signer);
+    this.platformToken = ERC20__factory.connect(config.staking_token, this.signer);
+    this.entityKeyRegistry = EntityKeyRegistry__factory.connect(config.entity_registry, this.signer);
+
+    if (config.matchingEngineEnclaveUrl) {
+      this.matchingEngineHttpClient = new MatchingEngineHttpClient(config.matchingEngineEnclaveUrl);
+    }
+
+    if (config.ivsEnclaveUrl) {
+      this.ivsHttpClient = new IvsHttpClient(config.ivsEnclaveUrl);
+    }
+  }
+
+  public MatchingEngineEnclaveConnector(): MatchingEngineHttpClient {
+    if (!this.matchingEngineHttpClient) {
+      throw new Error("matching enclave url is not defined");
+    }
+    return this.matchingEngineHttpClient;
+  }
+
+  public IvsEnclaveConnector(): IvsHttpClient {
+    if (!this.ivsHttpClient) {
+      throw new Error("IVS enclave url is not defined");
+    }
+
+    return this.ivsHttpClient;
   }
 
   public async approvePaymentTokenToMarketPlace(amount: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
