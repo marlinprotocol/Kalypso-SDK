@@ -14,7 +14,7 @@ export interface KalspsoConfig {
 
 interface Enclave {
   url: string;
-  apikey: string;
+  apikey?: string;
 }
 
 export interface SecretData {
@@ -110,4 +110,10 @@ export interface MatchingEngineConfigPayload {
   zkb_verifier_wrapper: string;
   priority_list: string;
   input_and_proof_format: string;
+}
+
+export interface EnclaveResponse<T> {
+  status: string;
+  message: string;
+  data: T;
 }

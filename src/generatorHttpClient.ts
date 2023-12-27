@@ -1,4 +1,4 @@
-import { PublicKeyResponse, AttestationResponse, KalspsoConfig } from "./types";
+import { PublicKeyResponse, AttestationResponse, KalspsoConfig, EnclaveResponse } from "./types";
 import fetch from "node-fetch";
 import { HeaderInit } from "node-fetch";
 import { ethers } from "ethers";
@@ -29,11 +29,11 @@ export class GeneratorHttpClient {
   }
 
   private url(api: string): string {
-    return `${this.url}/${api}`;
+    return `${this.generatorEndPoint}${api}`;
   }
 
-  public async getGeneratorStatus(): Promise<any> {
-    const response = await fetch(this.url("/api/getMatchingEngineStatus"), { method: "GET", headers: this.headers() });
+  public async getGeneratorStatus(): Promise<EnclaveResponse<string>> {
+    const response = await fetch(this.url("/api/getGeneratorStatus"), { method: "GET", headers: this.headers() });
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
     }
@@ -44,12 +44,16 @@ export class GeneratorHttpClient {
     if (this.apikey) {
       throw new Error("apikey is already provided");
     }
-    // /api/generateApiKey
-    throw new Error("todo");
+
+    const response = await fetch(this.url("/api/generateApiKey"), { method: "POST" });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
   }
 
   // New methods based on your list
-  public async startGenerator(): Promise<any> {
+  public async startGenerator(): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/startGenerator"), { method: "POST", headers: this.headers() });
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -57,7 +61,7 @@ export class GeneratorHttpClient {
     return await response.json();
   }
 
-  public async restartGenerator(): Promise<any> {
+  public async restartGenerator(): Promise<EnclaveResponse<null>> {
     const response = await fetch(this.url("/api/restartGenerator"), { method: "POST", headers: this.headers() });
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -65,7 +69,7 @@ export class GeneratorHttpClient {
     return await response.json();
   }
 
-  public async stopGenerator(): Promise<any> {
+  public async stopGenerator(): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/stopGenerator"), { method: "POST", headers: this.headers() });
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -84,7 +88,7 @@ export class GeneratorHttpClient {
     zkb_verifier_wrapper: string,
     priority_list: string,
     input_and_proof_format: string
-  ): Promise<any> {
+  ): Promise<EnclaveResponse<string>> {
     const generatorConfigData: GeneratorConfigPayload = {
       generator_config,
       runtime_config: {
@@ -117,7 +121,7 @@ export class GeneratorHttpClient {
     return await response.json();
   }
 
-  public async updateRuntimeConfig(config: UpdateRuntimeConfig): Promise<any> {
+  public async updateRuntimeConfig(config: UpdateRuntimeConfig): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/updateRuntimeConfig"), {
       method: "PUT",
       headers: this.headers(),
@@ -129,7 +133,7 @@ export class GeneratorHttpClient {
     return await response.json();
   }
 
-  public async addNewGenerator(generatorConfig: GeneratorConfig): Promise<any> {
+  public async addNewGenerator(generatorConfig: GeneratorConfig): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/addNewGenerator"), {
       method: "POST",
       headers: this.headers(),
@@ -141,7 +145,7 @@ export class GeneratorHttpClient {
     return await response.json();
   }
 
-  public async removeGenerator(address: string): Promise<any> {
+  public async removeGenerator(address: string): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/removeGenerator"), {
       method: "DELETE",
       headers: this.headers(),
@@ -153,7 +157,7 @@ export class GeneratorHttpClient {
     return await response.json();
   }
 
-  public async updateGeneratorConfig(generator: GeneratorConfig): Promise<any> {
+  public async updateGeneratorConfig(generator: GeneratorConfig): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/updateGeneratorConfig"), {
       method: "PUT",
       headers: this.headers(),

@@ -27,7 +27,7 @@ export class MatchingEngineHttpClient {
   }
 
   private url(api: string): string {
-    return `${this.url}/${api}`;
+    return `${this.matchingEngineEndPoint}/${api}`;
   }
 
   public async generateApiKey(): Promise<any> {
