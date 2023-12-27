@@ -9,5 +9,9 @@
   "zkb_verifier_wrapper": "0xc617BBB7a8f4209820E0fBE13D1f5f0AEE8737D6",
   "priority_list": "0x109f6165235B1C9F3AB03c21eEAf8Ec3ecfcC494",
   "input_and_proof_format": "0x39AcE943fFDB53b91Ba6fda8c29760C2765555fA",
-  "generatorEnclave": { "url": "http://13.127.39.109:5000", "apikey": "b017cc25-874a-43d3-a047-30923d1d907b" }
+  "generatorEnclave": {
+    "url": "http://13.127.39.109:5000",
+    "utilityUrl": "http://13.127.39.109:1500",
+    "apikey": "b017cc25-874a-43d3-a047-30923d1d907b"
+  }
 }

@@ -14,6 +14,7 @@ export interface KalspsoConfig {
 
 interface Enclave {
   url: string;
+  utilityUrl: string;
   apikey?: string;
 }
 

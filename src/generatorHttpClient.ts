@@ -6,11 +6,13 @@ import { GeneratorConfigPayload, GeneratorConfig, UpdateRuntimeConfig } from "./
 
 export class GeneratorHttpClient {
   private generatorEndPoint: string;
+  private generator_attestation_utility_endpoint: string;
   private config: KalspsoConfig;
   private apikey?: string;
 
-  constructor(generatorEndPoint: string, config: KalspsoConfig, apikey?: string) {
+  constructor(generatorEndPoint: string, generator_attestation_utility_endpoint: string, config: KalspsoConfig, apikey?: string) {
     this.generatorEndPoint = generatorEndPoint;
+    this.generator_attestation_utility_endpoint = generator_attestation_utility_endpoint;
     this.config = config;
 
     if (apikey) {
@@ -203,10 +205,7 @@ export class GeneratorHttpClient {
     };
   }
 
-  public async getAttestation(
-    generator_attestation_utility_endpoint: string,
-    attestation_verifier_endpoint: string
-  ): Promise<AttestationResponse> {
+  public async getAttestation(attestation_verifier_endpoint: string): Promise<AttestationResponse> {
     //Fetching the attestation document
     let attestation_build_config = {
       method: "POST",
@@ -216,7 +215,10 @@ export class GeneratorHttpClient {
       body: JSON.stringify({}),
     };
 
-    let attestation_server_response = await fetch(`${generator_attestation_utility_endpoint}/build/attestation`, attestation_build_config);
+    let attestation_server_response = await fetch(
+      `${this.generator_attestation_utility_endpoint}/build/attestation`,
+      attestation_build_config
+    );
     let attestation_build_data = await attestation_server_response.json();
 
     //Verifying the attestation document with whitelisted enclave

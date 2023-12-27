@@ -27,7 +27,12 @@ export class Generator {
     this.proofMarketplace = ProofMarketPlace__factory.connect(config.proof_market_place, this.signer);
 
     if (config.generatorEnclave) {
-      this.generatorhttpClient = new GeneratorHttpClient(config.generatorEnclave.url, config, config.generatorEnclave.apikey);
+      this.generatorhttpClient = new GeneratorHttpClient(
+        config.generatorEnclave.url,
+        config.generatorEnclave.utilityUrl,
+        config,
+        config.generatorEnclave.apikey
+      );
     }
   }
 
