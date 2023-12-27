@@ -1,4 +1,4 @@
-import { PublicKeyResponse, AttestationResponse, KalspsoConfig, EnclaveResponse } from "./types";
+import { PublicKeyResponse, AttestationResponse, KalspsoConfig, EnclaveResponse, EnclaveAttestationData } from "./types";
 import fetch from "node-fetch";
 import { HeaderInit } from "node-fetch";
 import { ethers } from "ethers";
@@ -171,14 +171,20 @@ export class GeneratorHttpClient {
     return await response.json();
   }
 
-  public async buildAttestation(): Promise<any> {
-    // /build/attestation
-    throw new Error("todo");
-  }
+  public async buildAttestation(): Promise<EnclaveAttestationData> {
+    let attestation_build_config = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({}),
+    };
 
-  public async verifyAttestation(): Promise<any> {
-    // /verify/attestation
-    throw new Error("todo");
+    let attestation_server_response = await fetch(
+      `${this.generator_attestation_utility_endpoint}/build/attestation`,
+      attestation_build_config
+    );
+    return await attestation_server_response.json();
   }
 
   public async getGeneratorPublicKeys(generator_address: string): Promise<PublicKeyResponse> {
@@ -205,21 +211,14 @@ export class GeneratorHttpClient {
     };
   }
 
+  public async verifyAttestation(): Promise<any> {
+    // /verify/attestation
+    throw new Error("if not required separately, remove this function");
+  }
+
   public async getAttestation(attestation_verifier_endpoint: string): Promise<AttestationResponse> {
     //Fetching the attestation document
-    let attestation_build_config = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({}),
-    };
-
-    let attestation_server_response = await fetch(
-      `${this.generator_attestation_utility_endpoint}/build/attestation`,
-      attestation_build_config
-    );
-    let attestation_build_data = await attestation_server_response.json();
+    let attestation_build_data = await this.buildAttestation();
 
     //Verifying the attestation document with whitelisted enclave
     let verify_attestation_config = {

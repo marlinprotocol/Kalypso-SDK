@@ -118,3 +118,13 @@ export interface EnclaveResponse<T> {
   message: string;
   data: T;
 }
+
+export interface EnclaveAttestationData {
+  attestation_doc: BytesLike;
+  pcrs: BytesLike[];
+  min_cpus: number;
+  min_mem: number;
+  max_age: number;
+  signature: BytesLike;
+  secp_key: BytesLike;
+}
