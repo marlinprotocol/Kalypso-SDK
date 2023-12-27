@@ -13,6 +13,7 @@ import * as pako from "pako";
 import { AskState, KalspsoConfig, PublicAndSecretInputPair } from "./types";
 import { MatchingEngineHttpClient } from "./matchingEngineHttpClient";
 import { IvsHttpClient } from "./ivsHttpClient";
+import fetch from "node-fetch";
 
 type getProofWithAskIdResponse = {
   proof_generated: Boolean;
@@ -160,6 +161,44 @@ export class MarketPlace {
     );
   }
 
+  public async checkInputsAndEncryptedSecretWithIvs(marketId: BigNumberish, proverData: BytesLike, secretBuffer: Buffer): Promise<boolean> {
+    //this should fetched from proof market place contract
+    // const ivsUrl = "http://localhost:3030/checkInput";
+
+    const marketData = await this.proofMarketPlace.marketData(marketId);
+    const ivsUrl = marketData.ivsUrl;
+
+    const eciesPubKey = await this.entityKeyRegistry.pub_key(marketData.ivsSigner);
+
+    if (eciesPubKey == "0x") {
+      throw new Error(
+        `MarketId: ${marketId} has not published it's IVS ecies pubkey and signer to the entity registry contract. Avoid using it or else loose funds`
+      );
+    }
+
+    const result = await this.createPublicAndEncryptedSecretPair(proverData, secretBuffer, eciesPubKey);
+
+    const response = await fetch(ivsUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        public_inputs: result.publicInputs.toString("hex"),
+        encrypted_secret: result.encryptedSecret.toString("hex"),
+        acl: result.acl.toString("hex"),
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    if (response.status >= 200 && response.status < 300) {
+      return true;
+    }
+    return false;
+  }
+
   public async createPublicAndEncryptedSecretPair(
     proverData: BytesLike,
     secretBuffer: Buffer,
@@ -182,7 +221,7 @@ export class MarketPlace {
     console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
 
     return {
-      publicInputs: proverData,
+      publicInputs: Buffer.from(proverData.toString().split("0x")[1], "hex"),
       encryptedSecret: result.encryptedData,
       acl: result.aclData,
     };
