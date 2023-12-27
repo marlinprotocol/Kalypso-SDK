@@ -94,3 +94,20 @@ export interface UpdateRuntimeConfig {
   start_block: number;
   chain_id: number;
 }
+
+export interface MatchingEngineConfigPayload {
+  rpc_url: string;
+  chain_id: number;
+  relayer_private_key: string;
+  proof_market_place: string;
+  generator_registry: string;
+  start_block: number;
+  payment_token: string;
+  platform_token: string;
+  attestation_verifier: string;
+  entity_registry: string;
+  transfer_verifier_wrapper: string;
+  zkb_verifier_wrapper: string;
+  priority_list: string;
+  input_and_proof_format: string;
+}

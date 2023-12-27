@@ -41,7 +41,7 @@ export class MarketPlace {
     this.entityKeyRegistry = EntityKeyRegistry__factory.connect(config.entity_registry, this.signer);
 
     if (config.matchingEngineEnclave) {
-      this.matchingEngineHttpClient = new MatchingEngineHttpClient(config.matchingEngineEnclave.url);
+      this.matchingEngineHttpClient = new MatchingEngineHttpClient(config.matchingEngineEnclave.url, config);
     }
 
     if (config.ivsEnclave) {
