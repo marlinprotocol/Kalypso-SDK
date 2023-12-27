@@ -26,8 +26,8 @@ export class Generator {
     this.stakingToken = ERC20__factory.connect(config.staking_token, this.signer);
     this.proofMarketplace = ProofMarketPlace__factory.connect(config.proof_market_place, this.signer);
 
-    if (config.generatorEnclaveUrl) {
-      this.generatorhttpClient = new GeneratorHttpClient(config.generatorEnclaveUrl);
+    if (config.generatorEnclave) {
+      this.generatorhttpClient = new GeneratorHttpClient(config.generatorEnclave.url);
     }
   }
 

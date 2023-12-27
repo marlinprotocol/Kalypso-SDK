@@ -4,11 +4,20 @@ import { ethers } from "ethers";
 
 export class GeneratorHttpClient {
   private generatorEndPoint: string;
-  constructor(generatorEndPoint: string) {
+  private apikey?: string;
+
+  constructor(generatorEndPoint: string, apikey?: string) {
     this.generatorEndPoint = generatorEndPoint;
+
+    if (apikey) {
+      this.apikey = apikey;
+    }
   }
 
   public async generateApiKey(): Promise<any> {
+    if (this.apikey) {
+      throw new Error("apikey is already provided");
+    }
     // /api/generateApiKey
     throw new Error("todo");
   }

@@ -40,12 +40,12 @@ export class MarketPlace {
     this.platformToken = ERC20__factory.connect(config.staking_token, this.signer);
     this.entityKeyRegistry = EntityKeyRegistry__factory.connect(config.entity_registry, this.signer);
 
-    if (config.matchingEngineEnclaveUrl) {
-      this.matchingEngineHttpClient = new MatchingEngineHttpClient(config.matchingEngineEnclaveUrl);
+    if (config.matchingEngineEnclave) {
+      this.matchingEngineHttpClient = new MatchingEngineHttpClient(config.matchingEngineEnclave.url);
     }
 
-    if (config.ivsEnclaveUrl) {
-      this.ivsHttpClient = new IvsHttpClient(config.ivsEnclaveUrl);
+    if (config.ivsEnclave) {
+      this.ivsHttpClient = new IvsHttpClient(config.ivsEnclave.url);
     }
   }
 
@@ -160,17 +160,24 @@ export class MarketPlace {
     );
   }
 
-  public async createPublicAndEncryptedSecretPair(proverData: BytesLike, secretBuffer: Buffer): Promise<PublicAndSecretInputPair> {
+  public async createPublicAndEncryptedSecretPair(
+    proverData: BytesLike,
+    secretBuffer: Buffer,
+    eciesPubKey?: string
+  ): Promise<PublicAndSecretInputPair> {
     //deflate the secret buffer to reduce tx cost
     secretBuffer = Buffer.from(pako.deflate(secretBuffer));
 
-    const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
-    // if key is rightly updated, it should 68 chars (33 bytes in length)
-    if (matchingEnginePubKey.length !== 68) {
-      throw new Error("matching engine pub key is not updated in the registry");
+    if (!eciesPubKey) {
+      const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
+      // if key is rightly updated, it should 68 chars (33 bytes in length)
+      if (matchingEnginePubKey.length !== 68) {
+        throw new Error("matching engine pub key is not updated in the registry");
+      }
+      eciesPubKey = matchingEnginePubKey;
     }
 
-    const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
+    const pubKey = eciesPubKey.split("x")[1]; // this is hex string
     const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey);
     console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
 
