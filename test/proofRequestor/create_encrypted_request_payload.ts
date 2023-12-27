@@ -30,7 +30,7 @@ const createAskTest = async () => {
 
   // third argument to this function is your custom encryption key. If nothing is provided, matching engine pubkey is used
   const result = await kalypso.MarketPlace().createPublicAndEncryptedSecretPair(inputBytes, Buffer.from(secretString));
-  console.log(result);
+  console.log({ ...result, encryptedSecret: result.encryptedSecret.toString("hex"), acl: result.acl.toString("hex") });
 };
 
 createAskTest();

@@ -179,17 +179,14 @@ export class GeneratorHttpClient {
     throw new Error("todo");
   }
 
-  public async getGeneratorPublicKeys(generator_client_api_key: string, generator_address: string): Promise<PublicKeyResponse> {
+  public async getGeneratorPublicKeys(generator_address: string): Promise<PublicKeyResponse> {
     let data = JSON.stringify({
       generator_address: generator_address,
     });
 
     let public_key_config = {
       method: "POST",
-      headers: {
-        "api-key": generator_client_api_key,
-        "Content-Type": "application/json",
-      },
+      headers: this.headers(),
       body: data,
     };
 
