@@ -1,17 +1,43 @@
-import { PublicKeyResponse, AttestationResponse } from "./types";
+import { PublicKeyResponse, AttestationResponse, KalspsoConfig } from "./types";
 import fetch from "node-fetch";
+import { HeaderInit } from "node-fetch";
 import { ethers } from "ethers";
+import { GeneratorConfigPayload, GeneratorConfig, UpdateRuntimeConfig } from "./types";
 
 export class GeneratorHttpClient {
   private generatorEndPoint: string;
+  private config: KalspsoConfig;
   private apikey?: string;
 
-  constructor(generatorEndPoint: string, apikey?: string) {
+  constructor(generatorEndPoint: string, config: KalspsoConfig, apikey?: string) {
     this.generatorEndPoint = generatorEndPoint;
+    this.config = config;
 
     if (apikey) {
       this.apikey = apikey;
     }
+  }
+
+  private headers(): HeaderInit {
+    if (this.apikey) {
+      return {
+        "Content-Type": "application/json",
+        "API-Key": this.apikey,
+      };
+    }
+    throw new Error("api key not provided");
+  }
+
+  private url(api: string): string {
+    return `${this.url}/${api}`;
+  }
+
+  public async getGeneratorStatus(): Promise<any> {
+    const response = await fetch(this.url("/api/getMatchingEngineStatus"), { method: "GET", headers: this.headers() });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
   }
 
   public async generateApiKey(): Promise<any> {
@@ -22,50 +48,121 @@ export class GeneratorHttpClient {
     throw new Error("todo");
   }
 
-  public async getGeneratorStatus(): Promise<any> {
-    // /api/getGeneratorStatus
-    throw new Error("todo");
-  }
-
   // New methods based on your list
   public async startGenerator(): Promise<any> {
-    // /api/startGenerator
-    throw new Error("todo");
+    const response = await fetch(this.url("/api/startGenerator"), { method: "POST", headers: this.headers() });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
   }
 
   public async restartGenerator(): Promise<any> {
-    // /api/restartGenerator
-    throw new Error("todo");
+    const response = await fetch(this.url("/api/restartGenerator"), { method: "POST", headers: this.headers() });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
   }
 
   public async stopGenerator(): Promise<any> {
-    // /api/stopGenerator
-    throw new Error("todo");
+    const response = await fetch(this.url("/api/stopGenerator"), { method: "POST", headers: this.headers() });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
   }
 
-  public async generatorConfigSetup(): Promise<any> {
-    // /api/generatorConfigSetup
-    throw new Error("todo");
+  public async generatorConfigSetup(
+    generator_config: GeneratorConfig[],
+    ws_url: string,
+    http_url: string,
+    gas_key: string,
+    start_block: number,
+    chain_id: number,
+    transfer_verifier_wrapper: string,
+    zkb_verifier_wrapper: string,
+    priority_list: string,
+    input_and_proof_format: string
+  ): Promise<any> {
+    const generatorConfigData: GeneratorConfigPayload = {
+      generator_config,
+      runtime_config: {
+        ws_url,
+        http_url,
+        private_key: gas_key,
+        start_block,
+        chain_id,
+        payment_token: this.config.payment_token,
+        generator_registry: this.config.generator_registry,
+        attestation_verifier: this.config.attestation_verifier,
+        entity_registry: this.config.entity_registry,
+        proof_market_place: this.config.proof_market_place,
+        transfer_verifier_wrapper,
+        zkb_verifier_wrapper,
+        priority_list,
+        input_and_proof_format,
+        staking_token: this.config.staking_token,
+      },
+    };
+
+    const response = await fetch(this.url("/api/generatorConfigSetup"), {
+      method: "POST",
+      headers: this.headers(),
+      body: JSON.stringify(generatorConfigData),
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
   }
 
-  public async updateRuntimeConfig(): Promise<any> {
-    // /api/updateRuntimeConfig
-    throw new Error("todo");
+  public async updateRuntimeConfig(config: UpdateRuntimeConfig): Promise<any> {
+    const response = await fetch(this.url("/api/updateRuntimeConfig"), {
+      method: "PUT",
+      headers: this.headers(),
+      body: JSON.stringify(config),
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
   }
 
-  public async addNewGenerator(): Promise<any> {
-    // /api/addNewGenerator
-    throw new Error("todo");
+  public async addNewGenerator(generatorConfig: GeneratorConfig): Promise<any> {
+    const response = await fetch(this.url("/api/addNewGenerator"), {
+      method: "POST",
+      headers: this.headers(),
+      body: JSON.stringify(generatorConfig),
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
   }
 
-  public async removeGenerator(): Promise<any> {
-    // /api/removeGenerator
-    throw new Error("todo");
+  public async removeGenerator(address: string): Promise<any> {
+    const response = await fetch(this.url("/api/removeGenerator"), {
+      method: "DELETE",
+      headers: this.headers(),
+      body: JSON.stringify({ address }),
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
   }
 
-  public async updateGeneratorConfig(): Promise<any> {
-    // /api/updateGeneratorConfig
-    throw new Error("todo");
+  public async updateGeneratorConfig(generator: GeneratorConfig): Promise<any> {
+    const response = await fetch(this.url("/api/updateGeneratorConfig"), {
+      method: "PUT",
+      headers: this.headers(),
+      body: JSON.stringify(generator),
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
   }
 
   public async buildAttestation(): Promise<any> {

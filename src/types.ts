@@ -56,3 +56,41 @@ export interface PublicAndSecretInputPair {
   encryptedSecret: Buffer;
   acl: Buffer;
 }
+
+export interface GeneratorConfig {
+  address: string;
+  data: string;
+  supported_markets: string[];
+}
+
+export interface RuntimeConfig {
+  ws_url: string;
+  http_url: string;
+  private_key: string;
+  start_block: number;
+  chain_id: number;
+  payment_token: string;
+  generator_registry: string;
+  attestation_verifier: string;
+  entity_registry: string;
+  proof_market_place: string;
+  transfer_verifier_wrapper: string;
+  zkb_verifier_wrapper: string;
+  priority_list: string;
+  input_and_proof_format: string;
+  staking_token: string;
+}
+
+export interface GeneratorConfigPayload {
+  generator_config: GeneratorConfig[];
+  runtime_config: RuntimeConfig;
+}
+
+export interface UpdateRuntimeConfig {
+  ws_url: string;
+  private_key: string;
+  proof_market_place: string;
+  generator_registry: string;
+  start_block: number;
+  chain_id: number;
+}
