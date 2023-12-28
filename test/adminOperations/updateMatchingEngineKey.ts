@@ -1,7 +1,5 @@
 import { KalypsoSdk } from "../../src";
 import dotenv from "dotenv";
-import { PublicKey, PrivateKey } from "eciesjs";
-
 import { ethers } from "ethers";
 
 dotenv.config();
