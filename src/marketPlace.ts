@@ -170,11 +170,11 @@ export class MarketPlace {
     // const ivsUrl = "http://localhost:3030/checkInput";
 
     const marketData = await this.proofMarketPlace.marketData(marketId);
-    const ivsUrl = marketData.ivsUrl;
+    const ivsUrl = Buffer.from(marketData.ivsUrl.split("0x")[1], "hex").toString();
 
     const eciesPubKey = await this.entityKeyRegistry.pub_key(marketData.ivsSigner);
 
-    if (eciesPubKey == "0x") {
+    if (eciesPubKey == "0x" || eciesPubKey.length != 130) {
       throw new Error(
         `MarketId: ${marketId} has not published it's IVS ecies pubkey and signer to the entity registry contract. Avoid using it or else loose funds`
       );
@@ -213,8 +213,7 @@ export class MarketPlace {
 
     if (!eciesPubKey) {
       const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
-      // if key is rightly updated, it should 68 chars (33 bytes in length)
-      if (matchingEnginePubKey.length !== 68) {
+      if (matchingEnginePubKey.length !== 130) {
         throw new Error("matching engine pub key is not updated in the registry");
       }
       eciesPubKey = matchingEnginePubKey;

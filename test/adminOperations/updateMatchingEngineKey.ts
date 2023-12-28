@@ -49,7 +49,7 @@ async function main2() {
   let secret_key: PrivateKey = PrivateKey.fromHex(keys.matching_engine_private_key);
   let pub_key = secret_key.publicKey.compressed;
 
-  console.log({ me_pub_key: pub_key });
+  console.log({ me_pub_key: pub_key.toString("hex"), me_pub_uncompressed: secret_key.publicKey.uncompressed.toString("hex") });
 
   const tx = await kalypso.Admin().updateEncryptionKey(meEciesPubKeyAttestation);
   const receipt = await tx.wait();
