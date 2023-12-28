@@ -1,18 +1,18 @@
 import { PublicKeyResponse, AttestationResponse, KalspsoConfig, EnclaveResponse, EnclaveAttestationData } from "./types";
 import fetch from "node-fetch";
 import { HeaderInit } from "node-fetch";
-import { ethers } from "ethers";
 import { GeneratorConfigPayload, GeneratorConfig, UpdateRuntimeConfig } from "./types";
+import { BaseEnclaveClient } from "./baseEnclaveClient";
 
-export class GeneratorHttpClient {
+export class GeneratorHttpClient extends BaseEnclaveClient {
   private generatorEndPoint: string;
-  private generator_attestation_utility_endpoint: string;
   private config: KalspsoConfig;
   private apikey?: string;
 
   constructor(generatorEndPoint: string, generator_attestation_utility_endpoint: string, config: KalspsoConfig, apikey?: string) {
+    super(generator_attestation_utility_endpoint);
+
     this.generatorEndPoint = generatorEndPoint;
-    this.generator_attestation_utility_endpoint = generator_attestation_utility_endpoint;
     this.config = config;
 
     if (apikey) {
@@ -171,22 +171,6 @@ export class GeneratorHttpClient {
     return await response.json();
   }
 
-  public async buildAttestation(): Promise<EnclaveAttestationData> {
-    let attestation_build_config = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({}),
-    };
-
-    let attestation_server_response = await fetch(
-      `${this.generator_attestation_utility_endpoint}/build/attestation`,
-      attestation_build_config
-    );
-    return await attestation_server_response.json();
-  }
-
   public async getGeneratorPublicKeys(generator_address: string): Promise<PublicKeyResponse> {
     let data = JSON.stringify({
       generator_address: generator_address,
@@ -208,51 +192,6 @@ export class GeneratorHttpClient {
     return {
       generator_ecies_public_key: generator_public_keys.data.generator_ecies_public_key,
       generator_public_key: generator_public_keys.data.generator_public_key,
-    };
-  }
-
-  public async verifyAttestation(): Promise<any> {
-    // /verify/attestation
-    throw new Error("if not required separately, remove this function");
-  }
-
-  public async getAttestation(attestation_verifier_endpoint: string): Promise<AttestationResponse> {
-    //Fetching the attestation document
-    let attestation_build_data = await this.buildAttestation();
-
-    //Verifying the attestation document with whitelisted enclave
-    let verify_attestation_config = {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(attestation_build_data),
-    };
-
-    let attestation_verifier_response = await fetch(`${attestation_verifier_endpoint}/verify/attestation`, verify_attestation_config);
-    let attestation_verifier_response_data = await attestation_verifier_response.json();
-
-    let verifier_address = "0x" + ethers.keccak256("0x" + attestation_verifier_response_data.secp_key).slice(-40);
-    let generator_address = "0x" + ethers.keccak256("0x" + attestation_build_data.secp_key).slice(-40);
-
-    let abiCoder = new ethers.AbiCoder();
-    let encodedData = abiCoder.encode(
-      ["bytes", "address", "address", "bytes", "bytes", "bytes", "uint256", "uint256"],
-      [
-        "0x" + attestation_verifier_response_data.sig,
-        verifier_address,
-        generator_address,
-        "0x" + attestation_build_data.pcrs[0],
-        "0x" + attestation_build_data.pcrs[1],
-        "0x" + attestation_build_data.pcrs[2],
-        attestation_build_data.min_cpus,
-        attestation_build_data.min_mem,
-      ]
-    );
-
-    return {
-      attestation_document: encodedData,
-      secp_key: attestation_build_data.secp_key,
     };
   }
 }

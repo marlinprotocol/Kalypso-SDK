@@ -51,7 +51,7 @@ async function main2() {
 
   console.log({ me_pub_key: pub_key });
 
-  const tx = await kalypso.Admin().updateEncryptionKey(pub_key, meEciesPubKeyAttestation);
+  const tx = await kalypso.Admin().updateEncryptionKey(meEciesPubKeyAttestation);
   const receipt = await tx.wait();
   console.log("Updated ME ECIES key: ", receipt?.hash);
   return "Done";

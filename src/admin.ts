@@ -20,12 +20,8 @@ export class Admin {
     return this.proofMarketPlace.updateMatchingEngineEnclaveSigner(addressAttestationBytes, matchingEngineAddress, { ...options });
   }
 
-  public async updateEncryptionKey(
-    pubKey: BytesLike,
-    attestationBytes: BytesLike,
-    options?: Overrides
-  ): Promise<ContractTransactionResponse> {
-    return this.proofMarketPlace.updateEncryptionKey(pubKey, attestationBytes, { ...options });
+  public async updateEncryptionKey(attestationBytes: BytesLike, options?: Overrides): Promise<ContractTransactionResponse> {
+    return this.proofMarketPlace.updateEncryptionKey(attestationBytes, { ...options });
   }
 
   public async readMatchingEngineKey(): Promise<string> {

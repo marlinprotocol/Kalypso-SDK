@@ -1,13 +1,15 @@
 import fetch from "node-fetch";
 import { HeaderInit } from "node-fetch";
 import { KalspsoConfig, MatchingEngineConfigPayload } from "./types";
+import { BaseEnclaveClient } from "./baseEnclaveClient";
 
-export class MatchingEngineHttpClient {
+export class MatchingEngineHttpClient extends BaseEnclaveClient {
   private matchingEngineEndPoint: string;
   private config: KalspsoConfig;
   private apikey?: string;
 
-  constructor(matchingEngineEndPoint: string, config: KalspsoConfig, apikey?: string) {
+  constructor(matchingEngineEndPoint: string, me_attestation_utility_endpoint: string, config: KalspsoConfig, apikey?: string) {
+    super(me_attestation_utility_endpoint);
     this.matchingEngineEndPoint = matchingEngineEndPoint;
     this.config = config;
 

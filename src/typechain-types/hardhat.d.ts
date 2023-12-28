@@ -77,6 +77,10 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.IERC20Metadata__factory>;
     getContractFactory(name: "IERC20", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC20__factory>;
     getContractFactory(
+      name: "AttestationVerifier",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AttestationVerifier__factory>;
+    getContractFactory(
       name: "EntityKeyRegistry",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.EntityKeyRegistry__factory>;
@@ -213,6 +217,11 @@ declare module "hardhat/types/runtime" {
     getContractAt(name: "IERC20Metadata", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20Metadata>;
     getContractAt(name: "IERC20", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20>;
     getContractAt(
+      name: "AttestationVerifier",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AttestationVerifier>;
+    getContractAt(
       name: "EntityKeyRegistry",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -344,6 +353,10 @@ declare module "hardhat/types/runtime" {
     deployContract(name: "ERC20", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ERC20>;
     deployContract(name: "IERC20Metadata", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20Metadata>;
     deployContract(name: "IERC20", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>;
+    deployContract(
+      name: "AttestationVerifier",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.AttestationVerifier>;
     deployContract(
       name: "EntityKeyRegistry",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -479,6 +492,11 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC20Metadata>;
     deployContract(name: "IERC20", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>;
+    deployContract(
+      name: "AttestationVerifier",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.AttestationVerifier>;
     deployContract(
       name: "EntityKeyRegistry",
       args: any[],

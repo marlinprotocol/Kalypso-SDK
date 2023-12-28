@@ -16,7 +16,55 @@ const _abi = [
     ],
     name: "safeVerify",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes",
+        name: "attestation",
+        type: "bytes",
+      },
+      {
+        internalType: "address",
+        name: "sourceEnclaveKey",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "enclaveKey",
+        type: "address",
+      },
+      {
+        internalType: "bytes",
+        name: "PCR0",
+        type: "bytes",
+      },
+      {
+        internalType: "bytes",
+        name: "PCR1",
+        type: "bytes",
+      },
+      {
+        internalType: "bytes",
+        name: "PCR2",
+        type: "bytes",
+      },
+      {
+        internalType: "uint256",
+        name: "enclaveCPUs",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "enclaveMemory",
+        type: "uint256",
+      },
+    ],
+    name: "safeVerify",
+    outputs: [],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -35,7 +83,61 @@ const _abi = [
         type: "bool",
       },
     ],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes",
+        name: "attestation",
+        type: "bytes",
+      },
+      {
+        internalType: "address",
+        name: "sourceEnclaveKey",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "enclaveKey",
+        type: "address",
+      },
+      {
+        internalType: "bytes",
+        name: "PCR0",
+        type: "bytes",
+      },
+      {
+        internalType: "bytes",
+        name: "PCR1",
+        type: "bytes",
+      },
+      {
+        internalType: "bytes",
+        name: "PCR2",
+        type: "bytes",
+      },
+      {
+        internalType: "uint256",
+        name: "enclaveCPUs",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "enclaveMemory",
+        type: "uint256",
+      },
+    ],
+    name: "verify",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
 ] as const;

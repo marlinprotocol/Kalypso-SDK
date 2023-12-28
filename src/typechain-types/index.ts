@@ -42,6 +42,8 @@ export type { IERC20Metadata } from "./@openzeppelin/contracts/token/ERC20/exten
 export { IERC20Metadata__factory } from "./factories/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata__factory";
 export type { IERC20 } from "./@openzeppelin/contracts/token/ERC20/IERC20";
 export { IERC20__factory } from "./factories/@openzeppelin/contracts/token/ERC20/IERC20__factory";
+export type { AttestationVerifier } from "./contracts/AttestationVerifier";
+export { AttestationVerifier__factory } from "./factories/contracts/AttestationVerifier__factory";
 export type { EntityKeyRegistry } from "./contracts/EntityKeyRegistry";
 export { EntityKeyRegistry__factory } from "./factories/contracts/EntityKeyRegistry__factory";
 export type { GeneratorRegistry } from "./contracts/GeneratorRegistry";

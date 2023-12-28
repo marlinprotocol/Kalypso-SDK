@@ -156,12 +156,8 @@ export class Generator {
     return await this.generatorRegistry.requestForExitMarketPlace(marketId, { ...options });
   }
 
-  public async updateEcisKey(
-    pubKeyBytes: BytesLike,
-    attestationBytes: BytesLike,
-    options?: Overrides
-  ): Promise<ContractTransactionResponse> {
-    return this.generatorRegistry.updateEncryptionKey(pubKeyBytes, attestationBytes, { ...options });
+  public async updateEcisKey(attestationBytes: BytesLike, options?: Overrides): Promise<ContractTransactionResponse> {
+    return this.generatorRegistry.updateEncryptionKey(attestationBytes, { ...options });
   }
 
   public async slashExistingRequest(taskId: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {

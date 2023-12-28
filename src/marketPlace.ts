@@ -42,11 +42,15 @@ export class MarketPlace {
     this.entityKeyRegistry = EntityKeyRegistry__factory.connect(config.entity_registry, this.signer);
 
     if (config.matchingEngineEnclave) {
-      this.matchingEngineHttpClient = new MatchingEngineHttpClient(config.matchingEngineEnclave.url, config);
+      this.matchingEngineHttpClient = new MatchingEngineHttpClient(
+        config.matchingEngineEnclave.url,
+        config.matchingEngineEnclave.utilityUrl,
+        config
+      );
     }
 
     if (config.ivsEnclave) {
-      this.ivsHttpClient = new IvsHttpClient(config.ivsEnclave.url);
+      this.ivsHttpClient = new IvsHttpClient(config.ivsEnclave.url, config.ivsEnclave.utilityUrl);
     }
   }
 
@@ -259,16 +263,25 @@ export class MarketPlace {
       refundAddress: refundAddress,
     };
     const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
-    // if key is rightly updated, it should 68 chars (33 bytes in length)
-    if (matchingEnginePubKey.length !== 68) {
-      throw new Error("matching engine pub key is not updated in the registry");
+    // 64 bytes
+    if (matchingEnginePubKey.length !== 130) {
+      throw new Error("matching engine pub key is not updated in the registry or wrong");
     }
 
     const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
-    const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey);
-    console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
+    const marketData = await this.proofMarketPlace.marketData(marketId);
 
-    const platformFee = await this.getPlatformFee(secretType, askRequest, result.encryptedData, result.aclData);
+    let dataToSend = secretBuffer;
+    let aclData = Buffer.from("");
+
+    if (marketData.isEnclaveRequired) {
+      const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey);
+      console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
+      dataToSend = result.encryptedData;
+      aclData = result.aclData;
+    }
+
+    const platformFee = await this.getPlatformFee(secretType, askRequest, dataToSend, aclData);
     const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
     if (new BigNumber(platformTokenBalance.toString()).lt(platformFee.toString())) {
       throw new Error("Ensure sufficient platform token balance");
@@ -299,7 +312,7 @@ export class MarketPlace {
       console.log("Approval Tx: ", approvalReceipt?.hash);
     }
 
-    return this.proofMarketPlace.createAsk(askRequest, secretType, result.encryptedData, result.aclData, { ...options });
+    return this.proofMarketPlace.createAsk(askRequest, secretType, dataToSend, aclData, { ...options });
   }
 
   public async createNewMarket(
@@ -309,7 +322,6 @@ export class MarketPlace {
     isEnclaveRequired: boolean,
     ivsAttestationBytes: BytesLike,
     ivsUrl: string,
-    ivsSigner: string,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
     if (new BigNumber(slashingPenalty.toString()).gt(this.exponent)) {
@@ -343,7 +355,6 @@ export class MarketPlace {
       isEnclaveRequired,
       ivsAttestationBytes,
       Buffer.from(ivsUrl, "ascii"),
-      ivsSigner,
       { ...options }
     );
   }
