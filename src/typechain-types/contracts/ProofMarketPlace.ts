@@ -96,8 +96,7 @@ export interface ProofMarketPlaceInterface extends Interface {
       | "submitProofs"
       | "supportsInterface"
       | "updateCostPerBytes"
-      | "updateEncryptionKey"
-      | "updateMatchingEngineEnclaveSigner"
+      | "updateMatchingEngineEncryptionKeyAndSigner"
       | "upgradeTo"
       | "upgradeToAndCall"
       | "verifier"
@@ -165,8 +164,7 @@ export interface ProofMarketPlaceInterface extends Interface {
   encodeFunctionData(functionFragment: "submitProofs", values: [BigNumberish[], BytesLike[]]): string;
   encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "updateCostPerBytes", values: [BigNumberish, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "updateEncryptionKey", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "updateMatchingEngineEnclaveSigner", values: [BytesLike, AddressLike]): string;
+  encodeFunctionData(functionFragment: "updateMatchingEngineEncryptionKeyAndSigner", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "upgradeTo", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "upgradeToAndCall", values: [AddressLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "verifier", values: [BigNumberish]): string;
@@ -211,8 +209,7 @@ export interface ProofMarketPlaceInterface extends Interface {
   decodeFunctionResult(functionFragment: "submitProofs", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "supportsInterface", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "updateCostPerBytes", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "updateEncryptionKey", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "updateMatchingEngineEnclaveSigner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "updateMatchingEngineEncryptionKeyAndSigner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "upgradeToAndCall", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "verifier", data: BytesLike): Result;
@@ -571,9 +568,7 @@ export interface ProofMarketPlace extends BaseContract {
 
   updateCostPerBytes: TypedContractMethod<[secretType: BigNumberish, costPerByte: BigNumberish], [void], "nonpayable">;
 
-  updateEncryptionKey: TypedContractMethod<[attestationData: BytesLike], [void], "nonpayable">;
-
-  updateMatchingEngineEnclaveSigner: TypedContractMethod<[attestationData: BytesLike, meSigner: AddressLike], [void], "nonpayable">;
+  updateMatchingEngineEncryptionKeyAndSigner: TypedContractMethod<[attestationData: BytesLike], [void], "nonpayable">;
 
   upgradeTo: TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
 
@@ -689,10 +684,9 @@ export interface ProofMarketPlace extends BaseContract {
   getFunction(
     nameOrSignature: "updateCostPerBytes"
   ): TypedContractMethod<[secretType: BigNumberish, costPerByte: BigNumberish], [void], "nonpayable">;
-  getFunction(nameOrSignature: "updateEncryptionKey"): TypedContractMethod<[attestationData: BytesLike], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "updateMatchingEngineEnclaveSigner"
-  ): TypedContractMethod<[attestationData: BytesLike, meSigner: AddressLike], [void], "nonpayable">;
+    nameOrSignature: "updateMatchingEngineEncryptionKeyAndSigner"
+  ): TypedContractMethod<[attestationData: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "upgradeTo"): TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "upgradeToAndCall"

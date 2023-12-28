@@ -31,6 +31,7 @@ export interface ErrorInterface extends Interface {
       | "INVALID_INPUTS"
       | "INVALID_MARKET"
       | "INVALID_PROOF"
+      | "KEY_ALREADY_EXISTS"
       | "MARKET_ALREADY_EXISTS"
       | "MAX_PARALLEL_REQUESTS_PER_MARKET_EXCEEDED"
       | "ONLY_ADMIN_CAN_CALL"
@@ -74,6 +75,7 @@ export interface ErrorInterface extends Interface {
   encodeFunctionData(functionFragment: "INVALID_INPUTS", values?: undefined): string;
   encodeFunctionData(functionFragment: "INVALID_MARKET", values?: undefined): string;
   encodeFunctionData(functionFragment: "INVALID_PROOF", values?: undefined): string;
+  encodeFunctionData(functionFragment: "KEY_ALREADY_EXISTS", values?: undefined): string;
   encodeFunctionData(functionFragment: "MARKET_ALREADY_EXISTS", values?: undefined): string;
   encodeFunctionData(functionFragment: "MAX_PARALLEL_REQUESTS_PER_MARKET_EXCEEDED", values?: undefined): string;
   encodeFunctionData(functionFragment: "ONLY_ADMIN_CAN_CALL", values?: undefined): string;
@@ -116,6 +118,7 @@ export interface ErrorInterface extends Interface {
   decodeFunctionResult(functionFragment: "INVALID_INPUTS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INVALID_MARKET", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INVALID_PROOF", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "KEY_ALREADY_EXISTS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "MARKET_ALREADY_EXISTS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "MAX_PARALLEL_REQUESTS_PER_MARKET_EXCEEDED", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ONLY_ADMIN_CAN_CALL", data: BytesLike): Result;
@@ -210,6 +213,8 @@ export interface Error extends BaseContract {
 
   INVALID_PROOF: TypedContractMethod<[], [string], "view">;
 
+  KEY_ALREADY_EXISTS: TypedContractMethod<[], [string], "view">;
+
   MARKET_ALREADY_EXISTS: TypedContractMethod<[], [string], "view">;
 
   MAX_PARALLEL_REQUESTS_PER_MARKET_EXCEEDED: TypedContractMethod<[], [string], "view">;
@@ -270,6 +275,7 @@ export interface Error extends BaseContract {
   getFunction(nameOrSignature: "INVALID_INPUTS"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INVALID_MARKET"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INVALID_PROOF"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "KEY_ALREADY_EXISTS"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "MARKET_ALREADY_EXISTS"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "MAX_PARALLEL_REQUESTS_PER_MARKET_EXCEEDED"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "ONLY_ADMIN_CAN_CALL"): TypedContractMethod<[], [string], "view">;
