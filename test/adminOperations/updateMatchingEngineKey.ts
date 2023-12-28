@@ -18,8 +18,6 @@ async function main1(): Promise<string> {
   const wallet = new ethers.Wallet(admin_private_key, provider);
   console.log("using address of admin", await wallet.getAddress());
 
-  const me_wallet = new ethers.Wallet(keys.matching_engine_private_key, provider);
-
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
   const meAttestation = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().buildAttestation();
 
