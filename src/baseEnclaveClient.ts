@@ -1,6 +1,6 @@
 import { AttestationResponse, EnclaveAttestationData } from "./types";
 import fetch from "node-fetch";
-import { ethers } from "ethers";
+import { BytesLike, ethers } from "ethers";
 
 export class BaseEnclaveClient {
   private attestation_utility_endpoint: string;
@@ -71,5 +71,22 @@ export class BaseEnclaveClient {
 
     let attestation_server_response = await fetch(`${this.attestation_utility_endpoint}/build/attestation`, attestation_build_config);
     return await attestation_server_response.json();
+  }
+
+  public async getMockAttestation(ecies_pubkey: string): Promise<AttestationResponse> {
+    if (ecies_pubkey.length != 130) {
+      throw new Error("ecies key length wrong");
+    }
+
+    let abiCoder = new ethers.AbiCoder();
+    let encodedData = abiCoder.encode(
+      ["bytes", "address", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256"],
+      ["0x00", "0x0011001100110011001100110011001100110011", ecies_pubkey, "0x00", "0x00", "0x00", 1, 1]
+    );
+
+    return {
+      attestation_document: encodedData,
+      secp_key: ecies_pubkey,
+    };
   }
 }
