@@ -34,8 +34,8 @@ export interface SecretInputOperations {
 }
 
 export interface PublicKeyResponse {
-  generator_ecies_public_key: string;
-  generator_public_key: string;
+  ecies_public_key: string;
+  public_key: string;
 }
 
 export interface AttestationResponse {

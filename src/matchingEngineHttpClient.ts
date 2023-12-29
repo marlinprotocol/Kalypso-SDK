@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import { HeaderInit } from "node-fetch";
-import { KalspsoConfig, MatchingEngineConfigPayload } from "./types";
+import { KalspsoConfig, MatchingEngineConfigPayload, EnclaveResponse } from "./types";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
 
 export class MatchingEngineHttpClient extends BaseEnclaveClient {
@@ -32,17 +32,16 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     return `${this.matchingEngineEndPoint}/${api}`;
   }
 
-  public async generateApiKey(): Promise<any> {
+  public async generateApiKey(): Promise<EnclaveResponse<string>> {
     if (this.apikey) {
       throw new Error("apikey is already provided");
     }
-    // /api/generateApiKey
-    throw new Error("todo");
-  }
 
-  public async getMatchingEngineStatus(): Promise<any> {
-    // /api/getMatchingEngineStatus
-    throw new Error("todo");
+    const response = await fetch(this.url("/api/generateApiKey"), { method: "POST" });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
   }
 
   public async matchingEngineConfigSetup(
@@ -54,7 +53,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     zkb_verifier_wrapper: string,
     priority_list: string,
     input_and_proof_format: string
-  ): Promise<any> {
+  ): Promise<EnclaveResponse<string>> {
     const meConfigData: MatchingEngineConfigPayload = {
       rpc_url,
       chain_id,
@@ -82,11 +81,67 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     return await response.json();
   }
 
-  public async updateMatchingEngineConfig(config: MEConfig): Promise<any> {
+  public async updateMatchingEngineConfig(config: MEConfig): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/updateMatchingEngineConfig"), {
       method: "PUT",
       headers: this.headers(),
       body: JSON.stringify(config),
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
+  }
+
+  public async getMatchingEngineStatus(): Promise<EnclaveResponse<string>> {
+    const response = await fetch(this.url("/api/getMatchingEngineStatus"), {
+      method: "GET",
+      headers: this.headers(),
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
+  }
+
+  public async stopMatchingEngine(): Promise<EnclaveResponse<string>> {
+    const response = await fetch(this.url("/api/stopMatchingEngine"), {
+      method: "POST",
+      headers: this.headers(),
+      body: JSON.stringify({}),
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
+  }
+  public async startMatchingEngine(): Promise<EnclaveResponse<string>> {
+    const response = await fetch(this.url("/api/startMatchingEngine"), {
+      method: "POST",
+      headers: this.headers(),
+      body: JSON.stringify({}),
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
+  }
+  public async restartMatchingEngine(): Promise<EnclaveResponse<string>> {
+    const response = await fetch(this.url("/api/restartMatchingEngine"), {
+      method: "POST",
+      headers: this.headers(),
+      body: JSON.stringify({}),
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
+  }
+
+  public async getMatchingEnginePublicKeys(): Promise<any> {
+    const response = await fetch(this.url("/api/getMatchingEnginePublicKeys"), {
+      method: "GET",
+      headers: this.headers(),
     });
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);

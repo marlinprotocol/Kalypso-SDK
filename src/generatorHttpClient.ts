@@ -1,4 +1,4 @@
-import { PublicKeyResponse, AttestationResponse, KalspsoConfig, EnclaveResponse, EnclaveAttestationData } from "./types";
+import { PublicKeyResponse, KalspsoConfig, EnclaveResponse } from "./types";
 import fetch from "node-fetch";
 import { HeaderInit } from "node-fetch";
 import { GeneratorConfigPayload, GeneratorConfig, UpdateRuntimeConfig } from "./types";
@@ -42,7 +42,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     return await response.json();
   }
 
-  public async generateApiKey(): Promise<any> {
+  public async generateApiKey(): Promise<EnclaveResponse<string>> {
     if (this.apikey) {
       throw new Error("apikey is already provided");
     }
@@ -190,8 +190,8 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
       );
     }
     return {
-      generator_ecies_public_key: generator_public_keys.data.generator_ecies_public_key,
-      generator_public_key: generator_public_keys.data.generator_public_key,
+      ecies_public_key: generator_public_keys.data.generator_ecies_public_key,
+      public_key: generator_public_keys.data.generator_public_key,
     };
   }
 }
