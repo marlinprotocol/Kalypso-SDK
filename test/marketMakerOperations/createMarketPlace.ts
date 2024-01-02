@@ -29,8 +29,10 @@ async function main(): Promise<string> {
   const attestationVeriferEndPoint = "http://65.1.112.107:1400";
 
   const attestationData = await kalypso.MarketPlace().IvsEnclaveConnector().getAttestation(attestationVeriferEndPoint);
-  // console.log({ enclave_ecies_key: attestationData.secp_key });
-  const ivsCheckPointUrl = "http://localhost:3030/checkInput";
+  console.log({ enclave_ecies_key: attestationData.secp_key });
+
+  const ivsCheckPointUrl = "http://13.200.244.229:3030/checkInput";
+
   const tx = await kalypso
     .MarketPlace()
     .createNewMarket(
