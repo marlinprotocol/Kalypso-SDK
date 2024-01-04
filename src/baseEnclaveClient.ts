@@ -3,10 +3,14 @@ import fetch from "node-fetch";
 import { BytesLike, ethers } from "ethers";
 
 export class BaseEnclaveClient {
-  private attestation_utility_endpoint: string;
+  protected attestation_utility_endpoint: string;
 
   constructor(attestation_utility_endpoint: string) {
     this.attestation_utility_endpoint = attestation_utility_endpoint;
+  }
+
+  protected utilityUrl(api: string): string {
+    return `${this.attestation_utility_endpoint}${api}`;
   }
 
   public async verifyAttestation(): Promise<any> {

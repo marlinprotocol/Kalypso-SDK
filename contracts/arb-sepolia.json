@@ -19,5 +19,10 @@
     "url": "http://13.200.244.229:5000",
     "utilityUrl": "http://13.127.39.109:1500",
     "apikey": "424b5311-78e6-4579-a868-a77fdbfa8a97"
+  },
+  "matchingEngineEnclave": {
+    "url": "http://localhost:3030",
+    "utilityUrl": "http://13.127.39.109:1500",
+    "apikey": "ef98ab0a-c828-4743-a0b4-4b3be36c8b6a"
   }
 }

@@ -45,7 +45,8 @@ export class MarketPlace {
       this.matchingEngineHttpClient = new MatchingEngineHttpClient(
         config.matchingEngineEnclave.url,
         config.matchingEngineEnclave.utilityUrl,
-        config
+        config,
+        config.matchingEngineEnclave.apikey
       );
     }
 

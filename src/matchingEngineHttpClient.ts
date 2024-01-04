@@ -29,7 +29,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
   }
 
   private url(api: string): string {
-    return `${this.matchingEngineEndPoint}/${api}`;
+    return `${this.matchingEngineEndPoint}${api}`;
   }
 
   public async generateApiKey(): Promise<EnclaveResponse<string>> {
