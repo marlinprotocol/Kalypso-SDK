@@ -18,8 +18,6 @@ const createAskTest = async () => {
   const provider = new ethers.JsonRpcProvider(keys.rpc);
   const wallet = new ethers.Wallet(keys.private_key, provider);
 
-  console.log("using address", await wallet.getAddress());
-
   let abiCoder = new ethers.AbiCoder();
   let inputBytes = abiCoder.encode(["uint256[5]"], [[input.root, input.nullifier, input.out_commit, input.delta, input.memo]]);
 
@@ -27,7 +25,7 @@ const createAskTest = async () => {
 
   const secretString = JSON.stringify(secret);
 
-  const marketId = 1;
+  const marketId = 0;
   // third argument to this function is your custom encryption key. If nothing is provided, matching engine pubkey is used
   const result = await kalypso.MarketPlace().checkInputsAndEncryptedSecretWithIvs(marketId, inputBytes, Buffer.from(secretString));
   console.log(JSON.stringify(result, null, 4));

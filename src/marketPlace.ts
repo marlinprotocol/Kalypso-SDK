@@ -174,9 +174,11 @@ export class MarketPlace {
     const marketData = await this.proofMarketPlace.marketData(marketId);
     const ivsUrl = Buffer.from(marketData.ivsUrl.split("0x")[1], "hex").toString();
 
-    const eciesPubKey = await this.entityKeyRegistry.pub_key(marketData.ivsSigner);
+    // const eciesPubKey = "0x024813e9113562b2659f7a062c4eca19f89efb9b1c80df439d2eef3c9f0f370001";
+    // const eciesPubKey = "0x044813e9113562b2659f7a062c4eca19f89efb9b1c80df439d2eef3c9f0f370001e06393ff736f11f4e4122dfe570b3823d756358b3955811ef704690dc40e6b22"
 
-    // console.log({ ivsSigner: marketData.ivsSigner });
+    const eciesPubKey = await this.entityKeyRegistry.pub_key(marketData.ivsSigner);
+    console.log(eciesPubKey);
 
     if (eciesPubKey == "0x" || eciesPubKey.length != 130) {
       throw new Error(
@@ -443,5 +445,9 @@ export class MarketPlace {
     }
 
     return AskState.NULL;
+  }
+
+  public async getKeysAndAddressFromAttestation(attesationDoc: BytesLike): Promise<[string, string]> {
+    return this.entityKeyRegistry.getPubkeyAndAddress(attesationDoc);
   }
 }

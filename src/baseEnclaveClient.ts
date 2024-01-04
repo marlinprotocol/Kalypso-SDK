@@ -1,6 +1,6 @@
 import { AttestationResponse, EnclaveAttestationData } from "./types";
 import fetch from "node-fetch";
-import { BytesLike, ethers } from "ethers";
+import { ethers } from "ethers";
 
 export class BaseEnclaveClient {
   protected attestation_utility_endpoint: string;
