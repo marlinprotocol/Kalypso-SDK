@@ -1,5 +1,5 @@
 import { BaseEnclaveClient } from "./baseEnclaveClient";
-import { EnclaveResponse } from "./types";
+import { EnclaveResponse, PublicKeyResponse } from "./types";
 import { HeaderInit } from "node-fetch";
 import fetch from "node-fetch";
 
@@ -78,11 +78,16 @@ export class IvsHttpClient extends BaseEnclaveClient {
     return await response.json();
   }
 
-  public async fetchInputVerifierPublicKeys(): Promise<any> {
-    const response = await fetch(this.url("/api/getchInputVerifierPublicKeys"), { method: "POST", headers: this.headers() });
+  public async fetchInputVerifierPublicKeys(): Promise<EnclaveResponse<PublicKeyResponse>> {
+    const response = await fetch(this.url("/api/fetchInputVerifierPublicKeys"), { method: "POST", headers: this.headers() });
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
     }
-    return await response.json();
+    const returnData = await response.json();
+    return {
+      status: returnData.status,
+      message: returnData.message,
+      data: { ecies_public_key: returnData.data.ivs_ecies_public_key, public_key: returnData.data.ivs_public_key },
+    };
   }
 }

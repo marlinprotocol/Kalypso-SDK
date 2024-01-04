@@ -50,7 +50,7 @@ export class MarketPlace {
     }
 
     if (config.ivsEnclave) {
-      this.ivsHttpClient = new IvsHttpClient(config.ivsEnclave.url, config.ivsEnclave.utilityUrl);
+      this.ivsHttpClient = new IvsHttpClient(config.ivsEnclave.url, config.ivsEnclave.utilityUrl, config.ivsEnclave.apikey);
     }
   }
 
