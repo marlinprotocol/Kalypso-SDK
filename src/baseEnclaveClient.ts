@@ -21,6 +21,7 @@ export class BaseEnclaveClient {
   public async getAttestation(attestation_verifier_endpoint: string): Promise<AttestationResponse> {
     //Fetching the attestation document
     let attestation_build_data = await this.buildAttestation();
+    // console.log({attestation_build_data});
 
     //Verifying the attestation document with whitelisted enclave
     let verify_attestation_config = {
@@ -36,6 +37,8 @@ export class BaseEnclaveClient {
 
     let verifier_address = "0x" + ethers.keccak256("0x" + attestation_verifier_response_data.secp_key).slice(-40);
     let ecies_pubkey = "0x" + attestation_build_data.secp_key.toString().substring(2);
+    // console.log({ ecies_pubkey });
+    // console.log({ verifier_address });
 
     // assuming it to be string,
     // should be 64 bytes

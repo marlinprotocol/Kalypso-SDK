@@ -14,6 +14,7 @@ import { AskState, KalspsoConfig, PublicAndSecretInputPair } from "./types";
 import { MatchingEngineHttpClient } from "./matchingEngineHttpClient";
 import { IvsHttpClient } from "./ivsHttpClient";
 import fetch from "node-fetch";
+import { PublicKey } from "eciesjs";
 
 type getProofWithAskIdResponse = {
   proof_generated: Boolean;
@@ -175,6 +176,8 @@ export class MarketPlace {
 
     const eciesPubKey = await this.entityKeyRegistry.pub_key(marketData.ivsSigner);
 
+    // console.log({ ivsSigner: marketData.ivsSigner });
+
     if (eciesPubKey == "0x" || eciesPubKey.length != 130) {
       throw new Error(
         `MarketId: ${marketId} has not published it's IVS ecies pubkey and signer to the entity registry contract. Avoid using it or else loose funds`
@@ -182,6 +185,8 @@ export class MarketPlace {
     }
 
     const result = await this.createPublicAndEncryptedSecretPair(proverData, secretBuffer, eciesPubKey);
+
+    console.log("Checking encrypted request against ivs", ivsUrl);
 
     const response = await fetch(ivsUrl, {
       method: "POST",
@@ -195,6 +200,7 @@ export class MarketPlace {
       }),
     });
     if (!response.ok) {
+      console.error(response);
       throw new Error(`Error: ${response.status}`);
     }
 

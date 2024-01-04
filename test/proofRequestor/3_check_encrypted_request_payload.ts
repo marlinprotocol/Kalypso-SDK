@@ -5,7 +5,6 @@ import { ethers } from "ethers";
 
 import * as secret from "../secret.json";
 import * as input from "../input.json";
-import BigNumber from "bignumber.js";
 
 import * as fs from "fs";
 import { KalspsoConfig } from "../../src/types";
@@ -28,7 +27,7 @@ const createAskTest = async () => {
 
   const secretString = JSON.stringify(secret);
 
-  const marketId = 7;
+  const marketId = 1;
   // third argument to this function is your custom encryption key. If nothing is provided, matching engine pubkey is used
   const result = await kalypso.MarketPlace().checkInputsAndEncryptedSecretWithIvs(marketId, inputBytes, Buffer.from(secretString));
   console.log(JSON.stringify(result, null, 4));
