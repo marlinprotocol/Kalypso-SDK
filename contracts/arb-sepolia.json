@@ -18,7 +18,7 @@
   "ivsEnclave": {
     "url": "http://13.200.244.229:5000",
     "utilityUrl": "http://13.200.244.229:1500",
-    "apikey": "424b5311-78e6-4579-a868-a77fdbfa8a97"
+    "apikey": "dd4eac3d-487e-475e-9cbd-400bb504525a"
   },
   "matchingEngineEnclave": {
     "url": "http://localhost:3030",

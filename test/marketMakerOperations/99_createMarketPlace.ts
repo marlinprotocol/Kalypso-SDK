@@ -3,6 +3,7 @@ import { KalspsoConfig } from "../../src/types";
 import { KalypsoSdk } from "../../src";
 
 import * as fs from "fs";
+import { PublicKey } from "eciesjs";
 
 const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb-sepolia.json", "utf-8"));
 const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
@@ -30,6 +31,8 @@ async function main(): Promise<string> {
 
   const attestationData = await kalypso.MarketPlace().IvsEnclaveConnector().getAttestation(attestationVeriferEndPoint);
   console.log({ enclave_ecies_key: attestationData.secp_key });
+  const pubkey = PublicKey.fromHex(attestationData.secp_key as string);
+  console.log({ compressed: pubkey.compressed.toString("hex") });
 
   const ivsCheckPointUrl = "http://13.200.244.229:3030/checkInput";
 
