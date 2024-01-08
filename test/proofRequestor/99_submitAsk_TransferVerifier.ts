@@ -32,23 +32,29 @@ const createAskTest = async () => {
 
   const latestBlock = await provider.getBlockNumber();
 
-  const marketId = "0";
+  const marketId = "1";
   const assignmentDeadline = new BigNumber(latestBlock).plus(10000000000);
   console.log({ latestBlock, assignmentDeadline: assignmentDeadline.toFixed(0) });
   const proofGenerationTimeInBlocks = new BigNumber(10000000000);
 
-  // Create ASK request
-  const askRequest = await kalypso.MarketPlace().createAsk(
-    marketId,
-    inputBytes,
-    reward,
-    assignmentDeadline.toFixed(0),
-    proofGenerationTimeInBlocks.toFixed(0),
-    await wallet.getAddress(),
-    0, // TODO: keep this 0 for now
-    Buffer.from(secretString)
-  );
-  console.log("Ask Request Hash: ", askRequest.hash);
+  const isGoodRequest = await kalypso.MarketPlace().checkInputsAndEncryptedSecretWithIvs(marketId, inputBytes, Buffer.from(secretString));
+
+  if (isGoodRequest) {
+    // Create ASK request
+    const askRequest = await kalypso.MarketPlace().createAsk(
+      marketId,
+      inputBytes,
+      reward,
+      assignmentDeadline.toFixed(0),
+      proofGenerationTimeInBlocks.toFixed(0),
+      await wallet.getAddress(),
+      0, // TODO: keep this 0 for now
+      Buffer.from(secretString)
+    );
+    console.log("Ask Request Hash: ", askRequest.hash);
+  } else {
+    throw new Error("Better not create a request, if it is not provable to prevent loss of funds");
+  }
 };
 
 createAskTest();

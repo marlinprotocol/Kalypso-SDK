@@ -22,7 +22,7 @@
   },
   "matchingEngineEnclave": {
     "url": "http://localhost:3030",
-    "utilityUrl": "http://13.127.39.109:1500",
+    "utilityUrl": "http://localhost:1500",
     "apikey": "ef98ab0a-c828-4743-a0b4-4b3be36c8b6a"
   }
 }

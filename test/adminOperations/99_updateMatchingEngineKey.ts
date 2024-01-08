@@ -1,6 +1,7 @@
 import { KalypsoSdk } from "../../src";
 import dotenv from "dotenv";
 import { ethers } from "ethers";
+import { PrivateKey } from "eciesjs";
 
 dotenv.config();
 
@@ -19,9 +20,16 @@ async function main1(): Promise<string> {
   console.log("using address of admin", await wallet.getAddress());
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
-  const meAttestation = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().buildAttestation();
 
-  const tx = await kalypso.Admin().updateMeEciesKeyAndSigner(meAttestation.attestation_doc);
+  // in case you wan't to mock the ME without enclave
+  const secretKey = PrivateKey.fromHex(keys.matching_engine_private_key);
+  const pubKeyString = "0x" + secretKey.publicKey.uncompressed.toString("hex").substring(2);
+
+  // const meAttestation = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().buildAttestation();
+  const meAttestation = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getMockAttestation(pubKeyString);
+
+  const tx = await kalypso.Admin().updateMeEciesKeyAndSigner(meAttestation.attestation_document);
+
   const receipt = await tx.wait();
   console.log("Updated ME Signer Tx ", receipt?.hash);
   return "Updated ME Signer";
