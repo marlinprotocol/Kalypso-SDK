@@ -14,8 +14,8 @@ async function main() {
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  const attestationVerifierUrl = "http://find_attestation_verifier_url";
-  const data = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation(attestationVerifierUrl);
+  const attestationVeriferEndPoint = "http://65.1.112.107:1400";
+  const data = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation(attestationVeriferEndPoint);
   console.log(JSON.stringify(data, null, 4));
 
   return "Done";

@@ -18,7 +18,7 @@ async function main() {
     .Generator()
     .GeneratorEnclaveConnector()
     .generatorConfigSetup(
-      [{ address: "0xaAcd8aa4e2254AFA5B49783Ddb86B976aD15861A", data: "Some data", supported_markets: ["1"] }],
+      [{ address: await wallet.getAddress(), data: "Some data", supported_markets: ["1"] }],
       "wss://arb-sepolia.g.alchemy.com/v2/HRgHr93dID1CdtMKBF0P8Khafl5MHYaN/",
       "https://arb-sepolia.g.alchemy.com/v2/HRgHr93dID1CdtMKBF0P8Khafl5MHYaN",
       "0x0db6072bd69de885b93a846133dc22cde7b612f55022fc5d6a2e492e0e61698d",
