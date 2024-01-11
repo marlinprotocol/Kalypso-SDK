@@ -58,6 +58,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
   public async startGenerator(): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/startGenerator"), { method: "POST", headers: this.headers() });
     if (!response.ok) {
+      console.log(response);
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
@@ -185,6 +186,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     let generator_public_keys_response = await fetch(`${this.generatorEndPoint}/api/fetchGeneratorPublicKeys`, public_key_config);
     let generator_public_keys = await generator_public_keys_response.json();
     if (generator_public_keys_response.status != 200) {
+      console.log(generator_public_keys_response);
       throw new Error(
         generator_public_keys.message ? generator_public_keys.message : "There was an error in fetching generator public keys"
       );
