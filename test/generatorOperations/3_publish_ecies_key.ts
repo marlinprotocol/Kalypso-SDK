@@ -26,12 +26,12 @@ async function main() {
 
   let generator_public_keys = await kalypso
     .Generator()
-    .getGeneratorPublicKeys(generator_endpoint, generator_client_api_key, "0xb05e1dA573707223574443AC6DD1054A9e3A451F");
+    .getGeneratorPublicKeys(generator_endpoint, generator_client_api_key, "0xa3D3b40a73DE4B9e0E4789A77Db6FA4857eA6599");
 
   console.log("\nGenerator public keys :");
   console.log(generator_public_keys);
 
-  const tx = await kalypso.Generator().updateEcisKey(generator_public_keys.generator_public_key, attestation.attestation_document);
+  const tx = await kalypso.Generator().updateEcisKey(generator_public_keys.generator_ecies_public_key, attestation.attestation_document);
   const receipt = await tx.wait();
   console.log("Added Generator ECIES key: ", receipt?.hash);
   return "Done";
