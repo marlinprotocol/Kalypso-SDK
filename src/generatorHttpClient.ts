@@ -86,11 +86,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     http_url: string,
     gas_key: string,
     start_block: number,
-    chain_id: number,
-    transfer_verifier_wrapper: string,
-    zkb_verifier_wrapper: string,
-    priority_list: string,
-    input_and_proof_format: string
+    chain_id: number
   ): Promise<EnclaveResponse<string>> {
     const generatorConfigData: GeneratorConfigPayload = {
       generator_config,
@@ -105,10 +101,6 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
         attestation_verifier: this.config.attestation_verifier,
         entity_registry: this.config.entity_registry,
         proof_market_place: this.config.proof_market_place,
-        transfer_verifier_wrapper,
-        zkb_verifier_wrapper,
-        priority_list,
-        input_and_proof_format,
         staking_token: this.config.staking_token,
       },
     };
