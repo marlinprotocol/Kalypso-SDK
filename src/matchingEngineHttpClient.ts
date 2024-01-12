@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import { HeaderInit } from "node-fetch";
-import { KalspsoConfig, MatchingEngineConfigPayload, EnclaveResponse } from "./types";
+import { KalspsoConfig, MatchingEngineConfigPayload, EnclaveResponse, SignAddressResponse } from "./types";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
 
 export class MatchingEngineHttpClient extends BaseEnclaveClient {
@@ -147,6 +147,24 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
+  }
+
+  public async getAddressSignature(address: string): Promise<String> {
+    let attestation_server_response = await fetch(this.url("/api/signAddress"), {
+      method: "POST",
+      headers: this.headers(),
+      body: JSON.stringify({ address }),
+    });
+
+    if (!attestation_server_response.ok) {
+      throw new Error(`Error: ${attestation_server_response.status}`);
+    }
+
+    let response: SignAddressResponse = await attestation_server_response.json();
+
+    const _v = response.data.v == 27 ? "1b" : "1c";
+    let signature = response.data.r + response.data.s.split("x")[1] + _v;
+    return signature;
   }
 }
 

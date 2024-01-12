@@ -1,16 +1,7 @@
 import { AttestationResponse, EnclaveAttestationData } from "./types";
 import fetch from "node-fetch";
 import { ethers } from "ethers";
-import BigNumber from "bignumber.js";
 
-interface SignAddressResponse {
-  message: string;
-  data: {
-    r: string;
-    s: string;
-    v: number;
-  };
-}
 export class BaseEnclaveClient {
   protected attestation_utility_endpoint: string;
 
@@ -25,23 +16,6 @@ export class BaseEnclaveClient {
   public async verifyAttestation(): Promise<any> {
     // /verify/attestation
     throw new Error("if not required separately, remove this function");
-  }
-
-  public async getAddressSignature(address: string): Promise<String> {
-    let addressPayload = {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ address }),
-    };
-
-    let attestation_server_response = await fetch(`${this.attestation_utility_endpoint}/signAddress`, addressPayload);
-    let response: SignAddressResponse = await attestation_server_response.json();
-
-    const _v = response.data.v == 27 ? "1b" : "1c";
-    let signature = response.data.r + response.data.s.split("x")[1] + _v;
-    return signature;
   }
 
   public async getAttestation(attestation_verifier_endpoint: string): Promise<AttestationResponse> {
