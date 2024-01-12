@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "build": "rm -rf ./dist && tsc",
-    "docs": "npx typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts",
+    "docs": "rm -rf docs && typedoc --plugin typedoc-plugin-markdown",
     "prettier": "npx prettier --write .",
     "start": "npm run build && node dist/index.js",
     "submit-and-get-proof": "ts-node ./test/submitAskAndGetProofZkb.ts",

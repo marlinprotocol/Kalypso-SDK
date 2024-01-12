@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { KalspsoConfig } from "../../src/types";
 import { KalypsoSdk } from "../../src";
 import * as fs from "fs";
+import { PublicKey } from "eciesjs";
 
 const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb-sepolia.json", "utf-8"));
 const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
@@ -12,26 +13,33 @@ const wallet = new ethers.Wallet(`${keys.generator_private_key}`, provider);
 async function main() {
   console.log("using address", await wallet.getAddress());
 
-  const generator_endpoint = keys.generator_endpoint;
-  const generator_attestation_utility_endpoint = keys.generator_attestation_utility_endpoint;
-  const generator_client_api_key = keys.generator_client_api_key;
-  const attestation_verifier_endpoint = keys.attestation_verifier_endpoint;
+  const attestation_verifier_endpoint = "http://65.1.112.107:1400";
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  let attestation = await kalypso.Generator().getAttestation(generator_attestation_utility_endpoint, attestation_verifier_endpoint);
+  let attestation = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation(attestation_verifier_endpoint);
+  // let attestation = await kalypso
+  //   .Generator()
+  //   .GeneratorEnclaveConnector()
+  //   .getMockAttestation(
+  //     "0x1f087499fe4b0ce31ad5fe80bd4c03a642e251ed422bd9c08678a97582e8360218cc658dc8ae0cba9147af7273b67377287951c39dd2a2234b4ead1b8dc0fe02"
+  //   );
 
   console.log("\nAttestation :");
   console.log(attestation);
 
-  let generator_public_keys = await kalypso
-    .Generator()
-    .getGeneratorPublicKeys(generator_endpoint, generator_client_api_key, "0xa3D3b40a73DE4B9e0E4789A77Db6FA4857eA6599");
+  const public_key = PublicKey.fromHex(attestation.secp_key.toString());
+  console.log("compressed publickey", public_key.compressed.toString("hex"));
 
-  console.log("\nGenerator public keys :");
-  console.log(generator_public_keys);
+  // let generator_public_keys = await kalypso
+  //   .Generator()
+  //   .GeneratorEnclaveConnector()
+  //   .getGeneratorPublicKeys("0xb05e1dA573707223574443AC6DD1054A9e3A451F");
 
-  const tx = await kalypso.Generator().updateEcisKey(generator_public_keys.generator_ecies_public_key, attestation.attestation_document);
+  // console.log("\nGenerator public keys :");
+  // console.log(generator_public_keys);
+
+  const tx = await kalypso.Generator().updateEcisKey(attestation.attestation_document);
   const receipt = await tx.wait();
   console.log("Added Generator ECIES key: ", receipt?.hash);
   return "Done";

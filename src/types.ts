@@ -7,6 +7,15 @@ export interface KalspsoConfig {
   attestation_verifier: string;
   entity_registry: string;
   proof_market_place: string;
+  generatorEnclave?: Enclave;
+  matchingEngineEnclave?: Enclave;
+  ivsEnclave?: Enclave;
+}
+
+interface Enclave {
+  url: string;
+  utilityUrl: string;
+  apikey?: string;
 }
 
 export interface SecretData {
@@ -25,8 +34,8 @@ export interface SecretInputOperations {
 }
 
 export interface PublicKeyResponse {
-  generator_ecies_public_key: string;
-  generator_public_key: string;
+  ecies_public_key: string;
+  public_key: string;
 }
 
 export interface AttestationResponse {
@@ -44,7 +53,78 @@ export enum AskState {
 }
 
 export interface PublicAndSecretInputPair {
-  publicInputs: BytesLike;
+  publicInputs: Buffer;
   encryptedSecret: Buffer;
   acl: Buffer;
+}
+
+export interface GeneratorConfig {
+  address: string;
+  data: string;
+  supported_markets: string[];
+}
+
+export interface RuntimeConfig {
+  ws_url: string;
+  http_url: string;
+  private_key: string;
+  start_block: number;
+  chain_id: number;
+  payment_token: string;
+  generator_registry: string;
+  attestation_verifier: string;
+  entity_registry: string;
+  proof_market_place: string;
+  transfer_verifier_wrapper: string;
+  zkb_verifier_wrapper: string;
+  priority_list: string;
+  input_and_proof_format: string;
+  staking_token: string;
+}
+
+export interface GeneratorConfigPayload {
+  generator_config: GeneratorConfig[];
+  runtime_config: RuntimeConfig;
+}
+
+export interface UpdateRuntimeConfig {
+  ws_url: string;
+  private_key: string;
+  proof_market_place: string;
+  generator_registry: string;
+  start_block: number;
+  chain_id: number;
+}
+
+export interface MatchingEngineConfigPayload {
+  rpc_url: string;
+  chain_id: number;
+  relayer_private_key: string;
+  proof_market_place: string;
+  generator_registry: string;
+  start_block: number;
+  payment_token: string;
+  platform_token: string;
+  attestation_verifier: string;
+  entity_registry: string;
+  transfer_verifier_wrapper: string;
+  zkb_verifier_wrapper: string;
+  priority_list: string;
+  input_and_proof_format: string;
+}
+
+export interface EnclaveResponse<T> {
+  status: string;
+  message: string;
+  data: T;
+}
+
+export interface EnclaveAttestationData {
+  attestation_doc: BytesLike;
+  pcrs: BytesLike[];
+  min_cpus: number;
+  min_mem: number;
+  max_age: number;
+  signature: BytesLike;
+  secp_key: BytesLike;
 }

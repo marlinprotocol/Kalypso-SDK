@@ -28,12 +28,6 @@ export class KalypsoSdk {
   }
 
   MarketPlace(): MarketPlace {
-    return new MarketPlace(
-      this.signer,
-      this.config.proof_market_place,
-      this.config.payment_token,
-      this.config.staking_token,
-      this.config.entity_registry
-    );
+    return new MarketPlace(this.signer, this.config);
   }
 }

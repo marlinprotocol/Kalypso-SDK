@@ -134,7 +134,7 @@ export interface GeneratorRegistryInterface extends Interface {
   encodeFunctionData(functionFragment: "stake", values: [AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "unstake", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "updateEncryptionKey", values: [BytesLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "updateEncryptionKey", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "upgradeTo", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "upgradeToAndCall", values: [AddressLike, BytesLike]): string;
 
@@ -585,7 +585,7 @@ export interface GeneratorRegistry extends BaseContract {
 
   unstake: TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
 
-  updateEncryptionKey: TypedContractMethod<[pubkey: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
+  updateEncryptionKey: TypedContractMethod<[attestation_data: BytesLike], [void], "nonpayable">;
 
   upgradeTo: TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
 
@@ -688,9 +688,7 @@ export interface GeneratorRegistry extends BaseContract {
   getFunction(nameOrSignature: "stake"): TypedContractMethod<[generatorAddress: AddressLike, amount: BigNumberish], [bigint], "nonpayable">;
   getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
   getFunction(nameOrSignature: "unstake"): TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "updateEncryptionKey"
-  ): TypedContractMethod<[pubkey: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "updateEncryptionKey"): TypedContractMethod<[attestation_data: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "upgradeTo"): TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "upgradeToAndCall"

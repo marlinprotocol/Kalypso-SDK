@@ -27,10 +27,13 @@ export interface ErrorInterface extends Interface {
       | "INVALID_CONTRACT_ADDRESS"
       | "INVALID_ENCLAVE_KEY"
       | "INVALID_GENERATOR"
+      | "INVALID_GENERATOR_STATE_PER_MARKET"
       | "INVALID_INPUTS"
       | "INVALID_MARKET"
       | "INVALID_PROOF"
+      | "KEY_ALREADY_EXISTS"
       | "MARKET_ALREADY_EXISTS"
+      | "MAX_PARALLEL_REQUESTS_PER_MARKET_EXCEEDED"
       | "ONLY_ADMIN_CAN_CALL"
       | "ONLY_ASSIGNED_ASKS_CAN_BE_PROVED"
       | "ONLY_EXPIRED_ASKS_CAN_BE_CANCELLED"
@@ -40,10 +43,12 @@ export interface ErrorInterface extends Interface {
       | "ONLY_WORKING_GENERATORS"
       | "PROOF_PRICE_MISMATCH"
       | "PROOF_TIME_MISMATCH"
+      | "REDUCE_COMPUTE_REQUEST_NOT_IN_PLACE"
       | "REQUEST_ALREADY_IN_PLACE"
       | "SHOULD_BE_IN_ASSIGNED_STATE"
       | "SHOULD_BE_IN_CREATE_STATE"
       | "SHOULD_BE_IN_CROSSED_DEADLINE_STATE"
+      | "UNSTAKE_REQUEST_NOT_IN_PLACE"
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "ALREADY_JOINED_MARKET", values?: undefined): string;
@@ -66,10 +71,13 @@ export interface ErrorInterface extends Interface {
   encodeFunctionData(functionFragment: "INVALID_CONTRACT_ADDRESS", values?: undefined): string;
   encodeFunctionData(functionFragment: "INVALID_ENCLAVE_KEY", values?: undefined): string;
   encodeFunctionData(functionFragment: "INVALID_GENERATOR", values?: undefined): string;
+  encodeFunctionData(functionFragment: "INVALID_GENERATOR_STATE_PER_MARKET", values?: undefined): string;
   encodeFunctionData(functionFragment: "INVALID_INPUTS", values?: undefined): string;
   encodeFunctionData(functionFragment: "INVALID_MARKET", values?: undefined): string;
   encodeFunctionData(functionFragment: "INVALID_PROOF", values?: undefined): string;
+  encodeFunctionData(functionFragment: "KEY_ALREADY_EXISTS", values?: undefined): string;
   encodeFunctionData(functionFragment: "MARKET_ALREADY_EXISTS", values?: undefined): string;
+  encodeFunctionData(functionFragment: "MAX_PARALLEL_REQUESTS_PER_MARKET_EXCEEDED", values?: undefined): string;
   encodeFunctionData(functionFragment: "ONLY_ADMIN_CAN_CALL", values?: undefined): string;
   encodeFunctionData(functionFragment: "ONLY_ASSIGNED_ASKS_CAN_BE_PROVED", values?: undefined): string;
   encodeFunctionData(functionFragment: "ONLY_EXPIRED_ASKS_CAN_BE_CANCELLED", values?: undefined): string;
@@ -79,10 +87,12 @@ export interface ErrorInterface extends Interface {
   encodeFunctionData(functionFragment: "ONLY_WORKING_GENERATORS", values?: undefined): string;
   encodeFunctionData(functionFragment: "PROOF_PRICE_MISMATCH", values?: undefined): string;
   encodeFunctionData(functionFragment: "PROOF_TIME_MISMATCH", values?: undefined): string;
+  encodeFunctionData(functionFragment: "REDUCE_COMPUTE_REQUEST_NOT_IN_PLACE", values?: undefined): string;
   encodeFunctionData(functionFragment: "REQUEST_ALREADY_IN_PLACE", values?: undefined): string;
   encodeFunctionData(functionFragment: "SHOULD_BE_IN_ASSIGNED_STATE", values?: undefined): string;
   encodeFunctionData(functionFragment: "SHOULD_BE_IN_CREATE_STATE", values?: undefined): string;
   encodeFunctionData(functionFragment: "SHOULD_BE_IN_CROSSED_DEADLINE_STATE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "UNSTAKE_REQUEST_NOT_IN_PLACE", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "ALREADY_JOINED_MARKET", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ARITY_MISMATCH", data: BytesLike): Result;
@@ -104,10 +114,13 @@ export interface ErrorInterface extends Interface {
   decodeFunctionResult(functionFragment: "INVALID_CONTRACT_ADDRESS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INVALID_ENCLAVE_KEY", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INVALID_GENERATOR", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "INVALID_GENERATOR_STATE_PER_MARKET", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INVALID_INPUTS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INVALID_MARKET", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INVALID_PROOF", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "KEY_ALREADY_EXISTS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "MARKET_ALREADY_EXISTS", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "MAX_PARALLEL_REQUESTS_PER_MARKET_EXCEEDED", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ONLY_ADMIN_CAN_CALL", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ONLY_ASSIGNED_ASKS_CAN_BE_PROVED", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ONLY_EXPIRED_ASKS_CAN_BE_CANCELLED", data: BytesLike): Result;
@@ -117,10 +130,12 @@ export interface ErrorInterface extends Interface {
   decodeFunctionResult(functionFragment: "ONLY_WORKING_GENERATORS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "PROOF_PRICE_MISMATCH", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "PROOF_TIME_MISMATCH", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "REDUCE_COMPUTE_REQUEST_NOT_IN_PLACE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "REQUEST_ALREADY_IN_PLACE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "SHOULD_BE_IN_ASSIGNED_STATE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "SHOULD_BE_IN_CREATE_STATE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "SHOULD_BE_IN_CROSSED_DEADLINE_STATE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "UNSTAKE_REQUEST_NOT_IN_PLACE", data: BytesLike): Result;
 }
 
 export interface Error extends BaseContract {
@@ -190,13 +205,19 @@ export interface Error extends BaseContract {
 
   INVALID_GENERATOR: TypedContractMethod<[], [string], "view">;
 
+  INVALID_GENERATOR_STATE_PER_MARKET: TypedContractMethod<[], [string], "view">;
+
   INVALID_INPUTS: TypedContractMethod<[], [string], "view">;
 
   INVALID_MARKET: TypedContractMethod<[], [string], "view">;
 
   INVALID_PROOF: TypedContractMethod<[], [string], "view">;
 
+  KEY_ALREADY_EXISTS: TypedContractMethod<[], [string], "view">;
+
   MARKET_ALREADY_EXISTS: TypedContractMethod<[], [string], "view">;
+
+  MAX_PARALLEL_REQUESTS_PER_MARKET_EXCEEDED: TypedContractMethod<[], [string], "view">;
 
   ONLY_ADMIN_CAN_CALL: TypedContractMethod<[], [string], "view">;
 
@@ -216,6 +237,8 @@ export interface Error extends BaseContract {
 
   PROOF_TIME_MISMATCH: TypedContractMethod<[], [string], "view">;
 
+  REDUCE_COMPUTE_REQUEST_NOT_IN_PLACE: TypedContractMethod<[], [string], "view">;
+
   REQUEST_ALREADY_IN_PLACE: TypedContractMethod<[], [string], "view">;
 
   SHOULD_BE_IN_ASSIGNED_STATE: TypedContractMethod<[], [string], "view">;
@@ -223,6 +246,8 @@ export interface Error extends BaseContract {
   SHOULD_BE_IN_CREATE_STATE: TypedContractMethod<[], [string], "view">;
 
   SHOULD_BE_IN_CROSSED_DEADLINE_STATE: TypedContractMethod<[], [string], "view">;
+
+  UNSTAKE_REQUEST_NOT_IN_PLACE: TypedContractMethod<[], [string], "view">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
@@ -246,10 +271,13 @@ export interface Error extends BaseContract {
   getFunction(nameOrSignature: "INVALID_CONTRACT_ADDRESS"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INVALID_ENCLAVE_KEY"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INVALID_GENERATOR"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "INVALID_GENERATOR_STATE_PER_MARKET"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INVALID_INPUTS"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INVALID_MARKET"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INVALID_PROOF"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "KEY_ALREADY_EXISTS"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "MARKET_ALREADY_EXISTS"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "MAX_PARALLEL_REQUESTS_PER_MARKET_EXCEEDED"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "ONLY_ADMIN_CAN_CALL"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "ONLY_ASSIGNED_ASKS_CAN_BE_PROVED"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "ONLY_EXPIRED_ASKS_CAN_BE_CANCELLED"): TypedContractMethod<[], [string], "view">;
@@ -259,10 +287,12 @@ export interface Error extends BaseContract {
   getFunction(nameOrSignature: "ONLY_WORKING_GENERATORS"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "PROOF_PRICE_MISMATCH"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "PROOF_TIME_MISMATCH"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "REDUCE_COMPUTE_REQUEST_NOT_IN_PLACE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "REQUEST_ALREADY_IN_PLACE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "SHOULD_BE_IN_ASSIGNED_STATE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "SHOULD_BE_IN_CREATE_STATE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "SHOULD_BE_IN_CROSSED_DEADLINE_STATE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "UNSTAKE_REQUEST_NOT_IN_PLACE"): TypedContractMethod<[], [string], "view">;
 
   filters: {};
 }

@@ -10,7 +10,11 @@ import {
 import BigNumber from "bignumber.js";
 import { encryptDataWithECIESandAesGcm } from "./secretInputOperation";
 import * as pako from "pako";
-import { AskState, PublicAndSecretInputPair } from "./types";
+import { AskState, KalspsoConfig, PublicAndSecretInputPair } from "./types";
+import { MatchingEngineHttpClient } from "./matchingEngineHttpClient";
+import { IvsHttpClient } from "./ivsHttpClient";
+import fetch from "node-fetch";
+import { PublicKey } from "eciesjs";
 
 type getProofWithAskIdResponse = {
   proof_generated: Boolean;
@@ -27,18 +31,44 @@ export class MarketPlace {
 
   private exponent = new BigNumber(10).pow(18);
 
-  constructor(
-    signer: AbstractSigner,
-    proofMarketPlaceAddress: string,
-    paymentTokenAddress: string,
-    platformTokenAddress: string,
-    entityKeyRegistryAddress: string
-  ) {
+  private matchingEngineHttpClient!: MatchingEngineHttpClient;
+
+  private ivsHttpClient!: IvsHttpClient;
+
+  constructor(signer: AbstractSigner, config: KalspsoConfig) {
     this.signer = signer;
-    this.proofMarketPlace = ProofMarketPlace__factory.connect(proofMarketPlaceAddress, this.signer);
-    this.paymentToken = ERC20__factory.connect(paymentTokenAddress, this.signer);
-    this.platformToken = ERC20__factory.connect(platformTokenAddress, this.signer);
-    this.entityKeyRegistry = EntityKeyRegistry__factory.connect(entityKeyRegistryAddress, this.signer);
+    this.proofMarketPlace = ProofMarketPlace__factory.connect(config.proof_market_place, this.signer);
+    this.paymentToken = ERC20__factory.connect(config.payment_token, this.signer);
+    this.platformToken = ERC20__factory.connect(config.staking_token, this.signer);
+    this.entityKeyRegistry = EntityKeyRegistry__factory.connect(config.entity_registry, this.signer);
+
+    if (config.matchingEngineEnclave) {
+      this.matchingEngineHttpClient = new MatchingEngineHttpClient(
+        config.matchingEngineEnclave.url,
+        config.matchingEngineEnclave.utilityUrl,
+        config,
+        config.matchingEngineEnclave.apikey
+      );
+    }
+
+    if (config.ivsEnclave) {
+      this.ivsHttpClient = new IvsHttpClient(config.ivsEnclave.url, config.ivsEnclave.utilityUrl, config.ivsEnclave.apikey);
+    }
+  }
+
+  public MatchingEngineEnclaveConnector(): MatchingEngineHttpClient {
+    if (!this.matchingEngineHttpClient) {
+      throw new Error("matching enclave url is not defined");
+    }
+    return this.matchingEngineHttpClient;
+  }
+
+  public IvsEnclaveConnector(): IvsHttpClient {
+    if (!this.ivsHttpClient) {
+      throw new Error("IVS enclave url is not defined");
+    }
+
+    return this.ivsHttpClient;
   }
 
   public async approvePaymentTokenToMarketPlace(amount: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
@@ -137,22 +167,73 @@ export class MarketPlace {
     );
   }
 
-  public async createPublicAndEncryptedSecretPair(proverData: BytesLike, secretBuffer: Buffer): Promise<PublicAndSecretInputPair> {
+  public async checkInputsAndEncryptedSecretWithIvs(marketId: BigNumberish, proverData: BytesLike, secretBuffer: Buffer): Promise<boolean> {
+    //this should fetched from proof market place contract
+    // const ivsUrl = "http://localhost:3030/checkInput";
+
+    const marketData = await this.proofMarketPlace.marketData(marketId);
+    const ivsUrl = Buffer.from(marketData.ivsUrl.split("0x")[1], "hex").toString();
+
+    // const eciesPubKey = "0x024813e9113562b2659f7a062c4eca19f89efb9b1c80df439d2eef3c9f0f370001";
+    // const eciesPubKey = "0x044813e9113562b2659f7a062c4eca19f89efb9b1c80df439d2eef3c9f0f370001e06393ff736f11f4e4122dfe570b3823d756358b3955811ef704690dc40e6b22"
+
+    const eciesPubKey = await this.entityKeyRegistry.pub_key(marketData.ivsSigner);
+    console.log(eciesPubKey);
+
+    if (eciesPubKey == "0x" || eciesPubKey.length != 130) {
+      throw new Error(
+        `MarketId: ${marketId} has not published it's IVS ecies pubkey and signer to the entity registry contract. Avoid using it or else loose funds`
+      );
+    }
+
+    const result = await this.createPublicAndEncryptedSecretPair(proverData, secretBuffer, eciesPubKey);
+
+    console.log("Checking encrypted request against ivs", ivsUrl);
+
+    const response = await fetch(ivsUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        public_inputs: result.publicInputs.toString("hex"),
+        encrypted_secret: result.encryptedSecret.toString("hex"),
+        acl: result.acl.toString("hex"),
+      }),
+    });
+    if (!response.ok) {
+      console.error(response);
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    if (response.status >= 200 && response.status < 300) {
+      return true;
+    }
+    return false;
+  }
+
+  public async createPublicAndEncryptedSecretPair(
+    proverData: BytesLike,
+    secretBuffer: Buffer,
+    eciesPubKey?: string
+  ): Promise<PublicAndSecretInputPair> {
     //deflate the secret buffer to reduce tx cost
     secretBuffer = Buffer.from(pako.deflate(secretBuffer));
 
-    const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
-    // if key is rightly updated, it should 68 chars (33 bytes in length)
-    if (matchingEnginePubKey.length !== 68) {
-      throw new Error("matching engine pub key is not updated in the registry");
+    if (!eciesPubKey) {
+      const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
+      if (matchingEnginePubKey.length !== 130) {
+        throw new Error("matching engine pub key is not updated in the registry");
+      }
+      eciesPubKey = matchingEnginePubKey;
     }
 
-    const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
+    const pubKey = eciesPubKey.split("x")[1]; // this is hex string
     const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey);
     console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
 
     return {
-      publicInputs: proverData,
+      publicInputs: Buffer.from(proverData.toString().split("0x")[1], "hex"),
       encryptedSecret: result.encryptedData,
       acl: result.aclData,
     };
@@ -190,16 +271,25 @@ export class MarketPlace {
       refundAddress: refundAddress,
     };
     const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
-    // if key is rightly updated, it should 68 chars (33 bytes in length)
-    if (matchingEnginePubKey.length !== 68) {
-      throw new Error("matching engine pub key is not updated in the registry");
+    // 64 bytes
+    if (matchingEnginePubKey.length !== 130) {
+      throw new Error("matching engine pub key is not updated in the registry or wrong");
     }
 
     const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
-    const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey);
-    console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
+    const marketData = await this.proofMarketPlace.marketData(marketId);
 
-    const platformFee = await this.getPlatformFee(secretType, askRequest, result.encryptedData, result.aclData);
+    let dataToSend = secretBuffer;
+    let aclData = Buffer.from("");
+
+    if (marketData.isEnclaveRequired) {
+      const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey);
+      console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
+      dataToSend = result.encryptedData;
+      aclData = result.aclData;
+    }
+
+    const platformFee = await this.getPlatformFee(secretType, askRequest, dataToSend, aclData);
     const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
     if (new BigNumber(platformTokenBalance.toString()).lt(platformFee.toString())) {
       throw new Error("Ensure sufficient platform token balance");
@@ -230,7 +320,7 @@ export class MarketPlace {
       console.log("Approval Tx: ", approvalReceipt?.hash);
     }
 
-    return this.proofMarketPlace.createAsk(askRequest, secretType, result.encryptedData, result.aclData, { ...options });
+    return this.proofMarketPlace.createAsk(askRequest, secretType, dataToSend, aclData, { ...options });
   }
 
   public async createNewMarket(
@@ -240,7 +330,6 @@ export class MarketPlace {
     isEnclaveRequired: boolean,
     ivsAttestationBytes: BytesLike,
     ivsUrl: string,
-    ivsSigner: string,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
     if (new BigNumber(slashingPenalty.toString()).gt(this.exponent)) {
@@ -274,7 +363,6 @@ export class MarketPlace {
       isEnclaveRequired,
       ivsAttestationBytes,
       Buffer.from(ivsUrl, "ascii"),
-      ivsSigner,
       { ...options }
     );
   }
@@ -357,5 +445,9 @@ export class MarketPlace {
     }
 
     return AskState.NULL;
+  }
+
+  public async getKeysAndAddressFromAttestation(attesationDoc: BytesLike): Promise<[string, string]> {
+    return this.entityKeyRegistry.getPubkeyAndAddress(attesationDoc);
   }
 }

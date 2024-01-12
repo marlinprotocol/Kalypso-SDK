@@ -28,14 +28,14 @@
 
 #### Parameters
 
-| Name     | Type                                    |
-| :------- | :-------------------------------------- |
-| `signer` | `AbstractSigner`<`null` \| `Provider`\> |
-| `config` | `KalspsoConfig`                         |
+| Name | Type |
+| :------ | :------ |
+| `signer` | `AbstractSigner`<``null`` \| `Provider`\> |
+| `config` | `KalspsoConfig` |
 
 #### Defined in
 
-[index.ts:13](https://github.com/marlinprotocol/Kalypso-SDK/blob/761e4c5/src/index.ts#L13)
+[index.ts:13](https://github.com/marlinprotocol/Kalypso-SDK/blob/ebcbc79/src/index.ts#L13)
 
 ## Properties
 
@@ -45,17 +45,17 @@
 
 #### Defined in
 
-[index.ts:11](https://github.com/marlinprotocol/Kalypso-SDK/blob/761e4c5/src/index.ts#L11)
+[index.ts:11](https://github.com/marlinprotocol/Kalypso-SDK/blob/ebcbc79/src/index.ts#L11)
 
----
+___
 
 ### signer
 
-• `Private` **signer**: `AbstractSigner`<`null` \| `Provider`\>
+• `Private` **signer**: `AbstractSigner`<``null`` \| `Provider`\>
 
 #### Defined in
 
-[index.ts:10](https://github.com/marlinprotocol/Kalypso-SDK/blob/761e4c5/src/index.ts#L10)
+[index.ts:10](https://github.com/marlinprotocol/Kalypso-SDK/blob/ebcbc79/src/index.ts#L10)
 
 ## Methods
 
@@ -69,9 +69,9 @@
 
 #### Defined in
 
-[index.ts:22](https://github.com/marlinprotocol/Kalypso-SDK/blob/761e4c5/src/index.ts#L22)
+[index.ts:22](https://github.com/marlinprotocol/Kalypso-SDK/blob/ebcbc79/src/index.ts#L22)
 
----
+___
 
 ### Generator
 
@@ -83,9 +83,9 @@
 
 #### Defined in
 
-[index.ts:26](https://github.com/marlinprotocol/Kalypso-SDK/blob/761e4c5/src/index.ts#L26)
+[index.ts:26](https://github.com/marlinprotocol/Kalypso-SDK/blob/ebcbc79/src/index.ts#L26)
 
----
+___
 
 ### MarketPlace
 
@@ -97,9 +97,9 @@
 
 #### Defined in
 
-[index.ts:30](https://github.com/marlinprotocol/Kalypso-SDK/blob/761e4c5/src/index.ts#L30)
+[index.ts:30](https://github.com/marlinprotocol/Kalypso-SDK/blob/ebcbc79/src/index.ts#L30)
 
----
+___
 
 ### SecretInputOperations
 
@@ -111,4 +111,4 @@
 
 #### Defined in
 
-[index.ts:18](https://github.com/marlinprotocol/Kalypso-SDK/blob/761e4c5/src/index.ts#L18)
+[index.ts:18](https://github.com/marlinprotocol/Kalypso-SDK/blob/ebcbc79/src/index.ts#L18)

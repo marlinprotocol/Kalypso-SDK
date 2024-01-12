@@ -1,12 +1,28 @@
 {
   "payment_token": "0x01d84D33CC8636F83d2bb771e184cE57d8356863",
   "staking_token": "0xdb69299dDE4A00c99b885D9f8748B2AeD1Fe4Ed4",
-  "attestation_verifier": "0x7325A5305Fc2E6b802c8D747f300AD0092Cc4C45",
-  "entity_registry": "0x3904c073D08477f8B36A9bb2496ED6FaA030E541",
-  "generator_registry": "0x9269211eE427C02Bfd74Fb1275C9c4C2c8797D5b",
-  "proof_market_place": "0x3a64855cCC6b806904A37389940b37844A30d80F",
-  "transfer_verifier_wrapper": "0x66AB83117Fe67901eE2B0DF4E37FCce5dCB71c0A",
-  "zkb_verifier_wrapper": "0xc617BBB7a8f4209820E0fBE13D1f5f0AEE8737D6",
-  "priority_list": "0x109f6165235B1C9F3AB03c21eEAf8Ec3ecfcC494",
-  "input_and_proof_format": "0x39AcE943fFDB53b91Ba6fda8c29760C2765555fA"
+  "mock_attestation_verifier": "0xcF86D48b8C4a587aA3F28CC3217672C6538f87F5",
+  "attestation_verifier": "0x22ccc99801a010b52922c78f65B00008a6260eEd",
+  "entity_registry": "0xF7213D726BdB4EAB0a67d5CC5d10B6e30391674D",
+  "generator_registry": "0x651Ea4ffd309Ae47D840205f28D35c2A380c6185",
+  "proof_market_place": "0x6ABBeB7120Bfbe0dbD98A28033ABdBB755408946",
+  "transfer_verifier_wrapper": "0x3b26f467C93e2507BC944E01744126a1CCeE3F17",
+  "zkb_verifier_wrapper": "0x18Eec904038507ECd60f2e78BbC2C8a1c73653ca",
+  "priority_list": "0xc6A76e552b565F7E35bC6F231bDAfa78511f74b2",
+  "input_and_proof_format": "0xb08B0d7A9a84A791C8ac235467c20D7a21681B7b",
+  "generatorEnclave": {
+    "url": "http://13.127.39.109:5000",
+    "utilityUrl": "http://13.127.39.109:1500",
+    "apikey": "9170cd88-2f30-444f-aaf3-5208bed522e9"
+  },
+  "ivsEnclave": {
+    "url": "http://13.200.244.229:5000",
+    "utilityUrl": "http://13.200.244.229:1500",
+    "apikey": "dd4eac3d-487e-475e-9cbd-400bb504525a"
+  },
+  "matchingEngineEnclave": {
+    "url": "http://localhost:3030",
+    "utilityUrl": "http://localhost:1500",
+    "apikey": "ef98ab0a-c828-4743-a0b4-4b3be36c8b6a"
+  }
 }
