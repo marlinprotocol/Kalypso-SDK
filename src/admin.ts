@@ -12,8 +12,12 @@ export class Admin {
     this.entityRegistry = EntityKeyRegistry__factory.connect(entityKeyRegistry, this.signer);
   }
 
-  public async updateMeEciesKeyAndSigner(attestationBytes: BytesLike, options?: Overrides): Promise<ContractTransactionResponse> {
-    return this.proofMarketPlace.updateMatchingEngineEncryptionKeyAndSigner(attestationBytes, { ...options });
+  public async updateMeEciesKeyAndSigner(
+    attestationBytes: BytesLike,
+    meSignature: BytesLike,
+    options?: Overrides
+  ): Promise<ContractTransactionResponse> {
+    return this.proofMarketPlace.updateMatchingEngineEncryptionKeyAndSigner(attestationBytes, meSignature, { ...options });
   }
 
   public async readMatchingEngineKey(): Promise<string> {

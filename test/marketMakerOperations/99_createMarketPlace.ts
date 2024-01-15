@@ -36,6 +36,10 @@ async function main(): Promise<string> {
 
   const ivsCheckPointUrl = "http://13.200.244.229:3030/checkInput";
 
+  const ivsSignature = await kalypso
+    .MarketPlace()
+    .IvsEnclaveConnector()
+    .getAddressSignature(await wallet.getAddress());
   const tx = await kalypso
     .MarketPlace()
     .createNewMarket(
@@ -44,7 +48,8 @@ async function main(): Promise<string> {
       slashingPenalty,
       isEnclaveRequired,
       attestationData.attestation_document,
-      ivsCheckPointUrl
+      ivsCheckPointUrl,
+      ivsSignature
     );
   await tx.wait();
 

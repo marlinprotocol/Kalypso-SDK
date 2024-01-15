@@ -43,6 +43,7 @@ export interface GeneratorRegistryInterface extends Interface {
       | "getGeneratorAssignmentDetails"
       | "getGeneratorRewardDetails"
       | "getGeneratorState"
+      | "getPubkeyAndAddress"
       | "getRoleAdmin"
       | "getRoleMember"
       | "getRoleMemberCount"
@@ -57,6 +58,7 @@ export interface GeneratorRegistryInterface extends Interface {
       | "leaveMarketPlaces"
       | "proofMarketPlace"
       | "proxiableUUID"
+      | "publicKeyToAddress"
       | "register"
       | "renounceRole"
       | "requestForExitMarketPlace"
@@ -111,6 +113,7 @@ export interface GeneratorRegistryInterface extends Interface {
   encodeFunctionData(functionFragment: "getGeneratorAssignmentDetails", values: [AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "getGeneratorRewardDetails", values: [AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "getGeneratorState", values: [AddressLike, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "getPubkeyAndAddress", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "getRoleAdmin", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "getRoleMember", values: [BytesLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "getRoleMemberCount", values: [BytesLike]): string;
@@ -125,7 +128,8 @@ export interface GeneratorRegistryInterface extends Interface {
   encodeFunctionData(functionFragment: "leaveMarketPlaces", values: [BigNumberish[]]): string;
   encodeFunctionData(functionFragment: "proofMarketPlace", values?: undefined): string;
   encodeFunctionData(functionFragment: "proxiableUUID", values?: undefined): string;
-  encodeFunctionData(functionFragment: "register", values: [AddressLike, BigNumberish, BytesLike]): string;
+  encodeFunctionData(functionFragment: "publicKeyToAddress", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "register", values: [AddressLike, BigNumberish, BigNumberish, BytesLike]): string;
   encodeFunctionData(functionFragment: "renounceRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "requestForExitMarketPlace", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "requestForExitMarketPlaces", values: [BigNumberish[]]): string;
@@ -134,7 +138,7 @@ export interface GeneratorRegistryInterface extends Interface {
   encodeFunctionData(functionFragment: "stake", values: [AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "unstake", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "updateEncryptionKey", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "updateEncryptionKey", values: [BytesLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "upgradeTo", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "upgradeToAndCall", values: [AddressLike, BytesLike]): string;
 
@@ -155,6 +159,7 @@ export interface GeneratorRegistryInterface extends Interface {
   decodeFunctionResult(functionFragment: "getGeneratorAssignmentDetails", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getGeneratorRewardDetails", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getGeneratorState", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getPubkeyAndAddress", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getRoleAdmin", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getRoleMember", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getRoleMemberCount", data: BytesLike): Result;
@@ -169,6 +174,7 @@ export interface GeneratorRegistryInterface extends Interface {
   decodeFunctionResult(functionFragment: "leaveMarketPlaces", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "proofMarketPlace", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "proxiableUUID", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "publicKeyToAddress", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "register", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "renounceRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "requestForExitMarketPlace", data: BytesLike): Result;
@@ -312,10 +318,12 @@ export namespace LeftMarketplaceEvent {
 }
 
 export namespace RegisteredGeneratorEvent {
-  export type InputTuple = [generator: AddressLike];
-  export type OutputTuple = [generator: string];
+  export type InputTuple = [generator: AddressLike, initialCompute: BigNumberish, initialStake: BigNumberish];
+  export type OutputTuple = [generator: string, initialCompute: bigint, initialStake: bigint];
   export interface OutputObject {
     generator: string;
+    initialCompute: bigint;
+    initialStake: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -527,6 +535,8 @@ export interface GeneratorRegistry extends BaseContract {
 
   getGeneratorState: TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[bigint, bigint]], "view">;
 
+  getPubkeyAndAddress: TypedContractMethod<[data: BytesLike], [[string, string]], "view">;
+
   getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
 
   getRoleMember: TypedContractMethod<[role: BytesLike, index: BigNumberish], [string], "view">;
@@ -559,8 +569,10 @@ export interface GeneratorRegistry extends BaseContract {
 
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
+  publicKeyToAddress: TypedContractMethod<[publicKey: BytesLike], [string], "view">;
+
   register: TypedContractMethod<
-    [rewardAddress: AddressLike, declaredCompute: BigNumberish, generatorData: BytesLike],
+    [rewardAddress: AddressLike, declaredCompute: BigNumberish, initialStake: BigNumberish, generatorData: BytesLike],
     [void],
     "nonpayable"
   >;
@@ -585,7 +597,7 @@ export interface GeneratorRegistry extends BaseContract {
 
   unstake: TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
 
-  updateEncryptionKey: TypedContractMethod<[attestation_data: BytesLike], [void], "nonpayable">;
+  updateEncryptionKey: TypedContractMethod<[attestation_data: BytesLike, enclaveSignature: BytesLike], [void], "nonpayable">;
 
   upgradeTo: TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
 
@@ -649,6 +661,7 @@ export interface GeneratorRegistry extends BaseContract {
   getFunction(
     nameOrSignature: "getGeneratorState"
   ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[bigint, bigint]], "view">;
+  getFunction(nameOrSignature: "getPubkeyAndAddress"): TypedContractMethod<[data: BytesLike], [[string, string]], "view">;
   getFunction(nameOrSignature: "getRoleAdmin"): TypedContractMethod<[role: BytesLike], [string], "view">;
   getFunction(nameOrSignature: "getRoleMember"): TypedContractMethod<[role: BytesLike, index: BigNumberish], [string], "view">;
   getFunction(nameOrSignature: "getRoleMemberCount"): TypedContractMethod<[role: BytesLike], [bigint], "view">;
@@ -671,9 +684,14 @@ export interface GeneratorRegistry extends BaseContract {
   getFunction(nameOrSignature: "leaveMarketPlaces"): TypedContractMethod<[marketIds: BigNumberish[]], [void], "nonpayable">;
   getFunction(nameOrSignature: "proofMarketPlace"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "proxiableUUID"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "publicKeyToAddress"): TypedContractMethod<[publicKey: BytesLike], [string], "view">;
   getFunction(
     nameOrSignature: "register"
-  ): TypedContractMethod<[rewardAddress: AddressLike, declaredCompute: BigNumberish, generatorData: BytesLike], [void], "nonpayable">;
+  ): TypedContractMethod<
+    [rewardAddress: AddressLike, declaredCompute: BigNumberish, initialStake: BigNumberish, generatorData: BytesLike],
+    [void],
+    "nonpayable"
+  >;
   getFunction(nameOrSignature: "renounceRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "requestForExitMarketPlace"): TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
   getFunction(nameOrSignature: "requestForExitMarketPlaces"): TypedContractMethod<[marketIds: BigNumberish[]], [void], "nonpayable">;
@@ -688,7 +706,9 @@ export interface GeneratorRegistry extends BaseContract {
   getFunction(nameOrSignature: "stake"): TypedContractMethod<[generatorAddress: AddressLike, amount: BigNumberish], [bigint], "nonpayable">;
   getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
   getFunction(nameOrSignature: "unstake"): TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "updateEncryptionKey"): TypedContractMethod<[attestation_data: BytesLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "updateEncryptionKey"
+  ): TypedContractMethod<[attestation_data: BytesLike, enclaveSignature: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "upgradeTo"): TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "upgradeToAndCall"
@@ -859,7 +879,7 @@ export interface GeneratorRegistry extends BaseContract {
       LeftMarketplaceEvent.OutputObject
     >;
 
-    "RegisteredGenerator(address)": TypedContractEvent<
+    "RegisteredGenerator(address,uint256,uint256)": TypedContractEvent<
       RegisteredGeneratorEvent.InputTuple,
       RegisteredGeneratorEvent.OutputTuple,
       RegisteredGeneratorEvent.OutputObject

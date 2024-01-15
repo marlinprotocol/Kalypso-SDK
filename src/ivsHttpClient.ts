@@ -1,3 +1,4 @@
+import { BytesLike } from "ethers";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
 import { EnclaveResponse, PublicKeyResponse, SignAddressResponse } from "./types";
 import { HeaderInit } from "node-fetch";
@@ -91,7 +92,7 @@ export class IvsHttpClient extends BaseEnclaveClient {
     };
   }
 
-  public async getAddressSignature(address: string): Promise<String> {
+  public async getAddressSignature(address: string): Promise<BytesLike> {
     let attestation_server_response = await fetch(this.url("/api/signAddress"), {
       method: "POST",
       headers: this.headers(),

@@ -54,7 +54,7 @@ export class Generator {
     if (result.rewardAddress != "0x0000000000000000000000000000000000000000") {
       throw new Error("Generator is already registered");
     }
-    return this.generatorRegistry.register(rewardAddress, declaredCompute, generatorData, { ...options });
+    return this.generatorRegistry.register(rewardAddress, declaredCompute, 0, generatorData, { ...options });
   }
 
   public async deregister(refundAddress: string, options?: Overrides): Promise<ContractTransactionResponse> {
@@ -156,8 +156,12 @@ export class Generator {
     return await this.generatorRegistry.requestForExitMarketPlace(marketId, { ...options });
   }
 
-  public async updateEcisKey(attestationBytes: BytesLike, options?: Overrides): Promise<ContractTransactionResponse> {
-    return this.generatorRegistry.updateEncryptionKey(attestationBytes, { ...options });
+  public async updateEcisKey(
+    attestationBytes: BytesLike,
+    enclaveSignature: BytesLike,
+    options?: Overrides
+  ): Promise<ContractTransactionResponse> {
+    return this.generatorRegistry.updateEncryptionKey(attestationBytes, enclaveSignature, { ...options });
   }
 
   public async slashExistingRequest(taskId: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {

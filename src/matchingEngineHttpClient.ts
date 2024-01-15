@@ -2,6 +2,7 @@ import fetch from "node-fetch";
 import { HeaderInit } from "node-fetch";
 import { KalspsoConfig, MatchingEngineConfigPayload, EnclaveResponse, SignAddressResponse } from "./types";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
+import { BytesLike } from "ethers";
 
 export class MatchingEngineHttpClient extends BaseEnclaveClient {
   private matchingEngineEndPoint: string;
@@ -149,7 +150,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     return await response.json();
   }
 
-  public async getAddressSignature(address: string): Promise<String> {
+  public async getAddressSignature(address: string): Promise<BytesLike> {
     let attestation_server_response = await fetch(this.url("/api/signAddress"), {
       method: "POST",
       headers: this.headers(),

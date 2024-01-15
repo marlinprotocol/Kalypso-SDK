@@ -330,6 +330,7 @@ export class MarketPlace {
     isEnclaveRequired: boolean,
     ivsAttestationBytes: BytesLike,
     ivsUrl: string,
+    ivsSignature: BytesLike,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
     if (new BigNumber(slashingPenalty.toString()).gt(this.exponent)) {
@@ -363,6 +364,7 @@ export class MarketPlace {
       isEnclaveRequired,
       ivsAttestationBytes,
       Buffer.from(ivsUrl, "ascii"),
+      ivsSignature,
       { ...options }
     );
   }

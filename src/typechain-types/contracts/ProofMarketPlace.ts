@@ -75,6 +75,7 @@ export interface ProofMarketPlaceInterface extends Interface {
       | "discardRequest"
       | "getAskState"
       | "getPlatformFee"
+      | "getPubkeyAndAddress"
       | "getRoleAdmin"
       | "getRoleMember"
       | "getRoleMemberCount"
@@ -85,6 +86,7 @@ export interface ProofMarketPlaceInterface extends Interface {
       | "marketCounter"
       | "marketData"
       | "proxiableUUID"
+      | "publicKeyToAddress"
       | "relayAssignTask"
       | "relayBatchAssignTasks"
       | "renounceRole"
@@ -138,11 +140,12 @@ export interface ProofMarketPlaceInterface extends Interface {
   encodeFunctionData(functionFragment: "createAsk", values: [ProofMarketPlace.AskStruct, BigNumberish, BytesLike, BytesLike]): string;
   encodeFunctionData(
     functionFragment: "createMarketPlace",
-    values: [BytesLike, AddressLike, BigNumberish, boolean, BytesLike, BytesLike]
+    values: [BytesLike, AddressLike, BigNumberish, boolean, BytesLike, BytesLike, BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "discardRequest", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "getAskState", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "getPlatformFee", values: [BigNumberish, ProofMarketPlace.AskStruct, BytesLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "getPubkeyAndAddress", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "getRoleAdmin", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "getRoleMember", values: [BytesLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "getRoleMemberCount", values: [BytesLike]): string;
@@ -153,6 +156,7 @@ export interface ProofMarketPlaceInterface extends Interface {
   encodeFunctionData(functionFragment: "marketCounter", values?: undefined): string;
   encodeFunctionData(functionFragment: "marketData", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "proxiableUUID", values?: undefined): string;
+  encodeFunctionData(functionFragment: "publicKeyToAddress", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "relayAssignTask", values: [BigNumberish, AddressLike, BytesLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "relayBatchAssignTasks", values: [BigNumberish[], AddressLike[], BytesLike[], BytesLike]): string;
   encodeFunctionData(functionFragment: "renounceRole", values: [BytesLike, AddressLike]): string;
@@ -164,7 +168,7 @@ export interface ProofMarketPlaceInterface extends Interface {
   encodeFunctionData(functionFragment: "submitProofs", values: [BigNumberish[], BytesLike[]]): string;
   encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "updateCostPerBytes", values: [BigNumberish, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "updateMatchingEngineEncryptionKeyAndSigner", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "updateMatchingEngineEncryptionKeyAndSigner", values: [BytesLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "upgradeTo", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "upgradeToAndCall", values: [AddressLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "verifier", values: [BigNumberish]): string;
@@ -188,6 +192,7 @@ export interface ProofMarketPlaceInterface extends Interface {
   decodeFunctionResult(functionFragment: "discardRequest", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getAskState", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getPlatformFee", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getPubkeyAndAddress", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getRoleAdmin", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getRoleMember", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getRoleMemberCount", data: BytesLike): Result;
@@ -198,6 +203,7 @@ export interface ProofMarketPlaceInterface extends Interface {
   decodeFunctionResult(functionFragment: "marketCounter", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "marketData", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "proxiableUUID", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "publicKeyToAddress", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "relayAssignTask", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "relayBatchAssignTasks", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "renounceRole", data: BytesLike): Result;
@@ -477,7 +483,8 @@ export interface ProofMarketPlace extends BaseContract {
       _slashingPenalty: BigNumberish,
       isEnclaveRequired: boolean,
       ivsAttestationBytes: BytesLike,
-      ivsUrl: BytesLike
+      ivsUrl: BytesLike,
+      enclaveSignature: BytesLike
     ],
     [void],
     "nonpayable"
@@ -492,6 +499,8 @@ export interface ProofMarketPlace extends BaseContract {
     [bigint],
     "view"
   >;
+
+  getPubkeyAndAddress: TypedContractMethod<[data: BytesLike], [[string, string]], "view">;
 
   getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
 
@@ -538,6 +547,8 @@ export interface ProofMarketPlace extends BaseContract {
 
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
+  publicKeyToAddress: TypedContractMethod<[publicKey: BytesLike], [string], "view">;
+
   relayAssignTask: TypedContractMethod<
     [askId: BigNumberish, generator: AddressLike, new_acl: BytesLike, signature: BytesLike],
     [void],
@@ -568,7 +579,11 @@ export interface ProofMarketPlace extends BaseContract {
 
   updateCostPerBytes: TypedContractMethod<[secretType: BigNumberish, costPerByte: BigNumberish], [void], "nonpayable">;
 
-  updateMatchingEngineEncryptionKeyAndSigner: TypedContractMethod<[attestationData: BytesLike], [void], "nonpayable">;
+  updateMatchingEngineEncryptionKeyAndSigner: TypedContractMethod<
+    [attestationData: BytesLike, meSignature: BytesLike],
+    [void],
+    "nonpayable"
+  >;
 
   upgradeTo: TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
 
@@ -610,7 +625,8 @@ export interface ProofMarketPlace extends BaseContract {
       _slashingPenalty: BigNumberish,
       isEnclaveRequired: boolean,
       ivsAttestationBytes: BytesLike,
-      ivsUrl: BytesLike
+      ivsUrl: BytesLike,
+      enclaveSignature: BytesLike
     ],
     [void],
     "nonpayable"
@@ -624,6 +640,7 @@ export interface ProofMarketPlace extends BaseContract {
     [bigint],
     "view"
   >;
+  getFunction(nameOrSignature: "getPubkeyAndAddress"): TypedContractMethod<[data: BytesLike], [[string, string]], "view">;
   getFunction(nameOrSignature: "getRoleAdmin"): TypedContractMethod<[role: BytesLike], [string], "view">;
   getFunction(nameOrSignature: "getRoleMember"): TypedContractMethod<[role: BytesLike, index: BigNumberish], [string], "view">;
   getFunction(nameOrSignature: "getRoleMemberCount"): TypedContractMethod<[role: BytesLike], [bigint], "view">;
@@ -659,6 +676,7 @@ export interface ProofMarketPlace extends BaseContract {
     "view"
   >;
   getFunction(nameOrSignature: "proxiableUUID"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "publicKeyToAddress"): TypedContractMethod<[publicKey: BytesLike], [string], "view">;
   getFunction(
     nameOrSignature: "relayAssignTask"
   ): TypedContractMethod<[askId: BigNumberish, generator: AddressLike, new_acl: BytesLike, signature: BytesLike], [void], "nonpayable">;
@@ -686,7 +704,7 @@ export interface ProofMarketPlace extends BaseContract {
   ): TypedContractMethod<[secretType: BigNumberish, costPerByte: BigNumberish], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "updateMatchingEngineEncryptionKeyAndSigner"
-  ): TypedContractMethod<[attestationData: BytesLike], [void], "nonpayable">;
+  ): TypedContractMethod<[attestationData: BytesLike, meSignature: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "upgradeTo"): TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "upgradeToAndCall"

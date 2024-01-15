@@ -3,6 +3,7 @@ import fetch from "node-fetch";
 import { HeaderInit } from "node-fetch";
 import { GeneratorConfigPayload, GeneratorConfig, UpdateRuntimeConfig, SignAddressResponse } from "./types";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
+import { BytesLike } from "ethers";
 
 export class GeneratorHttpClient extends BaseEnclaveClient {
   private generatorEndPoint: string;
@@ -54,7 +55,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     return await response.json();
   }
 
-  public async getAddressSignature(address: string): Promise<String> {
+  public async getAddressSignature(address: string): Promise<BytesLike> {
     let attestation_server_response = await fetch(this.url("/api/signAddress"), {
       method: "POST",
       headers: this.headers(),
