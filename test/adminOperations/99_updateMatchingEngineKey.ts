@@ -27,7 +27,11 @@ async function main1(): Promise<string> {
 
   // const meAttestation = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().buildAttestation();
   const meAttestation = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getMockAttestation(pubKeyString);
-  const meSignature = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getAddressSignature(kalypsoConfig.proof_market_place);
+  // const meSignature = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getAddressSignature(kalypsoConfig.proof_market_place);
+  const meSignature = await kalypso
+    .MarketPlace()
+    .MatchingEngineEnclaveConnector()
+    .getMockAddressSignature(keys.matching_engine_private_key, kalypsoConfig.proof_market_place);
 
   const tx = await kalypso.Admin().updateMeEciesKeyAndSigner(meAttestation.attestation_document, meSignature);
 

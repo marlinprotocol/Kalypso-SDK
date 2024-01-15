@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import { HeaderInit } from "node-fetch";
 import { KalspsoConfig, MatchingEngineConfigPayload, EnclaveResponse, SignAddressResponse } from "./types";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
-import { BytesLike } from "ethers";
+import { BytesLike, ethers } from "ethers";
 
 export class MatchingEngineHttpClient extends BaseEnclaveClient {
   private matchingEngineEndPoint: string;
@@ -165,6 +165,20 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
 
     const _v = response.data.v == 27 ? "1b" : "1c";
     let signature = response.data.r + response.data.s.split("x")[1] + _v;
+    return signature;
+  }
+
+  public async getMockAddressSignature(meInternalPrivateKey: string, address: string): Promise<BytesLike> {
+    let matchingEngineSigner = new ethers.Wallet(meInternalPrivateKey);
+    let types = ["address"];
+
+    let values = [address];
+
+    let abicode = new ethers.AbiCoder();
+    let encoded = abicode.encode(types, values);
+    let digest = ethers.keccak256(encoded);
+    let signature = await matchingEngineSigner.signMessage(ethers.getBytes(digest));
+
     return signature;
   }
 }
