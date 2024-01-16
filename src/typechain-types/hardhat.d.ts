@@ -98,6 +98,7 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.IAttestationVerifier__factory>;
     getContractFactory(name: "IVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IVerifier__factory>;
     getContractFactory(name: "Error", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.Error__factory>;
+    getContractFactory(name: "HELPER", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.HELPER__factory>;
     getContractFactory(
       name: "MockAttestationVerifier",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -243,6 +244,7 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.IAttestationVerifier>;
     getContractAt(name: "IVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IVerifier>;
     getContractAt(name: "Error", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.Error>;
+    getContractAt(name: "HELPER", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.HELPER>;
     getContractAt(
       name: "MockAttestationVerifier",
       address: string | ethers.Addressable,
@@ -375,6 +377,7 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.IAttestationVerifier>;
     deployContract(name: "IVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IVerifier>;
     deployContract(name: "Error", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Error>;
+    deployContract(name: "HELPER", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.HELPER>;
     deployContract(
       name: "MockAttestationVerifier",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -519,6 +522,7 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.IAttestationVerifier>;
     deployContract(name: "IVerifier", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IVerifier>;
     deployContract(name: "Error", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Error>;
+    deployContract(name: "HELPER", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.HELPER>;
     deployContract(
       name: "MockAttestationVerifier",
       args: any[],

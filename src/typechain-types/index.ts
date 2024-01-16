@@ -56,6 +56,8 @@ export type { IVerifier } from "./contracts/interfaces/IVerifier";
 export { IVerifier__factory } from "./factories/contracts/interfaces/IVerifier__factory";
 export type { Error } from "./contracts/lib/Error";
 export { Error__factory } from "./factories/contracts/lib/Error__factory";
+export type { HELPER } from "./contracts/lib/Helper.sol/HELPER";
+export { HELPER__factory } from "./factories/contracts/lib/Helper.sol/HELPER__factory";
 export type { MockAttestationVerifier } from "./contracts/mock/MockAttestationVerifier";
 export { MockAttestationVerifier__factory } from "./factories/contracts/mock/MockAttestationVerifier__factory";
 export type { MockToken } from "./contracts/mock/MockToken";

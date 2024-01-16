@@ -41,6 +41,7 @@ export interface EntityKeyRegistryInterface extends Interface {
       | "revokeRole"
       | "supportsInterface"
       | "updatePubkey"
+      | "usedUpKey"
   ): FunctionFragment;
 
   getEvent(
@@ -62,6 +63,7 @@ export interface EntityKeyRegistryInterface extends Interface {
   encodeFunctionData(functionFragment: "revokeRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "updatePubkey", values: [AddressLike, BytesLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "usedUpKey", values: [AddressLike]): string;
 
   decodeFunctionResult(functionFragment: "DEFAULT_ADMIN_ROLE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "KEY_REGISTER_ROLE", data: BytesLike): Result;
@@ -78,6 +80,7 @@ export interface EntityKeyRegistryInterface extends Interface {
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "supportsInterface", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "updatePubkey", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "usedUpKey", data: BytesLike): Result;
 }
 
 export namespace InitializedEvent {
@@ -215,6 +218,8 @@ export interface EntityKeyRegistry extends BaseContract {
 
   updatePubkey: TypedContractMethod<[key_owner: AddressLike, pubkey: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
 
+  usedUpKey: TypedContractMethod<[arg0: AddressLike], [boolean], "view">;
+
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "DEFAULT_ADMIN_ROLE"): TypedContractMethod<[], [string], "view">;
@@ -234,6 +239,7 @@ export interface EntityKeyRegistry extends BaseContract {
   getFunction(
     nameOrSignature: "updatePubkey"
   ): TypedContractMethod<[key_owner: AddressLike, pubkey: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "usedUpKey"): TypedContractMethod<[arg0: AddressLike], [boolean], "view">;
 
   getEvent(
     key: "Initialized"

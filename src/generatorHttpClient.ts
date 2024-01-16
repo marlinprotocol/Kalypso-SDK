@@ -1,8 +1,9 @@
 import { PublicKeyResponse, KalspsoConfig, EnclaveResponse } from "./types";
 import fetch from "node-fetch";
 import { HeaderInit } from "node-fetch";
-import { GeneratorConfigPayload, GeneratorConfig, UpdateRuntimeConfig } from "./types";
+import { GeneratorConfigPayload, GeneratorConfig, UpdateRuntimeConfig, SignAddressResponse } from "./types";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
+import { BytesLike } from "ethers";
 
 export class GeneratorHttpClient extends BaseEnclaveClient {
   private generatorEndPoint: string;
@@ -52,6 +53,24 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
+  }
+
+  public async getAddressSignature(address: string): Promise<BytesLike> {
+    let attestation_server_response = await fetch(this.url("/api/signAddress"), {
+      method: "POST",
+      headers: this.headers(),
+      body: JSON.stringify({ address }),
+    });
+
+    if (!attestation_server_response.ok) {
+      throw new Error(`Error: ${attestation_server_response.status}`);
+    }
+
+    let response: SignAddressResponse = await attestation_server_response.json();
+
+    const _v = response.data.v == 27 ? "1b" : "1c";
+    let signature = response.data.r + response.data.s.split("x")[1] + _v;
+    return signature;
   }
 
   // New methods based on your list

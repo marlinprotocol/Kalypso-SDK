@@ -124,3 +124,12 @@ export interface EnclaveAttestationData {
   signature: BytesLike;
   secp_key: BytesLike;
 }
+
+export interface SignAddressResponse {
+  message: string;
+  data: {
+    r: string;
+    s: string;
+    v: number;
+  };
+}

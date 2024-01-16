@@ -26,6 +26,7 @@ export interface ErrorInterface extends Interface {
       | "INSUFFICIENT_STAKE_TO_LOCK"
       | "INVALID_CONTRACT_ADDRESS"
       | "INVALID_ENCLAVE_KEY"
+      | "INVALID_ENCLAVE_SIGNATURE"
       | "INVALID_GENERATOR"
       | "INVALID_GENERATOR_STATE_PER_MARKET"
       | "INVALID_INPUTS"
@@ -70,6 +71,7 @@ export interface ErrorInterface extends Interface {
   encodeFunctionData(functionFragment: "INSUFFICIENT_STAKE_TO_LOCK", values?: undefined): string;
   encodeFunctionData(functionFragment: "INVALID_CONTRACT_ADDRESS", values?: undefined): string;
   encodeFunctionData(functionFragment: "INVALID_ENCLAVE_KEY", values?: undefined): string;
+  encodeFunctionData(functionFragment: "INVALID_ENCLAVE_SIGNATURE", values?: undefined): string;
   encodeFunctionData(functionFragment: "INVALID_GENERATOR", values?: undefined): string;
   encodeFunctionData(functionFragment: "INVALID_GENERATOR_STATE_PER_MARKET", values?: undefined): string;
   encodeFunctionData(functionFragment: "INVALID_INPUTS", values?: undefined): string;
@@ -113,6 +115,7 @@ export interface ErrorInterface extends Interface {
   decodeFunctionResult(functionFragment: "INSUFFICIENT_STAKE_TO_LOCK", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INVALID_CONTRACT_ADDRESS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INVALID_ENCLAVE_KEY", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "INVALID_ENCLAVE_SIGNATURE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INVALID_GENERATOR", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INVALID_GENERATOR_STATE_PER_MARKET", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INVALID_INPUTS", data: BytesLike): Result;
@@ -203,6 +206,8 @@ export interface Error extends BaseContract {
 
   INVALID_ENCLAVE_KEY: TypedContractMethod<[], [string], "view">;
 
+  INVALID_ENCLAVE_SIGNATURE: TypedContractMethod<[], [string], "view">;
+
   INVALID_GENERATOR: TypedContractMethod<[], [string], "view">;
 
   INVALID_GENERATOR_STATE_PER_MARKET: TypedContractMethod<[], [string], "view">;
@@ -270,6 +275,7 @@ export interface Error extends BaseContract {
   getFunction(nameOrSignature: "INSUFFICIENT_STAKE_TO_LOCK"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INVALID_CONTRACT_ADDRESS"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INVALID_ENCLAVE_KEY"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "INVALID_ENCLAVE_SIGNATURE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INVALID_GENERATOR"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INVALID_GENERATOR_STATE_PER_MARKET"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INVALID_INPUTS"): TypedContractMethod<[], [string], "view">;
