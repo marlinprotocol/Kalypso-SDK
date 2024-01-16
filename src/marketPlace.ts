@@ -178,7 +178,7 @@ export class MarketPlace {
     // const eciesPubKey = "0x044813e9113562b2659f7a062c4eca19f89efb9b1c80df439d2eef3c9f0f370001e06393ff736f11f4e4122dfe570b3823d756358b3955811ef704690dc40e6b22"
 
     const eciesPubKey = await this.entityKeyRegistry.pub_key(marketData.ivsSigner);
-    console.log(eciesPubKey);
+    console.log({ eciesPubKey });
 
     if (eciesPubKey == "0x" || eciesPubKey.length != 130) {
       throw new Error(
@@ -278,6 +278,7 @@ export class MarketPlace {
 
     const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
     const marketData = await this.proofMarketPlace.marketData(marketId);
+    console.log({ marketActivationBlock: marketData.activationBlock.toString() });
 
     let dataToSend = secretBuffer;
     let aclData = Buffer.from("");

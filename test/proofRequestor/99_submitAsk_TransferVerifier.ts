@@ -32,7 +32,7 @@ const createAskTest = async () => {
 
   const latestBlock = await provider.getBlockNumber();
 
-  const marketId = "1";
+  const marketId = "3";
   const assignmentDeadline = new BigNumber(latestBlock).plus(10000000000);
   console.log({ latestBlock, assignmentDeadline: assignmentDeadline.toFixed(0) });
   const proofGenerationTimeInBlocks = new BigNumber(10000000000);
@@ -51,7 +51,8 @@ const createAskTest = async () => {
       0, // TODO: keep this 0 for now
       Buffer.from(secretString)
     );
-    console.log("Ask Request Hash: ", askRequest.hash);
+    const tx = await askRequest.wait();
+    console.log("Ask Request Hash: ", askRequest.hash, " at block", tx?.blockNumber);
   } else {
     throw new Error("Better not create a request, if it is not provable to prevent loss of funds");
   }
