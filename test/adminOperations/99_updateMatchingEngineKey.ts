@@ -21,17 +21,20 @@ async function main1(): Promise<string> {
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  // in case you wan't to mock the ME without enclave
-  const secretKey = PrivateKey.fromHex(keys.matching_engine_private_key);
-  const pubKeyString = "0x" + secretKey.publicKey.uncompressed.toString("hex").substring(2);
+  // // in case you wan't to mock the ME without enclave
+  // const secretKey = PrivateKey.fromHex(keys.matching_engine_private_key);
+  // const pubKeyString = "0x" + secretKey.publicKey.uncompressed.toString("hex").substring(2);
+  // const meAttestation = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getMockAttestation(pubKeyString);
 
-  // const meAttestation = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().buildAttestation();
-  const meAttestation = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getMockAttestation(pubKeyString);
-  // const meSignature = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getAddressSignature(kalypsoConfig.proof_market_place);
-  const meSignature = await kalypso
-    .MarketPlace()
-    .MatchingEngineEnclaveConnector()
-    .getMockAddressSignature(keys.matching_engine_private_key, kalypsoConfig.proof_market_place);
+  const attestation_verifier_endpoint = "http://65.1.112.107:1400";
+  const meAttestation = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getAttestation(attestation_verifier_endpoint);
+
+  // const meSignature = await kalypso
+  //   .MarketPlace()
+  //   .MatchingEngineEnclaveConnector()
+  //   .getMockAddressSignature(keys.matching_engine_private_key, kalypsoConfig.proof_market_place);
+
+  const meSignature = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getAddressSignature(kalypsoConfig.proof_market_place);
 
   const tx = await kalypso.Admin().updateMeEciesKeyAndSigner(meAttestation.attestation_document, meSignature);
 

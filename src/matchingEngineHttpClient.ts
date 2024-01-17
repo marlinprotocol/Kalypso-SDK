@@ -49,11 +49,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     rpc_url: string,
     chain_id: number,
     relayer_private_key: string,
-    start_block: number,
-    transfer_verifier_wrapper: string,
-    zkb_verifier_wrapper: string,
-    priority_list: string,
-    input_and_proof_format: string
+    start_block: number
   ): Promise<EnclaveResponse<string>> {
     const meConfigData: MatchingEngineConfigPayload = {
       rpc_url,
@@ -66,10 +62,6 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
       platform_token: this.config.staking_token,
       attestation_verifier: this.config.attestation_verifier,
       entity_registry: this.config.entity_registry,
-      transfer_verifier_wrapper,
-      zkb_verifier_wrapper,
-      priority_list,
-      input_and_proof_format,
     };
     const response = await fetch(this.url("/api/matchingEngineConfigSetup"), {
       method: "POST",
