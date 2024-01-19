@@ -1,7 +1,7 @@
 import { KalypsoSdk } from "../../src";
 import dotenv from "dotenv";
 import { ethers } from "ethers";
-import { PrivateKey } from "eciesjs";
+import { PublicKey } from "eciesjs";
 
 dotenv.config();
 
@@ -28,6 +28,9 @@ async function main1(): Promise<string> {
 
   const attestation_verifier_endpoint = "http://65.1.112.107:1400";
   const meAttestation = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getAttestation(attestation_verifier_endpoint);
+
+  const pubkey = PublicKey.fromHex(meAttestation.secp_key as string);
+  console.log("me key from attestation", pubkey.compressed.toString("hex"));
 
   // const meSignature = await kalypso
   //   .MarketPlace()
