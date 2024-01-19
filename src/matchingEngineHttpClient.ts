@@ -143,6 +143,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
   }
 
   public async getAddressSignature(address: string): Promise<BytesLike> {
+    console.log(this.url("/api/signAddress"));
     let attestation_server_response = await fetch(this.url("/api/signAddress"), {
       method: "POST",
       headers: this.headers(),
