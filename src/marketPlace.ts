@@ -81,6 +81,10 @@ export class MarketPlace {
     return this.platformToken.approve(await this.proofMarketPlace.getAddress(), amount.toString(), { ...options });
   }
 
+  public async readMePubKeyInContract(): Promise<BytesLike> {
+    return await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress(), 0);
+  }
+
   public async getPlatformFee(
     secretType: BigNumberish,
     ask: ProofMarketPlace.AskStruct,
