@@ -26,7 +26,6 @@ async function main(): Promise<string> {
   const wrapperAddress = "0x96AEC4bFEF7D802cd609Af69058D07ECB22e9015";
   const slashingPenalty = "10000000000";
   const marketBytes = Buffer.from(JSON.stringify(marketSetupData), "utf-8");
-  const isEnclaveRequired = true;
 
   const ivsSignature = await kalypso
     .MarketPlace()
@@ -44,13 +43,15 @@ async function main(): Promise<string> {
 
   const ivsCheckPointUrl = "http://13.200.244.229:3030/checkInput";
 
+  const proverImageId = "what is prover image id, find it out?";
+
   const tx = await kalypso
     .MarketPlace()
     .createNewMarket(
       marketBytes,
       wrapperAddress,
       slashingPenalty,
-      isEnclaveRequired,
+      proverImageId,
       attestationData.attestation_document,
       ivsCheckPointUrl,
       ivsSignature

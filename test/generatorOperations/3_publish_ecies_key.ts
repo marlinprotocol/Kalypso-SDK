@@ -39,11 +39,13 @@ async function main() {
   // console.log("\nGenerator public keys :");
   // console.log(generator_public_keys);
 
+  const marketId = 0;
   const enclaveSignature = await kalypso
     .Generator()
     .GeneratorEnclaveConnector()
     .getAddressSignature(await wallet.getAddress());
-  const tx = await kalypso.Generator().updateEcisKey(attestation.attestation_document, enclaveSignature);
+
+  const tx = await kalypso.Generator().updateEcisKey(marketId, attestation.attestation_document, enclaveSignature);
 
   const receipt = await tx.wait();
   console.log("Added Generator ECIES key: ", receipt?.hash);

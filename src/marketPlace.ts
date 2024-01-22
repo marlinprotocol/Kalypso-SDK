@@ -451,16 +451,4 @@ export class MarketPlace {
 
     return AskState.NULL;
   }
-
-  public static getPubKeyAndAddressFromAttestation(attesationData: BytesLike): [string, string] {
-    let abicode = new ethers.AbiCoder();
-
-    let decoded = abicode.decode(["bytes", "address", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256"], attesationData);
-    let pubkey = decoded[2];
-    let hash = ethers.keccak256(pubkey);
-
-    const address = "0x" + hash.slice(-40);
-
-    return [pubkey, address];
-  }
 }
