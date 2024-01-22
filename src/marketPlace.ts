@@ -14,13 +14,15 @@ import { AskState, KalspsoConfig, PublicAndSecretInputPair } from "./types";
 import { MatchingEngineHttpClient } from "./matchingEngineHttpClient";
 import { IvsHttpClient } from "./ivsHttpClient";
 import fetch from "node-fetch";
-import { PublicKey } from "eciesjs";
 
 type getProofWithAskIdResponse = {
   proof_generated: Boolean;
   proof: BytesLike;
   message: string;
 };
+
+const NO_ENCLAVE_ID_1 = "0x99FF0D9125E1FC9531A11262E15AEB2C60509A078C4CC4C64CEFDFB06FF68647".toLowerCase();
+const NO_ENCLAVE_ID_2 = "0x0000000000000000000000000000000000000000000000000000000000000000".toLowerCase();
 
 export class MarketPlace {
   private signer: AbstractSigner;
@@ -109,7 +111,7 @@ export class MarketPlace {
       refundAddress: refundAddress,
     };
 
-    const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
+    const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress(), 0);
     // if key is rightly updated, it should 68 chars (33 bytes in length)
     if (matchingEnginePubKey.length !== 68) {
       throw new Error("matching engine pub key is not updated in the registry");
@@ -177,7 +179,7 @@ export class MarketPlace {
     // const eciesPubKey = "0x024813e9113562b2659f7a062c4eca19f89efb9b1c80df439d2eef3c9f0f370001";
     // const eciesPubKey = "0x044813e9113562b2659f7a062c4eca19f89efb9b1c80df439d2eef3c9f0f370001e06393ff736f11f4e4122dfe570b3823d756358b3955811ef704690dc40e6b22"
 
-    const eciesPubKey = await this.entityKeyRegistry.pub_key(marketData.ivsSigner);
+    const eciesPubKey = await this.entityKeyRegistry.pub_key(marketData.ivsSigner, 0);
     console.log({ eciesPubKey });
 
     if (eciesPubKey == "0x" || eciesPubKey.length != 130) {
@@ -221,7 +223,7 @@ export class MarketPlace {
     secretBuffer = Buffer.from(pako.deflate(secretBuffer));
 
     if (!eciesPubKey) {
-      const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
+      const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress(), 0);
       if (matchingEnginePubKey.length !== 130) {
         throw new Error("matching engine pub key is not updated in the registry");
       }
@@ -270,7 +272,7 @@ export class MarketPlace {
       deadline: 0,
       refundAddress: refundAddress,
     };
-    const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress());
+    const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress(), 0);
     // 64 bytes
     if (matchingEnginePubKey.length !== 130) {
       throw new Error("matching engine pub key is not updated in the registry or wrong");
@@ -283,7 +285,7 @@ export class MarketPlace {
     let dataToSend = secretBuffer;
     let aclData = Buffer.from("");
 
-    if (marketData.isEnclaveRequired) {
+    if (![NO_ENCLAVE_ID_1, NO_ENCLAVE_ID_2].includes(marketData.proverImageId.toLowerCase())) {
       const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey);
       console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
       dataToSend = result.encryptedData;
@@ -328,7 +330,7 @@ export class MarketPlace {
     marketMetaData: BytesLike,
     verifier: string,
     slashingPenalty: BigNumberish,
-    isEnclaveRequired: boolean,
+    proverImageId: BytesLike,
     ivsAttestationBytes: BytesLike,
     ivsUrl: string,
     ivsSignature: BytesLike,
@@ -362,7 +364,7 @@ export class MarketPlace {
       marketMetaData,
       verifier,
       slashingPenalty.toString(),
-      isEnclaveRequired,
+      proverImageId,
       ivsAttestationBytes,
       Buffer.from(ivsUrl, "ascii"),
       ivsSignature,
@@ -450,7 +452,15 @@ export class MarketPlace {
     return AskState.NULL;
   }
 
-  public async getKeysAndAddressFromAttestation(attesationDoc: BytesLike): Promise<[string, string]> {
-    return this.entityKeyRegistry.getPubkeyAndAddress(attesationDoc);
+  public static getPubKeyAndAddressFromAttestation(attesationData: BytesLike): [string, string] {
+    let abicode = new ethers.AbiCoder();
+
+    let decoded = abicode.decode(["bytes", "address", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256"], attesationData);
+    let pubkey = decoded[2];
+    let hash = ethers.keccak256(pubkey);
+
+    const address = "0x" + hash.slice(-40);
+
+    return [pubkey, address];
   }
 }

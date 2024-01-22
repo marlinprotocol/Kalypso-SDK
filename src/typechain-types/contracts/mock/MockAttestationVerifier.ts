@@ -18,12 +18,14 @@ import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, Typed
 export interface MockAttestationVerifierInterface extends Interface {
   getFunction(
     nameOrSignature:
+      | "isVerified"
       | "safeVerify(bytes)"
       | "safeVerify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)"
       | "verify(bytes)"
       | "verify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)"
   ): FunctionFragment;
 
+  encodeFunctionData(functionFragment: "isVerified", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "safeVerify(bytes)", values: [BytesLike]): string;
   encodeFunctionData(
     functionFragment: "safeVerify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)",
@@ -35,6 +37,7 @@ export interface MockAttestationVerifierInterface extends Interface {
     values: [BytesLike, AddressLike, AddressLike, BytesLike, BytesLike, BytesLike, BigNumberish, BigNumberish]
   ): string;
 
+  decodeFunctionResult(functionFragment: "isVerified", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "safeVerify(bytes)", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "safeVerify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "verify(bytes)", data: BytesLike): Result;
@@ -67,6 +70,8 @@ export interface MockAttestationVerifier extends BaseContract {
   listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
+
+  isVerified: TypedContractMethod<[arg0: AddressLike], [string], "view">;
 
   "safeVerify(bytes)": TypedContractMethod<[data: BytesLike], [void], "view">;
 
@@ -104,6 +109,7 @@ export interface MockAttestationVerifier extends BaseContract {
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
+  getFunction(nameOrSignature: "isVerified"): TypedContractMethod<[arg0: AddressLike], [string], "view">;
   getFunction(nameOrSignature: "safeVerify(bytes)"): TypedContractMethod<[data: BytesLike], [void], "view">;
   getFunction(
     nameOrSignature: "safeVerify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)"

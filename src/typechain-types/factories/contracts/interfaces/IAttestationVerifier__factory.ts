@@ -9,6 +9,25 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "signer",
+        type: "address",
+      },
+    ],
+    name: "isVerified",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "bytes",
         name: "data",
         type: "bytes",
