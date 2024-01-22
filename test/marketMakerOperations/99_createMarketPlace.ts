@@ -43,7 +43,7 @@ async function main(): Promise<string> {
 
   const ivsCheckPointUrl = "http://13.200.244.229:3030/checkInput";
 
-  const proverImageId = "what is prover image id, find it out?";
+  const proverImageId = KalypsoSdk.getImageIdFromAttestation(attestationData.attestation_document);
 
   const tx = await kalypso
     .MarketPlace()

@@ -32,7 +32,7 @@ const createAskTest = async () => {
 
   const latestBlock = await provider.getBlockNumber();
 
-  const marketId = "3";
+  const marketId = "0";
   const assignmentDeadline = new BigNumber(latestBlock).plus(10000000000);
   console.log({ latestBlock, assignmentDeadline: assignmentDeadline.toFixed(0) });
   const proofGenerationTimeInBlocks = new BigNumber(10000000000);
