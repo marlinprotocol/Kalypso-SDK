@@ -4,11 +4,10 @@
 export * as interfaces from "./interfaces";
 export * as lib from "./lib";
 export * as mock from "./mock";
+export * as periphery from "./periphery";
 export * as verifierWrappers from "./verifierWrappers";
 export * as verifiers from "./verifiers";
-export { AttestationVerifier__factory } from "./AttestationVerifier__factory";
+export { Dispute__factory } from "./Dispute__factory";
 export { EntityKeyRegistry__factory } from "./EntityKeyRegistry__factory";
 export { GeneratorRegistry__factory } from "./GeneratorRegistry__factory";
-export { InputAndProofFormatRegistry__factory } from "./InputAndProofFormatRegistry__factory";
-export { PriorityLog__factory } from "./PriorityLog__factory";
 export { ProofMarketPlace__factory } from "./ProofMarketPlace__factory";

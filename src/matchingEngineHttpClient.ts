@@ -155,7 +155,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     }
 
     let response: SignAddressResponse = await attestation_server_response.json();
-
+    console.log({ response });
     const _v = response.data.v == 27 ? "1b" : "1c";
     let signature = response.data.r + response.data.s.split("x")[1] + _v;
     return signature;
@@ -180,3 +180,17 @@ interface MEConfig {
   chain_id: number;
   start_block: number;
 }
+
+// me key from attestation 03c69d0ef3c5a40abd8b5a6a58a1da2706c0861afc249df2554d16fa51934a8992
+// http://65.1.46.193:5000/api/signAddress
+// {
+//   response: {
+//     status: 'success',
+//     message: 'Address signed',
+//     data: {
+//       r: '0xd07c411d4d10bbf0699d65fc0bd73bba913545a7cb7a340e6b65adad5045f7b',
+//       s: '0x374db113c4fb5a5fa81b59ffd888f5958a9265d0f50372d1ff9f4524550f995f',
+//       v: 28
+//     }
+//   }
+// }

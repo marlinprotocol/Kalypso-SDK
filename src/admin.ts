@@ -22,7 +22,7 @@ export class Admin {
 
   public async readMatchingEngineKey(): Promise<string> {
     console.log(await this.proofMarketPlace.getAddress());
-    return this.entityRegistry.pub_key(await this.proofMarketPlace.getAddress());
+    return this.entityRegistry.pub_key(await this.proofMarketPlace.getAddress(), 0);
   }
 
   public async grantKeyRegistryRoleForEntityKeyRegistry(to: string, options?: Overrides): Promise<ContractTransactionResponse> {

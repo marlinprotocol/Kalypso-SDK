@@ -132,6 +132,8 @@ export class Generator {
     computeAllocation: BigNumberish,
     proofGeneratorCost: BigNumberish,
     proposedTime: BigNumberish,
+    attestationData: BytesLike,
+    enclaveSignature: BytesLike,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
     const data = await this.generatorRegistry.generatorInfoPerMarket(await this.signer.getAddress(), marketId);
@@ -144,6 +146,9 @@ export class Generator {
       computeAllocation.toString(),
       proofGeneratorCost.toString(),
       proposedTime.toString(),
+      true,
+      attestationData,
+      enclaveSignature,
       { ...options }
     );
   }
@@ -157,11 +162,12 @@ export class Generator {
   }
 
   public async updateEcisKey(
+    marketId: BigNumberish,
     attestationBytes: BytesLike,
     enclaveSignature: BytesLike,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
-    return this.generatorRegistry.updateEncryptionKey(attestationBytes, enclaveSignature, { ...options });
+    return this.generatorRegistry.updateEncryptionKey(marketId, attestationBytes, enclaveSignature, { ...options });
   }
 
   public async slashExistingRequest(taskId: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {

@@ -18,10 +18,12 @@ export interface ErrorInterface extends Interface {
       | "CAN_NOT_BE_MORE_THAN_DECLARED_COMPUTE"
       | "CAN_NOT_LEAVE_MARKET_WITH_ACTIVE_REQUEST"
       | "CAN_NOT_LEAVE_WITH_ACTIVE_MARKET"
+      | "CAN_NOT_SLASH_USING_VALID_INPUTS"
       | "ENCLAVE_KEY_NOT_VERIFIED"
       | "EXCEEDS_ACCEPTABLE_RANGE"
       | "GENERATOR_ALREADY_EXISTS"
       | "INACTIVE_MARKET"
+      | "INCORRECT_IMAGE_ID"
       | "INSUFFICIENT_GENERATOR_COMPUTE_AVAILABLE"
       | "INSUFFICIENT_STAKE_TO_LOCK"
       | "INVALID_CONTRACT_ADDRESS"
@@ -44,7 +46,9 @@ export interface ErrorInterface extends Interface {
       | "ONLY_WORKING_GENERATORS"
       | "PROOF_PRICE_MISMATCH"
       | "PROOF_TIME_MISMATCH"
+      | "PUBLIC_MARKETS_DONT_NEED_KEY"
       | "REDUCE_COMPUTE_REQUEST_NOT_IN_PLACE"
+      | "REDUCTION_REQUEST_NOT_VALID"
       | "REQUEST_ALREADY_IN_PLACE"
       | "SHOULD_BE_IN_ASSIGNED_STATE"
       | "SHOULD_BE_IN_CREATE_STATE"
@@ -63,10 +67,12 @@ export interface ErrorInterface extends Interface {
   encodeFunctionData(functionFragment: "CAN_NOT_BE_MORE_THAN_DECLARED_COMPUTE", values?: undefined): string;
   encodeFunctionData(functionFragment: "CAN_NOT_LEAVE_MARKET_WITH_ACTIVE_REQUEST", values?: undefined): string;
   encodeFunctionData(functionFragment: "CAN_NOT_LEAVE_WITH_ACTIVE_MARKET", values?: undefined): string;
+  encodeFunctionData(functionFragment: "CAN_NOT_SLASH_USING_VALID_INPUTS", values?: undefined): string;
   encodeFunctionData(functionFragment: "ENCLAVE_KEY_NOT_VERIFIED", values?: undefined): string;
   encodeFunctionData(functionFragment: "EXCEEDS_ACCEPTABLE_RANGE", values?: undefined): string;
   encodeFunctionData(functionFragment: "GENERATOR_ALREADY_EXISTS", values?: undefined): string;
   encodeFunctionData(functionFragment: "INACTIVE_MARKET", values?: undefined): string;
+  encodeFunctionData(functionFragment: "INCORRECT_IMAGE_ID", values?: undefined): string;
   encodeFunctionData(functionFragment: "INSUFFICIENT_GENERATOR_COMPUTE_AVAILABLE", values?: undefined): string;
   encodeFunctionData(functionFragment: "INSUFFICIENT_STAKE_TO_LOCK", values?: undefined): string;
   encodeFunctionData(functionFragment: "INVALID_CONTRACT_ADDRESS", values?: undefined): string;
@@ -89,7 +95,9 @@ export interface ErrorInterface extends Interface {
   encodeFunctionData(functionFragment: "ONLY_WORKING_GENERATORS", values?: undefined): string;
   encodeFunctionData(functionFragment: "PROOF_PRICE_MISMATCH", values?: undefined): string;
   encodeFunctionData(functionFragment: "PROOF_TIME_MISMATCH", values?: undefined): string;
+  encodeFunctionData(functionFragment: "PUBLIC_MARKETS_DONT_NEED_KEY", values?: undefined): string;
   encodeFunctionData(functionFragment: "REDUCE_COMPUTE_REQUEST_NOT_IN_PLACE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "REDUCTION_REQUEST_NOT_VALID", values?: undefined): string;
   encodeFunctionData(functionFragment: "REQUEST_ALREADY_IN_PLACE", values?: undefined): string;
   encodeFunctionData(functionFragment: "SHOULD_BE_IN_ASSIGNED_STATE", values?: undefined): string;
   encodeFunctionData(functionFragment: "SHOULD_BE_IN_CREATE_STATE", values?: undefined): string;
@@ -107,10 +115,12 @@ export interface ErrorInterface extends Interface {
   decodeFunctionResult(functionFragment: "CAN_NOT_BE_MORE_THAN_DECLARED_COMPUTE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "CAN_NOT_LEAVE_MARKET_WITH_ACTIVE_REQUEST", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "CAN_NOT_LEAVE_WITH_ACTIVE_MARKET", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "CAN_NOT_SLASH_USING_VALID_INPUTS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ENCLAVE_KEY_NOT_VERIFIED", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "EXCEEDS_ACCEPTABLE_RANGE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "GENERATOR_ALREADY_EXISTS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INACTIVE_MARKET", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "INCORRECT_IMAGE_ID", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INSUFFICIENT_GENERATOR_COMPUTE_AVAILABLE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INSUFFICIENT_STAKE_TO_LOCK", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "INVALID_CONTRACT_ADDRESS", data: BytesLike): Result;
@@ -133,7 +143,9 @@ export interface ErrorInterface extends Interface {
   decodeFunctionResult(functionFragment: "ONLY_WORKING_GENERATORS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "PROOF_PRICE_MISMATCH", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "PROOF_TIME_MISMATCH", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "PUBLIC_MARKETS_DONT_NEED_KEY", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "REDUCE_COMPUTE_REQUEST_NOT_IN_PLACE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "REDUCTION_REQUEST_NOT_VALID", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "REQUEST_ALREADY_IN_PLACE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "SHOULD_BE_IN_ASSIGNED_STATE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "SHOULD_BE_IN_CREATE_STATE", data: BytesLike): Result;
@@ -190,6 +202,8 @@ export interface Error extends BaseContract {
 
   CAN_NOT_LEAVE_WITH_ACTIVE_MARKET: TypedContractMethod<[], [string], "view">;
 
+  CAN_NOT_SLASH_USING_VALID_INPUTS: TypedContractMethod<[], [string], "view">;
+
   ENCLAVE_KEY_NOT_VERIFIED: TypedContractMethod<[], [string], "view">;
 
   EXCEEDS_ACCEPTABLE_RANGE: TypedContractMethod<[], [string], "view">;
@@ -197,6 +211,8 @@ export interface Error extends BaseContract {
   GENERATOR_ALREADY_EXISTS: TypedContractMethod<[], [string], "view">;
 
   INACTIVE_MARKET: TypedContractMethod<[], [string], "view">;
+
+  INCORRECT_IMAGE_ID: TypedContractMethod<[], [string], "view">;
 
   INSUFFICIENT_GENERATOR_COMPUTE_AVAILABLE: TypedContractMethod<[], [string], "view">;
 
@@ -242,7 +258,11 @@ export interface Error extends BaseContract {
 
   PROOF_TIME_MISMATCH: TypedContractMethod<[], [string], "view">;
 
+  PUBLIC_MARKETS_DONT_NEED_KEY: TypedContractMethod<[], [string], "view">;
+
   REDUCE_COMPUTE_REQUEST_NOT_IN_PLACE: TypedContractMethod<[], [string], "view">;
+
+  REDUCTION_REQUEST_NOT_VALID: TypedContractMethod<[], [string], "view">;
 
   REQUEST_ALREADY_IN_PLACE: TypedContractMethod<[], [string], "view">;
 
@@ -267,10 +287,12 @@ export interface Error extends BaseContract {
   getFunction(nameOrSignature: "CAN_NOT_BE_MORE_THAN_DECLARED_COMPUTE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "CAN_NOT_LEAVE_MARKET_WITH_ACTIVE_REQUEST"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "CAN_NOT_LEAVE_WITH_ACTIVE_MARKET"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "CAN_NOT_SLASH_USING_VALID_INPUTS"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "ENCLAVE_KEY_NOT_VERIFIED"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "EXCEEDS_ACCEPTABLE_RANGE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "GENERATOR_ALREADY_EXISTS"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INACTIVE_MARKET"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "INCORRECT_IMAGE_ID"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INSUFFICIENT_GENERATOR_COMPUTE_AVAILABLE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INSUFFICIENT_STAKE_TO_LOCK"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "INVALID_CONTRACT_ADDRESS"): TypedContractMethod<[], [string], "view">;
@@ -293,7 +315,9 @@ export interface Error extends BaseContract {
   getFunction(nameOrSignature: "ONLY_WORKING_GENERATORS"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "PROOF_PRICE_MISMATCH"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "PROOF_TIME_MISMATCH"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "PUBLIC_MARKETS_DONT_NEED_KEY"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "REDUCE_COMPUTE_REQUEST_NOT_IN_PLACE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "REDUCTION_REQUEST_NOT_VALID"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "REQUEST_ALREADY_IN_PLACE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "SHOULD_BE_IN_ASSIGNED_STATE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "SHOULD_BE_IN_CREATE_STATE"): TypedContractMethod<[], [string], "view">;

@@ -4,32 +4,36 @@
 import type {
   BaseContract,
   BigNumberish,
-  BytesLike,
   FunctionFragment,
-  Result,
   Interface,
-  AddressLike,
+  EventFragment,
   ContractRunner,
   ContractMethod,
   Listener,
 } from "ethers";
-import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../common";
+import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedLogDescription, TypedListener } from "../../../common";
 
-export interface PriorityLogInterface extends Interface {
-  getFunction(nameOrSignature: "priorityStore" | "setPriority"): FunctionFragment;
-
-  encodeFunctionData(functionFragment: "priorityStore", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "setPriority", values: [BigNumberish]): string;
-
-  decodeFunctionResult(functionFragment: "priorityStore", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setPriority", data: BytesLike): Result;
+export interface ReentrancyGuardUpgradeableInterface extends Interface {
+  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
 }
 
-export interface PriorityLog extends BaseContract {
-  connect(runner?: ContractRunner | null): PriorityLog;
+export namespace InitializedEvent {
+  export type InputTuple = [version: BigNumberish];
+  export type OutputTuple = [version: bigint];
+  export interface OutputObject {
+    version: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export interface ReentrancyGuardUpgradeable extends BaseContract {
+  connect(runner?: ContractRunner | null): ReentrancyGuardUpgradeable;
   waitForDeployment(): Promise<this>;
 
-  interface: PriorityLogInterface;
+  interface: ReentrancyGuardUpgradeableInterface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
@@ -52,14 +56,14 @@ export interface PriorityLog extends BaseContract {
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
-  priorityStore: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
-
-  setPriority: TypedContractMethod<[priority: BigNumberish], [void], "nonpayable">;
-
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
-  getFunction(nameOrSignature: "priorityStore"): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
-  getFunction(nameOrSignature: "setPriority"): TypedContractMethod<[priority: BigNumberish], [void], "nonpayable">;
+  getEvent(
+    key: "Initialized"
+  ): TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
 
-  filters: {};
+  filters: {
+    "Initialized(uint8)": TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
+    Initialized: TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
+  };
 }

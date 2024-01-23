@@ -30,12 +30,11 @@ export interface EntityKeyRegistryInterface extends Interface {
       | "KEY_REGISTER_ROLE"
       | "addGeneratorRegistry"
       | "attestationVerifier"
-      | "getPubkeyAndAddress"
+      | "dedicated_pub_key_per_market"
       | "getRoleAdmin"
       | "grantRole"
       | "hasRole"
       | "pub_key"
-      | "publicKeyToAddress"
       | "removePubkey"
       | "renounceRole"
       | "revokeRole"
@@ -44,37 +43,33 @@ export interface EntityKeyRegistryInterface extends Interface {
       | "usedUpKey"
   ): FunctionFragment;
 
-  getEvent(
-    nameOrSignatureOrTopic: "Initialized" | "RemoveKey" | "RoleAdminChanged" | "RoleGranted" | "RoleRevoked" | "UpdateKey"
-  ): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RemoveKey" | "RoleAdminChanged" | "RoleGranted" | "RoleRevoked" | "UpdateKey"): EventFragment;
 
   encodeFunctionData(functionFragment: "DEFAULT_ADMIN_ROLE", values?: undefined): string;
   encodeFunctionData(functionFragment: "KEY_REGISTER_ROLE", values?: undefined): string;
   encodeFunctionData(functionFragment: "addGeneratorRegistry", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "attestationVerifier", values?: undefined): string;
-  encodeFunctionData(functionFragment: "getPubkeyAndAddress", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "dedicated_pub_key_per_market", values: [AddressLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "getRoleAdmin", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "grantRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "hasRole", values: [BytesLike, AddressLike]): string;
-  encodeFunctionData(functionFragment: "pub_key", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "publicKeyToAddress", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "removePubkey", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "pub_key", values: [AddressLike, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "removePubkey", values: [AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "renounceRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "revokeRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "updatePubkey", values: [AddressLike, BytesLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "updatePubkey", values: [AddressLike, BigNumberish, BytesLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "usedUpKey", values: [AddressLike]): string;
 
   decodeFunctionResult(functionFragment: "DEFAULT_ADMIN_ROLE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "KEY_REGISTER_ROLE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addGeneratorRegistry", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "attestationVerifier", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getPubkeyAndAddress", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "dedicated_pub_key_per_market", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getRoleAdmin", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "pub_key", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "publicKeyToAddress", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "removePubkey", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "renounceRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
@@ -83,23 +78,12 @@ export interface EntityKeyRegistryInterface extends Interface {
   decodeFunctionResult(functionFragment: "usedUpKey", data: BytesLike): Result;
 }
 
-export namespace InitializedEvent {
-  export type InputTuple = [version: BigNumberish];
-  export type OutputTuple = [version: bigint];
-  export interface OutputObject {
-    version: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
 export namespace RemoveKeyEvent {
-  export type InputTuple = [user: AddressLike];
-  export type OutputTuple = [user: string];
+  export type InputTuple = [user: AddressLike, keyIndex: BigNumberish];
+  export type OutputTuple = [user: string, keyIndex: bigint];
   export interface OutputObject {
     user: string;
+    keyIndex: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -150,10 +134,11 @@ export namespace RoleRevokedEvent {
 }
 
 export namespace UpdateKeyEvent {
-  export type InputTuple = [user: AddressLike];
-  export type OutputTuple = [user: string];
+  export type InputTuple = [user: AddressLike, keyIndex: BigNumberish];
+  export type OutputTuple = [user: string, keyIndex: bigint];
   export interface OutputObject {
     user: string;
+    keyIndex: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -196,7 +181,7 @@ export interface EntityKeyRegistry extends BaseContract {
 
   attestationVerifier: TypedContractMethod<[], [string], "view">;
 
-  getPubkeyAndAddress: TypedContractMethod<[data: BytesLike], [[string, string]], "view">;
+  dedicated_pub_key_per_market: TypedContractMethod<[arg0: AddressLike, arg1: BytesLike], [string], "view">;
 
   getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
 
@@ -204,11 +189,9 @@ export interface EntityKeyRegistry extends BaseContract {
 
   hasRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
 
-  pub_key: TypedContractMethod<[arg0: AddressLike], [string], "view">;
+  pub_key: TypedContractMethod<[arg0: AddressLike, arg1: BigNumberish], [string], "view">;
 
-  publicKeyToAddress: TypedContractMethod<[publicKey: BytesLike], [string], "view">;
-
-  removePubkey: TypedContractMethod<[key_owner: AddressLike], [void], "nonpayable">;
+  removePubkey: TypedContractMethod<[keyOwner: AddressLike, keyIndex: BigNumberish], [void], "nonpayable">;
 
   renounceRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
 
@@ -216,7 +199,11 @@ export interface EntityKeyRegistry extends BaseContract {
 
   supportsInterface: TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
 
-  updatePubkey: TypedContractMethod<[key_owner: AddressLike, pubkey: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
+  updatePubkey: TypedContractMethod<
+    [keyOwner: AddressLike, keyIndex: BigNumberish, pubkey: BytesLike, attestation_data: BytesLike],
+    [void],
+    "nonpayable"
+  >;
 
   usedUpKey: TypedContractMethod<[arg0: AddressLike], [boolean], "view">;
 
@@ -226,24 +213,24 @@ export interface EntityKeyRegistry extends BaseContract {
   getFunction(nameOrSignature: "KEY_REGISTER_ROLE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "addGeneratorRegistry"): TypedContractMethod<[_generatorRegistry: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "attestationVerifier"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "getPubkeyAndAddress"): TypedContractMethod<[data: BytesLike], [[string, string]], "view">;
+  getFunction(nameOrSignature: "dedicated_pub_key_per_market"): TypedContractMethod<[arg0: AddressLike, arg1: BytesLike], [string], "view">;
   getFunction(nameOrSignature: "getRoleAdmin"): TypedContractMethod<[role: BytesLike], [string], "view">;
   getFunction(nameOrSignature: "grantRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "hasRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
-  getFunction(nameOrSignature: "pub_key"): TypedContractMethod<[arg0: AddressLike], [string], "view">;
-  getFunction(nameOrSignature: "publicKeyToAddress"): TypedContractMethod<[publicKey: BytesLike], [string], "view">;
-  getFunction(nameOrSignature: "removePubkey"): TypedContractMethod<[key_owner: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "pub_key"): TypedContractMethod<[arg0: AddressLike, arg1: BigNumberish], [string], "view">;
+  getFunction(nameOrSignature: "removePubkey"): TypedContractMethod<[keyOwner: AddressLike, keyIndex: BigNumberish], [void], "nonpayable">;
   getFunction(nameOrSignature: "renounceRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "revokeRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
   getFunction(
     nameOrSignature: "updatePubkey"
-  ): TypedContractMethod<[key_owner: AddressLike, pubkey: BytesLike, attestation_data: BytesLike], [void], "nonpayable">;
+  ): TypedContractMethod<
+    [keyOwner: AddressLike, keyIndex: BigNumberish, pubkey: BytesLike, attestation_data: BytesLike],
+    [void],
+    "nonpayable"
+  >;
   getFunction(nameOrSignature: "usedUpKey"): TypedContractMethod<[arg0: AddressLike], [boolean], "view">;
 
-  getEvent(
-    key: "Initialized"
-  ): TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
   getEvent(key: "RemoveKey"): TypedContractEvent<RemoveKeyEvent.InputTuple, RemoveKeyEvent.OutputTuple, RemoveKeyEvent.OutputObject>;
   getEvent(
     key: "RoleAdminChanged"
@@ -257,10 +244,7 @@ export interface EntityKeyRegistry extends BaseContract {
   getEvent(key: "UpdateKey"): TypedContractEvent<UpdateKeyEvent.InputTuple, UpdateKeyEvent.OutputTuple, UpdateKeyEvent.OutputObject>;
 
   filters: {
-    "Initialized(uint8)": TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
-    Initialized: TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
-
-    "RemoveKey(address)": TypedContractEvent<RemoveKeyEvent.InputTuple, RemoveKeyEvent.OutputTuple, RemoveKeyEvent.OutputObject>;
+    "RemoveKey(address,uint256)": TypedContractEvent<RemoveKeyEvent.InputTuple, RemoveKeyEvent.OutputTuple, RemoveKeyEvent.OutputObject>;
     RemoveKey: TypedContractEvent<RemoveKeyEvent.InputTuple, RemoveKeyEvent.OutputTuple, RemoveKeyEvent.OutputObject>;
 
     "RoleAdminChanged(bytes32,bytes32,bytes32)": TypedContractEvent<
@@ -288,7 +272,7 @@ export interface EntityKeyRegistry extends BaseContract {
     >;
     RoleRevoked: TypedContractEvent<RoleRevokedEvent.InputTuple, RoleRevokedEvent.OutputTuple, RoleRevokedEvent.OutputObject>;
 
-    "UpdateKey(address)": TypedContractEvent<UpdateKeyEvent.InputTuple, UpdateKeyEvent.OutputTuple, UpdateKeyEvent.OutputObject>;
+    "UpdateKey(address,uint256)": TypedContractEvent<UpdateKeyEvent.InputTuple, UpdateKeyEvent.OutputTuple, UpdateKeyEvent.OutputObject>;
     UpdateKey: TypedContractEvent<UpdateKeyEvent.InputTuple, UpdateKeyEvent.OutputTuple, UpdateKeyEvent.OutputObject>;
   };
 }
