@@ -23,10 +23,17 @@ async function main(): Promise<string> {
     inputOuputVerifierUrl: "ivs url mandatory",
   };
 
-  const wrapperAddress = "0x41d76752a45d9Bdb66275c1fFF8C50f01D2f4Ec4";
+  const wrapperAddress = "0x96AEC4bFEF7D802cd609Af69058D07ECB22e9015";
   const slashingPenalty = "10000000000";
   const marketBytes = Buffer.from(JSON.stringify(marketSetupData), "utf-8");
-  const isEnclaveRequired = true;
+
+  const ivsSignature = await kalypso
+    .MarketPlace()
+    .IvsEnclaveConnector()
+    .getAddressSignature(await wallet.getAddress());
+
+  console.log({ ivsSignature });
+
   const attestationVeriferEndPoint = "http://65.1.112.107:1400";
 
   const attestationData = await kalypso.MarketPlace().IvsEnclaveConnector().getAttestation(attestationVeriferEndPoint);
@@ -36,17 +43,15 @@ async function main(): Promise<string> {
 
   const ivsCheckPointUrl = "http://13.200.244.229:3030/checkInput";
 
-  const ivsSignature = await kalypso
-    .MarketPlace()
-    .IvsEnclaveConnector()
-    .getAddressSignature(await wallet.getAddress());
+  const proverImageId = KalypsoSdk.getImageIdFromAttestation(attestationData.attestation_document);
+
   const tx = await kalypso
     .MarketPlace()
     .createNewMarket(
       marketBytes,
       wrapperAddress,
       slashingPenalty,
-      isEnclaveRequired,
+      proverImageId,
       attestationData.attestation_document,
       ivsCheckPointUrl,
       ivsSignature

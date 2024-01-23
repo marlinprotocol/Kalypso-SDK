@@ -3,6 +3,7 @@ import { KalspsoConfig } from "../../src/types";
 import { KalypsoSdk } from "../../src";
 
 import * as fs from "fs";
+import { PublicKey } from "eciesjs";
 
 const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb-sepolia.json", "utf-8"));
 const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
@@ -16,6 +17,12 @@ async function main(): Promise<string> {
 
   const result = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getMatchingEnginePublicKeys();
   console.log({ result });
+
+  const meResult = await kalypso.MarketPlace().readMePubKeyInContract();
+  console.log({ meResult });
+
+  const pubkey = PublicKey.fromHex("0x04" + meResult.toString().split("x")[1]);
+  console.log({ meResultCompressed: pubkey.compressed.toString("hex") });
 
   return "Done";
 }

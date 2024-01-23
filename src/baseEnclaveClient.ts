@@ -21,7 +21,6 @@ export class BaseEnclaveClient {
   public async getAttestation(attestation_verifier_endpoint: string): Promise<AttestationResponse> {
     //Fetching the attestation document
     let attestation_build_data = await this.buildAttestation();
-    // console.log({attestation_build_data});
 
     //Verifying the attestation document with whitelisted enclave
     let verify_attestation_config = {

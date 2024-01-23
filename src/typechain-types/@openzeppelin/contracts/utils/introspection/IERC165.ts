@@ -2,23 +2,21 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { BaseContract, BytesLike, FunctionFragment, Result, Interface, ContractRunner, ContractMethod, Listener } from "ethers";
-import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../../../common";
+import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../../../../common";
 
-export interface HELPERInterface extends Interface {
-  getFunction(nameOrSignature: "getPubkeyAndAddress" | "publicKeyToAddress"): FunctionFragment;
+export interface IERC165Interface extends Interface {
+  getFunction(nameOrSignature: "supportsInterface"): FunctionFragment;
 
-  encodeFunctionData(functionFragment: "getPubkeyAndAddress", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "publicKeyToAddress", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
 
-  decodeFunctionResult(functionFragment: "getPubkeyAndAddress", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "publicKeyToAddress", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "supportsInterface", data: BytesLike): Result;
 }
 
-export interface HELPER extends BaseContract {
-  connect(runner?: ContractRunner | null): HELPER;
+export interface IERC165 extends BaseContract {
+  connect(runner?: ContractRunner | null): IERC165;
   waitForDeployment(): Promise<this>;
 
-  interface: HELPERInterface;
+  interface: IERC165Interface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
@@ -41,14 +39,11 @@ export interface HELPER extends BaseContract {
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
-  getPubkeyAndAddress: TypedContractMethod<[data: BytesLike], [[string, string]], "view">;
-
-  publicKeyToAddress: TypedContractMethod<[publicKey: BytesLike], [string], "view">;
+  supportsInterface: TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
-  getFunction(nameOrSignature: "getPubkeyAndAddress"): TypedContractMethod<[data: BytesLike], [[string, string]], "view">;
-  getFunction(nameOrSignature: "publicKeyToAddress"): TypedContractMethod<[publicKey: BytesLike], [string], "view">;
+  getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
 
   filters: {};
 }

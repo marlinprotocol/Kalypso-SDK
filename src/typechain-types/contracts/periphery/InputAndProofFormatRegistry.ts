@@ -12,7 +12,7 @@ import type {
   ContractMethod,
   Listener,
 } from "ethers";
-import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../common";
+import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../../common";
 
 export interface InputAndProofFormatRegistryInterface extends Interface {
   getFunction(

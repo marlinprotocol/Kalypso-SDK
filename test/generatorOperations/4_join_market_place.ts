@@ -23,7 +23,24 @@ async function main() {
   let tx: ContractTransactionResponse;
   let receipt: ContractTransactionReceipt | null;
 
-  tx = await kalypso.Generator().joinMarketPlace(marketId, computeAllocatedPerRequest, proofGenerationCost, proposedTimeInBlocks);
+  const attestation_verifier_endpoint = "http://65.1.112.107:1400";
+  let attestation = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation(attestation_verifier_endpoint);
+
+  const enclaveSignature = await kalypso
+    .Generator()
+    .GeneratorEnclaveConnector()
+    .getAddressSignature(await wallet.getAddress());
+
+  tx = await kalypso
+    .Generator()
+    .joinMarketPlace(
+      marketId,
+      computeAllocatedPerRequest,
+      proofGenerationCost,
+      proposedTimeInBlocks,
+      attestation.attestation_document,
+      enclaveSignature
+    );
   receipt = await tx.wait();
   console.log("Joined Market Place Transaction: ", receipt?.hash);
 
