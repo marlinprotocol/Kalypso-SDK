@@ -37,7 +37,11 @@ const createAskTest = async () => {
   console.log({ latestBlock, assignmentDeadline: assignmentDeadline.toFixed(0) });
   const proofGenerationTimeInBlocks = new BigNumber(10000000000);
 
-  const isGoodRequest = await kalypso.MarketPlace().checkInputsAndEncryptedSecretWithIvs(marketId, inputBytes, Buffer.from(secretString));
+  const ivsCheckEciesCheckingKey = await kalypso.MarketPlace().IvsEnclaveConnector().fetchInputVerifierPublicKeys();
+
+  const isGoodRequest = await kalypso
+    .MarketPlace()
+    .checkInputsAndEncryptedSecretWithIvs(marketId, inputBytes, Buffer.from(secretString), ivsCheckEciesCheckingKey.data.ecies_public_key);
 
   if (isGoodRequest) {
     // Create ASK request
