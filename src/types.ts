@@ -118,7 +118,7 @@ export interface EnclaveAttestationData {
   min_mem: number;
   max_age: number;
   signature: BytesLike;
-  secp_key: BytesLike;
+  secp256k1_public: BytesLike;
   timestamp: number;
 }
 
