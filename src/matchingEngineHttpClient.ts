@@ -115,6 +115,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
       body: JSON.stringify({}),
     });
     if (!response.ok) {
+      console.log(response);
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();

@@ -33,6 +33,9 @@ export class BaseEnclaveClient {
     };
 
     let attestation_verifier_response = await fetch(`${attestation_verifier_endpoint}/verify`, verify_attestation_config);
+    if (!attestation_verifier_response.ok) {
+      console.log({ attestation_verifier_response });
+    }
     let attestation_verifier_response_data = await attestation_verifier_response.json();
 
     let ecies_pubkey = "0x" + attestation_build_data.secp_key.toString().substring(2);
@@ -77,6 +80,9 @@ export class BaseEnclaveClient {
     };
 
     let attestation_server_response = await fetch(`${this.attestation_utility_endpoint}/build/attestation`, attestation_build_config);
+    if (!attestation_server_response.ok) {
+      console.log({ attestation_server_response });
+    }
     return await attestation_server_response.json();
   }
 
