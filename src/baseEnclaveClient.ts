@@ -1,6 +1,7 @@
 import { AttestationResponse, EnclaveAttestationData } from "./types";
 import fetch from "node-fetch";
 import { ethers } from "ethers";
+import BigNumber from "bignumber.js";
 
 export class BaseEnclaveClient {
   protected attestation_utility_endpoint: string;
@@ -34,8 +35,8 @@ export class BaseEnclaveClient {
     let attestation_verifier_response = await fetch(`${attestation_verifier_endpoint}/verify`, verify_attestation_config);
     let attestation_verifier_response_data = await attestation_verifier_response.json();
 
-    let verifier_address = "0x" + ethers.keccak256("0x" + attestation_verifier_response_data.secp_key).slice(-40);
     let ecies_pubkey = "0x" + attestation_build_data.secp_key.toString().substring(2);
+    // let verifier_address = "0x" + ethers.keccak256("0x" + attestation_verifier_response_data.secp_key).slice(-40);
     // console.log({ ecies_pubkey });
     // console.log({ verifier_address });
 
@@ -47,16 +48,16 @@ export class BaseEnclaveClient {
 
     let abiCoder = new ethers.AbiCoder();
     let encodedData = abiCoder.encode(
-      ["bytes", "address", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256"],
+      ["bytes", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256", "uint256"],
       [
         "0x" + attestation_verifier_response_data.sig,
-        verifier_address,
         ecies_pubkey,
         "0x" + attestation_build_data.pcrs[0],
         "0x" + attestation_build_data.pcrs[1],
         "0x" + attestation_build_data.pcrs[2],
         attestation_build_data.min_cpus,
         attestation_build_data.min_mem,
+        attestation_build_data.timestamp,
       ]
     );
 
@@ -86,8 +87,8 @@ export class BaseEnclaveClient {
 
     let abiCoder = new ethers.AbiCoder();
     let encodedData = abiCoder.encode(
-      ["bytes", "address", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256"],
-      ["0x00", "0x0011001100110011001100110011001100110011", ecies_pubkey, "0x00", "0x00", "0x00", 1, 1]
+      ["bytes", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256", "uint256"],
+      ["0x00", ecies_pubkey, "0x00", "0x00", "0x00", 1, 1, getTimestampMs()]
     );
 
     return {
@@ -95,4 +96,12 @@ export class BaseEnclaveClient {
       secp_key: ecies_pubkey,
     };
   }
+}
+
+// function getTimestampInSeconds(delay: number = 0): number {
+//   return new BigNumber(new BigNumber(new Date().valueOf()).div(1000).plus(delay).toFixed(0)).toNumber();
+// }
+
+function getTimestampMs(delay: number = 0): number {
+  return new BigNumber(new BigNumber(new Date().valueOf()).plus(delay).toFixed(0)).toNumber();
 }

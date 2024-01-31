@@ -119,6 +119,7 @@ export interface EnclaveAttestationData {
   max_age: number;
   signature: BytesLike;
   secp_key: BytesLike;
+  timestamp: number;
 }
 
 export interface SignAddressResponse {
