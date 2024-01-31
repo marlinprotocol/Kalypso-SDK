@@ -64,6 +64,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
       attestation_verifier: this.config.attestation_verifier,
       entity_registry: this.config.entity_registry,
     };
+    console.log({ meConfigData });
     const response = await fetch(this.url("/api/matchingEngineConfigSetup"), {
       method: "POST",
       headers: this.headers(),
