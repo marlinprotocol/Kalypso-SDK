@@ -31,7 +31,7 @@ export class BaseEnclaveClient {
       body: JSON.stringify(attestation_build_data),
     };
 
-    let attestation_verifier_response = await fetch(`${attestation_verifier_endpoint}/verify/attestation`, verify_attestation_config);
+    let attestation_verifier_response = await fetch(`${attestation_verifier_endpoint}/verify`, verify_attestation_config);
     let attestation_verifier_response_data = await attestation_verifier_response.json();
 
     let verifier_address = "0x" + ethers.keccak256("0x" + attestation_verifier_response_data.secp_key).slice(-40);

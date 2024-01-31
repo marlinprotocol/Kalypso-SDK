@@ -38,6 +38,7 @@ export interface AttestationVerifierInterface extends Interface {
     nameOrSignature:
       | "ATTESTATION_PREFIX"
       | "DEFAULT_ADMIN_ROLE"
+      | "MAX_AGE"
       | "getRoleAdmin"
       | "getRoleMember"
       | "getRoleMemberCount"
@@ -46,19 +47,18 @@ export interface AttestationVerifierInterface extends Interface {
       | "initialize"
       | "isVerified"
       | "proxiableUUID"
+      | "pubKeyToAddress"
       | "renounceRole"
       | "revokeRole"
       | "revokeWhitelistedEnclave"
       | "revokeWhitelistedImage"
-      | "safeVerify(bytes)"
-      | "safeVerify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)"
       | "supportsInterface"
       | "upgradeTo"
       | "upgradeToAndCall"
       | "verify(bytes)"
-      | "verify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)"
+      | "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)"
       | "verifyEnclaveKey"
-      | "whitelistEnclaveKey"
+      | "whitelistEnclave"
       | "whitelistImage"
       | "whitelistedImages"
   ): FunctionFragment;
@@ -81,6 +81,7 @@ export interface AttestationVerifierInterface extends Interface {
 
   encodeFunctionData(functionFragment: "ATTESTATION_PREFIX", values?: undefined): string;
   encodeFunctionData(functionFragment: "DEFAULT_ADMIN_ROLE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "MAX_AGE", values?: undefined): string;
   encodeFunctionData(functionFragment: "getRoleAdmin", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "getRoleMember", values: [BytesLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "getRoleMemberCount", values: [BytesLike]): string;
@@ -92,33 +93,30 @@ export interface AttestationVerifierInterface extends Interface {
   ): string;
   encodeFunctionData(functionFragment: "isVerified", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "proxiableUUID", values?: undefined): string;
+  encodeFunctionData(functionFragment: "pubKeyToAddress", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "renounceRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "revokeRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "revokeWhitelistedEnclave", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "revokeWhitelistedImage", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "safeVerify(bytes)", values: [BytesLike]): string;
-  encodeFunctionData(
-    functionFragment: "safeVerify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)",
-    values: [BytesLike, AddressLike, AddressLike, BytesLike, BytesLike, BytesLike, BigNumberish, BigNumberish]
-  ): string;
   encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "upgradeTo", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "upgradeToAndCall", values: [AddressLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "verify(bytes)", values: [BytesLike]): string;
   encodeFunctionData(
-    functionFragment: "verify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)",
-    values: [BytesLike, AddressLike, AddressLike, BytesLike, BytesLike, BytesLike, BigNumberish, BigNumberish]
+    functionFragment: "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)",
+    values: [BytesLike, BytesLike, BytesLike, BytesLike, BytesLike, BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "verifyEnclaveKey",
-    values: [BytesLike, AddressLike, AddressLike, BytesLike, BigNumberish, BigNumberish]
+    values: [BytesLike, BytesLike, BytesLike, BigNumberish, BigNumberish, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "whitelistEnclaveKey", values: [AddressLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "whitelistEnclave", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "whitelistImage", values: [BytesLike, BytesLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "whitelistedImages", values: [BytesLike]): string;
 
   decodeFunctionResult(functionFragment: "ATTESTATION_PREFIX", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "DEFAULT_ADMIN_ROLE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "MAX_AGE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getRoleAdmin", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getRoleMember", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getRoleMemberCount", data: BytesLike): Result;
@@ -127,19 +125,18 @@ export interface AttestationVerifierInterface extends Interface {
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "isVerified", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "proxiableUUID", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pubKeyToAddress", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "renounceRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "revokeWhitelistedEnclave", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "revokeWhitelistedImage", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "safeVerify(bytes)", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "safeVerify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "supportsInterface", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "upgradeToAndCall", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "verify(bytes)", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "verify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "verifyEnclaveKey", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "whitelistEnclaveKey", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "whitelistEnclave", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "whitelistImage", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "whitelistedImages", data: BytesLike): Result;
 }
@@ -185,11 +182,11 @@ export namespace EnclaveImageWhitelistedEvent {
 }
 
 export namespace EnclaveKeyVerifiedEvent {
-  export type InputTuple = [enclaveKey: AddressLike, imageId: BytesLike];
-  export type OutputTuple = [enclaveKey: string, imageId: string];
+  export type InputTuple = [imageId: BytesLike, enclaveKey: BytesLike];
+  export type OutputTuple = [imageId: string, enclaveKey: string];
   export interface OutputObject {
-    enclaveKey: string;
     imageId: string;
+    enclaveKey: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -198,11 +195,11 @@ export namespace EnclaveKeyVerifiedEvent {
 }
 
 export namespace EnclaveKeyWhitelistedEvent {
-  export type InputTuple = [enclaveKey: AddressLike, imageId: BytesLike];
-  export type OutputTuple = [enclaveKey: string, imageId: string];
+  export type InputTuple = [imageId: BytesLike, enclaveKey: AddressLike];
+  export type OutputTuple = [imageId: string, enclaveKey: string];
   export interface OutputObject {
-    enclaveKey: string;
     imageId: string;
+    enclaveKey: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -277,11 +274,11 @@ export namespace UpgradedEvent {
 }
 
 export namespace WhitelistedEnclaveKeyRevokedEvent {
-  export type InputTuple = [enclaveKey: AddressLike, imageId: BytesLike];
-  export type OutputTuple = [enclaveKey: string, imageId: string];
+  export type InputTuple = [imageId: BytesLike, enclaveKey: AddressLike];
+  export type OutputTuple = [imageId: string, enclaveKey: string];
   export interface OutputObject {
-    enclaveKey: string;
     imageId: string;
+    enclaveKey: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -332,6 +329,8 @@ export interface AttestationVerifier extends BaseContract {
 
   DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
 
+  MAX_AGE: TypedContractMethod<[], [bigint], "view">;
+
   getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
 
   getRoleMember: TypedContractMethod<[role: BytesLike, index: BigNumberish], [string], "view">;
@@ -352,6 +351,8 @@ export interface AttestationVerifier extends BaseContract {
 
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
+  pubKeyToAddress: TypedContractMethod<[pubKey: BytesLike], [string], "view">;
+
   renounceRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
 
   revokeRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
@@ -360,60 +361,43 @@ export interface AttestationVerifier extends BaseContract {
 
   revokeWhitelistedImage: TypedContractMethod<[imageId: BytesLike], [void], "nonpayable">;
 
-  "safeVerify(bytes)": TypedContractMethod<[data: BytesLike], [void], "view">;
-
-  "safeVerify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)": TypedContractMethod<
-    [
-      attestation: BytesLike,
-      sourceEnclaveKey: AddressLike,
-      enclaveKey: AddressLike,
-      PCR0: BytesLike,
-      PCR1: BytesLike,
-      PCR2: BytesLike,
-      enclaveCPUs: BigNumberish,
-      enclaveMemory: BigNumberish
-    ],
-    [void],
-    "view"
-  >;
-
   supportsInterface: TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
 
   upgradeTo: TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
 
   upgradeToAndCall: TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;
 
-  "verify(bytes)": TypedContractMethod<[data: BytesLike], [boolean], "view">;
+  "verify(bytes)": TypedContractMethod<[data: BytesLike], [void], "view">;
 
-  "verify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)": TypedContractMethod<
+  "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)": TypedContractMethod<
     [
       attestation: BytesLike,
-      sourceEnclaveKey: AddressLike,
-      enclaveKey: AddressLike,
+      enclaveKey: BytesLike,
       PCR0: BytesLike,
       PCR1: BytesLike,
       PCR2: BytesLike,
       enclaveCPUs: BigNumberish,
-      enclaveMemory: BigNumberish
+      enclaveMemory: BigNumberish,
+      timestamp: BigNumberish
     ],
-    [boolean],
+    [void],
     "view"
   >;
 
   verifyEnclaveKey: TypedContractMethod<
     [
       attestation: BytesLike,
-      sourceEnclaveKey: AddressLike,
-      enclaveKey: AddressLike,
+      enclavePubKey: BytesLike,
       imageId: BytesLike,
       enclaveCPUs: BigNumberish,
-      enclaveMemory: BigNumberish
+      enclaveMemory: BigNumberish,
+      timestamp: BigNumberish
     ],
     [void],
     "nonpayable"
   >;
 
-  whitelistEnclaveKey: TypedContractMethod<[enclaveKey: AddressLike, imageId: BytesLike], [void], "nonpayable">;
+  whitelistEnclave: TypedContractMethod<[imageId: BytesLike, enclaveKey: AddressLike], [void], "nonpayable">;
 
   whitelistImage: TypedContractMethod<[PCR0: BytesLike, PCR1: BytesLike, PCR2: BytesLike], [void], "nonpayable">;
 
@@ -427,6 +411,7 @@ export interface AttestationVerifier extends BaseContract {
 
   getFunction(nameOrSignature: "ATTESTATION_PREFIX"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "DEFAULT_ADMIN_ROLE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "MAX_AGE"): TypedContractMethod<[], [bigint], "view">;
   getFunction(nameOrSignature: "getRoleAdmin"): TypedContractMethod<[role: BytesLike], [string], "view">;
   getFunction(nameOrSignature: "getRoleMember"): TypedContractMethod<[role: BytesLike, index: BigNumberish], [string], "view">;
   getFunction(nameOrSignature: "getRoleMemberCount"): TypedContractMethod<[role: BytesLike], [bigint], "view">;
@@ -441,47 +426,31 @@ export interface AttestationVerifier extends BaseContract {
   >;
   getFunction(nameOrSignature: "isVerified"): TypedContractMethod<[arg0: AddressLike], [string], "view">;
   getFunction(nameOrSignature: "proxiableUUID"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "pubKeyToAddress"): TypedContractMethod<[pubKey: BytesLike], [string], "view">;
   getFunction(nameOrSignature: "renounceRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "revokeRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "revokeWhitelistedEnclave"): TypedContractMethod<[enclaveKey: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "revokeWhitelistedImage"): TypedContractMethod<[imageId: BytesLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "safeVerify(bytes)"): TypedContractMethod<[data: BytesLike], [void], "view">;
-  getFunction(
-    nameOrSignature: "safeVerify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)"
-  ): TypedContractMethod<
-    [
-      attestation: BytesLike,
-      sourceEnclaveKey: AddressLike,
-      enclaveKey: AddressLike,
-      PCR0: BytesLike,
-      PCR1: BytesLike,
-      PCR2: BytesLike,
-      enclaveCPUs: BigNumberish,
-      enclaveMemory: BigNumberish
-    ],
-    [void],
-    "view"
-  >;
   getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
   getFunction(nameOrSignature: "upgradeTo"): TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "upgradeToAndCall"
   ): TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;
-  getFunction(nameOrSignature: "verify(bytes)"): TypedContractMethod<[data: BytesLike], [boolean], "view">;
+  getFunction(nameOrSignature: "verify(bytes)"): TypedContractMethod<[data: BytesLike], [void], "view">;
   getFunction(
-    nameOrSignature: "verify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)"
+    nameOrSignature: "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)"
   ): TypedContractMethod<
     [
       attestation: BytesLike,
-      sourceEnclaveKey: AddressLike,
-      enclaveKey: AddressLike,
+      enclaveKey: BytesLike,
       PCR0: BytesLike,
       PCR1: BytesLike,
       PCR2: BytesLike,
       enclaveCPUs: BigNumberish,
-      enclaveMemory: BigNumberish
+      enclaveMemory: BigNumberish,
+      timestamp: BigNumberish
     ],
-    [boolean],
+    [void],
     "view"
   >;
   getFunction(
@@ -489,18 +458,18 @@ export interface AttestationVerifier extends BaseContract {
   ): TypedContractMethod<
     [
       attestation: BytesLike,
-      sourceEnclaveKey: AddressLike,
-      enclaveKey: AddressLike,
+      enclavePubKey: BytesLike,
       imageId: BytesLike,
       enclaveCPUs: BigNumberish,
-      enclaveMemory: BigNumberish
+      enclaveMemory: BigNumberish,
+      timestamp: BigNumberish
     ],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "whitelistEnclaveKey"
-  ): TypedContractMethod<[enclaveKey: AddressLike, imageId: BytesLike], [void], "nonpayable">;
+    nameOrSignature: "whitelistEnclave"
+  ): TypedContractMethod<[imageId: BytesLike, enclaveKey: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "whitelistImage"
   ): TypedContractMethod<[PCR0: BytesLike, PCR1: BytesLike, PCR2: BytesLike], [void], "nonpayable">;
@@ -585,7 +554,7 @@ export interface AttestationVerifier extends BaseContract {
       EnclaveImageWhitelistedEvent.OutputObject
     >;
 
-    "EnclaveKeyVerified(address,bytes32)": TypedContractEvent<
+    "EnclaveKeyVerified(bytes32,bytes)": TypedContractEvent<
       EnclaveKeyVerifiedEvent.InputTuple,
       EnclaveKeyVerifiedEvent.OutputTuple,
       EnclaveKeyVerifiedEvent.OutputObject
@@ -596,7 +565,7 @@ export interface AttestationVerifier extends BaseContract {
       EnclaveKeyVerifiedEvent.OutputObject
     >;
 
-    "EnclaveKeyWhitelisted(address,bytes32)": TypedContractEvent<
+    "EnclaveKeyWhitelisted(bytes32,address)": TypedContractEvent<
       EnclaveKeyWhitelistedEvent.InputTuple,
       EnclaveKeyWhitelistedEvent.OutputTuple,
       EnclaveKeyWhitelistedEvent.OutputObject
@@ -638,7 +607,7 @@ export interface AttestationVerifier extends BaseContract {
     "Upgraded(address)": TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>;
     Upgraded: TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>;
 
-    "WhitelistedEnclaveKeyRevoked(address,bytes32)": TypedContractEvent<
+    "WhitelistedEnclaveKeyRevoked(bytes32,address)": TypedContractEvent<
       WhitelistedEnclaveKeyRevokedEvent.InputTuple,
       WhitelistedEnclaveKeyRevokedEvent.OutputTuple,
       WhitelistedEnclaveKeyRevokedEvent.OutputObject

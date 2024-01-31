@@ -56,7 +56,6 @@ export declare namespace ProofMarketPlace {
 export interface ProofMarketPlaceInterface extends Interface {
   getFunction(
     nameOrSignature:
-      | "ATTESTATION_VERIFIER"
       | "DEFAULT_ADMIN_ROLE"
       | "ENTITY_KEY_REGISTRY"
       | "GENERATOR_REGISTRY"
@@ -84,14 +83,12 @@ export interface ProofMarketPlaceInterface extends Interface {
       | "listOfAsk"
       | "marketCounter"
       | "marketData"
-      | "proverImageId"
       | "proxiableUUID"
       | "relayAssignTask"
       | "relayBatchAssignTasks"
       | "renounceRole"
       | "revokeRole"
       | "slashGenerator"
-      | "slashingPenalty"
       | "submitProof"
       | "submitProofForInvalidInputs"
       | "submitProofs"
@@ -100,7 +97,6 @@ export interface ProofMarketPlaceInterface extends Interface {
       | "updateMatchingEngineEncryptionKeyAndSigner"
       | "upgradeTo"
       | "upgradeToAndCall"
-      | "verifier"
   ): FunctionFragment;
 
   getEvent(
@@ -122,7 +118,6 @@ export interface ProofMarketPlaceInterface extends Interface {
       | "Upgraded"
   ): EventFragment;
 
-  encodeFunctionData(functionFragment: "ATTESTATION_VERIFIER", values?: undefined): string;
   encodeFunctionData(functionFragment: "DEFAULT_ADMIN_ROLE", values?: undefined): string;
   encodeFunctionData(functionFragment: "ENTITY_KEY_REGISTRY", values?: undefined): string;
   encodeFunctionData(functionFragment: "GENERATOR_REGISTRY", values?: undefined): string;
@@ -153,14 +148,12 @@ export interface ProofMarketPlaceInterface extends Interface {
   encodeFunctionData(functionFragment: "listOfAsk", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "marketCounter", values?: undefined): string;
   encodeFunctionData(functionFragment: "marketData", values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: "proverImageId", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "proxiableUUID", values?: undefined): string;
   encodeFunctionData(functionFragment: "relayAssignTask", values: [BigNumberish, AddressLike, BytesLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "relayBatchAssignTasks", values: [BigNumberish[], AddressLike[], BytesLike[], BytesLike]): string;
   encodeFunctionData(functionFragment: "renounceRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "revokeRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "slashGenerator", values: [BigNumberish, AddressLike]): string;
-  encodeFunctionData(functionFragment: "slashingPenalty", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "submitProof", values: [BigNumberish, BytesLike]): string;
   encodeFunctionData(functionFragment: "submitProofForInvalidInputs", values: [BigNumberish, BytesLike]): string;
   encodeFunctionData(functionFragment: "submitProofs", values: [BigNumberish[], BytesLike[]]): string;
@@ -169,9 +162,7 @@ export interface ProofMarketPlaceInterface extends Interface {
   encodeFunctionData(functionFragment: "updateMatchingEngineEncryptionKeyAndSigner", values: [BytesLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "upgradeTo", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "upgradeToAndCall", values: [AddressLike, BytesLike]): string;
-  encodeFunctionData(functionFragment: "verifier", values: [BigNumberish]): string;
 
-  decodeFunctionResult(functionFragment: "ATTESTATION_VERIFIER", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "DEFAULT_ADMIN_ROLE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ENTITY_KEY_REGISTRY", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "GENERATOR_REGISTRY", data: BytesLike): Result;
@@ -199,14 +190,12 @@ export interface ProofMarketPlaceInterface extends Interface {
   decodeFunctionResult(functionFragment: "listOfAsk", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "marketCounter", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "marketData", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "proverImageId", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "proxiableUUID", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "relayAssignTask", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "relayBatchAssignTasks", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "renounceRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "slashGenerator", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "slashingPenalty", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "submitProof", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "submitProofForInvalidInputs", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "submitProofs", data: BytesLike): Result;
@@ -215,7 +204,6 @@ export interface ProofMarketPlaceInterface extends Interface {
   decodeFunctionResult(functionFragment: "updateMatchingEngineEncryptionKeyAndSigner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "upgradeToAndCall", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "verifier", data: BytesLike): Result;
 }
 
 export namespace AdminChangedEvent {
@@ -439,8 +427,6 @@ export interface ProofMarketPlace extends BaseContract {
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
-  ATTESTATION_VERIFIER: TypedContractMethod<[], [string], "view">;
-
   DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
 
   ENTITY_KEY_REGISTRY: TypedContractMethod<[], [string], "view">;
@@ -541,8 +527,6 @@ export interface ProofMarketPlace extends BaseContract {
     "view"
   >;
 
-  proverImageId: TypedContractMethod<[marketId: BigNumberish], [string], "view">;
-
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
   relayAssignTask: TypedContractMethod<
@@ -562,8 +546,6 @@ export interface ProofMarketPlace extends BaseContract {
   revokeRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
 
   slashGenerator: TypedContractMethod<[askId: BigNumberish, rewardAddress: AddressLike], [bigint], "nonpayable">;
-
-  slashingPenalty: TypedContractMethod<[marketId: BigNumberish], [bigint], "view">;
 
   submitProof: TypedContractMethod<[askId: BigNumberish, proof: BytesLike], [void], "nonpayable">;
 
@@ -585,11 +567,8 @@ export interface ProofMarketPlace extends BaseContract {
 
   upgradeToAndCall: TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;
 
-  verifier: TypedContractMethod<[marketId: BigNumberish], [string], "view">;
-
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
-  getFunction(nameOrSignature: "ATTESTATION_VERIFIER"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "DEFAULT_ADMIN_ROLE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "ENTITY_KEY_REGISTRY"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "GENERATOR_REGISTRY"): TypedContractMethod<[], [string], "view">;
@@ -671,7 +650,6 @@ export interface ProofMarketPlace extends BaseContract {
     ],
     "view"
   >;
-  getFunction(nameOrSignature: "proverImageId"): TypedContractMethod<[marketId: BigNumberish], [string], "view">;
   getFunction(nameOrSignature: "proxiableUUID"): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "relayAssignTask"
@@ -688,7 +666,6 @@ export interface ProofMarketPlace extends BaseContract {
   getFunction(
     nameOrSignature: "slashGenerator"
   ): TypedContractMethod<[askId: BigNumberish, rewardAddress: AddressLike], [bigint], "nonpayable">;
-  getFunction(nameOrSignature: "slashingPenalty"): TypedContractMethod<[marketId: BigNumberish], [bigint], "view">;
   getFunction(nameOrSignature: "submitProof"): TypedContractMethod<[askId: BigNumberish, proof: BytesLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "submitProofForInvalidInputs"
@@ -705,7 +682,6 @@ export interface ProofMarketPlace extends BaseContract {
   getFunction(
     nameOrSignature: "upgradeToAndCall"
   ): TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;
-  getFunction(nameOrSignature: "verifier"): TypedContractMethod<[marketId: BigNumberish], [string], "view">;
 
   getEvent(
     key: "AdminChanged"
