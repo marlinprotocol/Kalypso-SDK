@@ -13,7 +13,7 @@ const wallet = new ethers.Wallet(`${keys.generator_private_key}`, provider);
 async function main() {
   console.log("using address", await wallet.getAddress());
 
-  const attestation_verifier_endpoint = "http://65.1.112.107:1400";
+  const attestation_verifier_endpoint = "http://3.111.17.6:1400";
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 

@@ -23,13 +23,18 @@ async function main() {
   let tx: ContractTransactionResponse;
   let receipt: ContractTransactionReceipt | null;
 
-  const attestation_verifier_endpoint = "http://65.1.112.107:1400";
+  const attestation_verifier_endpoint = "http://3.111.17.6:1400";
   let attestation = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation(attestation_verifier_endpoint);
 
   const enclaveSignature = await kalypso
     .Generator()
     .GeneratorEnclaveConnector()
     .getAddressSignature(await wallet.getAddress());
+
+  // const tx_2 = await kalypso.Generator().updateEcisKey(marketId, attestation.attestation_document, enclaveSignature);
+
+  // const receipt_2 = await tx_2.wait();
+  // console.log("Added Generator ECIES key: ", receipt_2?.hash);
 
   tx = await kalypso
     .Generator()
@@ -43,6 +48,9 @@ async function main() {
     );
   receipt = await tx.wait();
   console.log("Joined Market Place Transaction: ", receipt?.hash);
+
+
+
 
   return "Done Joining Market Place";
 }
