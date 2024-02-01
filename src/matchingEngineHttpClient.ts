@@ -40,6 +40,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
 
     const response = await fetch(this.url("/api/generateApiKey"), { method: "POST" });
     if (!response.ok) {
+      console.log({ response });
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
@@ -63,12 +64,14 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
       attestation_verifier: this.config.attestation_verifier,
       entity_registry: this.config.entity_registry,
     };
+    console.log({ meConfigData });
     const response = await fetch(this.url("/api/matchingEngineConfigSetup"), {
       method: "POST",
       headers: this.headers(),
       body: JSON.stringify(meConfigData),
     });
     if (!response.ok) {
+      console.log({ response });
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
@@ -115,6 +118,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
       body: JSON.stringify({}),
     });
     if (!response.ok) {
+      console.log(response);
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();

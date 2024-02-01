@@ -17,31 +17,19 @@ import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, Typed
 
 export interface MockAttestationVerifierInterface extends Interface {
   getFunction(
-    nameOrSignature:
-      | "isVerified"
-      | "safeVerify(bytes)"
-      | "safeVerify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)"
-      | "verify(bytes)"
-      | "verify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)"
+    nameOrSignature: "isVerified" | "verify(bytes)" | "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)"
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "isVerified", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "safeVerify(bytes)", values: [BytesLike]): string;
-  encodeFunctionData(
-    functionFragment: "safeVerify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)",
-    values: [BytesLike, AddressLike, AddressLike, BytesLike, BytesLike, BytesLike, BigNumberish, BigNumberish]
-  ): string;
   encodeFunctionData(functionFragment: "verify(bytes)", values: [BytesLike]): string;
   encodeFunctionData(
-    functionFragment: "verify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)",
-    values: [BytesLike, AddressLike, AddressLike, BytesLike, BytesLike, BytesLike, BigNumberish, BigNumberish]
+    functionFragment: "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)",
+    values: [BytesLike, BytesLike, BytesLike, BytesLike, BytesLike, BigNumberish, BigNumberish, BigNumberish]
   ): string;
 
   decodeFunctionResult(functionFragment: "isVerified", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "safeVerify(bytes)", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "safeVerify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "verify(bytes)", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "verify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)", data: BytesLike): Result;
 }
 
 export interface MockAttestationVerifier extends BaseContract {
@@ -73,75 +61,41 @@ export interface MockAttestationVerifier extends BaseContract {
 
   isVerified: TypedContractMethod<[arg0: AddressLike], [string], "view">;
 
-  "safeVerify(bytes)": TypedContractMethod<[data: BytesLike], [void], "view">;
+  "verify(bytes)": TypedContractMethod<[arg0: BytesLike], [void], "view">;
 
-  "safeVerify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)": TypedContractMethod<
+  "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)": TypedContractMethod<
     [
       attestation: BytesLike,
-      sourceEnclaveKey: AddressLike,
-      enclaveKey: AddressLike,
+      enclaveKey: BytesLike,
       PCR0: BytesLike,
       PCR1: BytesLike,
       PCR2: BytesLike,
       enclaveCPUs: BigNumberish,
-      enclaveMemory: BigNumberish
+      enclaveMemory: BigNumberish,
+      timestamp: BigNumberish
     ],
     [void],
-    "view"
-  >;
-
-  "verify(bytes)": TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
-
-  "verify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)": TypedContractMethod<
-    [
-      attestation: BytesLike,
-      sourceEnclaveKey: AddressLike,
-      enclaveKey: AddressLike,
-      PCR0: BytesLike,
-      PCR1: BytesLike,
-      PCR2: BytesLike,
-      enclaveCPUs: BigNumberish,
-      enclaveMemory: BigNumberish
-    ],
-    [boolean],
     "view"
   >;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "isVerified"): TypedContractMethod<[arg0: AddressLike], [string], "view">;
-  getFunction(nameOrSignature: "safeVerify(bytes)"): TypedContractMethod<[data: BytesLike], [void], "view">;
+  getFunction(nameOrSignature: "verify(bytes)"): TypedContractMethod<[arg0: BytesLike], [void], "view">;
   getFunction(
-    nameOrSignature: "safeVerify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)"
+    nameOrSignature: "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)"
   ): TypedContractMethod<
     [
       attestation: BytesLike,
-      sourceEnclaveKey: AddressLike,
-      enclaveKey: AddressLike,
+      enclaveKey: BytesLike,
       PCR0: BytesLike,
       PCR1: BytesLike,
       PCR2: BytesLike,
       enclaveCPUs: BigNumberish,
-      enclaveMemory: BigNumberish
+      enclaveMemory: BigNumberish,
+      timestamp: BigNumberish
     ],
     [void],
-    "view"
-  >;
-  getFunction(nameOrSignature: "verify(bytes)"): TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "verify(bytes,address,address,bytes,bytes,bytes,uint256,uint256)"
-  ): TypedContractMethod<
-    [
-      attestation: BytesLike,
-      sourceEnclaveKey: AddressLike,
-      enclaveKey: AddressLike,
-      PCR0: BytesLike,
-      PCR1: BytesLike,
-      PCR2: BytesLike,
-      enclaveCPUs: BigNumberish,
-      enclaveMemory: BigNumberish
-    ],
-    [boolean],
     "view"
   >;
 

@@ -38,6 +38,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
   public async getGeneratorStatus(): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/getGeneratorStatus"), { method: "GET", headers: this.headers() });
     if (!response.ok) {
+      console.log({ response });
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
@@ -50,6 +51,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
 
     const response = await fetch(this.url("/api/generateApiKey"), { method: "POST" });
     if (!response.ok) {
+      console.log({ response });
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
@@ -63,6 +65,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     });
 
     if (!attestation_server_response.ok) {
+      console.log({ attestation_server_response });
       throw new Error(`Error: ${attestation_server_response.status}`);
     }
 
@@ -77,7 +80,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
   public async startGenerator(): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/startGenerator"), { method: "POST", headers: this.headers() });
     if (!response.ok) {
-      console.log(response);
+      console.log({ response });
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
@@ -86,6 +89,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
   public async restartGenerator(): Promise<EnclaveResponse<null>> {
     const response = await fetch(this.url("/api/restartGenerator"), { method: "POST", headers: this.headers() });
     if (!response.ok) {
+      console.log({ response });
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
@@ -94,6 +98,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
   public async stopGenerator(): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/stopGenerator"), { method: "POST", headers: this.headers() });
     if (!response.ok) {
+      console.log({ response });
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
@@ -130,6 +135,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
       body: JSON.stringify(generatorConfigData),
     });
     if (!response.ok) {
+      console.log({ response });
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
@@ -142,6 +148,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
       body: JSON.stringify(config),
     });
     if (!response.ok) {
+      console.log({ response });
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
@@ -154,6 +161,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
       body: JSON.stringify(generatorConfig),
     });
     if (!response.ok) {
+      console.log({ response });
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
@@ -166,6 +174,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
       body: JSON.stringify({ address }),
     });
     if (!response.ok) {
+      console.log({ response });
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
@@ -178,6 +187,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
       body: JSON.stringify(generator),
     });
     if (!response.ok) {
+      console.log({ response });
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
@@ -195,6 +205,9 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     };
 
     let generator_public_keys_response = await fetch(`${this.generatorEndPoint}/api/fetchGeneratorPublicKeys`, public_key_config);
+    if (!generator_public_keys_response.ok) {
+      console.log({ generator_public_keys_response });
+    }
     let generator_public_keys = await generator_public_keys_response.json();
     if (generator_public_keys_response.status != 200) {
       console.log(generator_public_keys_response);

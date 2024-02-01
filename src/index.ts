@@ -34,7 +34,7 @@ export class KalypsoSdk {
   public static getPubKeyAndAddressFromAttestation(attesationData: BytesLike): [string, string] {
     let abicode = new ethers.AbiCoder();
 
-    let decoded = abicode.decode(["bytes", "address", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256"], attesationData);
+    let decoded = abicode.decode(["bytes", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256", "uint256"], attesationData);
     let pubkey = decoded[2];
     let hash = ethers.keccak256(pubkey);
 
@@ -46,8 +46,8 @@ export class KalypsoSdk {
   public static getImageIdFromAttestation(attesationData: BytesLike): BytesLike {
     let abicode = new ethers.AbiCoder();
 
-    let decoded = abicode.decode(["bytes", "address", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256"], attesationData);
-    let encoded = ethers.solidityPacked(["bytes", "bytes", "bytes"], [decoded[3], decoded[4], decoded[5]]);
+    let decoded = abicode.decode(["bytes", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256", "uint256"], attesationData);
+    let encoded = ethers.solidityPacked(["bytes", "bytes", "bytes"], [decoded[2], decoded[3], decoded[4]]);
     let digest = ethers.keccak256(encoded);
     return digest;
   }

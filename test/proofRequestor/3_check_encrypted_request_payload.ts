@@ -25,9 +25,13 @@ const createAskTest = async () => {
 
   const secretString = JSON.stringify(secret);
 
-  const marketId = 1;
+  const ivsCheckEciesCheckingKey = await kalypso.MarketPlace().IvsEnclaveConnector().fetchInputVerifierPublicKeys();
+
+  const marketId = 0;
   // third argument to this function is your custom encryption key. If nothing is provided, matching engine pubkey is used
-  const result = await kalypso.MarketPlace().checkInputsAndEncryptedSecretWithIvs(marketId, inputBytes, Buffer.from(secretString));
+  const result = await kalypso
+    .MarketPlace()
+    .checkInputsAndEncryptedSecretWithIvs(marketId, inputBytes, Buffer.from(secretString), ivsCheckEciesCheckingKey.data.ecies_public_key);
   console.log(JSON.stringify(result, null, 4));
 };
 

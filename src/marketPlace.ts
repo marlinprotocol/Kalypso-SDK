@@ -173,7 +173,12 @@ export class MarketPlace {
     );
   }
 
-  public async checkInputsAndEncryptedSecretWithIvs(marketId: BigNumberish, proverData: BytesLike, secretBuffer: Buffer): Promise<boolean> {
+  public async checkInputsAndEncryptedSecretWithIvs(
+    marketId: BigNumberish,
+    proverData: BytesLike,
+    secretBuffer: Buffer,
+    eciesCheckingKey?: BytesLike
+  ): Promise<boolean> {
     //this should fetched from proof market place contract
     // const ivsUrl = "http://localhost:3030/checkInput";
 
@@ -182,11 +187,16 @@ export class MarketPlace {
 
     // const eciesPubKey = "0x024813e9113562b2659f7a062c4eca19f89efb9b1c80df439d2eef3c9f0f370001";
     // const eciesPubKey = "0x044813e9113562b2659f7a062c4eca19f89efb9b1c80df439d2eef3c9f0f370001e06393ff736f11f4e4122dfe570b3823d756358b3955811ef704690dc40e6b22"
+    let eciesPubKey;
+    if (!eciesCheckingKey) {
+      eciesPubKey = (await this.entityKeyRegistry.pub_key(marketData.ivsSigner, 0)).toString();
+    } else {
+      eciesPubKey = eciesCheckingKey.toString();
+    }
 
-    const eciesPubKey = await this.entityKeyRegistry.pub_key(marketData.ivsSigner, 0);
     console.log({ eciesPubKey });
 
-    if (eciesPubKey == "0x" || eciesPubKey.length != 130) {
+    if (eciesPubKey == "0x") {
       throw new Error(
         `MarketId: ${marketId} has not published it's IVS ecies pubkey and signer to the entity registry contract. Avoid using it or else loose funds`
       );

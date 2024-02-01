@@ -10,6 +10,7 @@ export interface ErrorInterface extends Interface {
       | "ALREADY_JOINED_MARKET"
       | "ARITY_MISMATCH"
       | "ASSIGN_ONLY_TO_IDLE_GENERATORS"
+      | "ATTESTATION_TIMEOUT"
       | "CANNOT_BE_ADMIN_LESS"
       | "CANNOT_BE_ZERO"
       | "CANNOT_USE_MATCHING_ENGINE_ROLE"
@@ -59,6 +60,7 @@ export interface ErrorInterface extends Interface {
   encodeFunctionData(functionFragment: "ALREADY_JOINED_MARKET", values?: undefined): string;
   encodeFunctionData(functionFragment: "ARITY_MISMATCH", values?: undefined): string;
   encodeFunctionData(functionFragment: "ASSIGN_ONLY_TO_IDLE_GENERATORS", values?: undefined): string;
+  encodeFunctionData(functionFragment: "ATTESTATION_TIMEOUT", values?: undefined): string;
   encodeFunctionData(functionFragment: "CANNOT_BE_ADMIN_LESS", values?: undefined): string;
   encodeFunctionData(functionFragment: "CANNOT_BE_ZERO", values?: undefined): string;
   encodeFunctionData(functionFragment: "CANNOT_USE_MATCHING_ENGINE_ROLE", values?: undefined): string;
@@ -107,6 +109,7 @@ export interface ErrorInterface extends Interface {
   decodeFunctionResult(functionFragment: "ALREADY_JOINED_MARKET", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ARITY_MISMATCH", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ASSIGN_ONLY_TO_IDLE_GENERATORS", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ATTESTATION_TIMEOUT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "CANNOT_BE_ADMIN_LESS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "CANNOT_BE_ZERO", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "CANNOT_USE_MATCHING_ENGINE_ROLE", data: BytesLike): Result;
@@ -185,6 +188,8 @@ export interface Error extends BaseContract {
   ARITY_MISMATCH: TypedContractMethod<[], [string], "view">;
 
   ASSIGN_ONLY_TO_IDLE_GENERATORS: TypedContractMethod<[], [string], "view">;
+
+  ATTESTATION_TIMEOUT: TypedContractMethod<[], [string], "view">;
 
   CANNOT_BE_ADMIN_LESS: TypedContractMethod<[], [string], "view">;
 
@@ -279,6 +284,7 @@ export interface Error extends BaseContract {
   getFunction(nameOrSignature: "ALREADY_JOINED_MARKET"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "ARITY_MISMATCH"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "ASSIGN_ONLY_TO_IDLE_GENERATORS"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "ATTESTATION_TIMEOUT"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "CANNOT_BE_ADMIN_LESS"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "CANNOT_BE_ZERO"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "CANNOT_USE_MATCHING_ENGINE_ROLE"): TypedContractMethod<[], [string], "view">;

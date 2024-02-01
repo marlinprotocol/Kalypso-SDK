@@ -42,6 +42,7 @@ export class IvsHttpClient extends BaseEnclaveClient {
 
     const response = await fetch(this.url("/api/generateApiKey"), { method: "POST" });
     if (!response.ok) {
+      console.log({ response });
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
@@ -100,6 +101,7 @@ export class IvsHttpClient extends BaseEnclaveClient {
     });
 
     if (!attestation_server_response.ok) {
+      console.log({ attestation_server_response });
       throw new Error(`Error: ${attestation_server_response.status}`);
     }
 

@@ -1,6 +1,7 @@
 import { AttestationResponse, EnclaveAttestationData } from "./types";
 import fetch from "node-fetch";
 import { ethers } from "ethers";
+import BigNumber from "bignumber.js";
 
 export class BaseEnclaveClient {
   protected attestation_utility_endpoint: string;
@@ -21,21 +22,25 @@ export class BaseEnclaveClient {
   public async getAttestation(attestation_verifier_endpoint: string): Promise<AttestationResponse> {
     //Fetching the attestation document
     let attestation_build_data = await this.buildAttestation();
-
+    console.log({ attestation_build_data });
     //Verifying the attestation document with whitelisted enclave
     let verify_attestation_config = {
-      method: "post",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(attestation_build_data),
     };
 
-    let attestation_verifier_response = await fetch(`${attestation_verifier_endpoint}/verify/attestation`, verify_attestation_config);
+    let attestation_verifier_response = await fetch(`${attestation_verifier_endpoint}/verify`, verify_attestation_config);
+    if (!attestation_verifier_response.ok) {
+      console.log({ attestation_verifier_response });
+    }
     let attestation_verifier_response_data = await attestation_verifier_response.json();
+    // console.log({attestation_verifier_response_data})
 
-    let verifier_address = "0x" + ethers.keccak256("0x" + attestation_verifier_response_data.secp_key).slice(-40);
-    let ecies_pubkey = "0x" + attestation_build_data.secp_key.toString().substring(2);
+    let ecies_pubkey = "0x" + attestation_build_data.secp256k1_public.toString();
+    // let verifier_address = "0x" + ethers.keccak256("0x" + attestation_verifier_response_data.secp_key).slice(-40);
     // console.log({ ecies_pubkey });
     // console.log({ verifier_address });
 
@@ -47,35 +52,37 @@ export class BaseEnclaveClient {
 
     let abiCoder = new ethers.AbiCoder();
     let encodedData = abiCoder.encode(
-      ["bytes", "address", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256"],
+      ["bytes", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256", "uint256"],
       [
-        "0x" + attestation_verifier_response_data.sig,
-        verifier_address,
+        "0x" + attestation_verifier_response_data.signature,
         ecies_pubkey,
         "0x" + attestation_build_data.pcrs[0],
         "0x" + attestation_build_data.pcrs[1],
         "0x" + attestation_build_data.pcrs[2],
         attestation_build_data.min_cpus,
         attestation_build_data.min_mem,
+        attestation_build_data.timestamp,
       ]
     );
 
     return {
       attestation_document: encodedData,
-      secp_key: attestation_build_data.secp_key,
+      secp_key: attestation_build_data.secp256k1_public,
     };
   }
 
   public async buildAttestation(): Promise<EnclaveAttestationData> {
     let attestation_build_config = {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({}),
     };
 
-    let attestation_server_response = await fetch(`${this.attestation_utility_endpoint}/build/attestation`, attestation_build_config);
+    let attestation_server_response = await fetch(`${this.attestation_utility_endpoint}/attestation`, attestation_build_config);
+    if (!attestation_server_response.ok) {
+      console.log({ attestation_server_response });
+    }
     return await attestation_server_response.json();
   }
 
@@ -86,8 +93,8 @@ export class BaseEnclaveClient {
 
     let abiCoder = new ethers.AbiCoder();
     let encodedData = abiCoder.encode(
-      ["bytes", "address", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256"],
-      ["0x00", "0x0011001100110011001100110011001100110011", ecies_pubkey, "0x00", "0x00", "0x00", 1, 1]
+      ["bytes", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256", "uint256"],
+      ["0x00", ecies_pubkey, "0x00", "0x00", "0x00", 1, 1, getTimestampMs()]
     );
 
     return {
@@ -95,4 +102,12 @@ export class BaseEnclaveClient {
       secp_key: ecies_pubkey,
     };
   }
+}
+
+// function getTimestampInSeconds(delay: number = 0): number {
+//   return new BigNumber(new BigNumber(new Date().valueOf()).div(1000).plus(delay).toFixed(0)).toNumber();
+// }
+
+function getTimestampMs(delay: number = 0): number {
+  return new BigNumber(new BigNumber(new Date().valueOf()).plus(delay).toFixed(0)).toNumber();
 }

@@ -16,26 +16,16 @@ import type {
 import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../common";
 
 export interface DisputeInterface extends Interface {
-  getFunction(
-    nameOrSignature: "checkDisputeUsingAttesation" | "checkDisputeUsingAttestationAndOrSignature" | "checkDisputeUsingSignature"
-  ): FunctionFragment;
+  getFunction(nameOrSignature: "ATTESTATION_VERIFIER" | "checkDisputeUsingAttestationAndOrSignature"): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: "checkDisputeUsingAttesation",
-    values: [BigNumberish, BytesLike, BytesLike, BytesLike, BytesLike]
-  ): string;
+  encodeFunctionData(functionFragment: "ATTESTATION_VERIFIER", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "checkDisputeUsingAttestationAndOrSignature",
     values: [BigNumberish, BytesLike, BytesLike, BytesLike, AddressLike]
   ): string;
-  encodeFunctionData(
-    functionFragment: "checkDisputeUsingSignature",
-    values: [BigNumberish, BytesLike, BytesLike, AddressLike, boolean]
-  ): string;
 
-  decodeFunctionResult(functionFragment: "checkDisputeUsingAttesation", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ATTESTATION_VERIFIER", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "checkDisputeUsingAttestationAndOrSignature", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "checkDisputeUsingSignature", data: BytesLike): Result;
 }
 
 export interface Dispute extends BaseContract {
@@ -65,11 +55,7 @@ export interface Dispute extends BaseContract {
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
-  checkDisputeUsingAttesation: TypedContractMethod<
-    [askId: BigNumberish, proverData: BytesLike, attestationData: BytesLike, expectedImageId: BytesLike, invalidProofSignature: BytesLike],
-    [boolean],
-    "view"
-  >;
+  ATTESTATION_VERIFIER: TypedContractMethod<[], [string], "view">;
 
   checkDisputeUsingAttestationAndOrSignature: TypedContractMethod<
     [askId: BigNumberish, proverData: BytesLike, completeData: BytesLike, expectedImageId: BytesLike, defaultIvsSigner: AddressLike],
@@ -77,32 +63,13 @@ export interface Dispute extends BaseContract {
     "view"
   >;
 
-  checkDisputeUsingSignature: TypedContractMethod<
-    [askId: BigNumberish, proverData: BytesLike, invalidProofSignature: BytesLike, expectedSigner: AddressLike, isPublic: boolean],
-    [boolean],
-    "view"
-  >;
-
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
-  getFunction(
-    nameOrSignature: "checkDisputeUsingAttesation"
-  ): TypedContractMethod<
-    [askId: BigNumberish, proverData: BytesLike, attestationData: BytesLike, expectedImageId: BytesLike, invalidProofSignature: BytesLike],
-    [boolean],
-    "view"
-  >;
+  getFunction(nameOrSignature: "ATTESTATION_VERIFIER"): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "checkDisputeUsingAttestationAndOrSignature"
   ): TypedContractMethod<
     [askId: BigNumberish, proverData: BytesLike, completeData: BytesLike, expectedImageId: BytesLike, defaultIvsSigner: AddressLike],
-    [boolean],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "checkDisputeUsingSignature"
-  ): TypedContractMethod<
-    [askId: BigNumberish, proverData: BytesLike, invalidProofSignature: BytesLike, expectedSigner: AddressLike, isPublic: boolean],
     [boolean],
     "view"
   >;
