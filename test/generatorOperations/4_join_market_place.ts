@@ -49,9 +49,6 @@ async function main() {
   receipt = await tx.wait();
   console.log("Joined Market Place Transaction: ", receipt?.hash);
 
-
-
-
   return "Done Joining Market Place";
 }
 
