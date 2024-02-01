@@ -12,9 +12,9 @@
   "priority_list": "0x938EbF283356C1E60425735c158D6a397d742907",
   "input_and_proof_format": "0xF98bbF61A3B6aB42DD552a90Fe14BD65Bda6Eb6D",
   "generatorEnclave": {
-    "url": "http://13.127.39.109:5000",
-    "utilityUrl": "http://13.127.39.109:1500",
-    "apikey": "382929c4-a614-457b-ac71-b4e3cd887618"
+    "url": "http://43.205.85.160:5000",
+    "utilityUrl": "http://43.205.85.160:1500",
+    "apikey": "8533d98b-7022-4201-9f68-8fe6fe597d2c"
   },
   "ivsEnclave": {
     "url": "http://13.200.244.229:5000",
