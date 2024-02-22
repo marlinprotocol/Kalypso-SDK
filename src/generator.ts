@@ -44,6 +44,14 @@ export class Generator {
     return this.generatorhttpClient;
   }
 
+  /**
+   *
+   * @param rewardAddress Reward Address on which generator will accrue all this rewards
+   * @param declaredCompute Total compute of the generator\
+   * @param generatorData Additional meta data of the generator
+   * @param options
+   * @returns
+   */
   public async register(
     rewardAddress: string,
     declaredCompute: BigNumberish,
@@ -57,18 +65,38 @@ export class Generator {
     return this.generatorRegistry.register(rewardAddress, declaredCompute, 0, generatorData, { ...options });
   }
 
+  /**
+   * @param refundAddress address to which the generator receives the refund
+   * @param options
+   * @returns
+   */
   public async deregister(refundAddress: string, options?: Overrides): Promise<ContractTransactionResponse> {
     return this.generatorRegistry.deregister(refundAddress, { ...options });
   }
 
+  /**
+   *
+   * @returns The total stake of the generator in the ecosystem
+   */
   public async getStake(): Promise<BigNumberish> {
     return (await this.generatorRegistry.generatorRegistry(await this.signer.getAddress())).totalStake;
   }
 
+  /**
+   *
+   * @returns Returns the total compute of the generator in ecosystem
+   */
   public async getCompute(): Promise<BigNumberish> {
     return (await this.generatorRegistry.generatorRegistry(await this.signer.getAddress())).declaredCompute;
   }
 
+  /**
+   *
+   * @param generatorAddress Address to which you want to stake
+   * @param amount Amount to stake
+   * @param options
+   * @returns
+   */
   public async stake(generatorAddress: string, amount: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
     const currentBalance = await this.stakingToken.balanceOf(await this.signer.getAddress());
 
@@ -87,6 +115,12 @@ export class Generator {
     return this.generatorRegistry.stake(generatorAddress, amount.toString(), { ...options });
   }
 
+  /**
+   *
+   * @param to Amount to which you should reduce the stake
+   * @param options
+   * @returns
+   */
   public async requestToReduceStake(to: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
     const currentStake = await this.getStake();
     let _to = new BigNumber(to.toString());
@@ -103,10 +137,22 @@ export class Generator {
     return this.generatorRegistry.unstake(to, { ...options });
   }
 
+  /**
+   *
+   * @param by Number by which you are about to increase the compute
+   * @param options
+   * @returns
+   */
   public async increaseCompute(by: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
     return this.generatorRegistry.increaseDeclaredCompute(by, { ...options });
   }
 
+  /**
+   *
+   * @param to Number to which you want to reduce the stake
+   * @param options
+   * @returns
+   */
   public async requestToReduceCompute(to: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
     const currentCompute = await this.getCompute();
     let _to = new BigNumber(to.toString());
@@ -119,14 +165,36 @@ export class Generator {
     return this.generatorRegistry.intendToReduceCompute(newUtilization.toFixed(0), { ...options });
   }
 
+  /**
+   *
+   * @param options Confirm decrease compute call
+   * @returns
+   */
   public async decreaseCompute(options?: Overrides): Promise<ContractTransactionResponse> {
     return this.generatorRegistry.decreaseDeclaredCompute({ ...options });
   }
 
+  /**
+   *
+   * @param amount Approve tokens to generator registry
+   * @param options
+   * @returns
+   */
   public async approveGeneratorRegistry(amount: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
     return await this.stakingToken.approve(await this.generatorRegistry.getAddress(), amount.toString(), { ...options });
   }
 
+  /**
+   *
+   * @param marketId Market ID to join
+   * @param computeAllocation fraction of you allocation that you wish to allocate to this market
+   * @param proofGeneratorCost Cost of generating a proof
+   * @param proposedTime maximum time takes for generating a proof
+   * @param attestationData Enclave attestation
+   * @param enclaveSignature Enclave signature
+   * @param options
+   * @returns
+   */
   public async joinMarketPlace(
     marketId: BigNumberish,
     computeAllocation: BigNumberish,
@@ -153,6 +221,15 @@ export class Generator {
     );
   }
 
+  /**
+   *
+   * @param marketId Market ID to join
+   * @param computeAllocation fraction of you allocation that you wish to allocate to this market
+   * @param proofGeneratorCost Cost of generating a proof
+   * @param proposedTime maximum time takes for generating a proof
+   * @param options
+   * @returns
+   */
   public async joinMarketPlaceWithoutEnclave(
     marketId: BigNumberish,
     computeAllocation: BigNumberish,

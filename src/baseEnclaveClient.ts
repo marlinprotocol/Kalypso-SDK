@@ -38,6 +38,11 @@ export abstract class BaseEnclaveClient {
     throw new Error("if not required separately, remove this function");
   }
 
+  /**
+   *
+   * @param attestation_verifier_endpoint URL at which the attestation verifier is hosted
+   * @returns Attestation
+   */
   public async getAttestation(attestation_verifier_endpoint: string): Promise<AttestationResponse> {
     //Fetching the attestation document
     let attestation_build_data = await this.buildAttestation();
@@ -90,6 +95,10 @@ export abstract class BaseEnclaveClient {
     };
   }
 
+  /**
+   *
+   * @returns Your Enclave Attestation in required format
+   */
   public async buildAttestation(): Promise<EnclaveAttestationData> {
     let attestation_build_config = {
       method: "GET",
@@ -105,6 +114,11 @@ export abstract class BaseEnclaveClient {
     return await attestation_server_response.json();
   }
 
+  /**
+   *
+   * @param ecies_pubkey Known ecies pubkey
+   * @returns Mock Attestation for a known ecies pubkey. This attestation will work only in dev net
+   */
   public async getMockAttestation(ecies_pubkey: string): Promise<AttestationResponse> {
     if (ecies_pubkey.length != 130) {
       throw new Error("ecies key length wrong");
@@ -122,6 +136,11 @@ export abstract class BaseEnclaveClient {
     };
   }
 
+  /**
+   *
+   * @param address Address which needs to be signed
+   * @returns Returns the address signed with enclaves private keys
+   */
   public async getAddressSignature(address: string): Promise<BytesLike> {
     console.log(this.url("/api/signAddress"));
     let attestation_server_response = await fetch(this.url("/api/signAddress"), {
@@ -141,6 +160,12 @@ export abstract class BaseEnclaveClient {
     return signature;
   }
 
+  /**
+   *
+   * @param attesation Attestation
+   * @param address Address
+   * @returns Returns the attestation and address signed by the enclave keys
+   */
   public async getAttestationSignature(attesation: string, address: string): Promise<BytesLike> {
     console.log(this.url("/api/signAttestation"));
     let attestation_server_response = await fetch(this.url("/api/signAttestation"), {
