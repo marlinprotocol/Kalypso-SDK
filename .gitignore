@@ -16,3 +16,5 @@ keys
 keys/*
 
 extraKeys
+
+**/.DS_Store
