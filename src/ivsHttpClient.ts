@@ -6,27 +6,13 @@ import fetch from "node-fetch";
 
 export class IvsHttpClient extends BaseEnclaveClient {
   private ivsEndPoint: string;
-  private apikey?: string;
 
   constructor(ivsEndPoint: string, ivs_attestation_utility_endpoint: string, apikey?: string) {
-    super(ivs_attestation_utility_endpoint);
+    super(ivs_attestation_utility_endpoint, apikey);
     this.ivsEndPoint = ivsEndPoint;
-    if (apikey) {
-      this.apikey = apikey;
-    }
   }
 
-  private headers(): HeaderInit {
-    if (this.apikey) {
-      return {
-        "Content-Type": "application/json",
-        "API-Key": this.apikey,
-      };
-    }
-    throw new Error("api key not provided");
-  }
-
-  private url(api: string): string {
+  protected override url(api: string): string {
     return `${this.ivsEndPoint}${api}`;
   }
 
@@ -91,24 +77,5 @@ export class IvsHttpClient extends BaseEnclaveClient {
       message: returnData.message,
       data: { ecies_public_key: returnData.data.ivs_ecies_public_key, public_key: returnData.data.ivs_public_key },
     };
-  }
-
-  public async getAddressSignature(address: string): Promise<BytesLike> {
-    let attestation_server_response = await fetch(this.url("/api/signAddress"), {
-      method: "POST",
-      headers: this.headers(),
-      body: JSON.stringify({ address }),
-    });
-
-    if (!attestation_server_response.ok) {
-      console.log({ attestation_server_response });
-      throw new Error(`Error: ${attestation_server_response.status}`);
-    }
-
-    let response: SignAddressResponse = await attestation_server_response.json();
-
-    const _v = response.data.v == 27 ? "1b" : "1c";
-    let signature = response.data.r + response.data.s.split("x")[1] + _v;
-    return signature;
   }
 }

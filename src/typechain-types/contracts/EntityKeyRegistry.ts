@@ -23,59 +23,217 @@ import type {
   TypedContractMethod,
 } from "../common";
 
+export declare namespace AttestationAutherUpgradeable {
+  export type EnclaveImageStruct = {
+    PCR0: BytesLike;
+    PCR1: BytesLike;
+    PCR2: BytesLike;
+  };
+
+  export type EnclaveImageStructOutput = [PCR0: string, PCR1: string, PCR2: string] & { PCR0: string; PCR1: string; PCR2: string };
+}
+
 export interface EntityKeyRegistryInterface extends Interface {
   getFunction(
     nameOrSignature:
+      | "ATTESTATION_MAX_AGE"
+      | "ATTESTATION_VERIFIER"
       | "DEFAULT_ADMIN_ROLE"
       | "KEY_REGISTER_ROLE"
       | "addGeneratorRegistry"
-      | "attestationVerifier"
-      | "dedicated_pub_key_per_market"
+      | "allowOnlyVerified"
       | "getRoleAdmin"
+      | "getRoleMember"
+      | "getRoleMemberCount"
       | "grantRole"
       | "hasRole"
+      | "initialize"
+      | "proxiableUUID"
       | "pub_key"
       | "removePubkey"
       | "renounceRole"
       | "revokeRole"
       | "supportsInterface"
       | "updatePubkey"
-      | "usedUpKey"
+      | "upgradeTo"
+      | "upgradeToAndCall"
+      | "verifyKey(bytes)"
+      | "verifyKey(bytes,bytes,bytes32,uint256,uint256,uint256)"
+      | "whitelistImageUsingPcrs"
   ): FunctionFragment;
 
-  getEvent(nameOrSignatureOrTopic: "RemoveKey" | "RoleAdminChanged" | "RoleGranted" | "RoleRevoked" | "UpdateKey"): EventFragment;
+  getEvent(
+    nameOrSignatureOrTopic:
+      | "AdminChanged"
+      | "BeaconUpgraded"
+      | "EnclaveImageRevoked"
+      | "EnclaveImageWhitelisted"
+      | "EnclaveKeyRevoked"
+      | "EnclaveKeyVerified"
+      | "EnclaveKeyWhitelisted"
+      | "Initialized"
+      | "RemoveKey"
+      | "RoleAdminChanged"
+      | "RoleGranted"
+      | "RoleRevoked"
+      | "UpdateKey"
+      | "Upgraded"
+  ): EventFragment;
 
+  encodeFunctionData(functionFragment: "ATTESTATION_MAX_AGE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "ATTESTATION_VERIFIER", values?: undefined): string;
   encodeFunctionData(functionFragment: "DEFAULT_ADMIN_ROLE", values?: undefined): string;
   encodeFunctionData(functionFragment: "KEY_REGISTER_ROLE", values?: undefined): string;
   encodeFunctionData(functionFragment: "addGeneratorRegistry", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "attestationVerifier", values?: undefined): string;
-  encodeFunctionData(functionFragment: "dedicated_pub_key_per_market", values: [AddressLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "allowOnlyVerified", values: [AddressLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "getRoleAdmin", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "getRoleMember", values: [BytesLike, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "getRoleMemberCount", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "grantRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "hasRole", values: [BytesLike, AddressLike]): string;
+  encodeFunctionData(functionFragment: "initialize", values: [AddressLike, AttestationAutherUpgradeable.EnclaveImageStruct[]]): string;
+  encodeFunctionData(functionFragment: "proxiableUUID", values?: undefined): string;
   encodeFunctionData(functionFragment: "pub_key", values: [AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "removePubkey", values: [AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "renounceRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "revokeRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "updatePubkey", values: [AddressLike, BigNumberish, BytesLike, BytesLike]): string;
-  encodeFunctionData(functionFragment: "usedUpKey", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "upgradeTo", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "upgradeToAndCall", values: [AddressLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "verifyKey(bytes)", values: [BytesLike]): string;
+  encodeFunctionData(
+    functionFragment: "verifyKey(bytes,bytes,bytes32,uint256,uint256,uint256)",
+    values: [BytesLike, BytesLike, BytesLike, BigNumberish, BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(functionFragment: "whitelistImageUsingPcrs", values: [BytesLike]): string;
 
+  decodeFunctionResult(functionFragment: "ATTESTATION_MAX_AGE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ATTESTATION_VERIFIER", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "DEFAULT_ADMIN_ROLE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "KEY_REGISTER_ROLE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addGeneratorRegistry", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "attestationVerifier", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "dedicated_pub_key_per_market", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "allowOnlyVerified", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getRoleAdmin", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getRoleMember", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getRoleMemberCount", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "proxiableUUID", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "pub_key", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "removePubkey", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "renounceRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "supportsInterface", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "updatePubkey", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "usedUpKey", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "upgradeToAndCall", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "verifyKey(bytes)", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "verifyKey(bytes,bytes,bytes32,uint256,uint256,uint256)", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "whitelistImageUsingPcrs", data: BytesLike): Result;
+}
+
+export namespace AdminChangedEvent {
+  export type InputTuple = [previousAdmin: AddressLike, newAdmin: AddressLike];
+  export type OutputTuple = [previousAdmin: string, newAdmin: string];
+  export interface OutputObject {
+    previousAdmin: string;
+    newAdmin: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace BeaconUpgradedEvent {
+  export type InputTuple = [beacon: AddressLike];
+  export type OutputTuple = [beacon: string];
+  export interface OutputObject {
+    beacon: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace EnclaveImageRevokedEvent {
+  export type InputTuple = [imageId: BytesLike];
+  export type OutputTuple = [imageId: string];
+  export interface OutputObject {
+    imageId: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace EnclaveImageWhitelistedEvent {
+  export type InputTuple = [imageId: BytesLike, PCR0: BytesLike, PCR1: BytesLike, PCR2: BytesLike];
+  export type OutputTuple = [imageId: string, PCR0: string, PCR1: string, PCR2: string];
+  export interface OutputObject {
+    imageId: string;
+    PCR0: string;
+    PCR1: string;
+    PCR2: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace EnclaveKeyRevokedEvent {
+  export type InputTuple = [enclavePubKey: BytesLike];
+  export type OutputTuple = [enclavePubKey: string];
+  export interface OutputObject {
+    enclavePubKey: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace EnclaveKeyVerifiedEvent {
+  export type InputTuple = [enclavePubKey: BytesLike, imageId: BytesLike];
+  export type OutputTuple = [enclavePubKey: string, imageId: string];
+  export interface OutputObject {
+    enclavePubKey: string;
+    imageId: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace EnclaveKeyWhitelistedEvent {
+  export type InputTuple = [enclavePubKey: BytesLike, imageId: BytesLike];
+  export type OutputTuple = [enclavePubKey: string, imageId: string];
+  export interface OutputObject {
+    enclavePubKey: string;
+    imageId: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace InitializedEvent {
+  export type InputTuple = [version: BigNumberish];
+  export type OutputTuple = [version: bigint];
+  export interface OutputObject {
+    version: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
 }
 
 export namespace RemoveKeyEvent {
@@ -146,6 +304,18 @@ export namespace UpdateKeyEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
+export namespace UpgradedEvent {
+  export type InputTuple = [implementation: AddressLike];
+  export type OutputTuple = [implementation: string];
+  export interface OutputObject {
+    implementation: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
 export interface EntityKeyRegistry extends BaseContract {
   connect(runner?: ContractRunner | null): EntityKeyRegistry;
   waitForDeployment(): Promise<this>;
@@ -173,21 +343,35 @@ export interface EntityKeyRegistry extends BaseContract {
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
+  ATTESTATION_MAX_AGE: TypedContractMethod<[], [bigint], "view">;
+
+  ATTESTATION_VERIFIER: TypedContractMethod<[], [string], "view">;
+
   DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
 
   KEY_REGISTER_ROLE: TypedContractMethod<[], [string], "view">;
 
   addGeneratorRegistry: TypedContractMethod<[_generatorRegistry: AddressLike], [void], "nonpayable">;
 
-  attestationVerifier: TypedContractMethod<[], [string], "view">;
-
-  dedicated_pub_key_per_market: TypedContractMethod<[arg0: AddressLike, arg1: BytesLike], [string], "view">;
+  allowOnlyVerified: TypedContractMethod<[key: AddressLike, _imageId: BytesLike], [boolean], "view">;
 
   getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
+
+  getRoleMember: TypedContractMethod<[role: BytesLike, index: BigNumberish], [string], "view">;
+
+  getRoleMemberCount: TypedContractMethod<[role: BytesLike], [bigint], "view">;
 
   grantRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
 
   hasRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
+
+  initialize: TypedContractMethod<
+    [_admin: AddressLike, initWhitelistImages: AttestationAutherUpgradeable.EnclaveImageStruct[]],
+    [void],
+    "nonpayable"
+  >;
+
+  proxiableUUID: TypedContractMethod<[], [string], "view">;
 
   pub_key: TypedContractMethod<[arg0: AddressLike, arg1: BigNumberish], [string], "view">;
 
@@ -205,18 +389,48 @@ export interface EntityKeyRegistry extends BaseContract {
     "nonpayable"
   >;
 
-  usedUpKey: TypedContractMethod<[arg0: AddressLike], [boolean], "view">;
+  upgradeTo: TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
+
+  upgradeToAndCall: TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;
+
+  "verifyKey(bytes)": TypedContractMethod<[attestation_data: BytesLike], [void], "nonpayable">;
+
+  "verifyKey(bytes,bytes,bytes32,uint256,uint256,uint256)": TypedContractMethod<
+    [
+      signature: BytesLike,
+      enclavePubKey: BytesLike,
+      imageId: BytesLike,
+      enclaveCPUs: BigNumberish,
+      enclaveMemory: BigNumberish,
+      timestampInMilliseconds: BigNumberish
+    ],
+    [void],
+    "nonpayable"
+  >;
+
+  whitelistImageUsingPcrs: TypedContractMethod<[pcrs: BytesLike], [void], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
+  getFunction(nameOrSignature: "ATTESTATION_MAX_AGE"): TypedContractMethod<[], [bigint], "view">;
+  getFunction(nameOrSignature: "ATTESTATION_VERIFIER"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "DEFAULT_ADMIN_ROLE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "KEY_REGISTER_ROLE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "addGeneratorRegistry"): TypedContractMethod<[_generatorRegistry: AddressLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "attestationVerifier"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "dedicated_pub_key_per_market"): TypedContractMethod<[arg0: AddressLike, arg1: BytesLike], [string], "view">;
+  getFunction(nameOrSignature: "allowOnlyVerified"): TypedContractMethod<[key: AddressLike, _imageId: BytesLike], [boolean], "view">;
   getFunction(nameOrSignature: "getRoleAdmin"): TypedContractMethod<[role: BytesLike], [string], "view">;
+  getFunction(nameOrSignature: "getRoleMember"): TypedContractMethod<[role: BytesLike, index: BigNumberish], [string], "view">;
+  getFunction(nameOrSignature: "getRoleMemberCount"): TypedContractMethod<[role: BytesLike], [bigint], "view">;
   getFunction(nameOrSignature: "grantRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "hasRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "initialize"
+  ): TypedContractMethod<
+    [_admin: AddressLike, initWhitelistImages: AttestationAutherUpgradeable.EnclaveImageStruct[]],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(nameOrSignature: "proxiableUUID"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "pub_key"): TypedContractMethod<[arg0: AddressLike, arg1: BigNumberish], [string], "view">;
   getFunction(nameOrSignature: "removePubkey"): TypedContractMethod<[keyOwner: AddressLike, keyIndex: BigNumberish], [void], "nonpayable">;
   getFunction(nameOrSignature: "renounceRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
@@ -229,8 +443,59 @@ export interface EntityKeyRegistry extends BaseContract {
     [void],
     "nonpayable"
   >;
-  getFunction(nameOrSignature: "usedUpKey"): TypedContractMethod<[arg0: AddressLike], [boolean], "view">;
+  getFunction(nameOrSignature: "upgradeTo"): TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "upgradeToAndCall"
+  ): TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;
+  getFunction(nameOrSignature: "verifyKey(bytes)"): TypedContractMethod<[attestation_data: BytesLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "verifyKey(bytes,bytes,bytes32,uint256,uint256,uint256)"
+  ): TypedContractMethod<
+    [
+      signature: BytesLike,
+      enclavePubKey: BytesLike,
+      imageId: BytesLike,
+      enclaveCPUs: BigNumberish,
+      enclaveMemory: BigNumberish,
+      timestampInMilliseconds: BigNumberish
+    ],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(nameOrSignature: "whitelistImageUsingPcrs"): TypedContractMethod<[pcrs: BytesLike], [void], "nonpayable">;
 
+  getEvent(
+    key: "AdminChanged"
+  ): TypedContractEvent<AdminChangedEvent.InputTuple, AdminChangedEvent.OutputTuple, AdminChangedEvent.OutputObject>;
+  getEvent(
+    key: "BeaconUpgraded"
+  ): TypedContractEvent<BeaconUpgradedEvent.InputTuple, BeaconUpgradedEvent.OutputTuple, BeaconUpgradedEvent.OutputObject>;
+  getEvent(
+    key: "EnclaveImageRevoked"
+  ): TypedContractEvent<EnclaveImageRevokedEvent.InputTuple, EnclaveImageRevokedEvent.OutputTuple, EnclaveImageRevokedEvent.OutputObject>;
+  getEvent(
+    key: "EnclaveImageWhitelisted"
+  ): TypedContractEvent<
+    EnclaveImageWhitelistedEvent.InputTuple,
+    EnclaveImageWhitelistedEvent.OutputTuple,
+    EnclaveImageWhitelistedEvent.OutputObject
+  >;
+  getEvent(
+    key: "EnclaveKeyRevoked"
+  ): TypedContractEvent<EnclaveKeyRevokedEvent.InputTuple, EnclaveKeyRevokedEvent.OutputTuple, EnclaveKeyRevokedEvent.OutputObject>;
+  getEvent(
+    key: "EnclaveKeyVerified"
+  ): TypedContractEvent<EnclaveKeyVerifiedEvent.InputTuple, EnclaveKeyVerifiedEvent.OutputTuple, EnclaveKeyVerifiedEvent.OutputObject>;
+  getEvent(
+    key: "EnclaveKeyWhitelisted"
+  ): TypedContractEvent<
+    EnclaveKeyWhitelistedEvent.InputTuple,
+    EnclaveKeyWhitelistedEvent.OutputTuple,
+    EnclaveKeyWhitelistedEvent.OutputObject
+  >;
+  getEvent(
+    key: "Initialized"
+  ): TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
   getEvent(key: "RemoveKey"): TypedContractEvent<RemoveKeyEvent.InputTuple, RemoveKeyEvent.OutputTuple, RemoveKeyEvent.OutputObject>;
   getEvent(
     key: "RoleAdminChanged"
@@ -242,8 +507,81 @@ export interface EntityKeyRegistry extends BaseContract {
     key: "RoleRevoked"
   ): TypedContractEvent<RoleRevokedEvent.InputTuple, RoleRevokedEvent.OutputTuple, RoleRevokedEvent.OutputObject>;
   getEvent(key: "UpdateKey"): TypedContractEvent<UpdateKeyEvent.InputTuple, UpdateKeyEvent.OutputTuple, UpdateKeyEvent.OutputObject>;
+  getEvent(key: "Upgraded"): TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>;
 
   filters: {
+    "AdminChanged(address,address)": TypedContractEvent<
+      AdminChangedEvent.InputTuple,
+      AdminChangedEvent.OutputTuple,
+      AdminChangedEvent.OutputObject
+    >;
+    AdminChanged: TypedContractEvent<AdminChangedEvent.InputTuple, AdminChangedEvent.OutputTuple, AdminChangedEvent.OutputObject>;
+
+    "BeaconUpgraded(address)": TypedContractEvent<
+      BeaconUpgradedEvent.InputTuple,
+      BeaconUpgradedEvent.OutputTuple,
+      BeaconUpgradedEvent.OutputObject
+    >;
+    BeaconUpgraded: TypedContractEvent<BeaconUpgradedEvent.InputTuple, BeaconUpgradedEvent.OutputTuple, BeaconUpgradedEvent.OutputObject>;
+
+    "EnclaveImageRevoked(bytes32)": TypedContractEvent<
+      EnclaveImageRevokedEvent.InputTuple,
+      EnclaveImageRevokedEvent.OutputTuple,
+      EnclaveImageRevokedEvent.OutputObject
+    >;
+    EnclaveImageRevoked: TypedContractEvent<
+      EnclaveImageRevokedEvent.InputTuple,
+      EnclaveImageRevokedEvent.OutputTuple,
+      EnclaveImageRevokedEvent.OutputObject
+    >;
+
+    "EnclaveImageWhitelisted(bytes32,bytes,bytes,bytes)": TypedContractEvent<
+      EnclaveImageWhitelistedEvent.InputTuple,
+      EnclaveImageWhitelistedEvent.OutputTuple,
+      EnclaveImageWhitelistedEvent.OutputObject
+    >;
+    EnclaveImageWhitelisted: TypedContractEvent<
+      EnclaveImageWhitelistedEvent.InputTuple,
+      EnclaveImageWhitelistedEvent.OutputTuple,
+      EnclaveImageWhitelistedEvent.OutputObject
+    >;
+
+    "EnclaveKeyRevoked(bytes)": TypedContractEvent<
+      EnclaveKeyRevokedEvent.InputTuple,
+      EnclaveKeyRevokedEvent.OutputTuple,
+      EnclaveKeyRevokedEvent.OutputObject
+    >;
+    EnclaveKeyRevoked: TypedContractEvent<
+      EnclaveKeyRevokedEvent.InputTuple,
+      EnclaveKeyRevokedEvent.OutputTuple,
+      EnclaveKeyRevokedEvent.OutputObject
+    >;
+
+    "EnclaveKeyVerified(bytes,bytes32)": TypedContractEvent<
+      EnclaveKeyVerifiedEvent.InputTuple,
+      EnclaveKeyVerifiedEvent.OutputTuple,
+      EnclaveKeyVerifiedEvent.OutputObject
+    >;
+    EnclaveKeyVerified: TypedContractEvent<
+      EnclaveKeyVerifiedEvent.InputTuple,
+      EnclaveKeyVerifiedEvent.OutputTuple,
+      EnclaveKeyVerifiedEvent.OutputObject
+    >;
+
+    "EnclaveKeyWhitelisted(bytes,bytes32)": TypedContractEvent<
+      EnclaveKeyWhitelistedEvent.InputTuple,
+      EnclaveKeyWhitelistedEvent.OutputTuple,
+      EnclaveKeyWhitelistedEvent.OutputObject
+    >;
+    EnclaveKeyWhitelisted: TypedContractEvent<
+      EnclaveKeyWhitelistedEvent.InputTuple,
+      EnclaveKeyWhitelistedEvent.OutputTuple,
+      EnclaveKeyWhitelistedEvent.OutputObject
+    >;
+
+    "Initialized(uint8)": TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
+    Initialized: TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
+
     "RemoveKey(address,uint256)": TypedContractEvent<RemoveKeyEvent.InputTuple, RemoveKeyEvent.OutputTuple, RemoveKeyEvent.OutputObject>;
     RemoveKey: TypedContractEvent<RemoveKeyEvent.InputTuple, RemoveKeyEvent.OutputTuple, RemoveKeyEvent.OutputObject>;
 
@@ -274,5 +612,8 @@ export interface EntityKeyRegistry extends BaseContract {
 
     "UpdateKey(address,uint256)": TypedContractEvent<UpdateKeyEvent.InputTuple, UpdateKeyEvent.OutputTuple, UpdateKeyEvent.OutputObject>;
     UpdateKey: TypedContractEvent<UpdateKeyEvent.InputTuple, UpdateKeyEvent.OutputTuple, UpdateKeyEvent.OutputObject>;
+
+    "Upgraded(address)": TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>;
+    Upgraded: TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>;
   };
 }

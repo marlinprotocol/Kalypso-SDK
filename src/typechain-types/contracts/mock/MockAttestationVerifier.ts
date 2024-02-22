@@ -17,7 +17,7 @@ import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, Typed
 
 export interface MockAttestationVerifierInterface extends Interface {
   getFunction(
-    nameOrSignature: "isVerified" | "verify(bytes)" | "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)"
+    nameOrSignature: "isVerified" | "verify(bytes)" | "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)" | "whitelistEnclave"
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "isVerified", values: [AddressLike]): string;
@@ -26,10 +26,12 @@ export interface MockAttestationVerifierInterface extends Interface {
     functionFragment: "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)",
     values: [BytesLike, BytesLike, BytesLike, BytesLike, BytesLike, BigNumberish, BigNumberish, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "whitelistEnclave", values: [BytesLike, AddressLike]): string;
 
   decodeFunctionResult(functionFragment: "isVerified", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "verify(bytes)", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "whitelistEnclave", data: BytesLike): Result;
 }
 
 export interface MockAttestationVerifier extends BaseContract {
@@ -78,6 +80,8 @@ export interface MockAttestationVerifier extends BaseContract {
     "view"
   >;
 
+  whitelistEnclave: TypedContractMethod<[imageId: BytesLike, enclaveKey: AddressLike], [void], "nonpayable">;
+
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "isVerified"): TypedContractMethod<[arg0: AddressLike], [string], "view">;
@@ -98,6 +102,9 @@ export interface MockAttestationVerifier extends BaseContract {
     [void],
     "view"
   >;
+  getFunction(
+    nameOrSignature: "whitelistEnclave"
+  ): TypedContractMethod<[imageId: BytesLike, enclaveKey: AddressLike], [void], "nonpayable">;
 
   filters: {};
 }

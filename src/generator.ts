@@ -4,8 +4,8 @@ import {
   ERC20__factory,
   GeneratorRegistry,
   GeneratorRegistry__factory,
-  ProofMarketPlace,
-  ProofMarketPlace__factory,
+  ProofMarketplace,
+  ProofMarketplace__factory,
 } from "./typechain-types";
 import BigNumber from "bignumber.js";
 import { KalspsoConfig } from "./types";
@@ -16,7 +16,7 @@ export class Generator {
   private signer: AbstractSigner;
   private generatorRegistry: GeneratorRegistry;
   private stakingToken: ERC20;
-  private proofMarketplace: ProofMarketPlace;
+  private proofMarketplace: ProofMarketplace;
 
   private generatorhttpClient!: GeneratorHttpClient;
 
@@ -24,7 +24,7 @@ export class Generator {
     this.signer = signer;
     this.generatorRegistry = GeneratorRegistry__factory.connect(config.generator_registry, this.signer);
     this.stakingToken = ERC20__factory.connect(config.staking_token, this.signer);
-    this.proofMarketplace = ProofMarketPlace__factory.connect(config.proof_market_place, this.signer);
+    this.proofMarketplace = ProofMarketplace__factory.connect(config.proof_market_place, this.signer);
 
     if (config.generatorEnclave) {
       this.generatorhttpClient = new GeneratorHttpClient(
@@ -141,7 +141,7 @@ export class Generator {
       throw new Error("Already part of this market");
     }
 
-    return await this.generatorRegistry.joinMarketPlace(
+    return await this.generatorRegistry.joinMarketplace(
       marketId,
       computeAllocation.toString(),
       proofGeneratorCost.toString(),
@@ -153,12 +153,36 @@ export class Generator {
     );
   }
 
+  public async joinMarketPlaceWithoutEnclave(
+    marketId: BigNumberish,
+    computeAllocation: BigNumberish,
+    proofGeneratorCost: BigNumberish,
+    proposedTime: BigNumberish,
+    options?: Overrides
+  ): Promise<ContractTransactionResponse> {
+    const data = await this.generatorRegistry.generatorInfoPerMarket(await this.signer.getAddress(), marketId);
+    if (!new BigNumber(data.proposedTime.toString()).eq(0)) {
+      throw new Error("Already part of this market");
+    }
+
+    return await this.generatorRegistry.joinMarketplace(
+      marketId,
+      computeAllocation.toString(),
+      proofGeneratorCost.toString(),
+      proposedTime.toString(),
+      false,
+      "",
+      "",
+      { ...options }
+    );
+  }
+
   public async leaveMarketPlace(marketId: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
-    return await this.generatorRegistry.leaveMarketPlace(marketId, { ...options });
+    return await this.generatorRegistry.leaveMarketplace(marketId, { ...options });
   }
 
   public async requestForExitMarket(marketId: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
-    return await this.generatorRegistry.requestForExitMarketPlace(marketId, { ...options });
+    return await this.generatorRegistry.requestForExitMarketplace(marketId, { ...options });
   }
 
   public async updateEcisKey(

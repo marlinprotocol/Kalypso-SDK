@@ -7,7 +7,6 @@ export * as mock from "./mock";
 export * as periphery from "./periphery";
 export * as verifierWrappers from "./verifierWrappers";
 export * as verifiers from "./verifiers";
-export { Dispute__factory } from "./Dispute__factory";
 export { EntityKeyRegistry__factory } from "./EntityKeyRegistry__factory";
 export { GeneratorRegistry__factory } from "./GeneratorRegistry__factory";
-export { ProofMarketPlace__factory } from "./ProofMarketPlace__factory";
+export { ProofMarketplace__factory } from "./ProofMarketplace__factory";

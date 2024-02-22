@@ -8,30 +8,15 @@ import { BytesLike } from "ethers";
 export class GeneratorHttpClient extends BaseEnclaveClient {
   private generatorEndPoint: string;
   private config: KalspsoConfig;
-  private apikey?: string;
 
   constructor(generatorEndPoint: string, generator_attestation_utility_endpoint: string, config: KalspsoConfig, apikey?: string) {
-    super(generator_attestation_utility_endpoint);
+    super(generator_attestation_utility_endpoint, apikey);
 
     this.generatorEndPoint = generatorEndPoint;
     this.config = config;
-
-    if (apikey) {
-      this.apikey = apikey;
-    }
   }
 
-  private headers(): HeaderInit {
-    if (this.apikey) {
-      return {
-        "Content-Type": "application/json",
-        "API-Key": this.apikey,
-      };
-    }
-    throw new Error("api key not provided");
-  }
-
-  private url(api: string): string {
+  protected override url(api: string): string {
     return `${this.generatorEndPoint}${api}`;
   }
 
@@ -55,25 +40,6 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
-  }
-
-  public async getAddressSignature(address: string): Promise<BytesLike> {
-    let attestation_server_response = await fetch(this.url("/api/signAddress"), {
-      method: "POST",
-      headers: this.headers(),
-      body: JSON.stringify({ address }),
-    });
-
-    if (!attestation_server_response.ok) {
-      console.log({ attestation_server_response });
-      throw new Error(`Error: ${attestation_server_response.status}`);
-    }
-
-    let response: SignAddressResponse = await attestation_server_response.json();
-
-    const _v = response.data.v == 27 ? "1b" : "1c";
-    let signature = response.data.r + response.data.s.split("x")[1] + _v;
-    return signature;
   }
 
   // New methods based on your list

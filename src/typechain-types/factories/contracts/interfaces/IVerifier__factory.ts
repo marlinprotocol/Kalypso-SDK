@@ -21,10 +21,10 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "proofMarketPlace",
+    name: "proofMarketplace",
     outputs: [
       {
-        internalType: "contract ProofMarketPlace",
+        internalType: "contract ProofMarketplace",
         name: "",
         type: "address",
       },
@@ -61,12 +61,12 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract ProofMarketPlace",
+        internalType: "contract ProofMarketplace",
         name: "_proofMarketplace",
         type: "address",
       },
     ],
-    name: "setProofMarketPlaceContract",
+    name: "setProofMarketplaceContract",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

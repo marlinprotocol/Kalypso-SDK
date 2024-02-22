@@ -13,7 +13,6 @@ import type * as verifierWrappers from "./verifierWrappers";
 export type { verifierWrappers };
 import type * as verifiers from "./verifiers";
 export type { verifiers };
-export type { Dispute } from "./Dispute";
 export type { EntityKeyRegistry } from "./EntityKeyRegistry";
 export type { GeneratorRegistry } from "./GeneratorRegistry";
-export type { ProofMarketPlace } from "./ProofMarketPlace";
+export type { ProofMarketplace } from "./ProofMarketplace";
