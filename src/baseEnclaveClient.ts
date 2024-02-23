@@ -154,7 +154,6 @@ export abstract class BaseEnclaveClient {
     }
 
     let response: SignAddressResponse = await attestation_server_response.json();
-    console.log({ response });
     const _v = response.data.v == 27 ? "1b" : "1c";
     let signature = response.data.r + response.data.s.split("x")[1] + _v;
     return signature;
@@ -162,24 +161,27 @@ export abstract class BaseEnclaveClient {
 
   /**
    *
-   * @param attesation Attestation
+   * @param attestation Attestation
    * @param address Address
    * @returns Returns the attestation and address signed by the enclave keys
    */
-  public async getAttestationSignature(attesation: string, address: string): Promise<BytesLike> {
+  public async getAttestationSignature(attestation: string, address: string): Promise<BytesLike> {
     console.log(this.url("/api/signAttestation"));
+
+    const payload = JSON.stringify({ attestation, address });
     let attestation_server_response = await fetch(this.url("/api/signAttestation"), {
       method: "POST",
       headers: this.headers(),
-      body: JSON.stringify({ attesation, address }),
+      body: payload,
     });
 
     if (!attestation_server_response.ok) {
+      console.log({ payload });
+      console.log({ attestation_server_response });
       throw new Error(`Error: ${attestation_server_response.status}`);
     }
 
     let response: SignAddressResponse = await attestation_server_response.json();
-    console.log({ response });
     const _v = response.data.v == 27 ? "1b" : "1c";
     let signature = response.data.r + response.data.s.split("x")[1] + _v;
     return signature;
