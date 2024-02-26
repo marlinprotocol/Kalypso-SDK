@@ -29,4 +29,8 @@ export class Admin {
     const role = await this.entityRegistry.KEY_REGISTER_ROLE();
     return this.entityRegistry.grantRole(role, to, { ...options });
   }
+
+  public async setMatchingEngineImage(mePcrs: BytesLike, options?: Overrides): Promise<ContractTransactionResponse> {
+    return this.proofMarketPlace.setMatchingEngineImage(mePcrs, { ...options });
+  }
 }

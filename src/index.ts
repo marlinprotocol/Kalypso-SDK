@@ -51,4 +51,13 @@ export class KalypsoSdk {
     let digest = ethers.keccak256(encoded);
     return digest;
   }
+
+  public static getRlpedPcrsFromAttestation(attesationData: BytesLike): BytesLike {
+    let abicode = new ethers.AbiCoder();
+
+    let decoded = abicode.decode(["bytes", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256", "uint256"], attesationData);
+    let encoded = ethers.solidityPacked(["bytes", "bytes", "bytes"], [decoded[2], decoded[3], decoded[4]]);
+
+    return encoded;
+  }
 }
