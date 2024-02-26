@@ -56,7 +56,8 @@ export class KalypsoSdk {
     let abicode = new ethers.AbiCoder();
 
     let decoded = abicode.decode(["bytes", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256", "uint256"], attesationData);
-    let encoded = ethers.solidityPacked(["bytes", "bytes", "bytes"], [decoded[2], decoded[3], decoded[4]]);
+    console.log("pcrs", decoded[2], decoded[3], decoded[4]);
+    let encoded = abicode.encode(["bytes", "bytes", "bytes"], [decoded[2], decoded[3], decoded[4]]);
 
     return encoded;
   }

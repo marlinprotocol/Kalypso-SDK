@@ -33,4 +33,8 @@ export class Admin {
   public async setMatchingEngineImage(mePcrs: BytesLike, options?: Overrides): Promise<ContractTransactionResponse> {
     return this.proofMarketPlace.setMatchingEngineImage(mePcrs, { ...options });
   }
+
+  public async grantUpdaterRole(toAddress: string, options?: Overrides): Promise<ContractTransactionResponse> {
+    return this.proofMarketPlace.grantRole(await this.proofMarketPlace.UPDATER_ROLE(), toAddress, { ...options });
+  }
 }

@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 import { KalspsoConfig } from "../../src/types";
 import { KalypsoSdk } from "../../src";
-import { PublicKey } from "eciesjs";
 
 import * as fs from "fs";
 
@@ -15,18 +14,9 @@ async function main(): Promise<string> {
   console.log("using address", await wallet.getAddress());
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  const attestationVeriferEndPoint = "http://43.205.177.43:1400";
+  const result = await kalypso.Admin().grantUpdaterRole(await wallet.getAddress());
 
-  const meAttestationData = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getAttestation(attestationVeriferEndPoint);
-  console.log({ me_enclave_ecies_key: meAttestationData.secp_key });
-  const mePubkey = PublicKey.fromHex(meAttestationData.secp_key as string);
-  console.log({ me_compressed: mePubkey.compressed.toString("hex") });
-
-  const mePCRS = KalypsoSdk.getRlpedPcrsFromAttestation(meAttestationData.attestation_document);
-  console.log({ mePCRS });
-  const result = await kalypso.Admin().setMatchingEngineImage(mePCRS);
-
-  console.log({ result });
+  console.log({ result: result.hash });
 
   return "Done";
 }
