@@ -43,10 +43,15 @@ export abstract class BaseEnclaveClient {
    * @param attestation_verifier_endpoint URL at which the attestation verifier is hosted
    * @returns Attestation
    */
-  public async getAttestation(attestation_verifier_endpoint: string): Promise<AttestationResponse> {
+  public async getAttestation(attestation_verifier_endpoint: string, printAttestation: boolean = false): Promise<AttestationResponse> {
     //Fetching the attestation document
-    let attestation_build_data = await this.buildAttestation();
-    console.log({ attestation_build_data });
+    const attestation_build_data = await this.buildAttestation();
+    console.log("fetched attestation successfully");
+    
+    if (printAttestation) {
+      console.log({ attestation_build_data });
+    }
+
     //Verifying the attestation document with whitelisted enclave
     let verify_attestation_config = {
       method: "POST",
@@ -100,6 +105,8 @@ export abstract class BaseEnclaveClient {
    * @returns Your Enclave Attestation in required format
    */
   public async buildAttestation(): Promise<EnclaveAttestationData> {
+    const attestation_end_point = this.utilityUrl("/attestation");
+    console.log("build attestation", attestation_end_point);
     let attestation_build_config = {
       method: "GET",
       headers: {
@@ -107,9 +114,10 @@ export abstract class BaseEnclaveClient {
       },
     };
 
-    let attestation_server_response = await fetch(`${this.attestation_utility_endpoint}/attestation`, attestation_build_config);
+    let attestation_server_response = await fetch(attestation_end_point, attestation_build_config);
     if (!attestation_server_response.ok) {
       console.log({ attestation_server_response });
+      throw new Error("failed building the attestation");
     }
     return await attestation_server_response.json();
   }
