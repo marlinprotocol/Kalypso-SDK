@@ -1,24 +1,48 @@
 import { AttestationResponse, EnclaveAttestationData } from "./types";
 import fetch from "node-fetch";
-import { ethers } from "ethers";
+import { ethers, BytesLike } from "ethers";
 import BigNumber from "bignumber.js";
+import { SignAddressResponse } from "./types";
+import { HeaderInit } from "node-fetch";
 
-export class BaseEnclaveClient {
+export abstract class BaseEnclaveClient {
   protected attestation_utility_endpoint: string;
+  protected apikey?: string;
 
-  constructor(attestation_utility_endpoint: string) {
+  constructor(attestation_utility_endpoint: string, apikey?: string) {
     this.attestation_utility_endpoint = attestation_utility_endpoint;
+
+    if (apikey) {
+      this.apikey = apikey;
+    }
   }
 
   protected utilityUrl(api: string): string {
     return `${this.attestation_utility_endpoint}${api}`;
   }
 
+  protected headers(): HeaderInit {
+    if (this.apikey) {
+      return {
+        "Content-Type": "application/json",
+        "API-Key": this.apikey,
+      };
+    }
+    throw new Error("api key not provided");
+  }
+
+  protected abstract url(api: string): string;
+
   public async verifyAttestation(): Promise<any> {
     // /verify/attestation
     throw new Error("if not required separately, remove this function");
   }
 
+  /**
+   *
+   * @param attestation_verifier_endpoint URL at which the attestation verifier is hosted
+   * @returns Attestation
+   */
   public async getAttestation(attestation_verifier_endpoint: string): Promise<AttestationResponse> {
     //Fetching the attestation document
     let attestation_build_data = await this.buildAttestation();
@@ -71,6 +95,10 @@ export class BaseEnclaveClient {
     };
   }
 
+  /**
+   *
+   * @returns Your Enclave Attestation in required format
+   */
   public async buildAttestation(): Promise<EnclaveAttestationData> {
     let attestation_build_config = {
       method: "GET",
@@ -86,6 +114,11 @@ export class BaseEnclaveClient {
     return await attestation_server_response.json();
   }
 
+  /**
+   *
+   * @param ecies_pubkey Known ecies pubkey
+   * @returns Mock Attestation for a known ecies pubkey. This attestation will work only in dev net
+   */
   public async getMockAttestation(ecies_pubkey: string): Promise<AttestationResponse> {
     if (ecies_pubkey.length != 130) {
       throw new Error("ecies key length wrong");
@@ -102,12 +135,77 @@ export class BaseEnclaveClient {
       secp_key: ecies_pubkey,
     };
   }
-}
 
-// function getTimestampInSeconds(delay: number = 0): number {
-//   return new BigNumber(new BigNumber(new Date().valueOf()).div(1000).plus(delay).toFixed(0)).toNumber();
-// }
+  /**
+   *
+   * @param address Address which needs to be signed
+   * @returns Returns the address signed with enclaves private keys
+   */
+  public async getAddressSignature(address: string): Promise<BytesLike> {
+    console.log(this.url("/api/signAddress"));
+    let attestation_server_response = await fetch(this.url("/api/signAddress"), {
+      method: "POST",
+      headers: this.headers(),
+      body: JSON.stringify({ address }),
+    });
+
+    if (!attestation_server_response.ok) {
+      throw new Error(`Error: ${attestation_server_response.status}`);
+    }
+
+    let response: SignAddressResponse = await attestation_server_response.json();
+    const _v = response.data.v == 27 ? "1b" : "1c";
+    let signature = response.data.r + response.data.s.split("x")[1] + _v;
+    return signature;
+  }
+
+  /**
+   *
+   * @param attestation Attestation
+   * @param address Address
+   * @returns Returns the attestation and address signed by the enclave keys
+   */
+  public async getAttestationSignature(attestation: string, address: string): Promise<BytesLike> {
+    console.log(this.url("/api/signAttestation"));
+
+    const payload = JSON.stringify({ attestation, address });
+    let attestation_server_response = await fetch(this.url("/api/signAttestation"), {
+      method: "POST",
+      headers: this.headers(),
+      body: payload,
+    });
+
+    if (!attestation_server_response.ok) {
+      console.log({ payload });
+      console.log({ attestation_server_response });
+      throw new Error(`Error: ${attestation_server_response.status}`);
+    }
+
+    let response: SignAddressResponse = await attestation_server_response.json();
+    const _v = response.data.v == 27 ? "1b" : "1c";
+    let signature = response.data.r + response.data.s.split("x")[1] + _v;
+    return signature;
+  }
+}
 
 function getTimestampMs(delay: number = 0): number {
   return new BigNumber(new BigNumber(new Date().valueOf()).plus(delay).toFixed(0)).toNumber();
 }
+
+// me key from attestation 03c69d0ef3c5a40abd8b5a6a58a1da2706c0861afc249df2554d16fa51934a8992
+// http://65.1.46.193:5000/api/signAddress
+// {
+//   response: {
+//     status: 'success',
+//     message: 'Address signed',
+//     data: {
+//       r: '0xd07c411d4d10bbf0699d65fc0bd73bba913545a7cb7a340e6b65adad5045f7b',
+//       s: '0x374db113c4fb5a5fa81b59ffd888f5958a9265d0f50372d1ff9f4524550f995f',
+//       v: 28
+//     }
+//   }
+// }
+
+// function getTimestampInSeconds(delay: number = 0): number {
+//   return new BigNumber(new BigNumber(new Date().valueOf()).div(1000).plus(delay).toFixed(0)).toNumber();
+// }

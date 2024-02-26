@@ -7,29 +7,14 @@ import { BytesLike, ethers } from "ethers";
 export class MatchingEngineHttpClient extends BaseEnclaveClient {
   private matchingEngineEndPoint: string;
   private config: KalspsoConfig;
-  private apikey?: string;
 
   constructor(matchingEngineEndPoint: string, me_attestation_utility_endpoint: string, config: KalspsoConfig, apikey?: string) {
-    super(me_attestation_utility_endpoint);
+    super(me_attestation_utility_endpoint, apikey);
     this.matchingEngineEndPoint = matchingEngineEndPoint;
     this.config = config;
-
-    if (apikey) {
-      this.apikey = apikey;
-    }
   }
 
-  private headers(): HeaderInit {
-    if (this.apikey) {
-      return {
-        "Content-Type": "application/json",
-        "API-Key": this.apikey,
-      };
-    }
-    throw new Error("api key not provided");
-  }
-
-  private url(api: string): string {
+  protected override url(api: string): string {
     return `${this.matchingEngineEndPoint}${api}`;
   }
 
@@ -146,25 +131,6 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     return await response.json();
   }
 
-  public async getAddressSignature(address: string): Promise<BytesLike> {
-    console.log(this.url("/api/signAddress"));
-    let attestation_server_response = await fetch(this.url("/api/signAddress"), {
-      method: "POST",
-      headers: this.headers(),
-      body: JSON.stringify({ address }),
-    });
-
-    if (!attestation_server_response.ok) {
-      throw new Error(`Error: ${attestation_server_response.status}`);
-    }
-
-    let response: SignAddressResponse = await attestation_server_response.json();
-    console.log({ response });
-    const _v = response.data.v == 27 ? "1b" : "1c";
-    let signature = response.data.r + response.data.s.split("x")[1] + _v;
-    return signature;
-  }
-
   public async getMockAddressSignature(meInternalPrivateKey: string, address: string): Promise<BytesLike> {
     let matchingEngineSigner = new ethers.Wallet(meInternalPrivateKey);
     let types = ["address"];
@@ -184,17 +150,3 @@ interface MEConfig {
   chain_id: number;
   start_block: number;
 }
-
-// me key from attestation 03c69d0ef3c5a40abd8b5a6a58a1da2706c0861afc249df2554d16fa51934a8992
-// http://65.1.46.193:5000/api/signAddress
-// {
-//   response: {
-//     status: 'success',
-//     message: 'Address signed',
-//     data: {
-//       r: '0xd07c411d4d10bbf0699d65fc0bd73bba913545a7cb7a340e6b65adad5045f7b',
-//       s: '0x374db113c4fb5a5fa81b59ffd888f5958a9265d0f50372d1ff9f4524550f995f',
-//       v: 28
-//     }
-//   }
-// }

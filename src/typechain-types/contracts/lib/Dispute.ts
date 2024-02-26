@@ -8,24 +8,20 @@ import type {
   FunctionFragment,
   Result,
   Interface,
-  AddressLike,
   ContractRunner,
   ContractMethod,
   Listener,
 } from "ethers";
-import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../common";
+import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../../common";
 
 export interface DisputeInterface extends Interface {
-  getFunction(nameOrSignature: "ATTESTATION_VERIFIER" | "checkDisputeUsingAttestationAndOrSignature"): FunctionFragment;
+  getFunction(nameOrSignature: "ENTITY_KEY_REGISTRY" | "checkDispute"): FunctionFragment;
 
-  encodeFunctionData(functionFragment: "ATTESTATION_VERIFIER", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "checkDisputeUsingAttestationAndOrSignature",
-    values: [BigNumberish, BytesLike, BytesLike, BytesLike, AddressLike]
-  ): string;
+  encodeFunctionData(functionFragment: "ENTITY_KEY_REGISTRY", values?: undefined): string;
+  encodeFunctionData(functionFragment: "checkDispute", values: [BigNumberish, BytesLike, BytesLike, BytesLike]): string;
 
-  decodeFunctionResult(functionFragment: "ATTESTATION_VERIFIER", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "checkDisputeUsingAttestationAndOrSignature", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ENTITY_KEY_REGISTRY", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "checkDispute", data: BytesLike): Result;
 }
 
 export interface Dispute extends BaseContract {
@@ -55,21 +51,21 @@ export interface Dispute extends BaseContract {
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
-  ATTESTATION_VERIFIER: TypedContractMethod<[], [string], "view">;
+  ENTITY_KEY_REGISTRY: TypedContractMethod<[], [string], "view">;
 
-  checkDisputeUsingAttestationAndOrSignature: TypedContractMethod<
-    [askId: BigNumberish, proverData: BytesLike, completeData: BytesLike, expectedImageId: BytesLike, defaultIvsSigner: AddressLike],
+  checkDispute: TypedContractMethod<
+    [askId: BigNumberish, proverData: BytesLike, invalidProofSignature: BytesLike, expectedImageId: BytesLike],
     [boolean],
     "view"
   >;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
-  getFunction(nameOrSignature: "ATTESTATION_VERIFIER"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "ENTITY_KEY_REGISTRY"): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "checkDisputeUsingAttestationAndOrSignature"
+    nameOrSignature: "checkDispute"
   ): TypedContractMethod<
-    [askId: BigNumberish, proverData: BytesLike, completeData: BytesLike, expectedImageId: BytesLike, defaultIvsSigner: AddressLike],
+    [askId: BigNumberish, proverData: BytesLike, invalidProofSignature: BytesLike, expectedImageId: BytesLike],
     [boolean],
     "view"
   >;

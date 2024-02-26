@@ -18,29 +18,29 @@ export interface MockVerifierInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "checkSampleInputsAndProof"
-      | "proofMarketPlace"
+      | "proofMarketplace"
       | "sampleInput"
       | "sampleProof"
-      | "setProofMarketPlaceContract"
+      | "setProofMarketplaceContract"
       | "verify"
       | "verifyAgainstSampleInputs"
       | "verifyInputs"
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "checkSampleInputsAndProof", values?: undefined): string;
-  encodeFunctionData(functionFragment: "proofMarketPlace", values?: undefined): string;
+  encodeFunctionData(functionFragment: "proofMarketplace", values?: undefined): string;
   encodeFunctionData(functionFragment: "sampleInput", values?: undefined): string;
   encodeFunctionData(functionFragment: "sampleProof", values?: undefined): string;
-  encodeFunctionData(functionFragment: "setProofMarketPlaceContract", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "setProofMarketplaceContract", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "verify", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "verifyAgainstSampleInputs", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "verifyInputs", values: [BytesLike]): string;
 
   decodeFunctionResult(functionFragment: "checkSampleInputsAndProof", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "proofMarketPlace", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "proofMarketplace", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "sampleInput", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "sampleProof", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setProofMarketPlaceContract", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setProofMarketplaceContract", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "verify", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "verifyAgainstSampleInputs", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "verifyInputs", data: BytesLike): Result;
@@ -75,13 +75,13 @@ export interface MockVerifier extends BaseContract {
 
   checkSampleInputsAndProof: TypedContractMethod<[], [boolean], "view">;
 
-  proofMarketPlace: TypedContractMethod<[], [string], "view">;
+  proofMarketplace: TypedContractMethod<[], [string], "view">;
 
   sampleInput: TypedContractMethod<[], [string], "view">;
 
   sampleProof: TypedContractMethod<[], [string], "view">;
 
-  setProofMarketPlaceContract: TypedContractMethod<[_proofMarketplace: AddressLike], [void], "nonpayable">;
+  setProofMarketplaceContract: TypedContractMethod<[_proofMarketplace: AddressLike], [void], "nonpayable">;
 
   verify: TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
 
@@ -92,10 +92,10 @@ export interface MockVerifier extends BaseContract {
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "checkSampleInputsAndProof"): TypedContractMethod<[], [boolean], "view">;
-  getFunction(nameOrSignature: "proofMarketPlace"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "proofMarketplace"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "sampleInput"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "sampleProof"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "setProofMarketPlaceContract"): TypedContractMethod<[_proofMarketplace: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "setProofMarketplaceContract"): TypedContractMethod<[_proofMarketplace: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "verify"): TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
   getFunction(nameOrSignature: "verifyAgainstSampleInputs"): TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
   getFunction(nameOrSignature: "verifyInputs"): TypedContractMethod<[arg0: BytesLike], [boolean], "view">;

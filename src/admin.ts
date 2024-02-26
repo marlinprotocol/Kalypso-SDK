@@ -1,14 +1,14 @@
 import { AbstractSigner, BytesLike, ContractTransactionResponse, Overrides } from "ethers";
-import { ProofMarketPlace__factory, ProofMarketPlace, EntityKeyRegistry, EntityKeyRegistry__factory } from "./typechain-types";
+import { ProofMarketplace__factory, ProofMarketplace, EntityKeyRegistry, EntityKeyRegistry__factory } from "./typechain-types";
 
 export class Admin {
   private signer: AbstractSigner;
-  private proofMarketPlace: ProofMarketPlace;
+  private proofMarketPlace: ProofMarketplace;
   private entityRegistry: EntityKeyRegistry;
 
   constructor(signer: AbstractSigner, proofMarketPlaceAddress: string, entityKeyRegistry: string) {
     this.signer = signer;
-    this.proofMarketPlace = ProofMarketPlace__factory.connect(proofMarketPlaceAddress, this.signer);
+    this.proofMarketPlace = ProofMarketplace__factory.connect(proofMarketPlaceAddress, this.signer);
     this.entityRegistry = EntityKeyRegistry__factory.connect(entityKeyRegistry, this.signer);
   }
 
@@ -17,7 +17,7 @@ export class Admin {
     meSignature: BytesLike,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
-    return this.proofMarketPlace.updateMatchingEngineEncryptionKeyAndSigner(attestationBytes, meSignature, { ...options });
+    return this.proofMarketPlace.verifyMatchingEngine(attestationBytes, meSignature, { ...options });
   }
 
   public async readMatchingEngineKey(): Promise<string> {

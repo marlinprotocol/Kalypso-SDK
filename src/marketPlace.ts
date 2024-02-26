@@ -1,9 +1,9 @@
-import { AbstractSigner, BigNumberish, BytesLike, ContractTransactionResponse, Overrides, ethers } from "ethers";
+import { AbstractSigner, AddressLike, BigNumberish, BytesLike, ContractTransactionResponse, Overrides, ethers } from "ethers";
 import {
   ERC20,
   ERC20__factory,
-  ProofMarketPlace,
-  ProofMarketPlace__factory,
+  ProofMarketplace,
+  ProofMarketplace__factory,
   EntityKeyRegistry,
   EntityKeyRegistry__factory,
 } from "./typechain-types";
@@ -26,7 +26,7 @@ const NO_ENCLAVE_ID_2 = "0x00000000000000000000000000000000000000000000000000000
 
 export class MarketPlace {
   private signer: AbstractSigner;
-  private proofMarketPlace: ProofMarketPlace;
+  private proofMarketPlace: ProofMarketplace;
   private paymentToken: ERC20;
   private platformToken: ERC20;
   private entityKeyRegistry: EntityKeyRegistry;
@@ -39,7 +39,7 @@ export class MarketPlace {
 
   constructor(signer: AbstractSigner, config: KalspsoConfig) {
     this.signer = signer;
-    this.proofMarketPlace = ProofMarketPlace__factory.connect(config.proof_market_place, this.signer);
+    this.proofMarketPlace = ProofMarketplace__factory.connect(config.proof_market_place, this.signer);
     this.paymentToken = ERC20__factory.connect(config.payment_token, this.signer);
     this.platformToken = ERC20__factory.connect(config.staking_token, this.signer);
     this.entityKeyRegistry = EntityKeyRegistry__factory.connect(config.entity_registry, this.signer);
@@ -87,7 +87,7 @@ export class MarketPlace {
 
   public async getPlatformFee(
     secretType: BigNumberish,
-    ask: ProofMarketPlace.AskStruct,
+    ask: ProofMarketplace.AskStruct,
     encryptedSecret: BytesLike,
     aclData: BytesLike
   ): Promise<BigNumberish> {
@@ -105,7 +105,7 @@ export class MarketPlace {
     acl: Buffer,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
-    const askRequest: ProofMarketPlace.AskStruct = {
+    const askRequest: ProofMarketplace.AskStruct = {
       marketId,
       proverData,
       reward,
@@ -177,19 +177,18 @@ export class MarketPlace {
     marketId: BigNumberish,
     proverData: BytesLike,
     secretBuffer: Buffer,
+    ivsUrl: string,
+    ivsSigner: AddressLike,
     eciesCheckingKey?: BytesLike
   ): Promise<boolean> {
     //this should fetched from proof market place contract
     // const ivsUrl = "http://localhost:3030/checkInput";
 
-    const marketData = await this.proofMarketPlace.marketData(marketId);
-    const ivsUrl = Buffer.from(marketData.ivsUrl.split("0x")[1], "hex").toString();
-
     // const eciesPubKey = "0x024813e9113562b2659f7a062c4eca19f89efb9b1c80df439d2eef3c9f0f370001";
     // const eciesPubKey = "0x044813e9113562b2659f7a062c4eca19f89efb9b1c80df439d2eef3c9f0f370001e06393ff736f11f4e4122dfe570b3823d756358b3955811ef704690dc40e6b22"
     let eciesPubKey;
     if (!eciesCheckingKey) {
-      eciesPubKey = (await this.entityKeyRegistry.pub_key(marketData.ivsSigner, 0)).toString();
+      eciesPubKey = (await this.entityKeyRegistry.pub_key(ivsSigner, 0)).toString();
     } else {
       eciesPubKey = eciesCheckingKey.toString();
     }
@@ -255,14 +254,6 @@ export class MarketPlace {
     };
   }
 
-  public async checkPublicAndEncryptedSecretPairWithIvs(marketId: BigNumberish, data: PublicAndSecretInputPair): Promise<boolean> {
-    const marketData = await this.proofMarketPlace.marketData(marketId);
-    const ivsUrl = marketData.ivsUrl; // convert from bytes to ascii
-
-    // make http post call to ivsUrl with data payload, if status is 200 and reply is OK, return true
-    throw new Error("Wip");
-  }
-
   public async createAsk(
     marketId: BigNumberish,
     proverData: BytesLike,
@@ -277,7 +268,7 @@ export class MarketPlace {
     //deflate the secret buffer to reduce tx cost
     secretBuffer = Buffer.from(pako.deflate(secretBuffer));
 
-    const askRequest: ProofMarketPlace.AskStruct = {
+    const askRequest: ProofMarketplace.AskStruct = {
       marketId,
       proverData,
       reward,
@@ -344,10 +335,8 @@ export class MarketPlace {
     marketMetaData: BytesLike,
     verifier: string,
     slashingPenalty: BigNumberish,
-    proverImageId: BytesLike,
-    ivsAttestationBytes: BytesLike,
-    ivsUrl: string,
-    ivsSignature: BytesLike,
+    proverPcrs: BytesLike,
+    ivsPcrs: BytesLike,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
     if (new BigNumber(slashingPenalty.toString()).gt(this.exponent)) {
@@ -374,16 +363,9 @@ export class MarketPlace {
       console.log("Approved Tokens: ", approvalReceipt?.hash);
     }
 
-    return await this.proofMarketPlace.createMarketPlace(
-      marketMetaData,
-      verifier,
-      slashingPenalty.toString(),
-      proverImageId,
-      ivsAttestationBytes,
-      Buffer.from(ivsUrl, "ascii"),
-      ivsSignature,
-      { ...options }
-    );
+    return await this.proofMarketPlace.createMarketplace(marketMetaData, verifier, slashingPenalty.toString(), proverPcrs, ivsPcrs, {
+      ...options,
+    });
   }
 
   public async getProofByAskId(askId: string, blockNumber: number): Promise<getProofWithAskIdResponse> {
