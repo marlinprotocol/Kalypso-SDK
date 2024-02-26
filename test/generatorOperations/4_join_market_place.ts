@@ -29,7 +29,7 @@ async function main() {
   const enclaveSignature = await kalypso
     .Generator()
     .GeneratorEnclaveConnector()
-    .getAddressSignature(await wallet.getAddress());
+    .getAttestationSignature(attestation.attestation_document.toString(), await wallet.getAddress());
 
   // const tx_2 = await kalypso.Generator().updateEcisKey(marketId, attestation.attestation_document, enclaveSignature);
 

@@ -37,7 +37,10 @@ async function main1(): Promise<string> {
   //   .MatchingEngineEnclaveConnector()
   //   .getMockAddressSignature(keys.matching_engine_private_key, kalypsoConfig.proof_market_place);
 
-  const meSignature = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getAddressSignature(kalypsoConfig.proof_market_place);
+  const meSignature = await kalypso
+    .MarketPlace()
+    .MatchingEngineEnclaveConnector()
+    .getAttestationSignature(meAttestation.attestation_document.toString(), kalypsoConfig.proof_market_place);
 
   const tx = await kalypso.Admin().updateMeEciesKeyAndSigner(meAttestation.attestation_document, meSignature);
 

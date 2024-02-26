@@ -27,35 +27,23 @@ async function main(): Promise<string> {
   const slashingPenalty = "10000000000";
   const marketBytes = Buffer.from(JSON.stringify(marketSetupData), "utf-8");
 
-  const ivsSignature = await kalypso
-    .MarketPlace()
-    .IvsEnclaveConnector()
-    .getAddressSignature(await wallet.getAddress());
-
-  console.log({ ivsSignature });
-
   const attestationVeriferEndPoint = "http://3.111.17.6:1400";
 
-  const attestationData = await kalypso.MarketPlace().IvsEnclaveConnector().getAttestation(attestationVeriferEndPoint);
-  console.log({ enclave_ecies_key: attestationData.secp_key });
-  const pubkey = PublicKey.fromHex(attestationData.secp_key as string);
-  console.log({ compressed: pubkey.compressed.toString("hex") });
+  const ivsAttestationData = await kalypso.MarketPlace().IvsEnclaveConnector().getAttestation(attestationVeriferEndPoint);
+  console.log({ ivs_enclave_ecies_key: ivsAttestationData.secp_key });
+  const ivsPubkey = PublicKey.fromHex(ivsAttestationData.secp_key as string);
+  console.log({ ivs_compressed: ivsPubkey.compressed.toString("hex") });
 
-  const ivsCheckPointUrl = "http://13.200.244.229:3030/checkInput";
+  const ivsImageId = KalypsoSdk.getImageIdFromAttestation(ivsAttestationData.attestation_document);
 
-  const proverImageId = KalypsoSdk.getImageIdFromAttestation(attestationData.attestation_document);
+  const proverAttestationData = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation(attestationVeriferEndPoint);
+  console.log({ prover_enclave_key: proverAttestationData.secp_key });
+  const proverPubKey = PublicKey.fromHex(proverAttestationData.secp_key as string);
+  console.log({ prover_compressed: proverPubKey.compressed.toString("hex") });
 
-  const tx = await kalypso
-    .MarketPlace()
-    .createNewMarket(
-      marketBytes,
-      wrapperAddress,
-      slashingPenalty,
-      proverImageId,
-      attestationData.attestation_document,
-      ivsCheckPointUrl,
-      ivsSignature
-    );
+  const proverImageId = KalypsoSdk.getImageIdFromAttestation(proverAttestationData.attestation_document);
+
+  const tx = await kalypso.MarketPlace().createNewMarket(marketBytes, wrapperAddress, slashingPenalty, proverImageId, ivsImageId);
   await tx.wait();
 
   const receiptHash = tx.hash;
