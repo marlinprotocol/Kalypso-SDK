@@ -1,10 +1,10 @@
 import { AbstractSigner, BytesLike, ethers } from "ethers";
 import { KalspsoConfig, SecretInputOperations } from "./types";
-import { Admin } from "./admin";
-import { Generator } from "./generator";
-import { MarketPlace } from "./marketPlace";
+import { Admin } from "./operators/admin";
+import { Generator } from "./operators/generator";
+import { MarketPlace } from "./operators/marketPlace";
 
-import * as secretInputOperation from "./secretInputOperation";
+import * as secretInputOperation from "./helper/secretInputOperation";
 
 export class KalypsoSdk {
   private signer: AbstractSigner;

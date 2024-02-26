@@ -1,4 +1,4 @@
-import { InputAndProofFormatRegistry__factory } from "./typechain-types";
+import { InputAndProofFormatRegistry__factory } from "../typechain-types";
 import { BigNumber } from "bignumber.js";
 
 type getInputTypeParameters = {

@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import { HeaderInit } from "node-fetch";
-import { KalspsoConfig, MatchingEngineConfigPayload, EnclaveResponse, SignAddressResponse } from "./types";
+import { KalspsoConfig, MatchingEngineConfigPayload, EnclaveResponse, SignAddressResponse } from "../types";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
 import { BytesLike, ethers } from "ethers";
 

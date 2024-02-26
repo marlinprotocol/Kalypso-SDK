@@ -1,7 +1,7 @@
-import { PublicKeyResponse, KalspsoConfig, EnclaveResponse } from "./types";
+import { PublicKeyResponse, KalspsoConfig, EnclaveResponse } from "../types";
 import fetch from "node-fetch";
 import { HeaderInit } from "node-fetch";
-import { GeneratorConfigPayload, GeneratorConfig, UpdateRuntimeConfig, SignAddressResponse } from "./types";
+import { GeneratorConfigPayload, GeneratorConfig, UpdateRuntimeConfig, SignAddressResponse } from "../types";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
 import { BytesLike } from "ethers";
 

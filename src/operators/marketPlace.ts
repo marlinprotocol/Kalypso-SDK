@@ -6,13 +6,13 @@ import {
   ProofMarketplace__factory,
   EntityKeyRegistry,
   EntityKeyRegistry__factory,
-} from "./typechain-types";
+} from "../typechain-types";
 import BigNumber from "bignumber.js";
-import { encryptDataWithECIESandAesGcm } from "./secretInputOperation";
+import { encryptDataWithECIESandAesGcm } from "../helper/secretInputOperation";
 import * as pako from "pako";
-import { AskState, KalspsoConfig, PublicAndSecretInputPair } from "./types";
-import { MatchingEngineHttpClient } from "./matchingEngineHttpClient";
-import { IvsHttpClient } from "./ivsHttpClient";
+import { AskState, KalspsoConfig, PublicAndSecretInputPair } from "../types";
+import { MatchingEngineHttpClient } from "../enclaves/matchingEngineHttpClient";
+import { IvsHttpClient } from "../enclaves/ivsHttpClient";
 import fetch from "node-fetch";
 
 type getProofWithAskIdResponse = {

@@ -1,8 +1,8 @@
-import { AttestationResponse, EnclaveAttestationData } from "./types";
+import { AttestationResponse, EnclaveAttestationData } from "../types";
 import fetch from "node-fetch";
 import { ethers, BytesLike } from "ethers";
 import BigNumber from "bignumber.js";
-import { SignAddressResponse } from "./types";
+import { SignAddressResponse } from "../types";
 import { HeaderInit } from "node-fetch";
 
 export abstract class BaseEnclaveClient {
@@ -31,6 +31,9 @@ export abstract class BaseEnclaveClient {
     throw new Error("api key not provided");
   }
 
+  protected baseUrl(url: string, api: string): string {
+    return `${url}${api}`;
+  }
   protected abstract url(api: string): string;
 
   public async verifyAttestation(): Promise<any> {
@@ -47,7 +50,7 @@ export abstract class BaseEnclaveClient {
     //Fetching the attestation document
     const attestation_build_data = await this.buildAttestation();
     console.log("fetched attestation successfully");
-    
+
     if (printAttestation) {
       console.log({ attestation_build_data });
     }
@@ -61,7 +64,7 @@ export abstract class BaseEnclaveClient {
       body: JSON.stringify(attestation_build_data),
     };
 
-    let attestation_verifier_response = await fetch(`${attestation_verifier_endpoint}/verify`, verify_attestation_config);
+    let attestation_verifier_response = await fetch(this.baseUrl(attestation_verifier_endpoint, "/verify"), verify_attestation_config);
     if (!attestation_verifier_response.ok) {
       console.log({ attestation_verifier_response });
     }

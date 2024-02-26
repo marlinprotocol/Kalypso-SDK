@@ -6,10 +6,10 @@ import {
   GeneratorRegistry__factory,
   ProofMarketplace,
   ProofMarketplace__factory,
-} from "./typechain-types";
+} from "../typechain-types";
 import BigNumber from "bignumber.js";
-import { KalspsoConfig } from "./types";
-import { GeneratorHttpClient } from "./generatorHttpClient";
+import { KalspsoConfig } from "../types";
+import { GeneratorHttpClient } from "../enclaves/generatorHttpClient";
 
 const exp = new BigNumber(10).pow(18);
 export class Generator {

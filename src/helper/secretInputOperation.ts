@@ -1,6 +1,6 @@
 import { encrypt, decrypt } from "eciesjs";
 import crypto from "crypto";
-import { SecretData } from "./types";
+import { SecretData } from "../types";
 
 export function encryptECIES(publicKey: string, data: Buffer): Buffer {
   return encrypt(publicKey, data);

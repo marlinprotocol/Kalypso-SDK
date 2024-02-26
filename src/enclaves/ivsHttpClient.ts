@@ -1,6 +1,6 @@
 import { BytesLike } from "ethers";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
-import { EnclaveResponse, PublicKeyResponse, SignAddressResponse } from "./types";
+import { EnclaveResponse, PublicKeyResponse, SignAddressResponse } from "../types";
 import { HeaderInit } from "node-fetch";
 import fetch from "node-fetch";
 
