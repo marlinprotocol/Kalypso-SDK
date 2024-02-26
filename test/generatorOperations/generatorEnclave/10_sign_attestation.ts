@@ -14,6 +14,7 @@ async function main() {
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
+  // 3.111.17.6
   const attestationVeriferEndPoint = "http://65.1.112.107:1400";
   const attestationResult = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation(attestationVeriferEndPoint);
 
