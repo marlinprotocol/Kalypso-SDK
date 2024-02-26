@@ -278,4 +278,13 @@ export class Generator {
   public async discardRequest(askId: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
     return this.proofMarketplace.discardRequest(askId, { ...options });
   }
+
+  public async addIvsKey(
+    marketId: BigNumberish,
+    attestationData: BytesLike,
+    enclaveSignature: BytesLike,
+    options?: Overrides
+  ): Promise<ContractTransactionResponse> {
+    return this.generatorRegistry.addIvsKey(marketId, attestationData, enclaveSignature, { ...options });
+  }
 }

@@ -107,7 +107,7 @@ export abstract class BaseEnclaveClient {
    *
    * @returns Your Enclave Attestation in required format
    */
-  public async buildAttestation(): Promise<EnclaveAttestationData> {
+  protected async buildAttestation(): Promise<EnclaveAttestationData> {
     const attestation_end_point = this.utilityUrl("/attestation");
     console.log("build attestation", attestation_end_point);
     let attestation_build_config = {
