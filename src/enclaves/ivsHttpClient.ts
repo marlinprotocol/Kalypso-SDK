@@ -21,19 +21,6 @@ export class IvsHttpClient extends BaseEnclaveClient {
     throw new Error("todo");
   }
 
-  public async generateApiKey(): Promise<EnclaveResponse<string>> {
-    if (this.apikey) {
-      throw new Error("apikey is already provided");
-    }
-
-    const response = await fetch(this.url("/api/generateApiKey"), { method: "POST" });
-    if (!response.ok) {
-      console.log({ response });
-      throw new Error(`Error: ${response.status}`);
-    }
-    return await response.json();
-  }
-
   public async startInputVerifier(): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/startInputVerifier"), { method: "POST", headers: this.headers() });
     if (!response.ok) {

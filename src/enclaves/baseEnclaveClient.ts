@@ -1,4 +1,4 @@
-import { AttestationResponse, EnclaveAttestationData } from "../types";
+import { AttestationResponse, EnclaveAttestationData, EnclaveResponse } from "../types";
 import fetch from "node-fetch";
 import { ethers, BytesLike } from "ethers";
 import BigNumber from "bignumber.js";
@@ -35,6 +35,19 @@ export abstract class BaseEnclaveClient {
     return `${url}${api}`;
   }
   protected abstract url(api: string): string;
+
+  public async generateApiKey(): Promise<EnclaveResponse<string>> {
+    if (this.apikey) {
+      throw new Error("apikey is already provided");
+    }
+
+    const response = await fetch(this.url("/api/generateApiKey"), { method: "POST" });
+    if (!response.ok) {
+      console.log({ response });
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
+  }
 
   public async verifyAttestation(): Promise<any> {
     // /verify/attestation

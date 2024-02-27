@@ -1,6 +1,5 @@
 import fetch from "node-fetch";
-import { HeaderInit } from "node-fetch";
-import { KalspsoConfig, MatchingEngineConfigPayload, EnclaveResponse, SignAddressResponse } from "../types";
+import { KalspsoConfig, MatchingEngineConfigPayload, EnclaveResponse } from "../types";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
 import { BytesLike, ethers } from "ethers";
 
@@ -16,19 +15,6 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
 
   protected override url(api: string): string {
     return `${this.matchingEngineEndPoint}${api}`;
-  }
-
-  public async generateApiKey(): Promise<EnclaveResponse<string>> {
-    if (this.apikey) {
-      throw new Error("apikey is already provided");
-    }
-
-    const response = await fetch(this.url("/api/generateApiKey"), { method: "POST" });
-    if (!response.ok) {
-      console.log({ response });
-      throw new Error(`Error: ${response.status}`);
-    }
-    return await response.json();
   }
 
   public async matchingEngineConfigSetup(

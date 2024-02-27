@@ -22,8 +22,7 @@
     "apikey": "d1dbc6aa-c655-4729-91f8-986b85943b99"
   },
   "matchingEngineEnclave": {
-    "url": "http://13.201.55.34:5000",
-    "utilityUrl": "http://13.201.55.34:1500",
-    "apikey": "f8664fe8-a5eb-4d12-99d1-4b436aeda051"
+    "url": "http://13.233.156.230:5000",
+    "utilityUrl": "http://13.233.156.230:1500"
   }
 }
