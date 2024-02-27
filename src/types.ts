@@ -94,11 +94,11 @@ export interface UpdateRuntimeConfig {
 
 export interface MatchingEngineConfigPayload {
   rpc_url: string;
-  chain_id: number;
+  chain_id: string;
   relayer_private_key: string;
   proof_market_place: string;
   generator_registry: string;
-  start_block: number;
+  start_block: string;
   payment_token: string;
   platform_token: string;
   attestation_verifier: string;

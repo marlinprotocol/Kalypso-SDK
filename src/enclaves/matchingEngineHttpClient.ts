@@ -25,11 +25,11 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
   ): Promise<EnclaveResponse<string>> {
     const meConfigData: MatchingEngineConfigPayload = {
       rpc_url,
-      chain_id,
+      chain_id: "" + chain_id,
       relayer_private_key,
       proof_market_place: this.config.proof_market_place,
       generator_registry: this.config.generator_registry,
-      start_block,
+      start_block: "" + start_block,
       payment_token: this.config.payment_token,
       platform_token: this.config.staking_token,
       attestation_verifier: this.config.attestation_verifier,

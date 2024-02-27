@@ -14,10 +14,10 @@ async function main() {
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  const attestationResult = await kalypso
-    .MarketPlace()
-    .MatchingEngineEnclaveConnector()
-    .getMockAttestation("0x" + "01".repeat(64));
+  const attestation_verifier_endpoint = "http://127.0.0.1:1400";
+  const attestationResult = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getAttestation(attestation_verifier_endpoint);
+
+  console.log({ attestationResult });
 
   const data = await kalypso
     .MarketPlace()
