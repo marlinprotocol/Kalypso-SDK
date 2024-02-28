@@ -82,7 +82,9 @@ export abstract class BaseEnclaveClient {
       console.log({ attestation_verifier_response });
     }
     let attestation_verifier_response_data = await attestation_verifier_response.json();
-    // console.log({attestation_verifier_response_data})
+    if (printAttestation) {
+      console.log({ attestation_verifier_response_data });
+    }
 
     let ecies_pubkey = "0x" + attestation_build_data.secp256k1_public.toString();
     // let verifier_address = "0x" + ethers.keccak256("0x" + attestation_verifier_response_data.secp_key).slice(-40);
@@ -104,11 +106,15 @@ export abstract class BaseEnclaveClient {
         "0x" + attestation_build_data.pcrs[0],
         "0x" + attestation_build_data.pcrs[1],
         "0x" + attestation_build_data.pcrs[2],
-        attestation_build_data.min_cpus,
-        attestation_build_data.min_mem,
-        attestation_build_data.timestamp,
+        "" + attestation_build_data.min_cpus,
+        "" + attestation_build_data.min_mem,
+        "" + attestation_build_data.timestamp,
       ]
     );
+
+    if (printAttestation) {
+      console.log({ encodedData });
+    }
 
     return {
       attestation_document: encodedData,
@@ -193,6 +199,7 @@ export abstract class BaseEnclaveClient {
     console.log(this.url("/api/signAttestation"));
 
     const payload = JSON.stringify({ attestation, address });
+    // console.log({ payload });
     let attestation_server_response = await fetch(this.url("/api/signAttestation"), {
       method: "POST",
       headers: this.headers(),

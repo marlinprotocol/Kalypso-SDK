@@ -48,6 +48,7 @@ export class IvsHttpClient extends BaseEnclaveClient {
   public async getInputVerifierStatus(): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/getInputVerifierStatus"), { method: "GET", headers: this.headers() });
     if (!response.ok) {
+      console.log(response);
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
@@ -56,6 +57,7 @@ export class IvsHttpClient extends BaseEnclaveClient {
   public async fetchInputVerifierPublicKeys(): Promise<EnclaveResponse<PublicKeyResponse>> {
     const response = await fetch(this.url("/api/fetchInputVerifierPublicKeys"), { method: "POST", headers: this.headers() });
     if (!response.ok) {
+      console.log(response);
       throw new Error(`Error: ${response.status}`);
     }
     const returnData = await response.json();
@@ -64,5 +66,15 @@ export class IvsHttpClient extends BaseEnclaveClient {
       message: returnData.message,
       data: { ecies_public_key: returnData.data.ivs_ecies_public_key, public_key: returnData.data.ivs_public_key },
     };
+  }
+
+  public async generateConfigSetup(): Promise<EnclaveResponse<string>> {
+    const response = await fetch(this.url("/api/generateConfigSetup"), { method: "POST", headers: this.headers() });
+    if (!response.ok) {
+      console.log(response);
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    return await response.json();
   }
 }

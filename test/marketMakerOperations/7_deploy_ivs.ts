@@ -20,16 +20,19 @@ async function main(): Promise<string> {
 
   const marketId = 0;
   const ivsAttestationData = await kalypso.MarketPlace().IvsEnclaveConnector().getAttestation(attestationVeriferEndPoint);
-  console.log({ ivs_enclave_ecies_key: ivsAttestationData.secp_key });
-  const ivsPubkey = PublicKey.fromHex(ivsAttestationData.secp_key as string);
-  console.log({ ivs_compressed: ivsPubkey.compressed.toString("hex") });
+  // console.log({ ivsAttestationData });
+  // console.log({ ivs_enclave_ecies_key: ivsAttestationData.secp_key });
+  // const ivsPubkey = PublicKey.fromHex(ivsAttestationData.secp_key as string);
+  // console.log({ ivs_compressed: ivsPubkey.compressed.toString("hex") });
 
   const enclaveSignature = await kalypso
     .MarketPlace()
     .IvsEnclaveConnector()
     .getAttestationSignature(ivsAttestationData.attestation_document.toString(), await wallet.getAddress());
 
-  const result = await kalypso.Generator().addIvsKey(marketId, ivsAttestationData.attestation_document, enclaveSignature);
+  console.log({ enclaveSignature });
+
+  const result = await kalypso.Generator().addIvsKey(marketId, ivsAttestationData.attestation_document.toString(), enclaveSignature);
   console.log({ result });
 
   return "Done";
