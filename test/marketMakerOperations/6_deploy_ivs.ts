@@ -16,7 +16,7 @@ async function main(): Promise<string> {
   console.log("using address", await wallet.getAddress());
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  const attestationVeriferEndPoint = "http://3.111.17.6:1400";
+  const attestationVeriferEndPoint = "http://127.0.0.1:1400";
 
   const marketId = 0;
   const ivsAttestationData = await kalypso.MarketPlace().IvsEnclaveConnector().getAttestation(attestationVeriferEndPoint);

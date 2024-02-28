@@ -14,12 +14,12 @@
   "generatorEnclave": {
     "url": "http://43.205.85.160:5000",
     "utilityUrl": "http://43.205.85.160:1500",
-    "apikey": "f35e01eb-39b8-44a1-bbb9-00d66f7ff8b6"
+    "apikey": "ea35cd66-a0af-418b-9def-f2cb036f4397 "
   },
   "ivsEnclave": {
-    "url": "http://35.154.62.234:5000",
-    "utilityUrl": "http://35.154.62.234:1500",
-    "apikey": "d1dbc6aa-c655-4729-91f8-986b85943b99"
+    "url": "http://43.205.177.43:5000",
+    "utilityUrl": "http://43.205.177.43:1500",
+    "apikey": "ea35cd66-a0af-418b-9def-f2cb036f4397"
   },
   "matchingEngineEnclave": {
     "url": "http://13.233.156.230:5000",
