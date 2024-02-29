@@ -39,7 +39,7 @@ async function main() {
   // console.log("\nGenerator public keys :");
   // console.log(generator_public_keys);
 
-  const marketId = 6;
+  const marketId = 0;
   const enclaveSignature = await kalypso
     .Generator()
     .GeneratorEnclaveConnector()
