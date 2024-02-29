@@ -280,6 +280,7 @@ export class MarketPlace {
     const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress(), 0);
     // 64 bytes
     if (matchingEnginePubKey.length !== 130) {
+      console.log({ matchingEnginePubKey });
       throw new Error("matching engine pub key is not updated in the registry or wrong");
     }
 

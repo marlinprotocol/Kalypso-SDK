@@ -22,7 +22,7 @@ export class IvsHttpClient extends BaseEnclaveClient {
   }
 
   public checkInputUrl(): string {
-    return `${this.ivsEndPoint}/checkInput`;
+    return `${this.ivsEndPoint}/api/checkInput`;
   }
 
   public async startInputVerifier(): Promise<EnclaveResponse<string>> {
