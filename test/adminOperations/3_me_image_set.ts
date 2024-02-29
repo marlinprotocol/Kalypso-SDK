@@ -26,7 +26,7 @@ async function main(): Promise<string> {
   console.log({ mePCRS });
   const result = await kalypso.Admin().setMatchingEngineImage(mePCRS);
 
-  console.log({ result });
+  console.log({ result: result.hash });
 
   return "Done";
 }

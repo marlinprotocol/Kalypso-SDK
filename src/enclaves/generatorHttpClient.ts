@@ -63,7 +63,11 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     http_url: string,
     gas_key: string,
     start_block: number,
-    chain_id: number
+    chain_id: number,
+    ivs_url: string,
+    markets: {
+      [key: string]: string;
+    }
   ): Promise<EnclaveResponse<string>> {
     const generatorConfigData: GeneratorConfigPayload = {
       generator_config,
@@ -79,6 +83,8 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
         entity_registry: this.config.entity_registry,
         proof_market_place: this.config.proof_market_place,
         staking_token: this.config.staking_token,
+        ivs_url,
+        markets,
       },
     };
 

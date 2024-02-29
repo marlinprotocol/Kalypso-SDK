@@ -21,6 +21,10 @@ export class IvsHttpClient extends BaseEnclaveClient {
     throw new Error("todo");
   }
 
+  public checkInputUrl(): string {
+    return `${this.ivsEndPoint}/checkInput`;
+  }
+
   public async startInputVerifier(): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/startInputVerifier"), { method: "POST", headers: this.headers() });
     if (!response.ok) {

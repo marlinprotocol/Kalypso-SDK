@@ -17,7 +17,7 @@ async function main(): Promise<string> {
   const result = await kalypso
     .MarketPlace()
     .MatchingEngineEnclaveConnector()
-    .matchingEngineConfigSetup(keys.rpc, parseInt((await provider.getNetwork()).chainId.toString()), keys.private_key, 7200000);
+    .matchingEngineConfigSetup(keys.rpc, parseInt((await provider.getNetwork()).chainId.toString()), keys.private_key, 18469999);
   console.log({ result });
 
   return "Done";

@@ -13,7 +13,7 @@ const wallet = new ethers.Wallet(`${keys.generator_private_key}`, provider);
 async function main() {
   console.log("using address", await wallet.getAddress());
 
-  const attestation_verifier_endpoint = "http://3.111.17.6:1400";
+  const attestation_verifier_endpoint = "http://127.0.0.1:1400";
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
@@ -39,7 +39,7 @@ async function main() {
   // console.log("\nGenerator public keys :");
   // console.log(generator_public_keys);
 
-  const marketId = 0;
+  const marketId = 6;
   const enclaveSignature = await kalypso
     .Generator()
     .GeneratorEnclaveConnector()
