@@ -14,6 +14,7 @@ import { AskState, KalspsoConfig, PublicAndSecretInputPair } from "../types";
 import { MatchingEngineHttpClient } from "../enclaves/matchingEngineHttpClient";
 import { IvsHttpClient } from "../enclaves/ivsHttpClient";
 import fetch from "node-fetch";
+import { PublicKey } from "eciesjs";
 
 type getProofWithAskIdResponse = {
   proof_generated: Boolean;
@@ -268,6 +269,7 @@ export class MarketPlace {
     refundAddress: string,
     secretType: BigNumberish,
     secretBuffer: Buffer,
+    checkMeKeyBeforeSendingTx: boolean = true,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
     //deflate the secret buffer to reduce tx cost
@@ -282,14 +284,25 @@ export class MarketPlace {
       deadline: 0,
       refundAddress: refundAddress,
     };
-    const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress(), 0);
+    const matchingEnginePubKeyAsPerContracts = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress(), 0);
     // 64 bytes
-    if (matchingEnginePubKey.length !== 130) {
-      console.log({ matchingEnginePubKey });
+    if (matchingEnginePubKeyAsPerContracts.length !== 130) {
+      console.log({ matchingEnginePubKeyAsPerContracts });
       throw new Error("matching engine pub key is not updated in the registry or wrong");
     }
 
-    const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
+    if (checkMeKeyBeforeSendingTx) {
+      const compressedMatchingEnginePubKeyAsPerContracts = PublicKey.fromHex(matchingEnginePubKeyAsPerContracts).compressed.toString("hex");
+      const meKeyAsPerEnclave = (await this.MatchingEngineEnclaveConnector().getMatchingEnginePublicKeys()).data
+        .matching_engine_ecies_public_key;
+
+      if ("0x" + compressedMatchingEnginePubKeyAsPerContracts !== meKeyAsPerEnclave) {
+        console.log({ compressedMatchingEnginePubKeyAsPerContracts, meKeyAsPerEnclave });
+        throw new Error("Matching Engine keys are not likely in sync with contracts");
+      }
+    }
+
+    const pubKey = matchingEnginePubKeyAsPerContracts.split("x")[1]; // this is hex string
     const marketData = await this.proofMarketPlace.marketData(marketId);
     console.log({ marketActivationBlock: marketData.activationBlock.toString() });
 

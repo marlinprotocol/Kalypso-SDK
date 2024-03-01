@@ -160,3 +160,8 @@ export interface SignAddressResponse {
     v: number;
   };
 }
+
+export interface MatchingEngineKeys {
+  matching_engine_ecies_public_key: string;
+  matching_engine_public_key: string;
+}

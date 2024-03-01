@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { KalspsoConfig, MatchingEngineConfigPayload, EnclaveResponse } from "../types";
+import { KalspsoConfig, MatchingEngineConfigPayload, EnclaveResponse, MatchingEngineKeys } from "../types";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
 import { BytesLike, ethers } from "ethers";
 
@@ -106,7 +106,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     return await response.json();
   }
 
-  public async getMatchingEnginePublicKeys(): Promise<any> {
+  public async getMatchingEnginePublicKeys(): Promise<EnclaveResponse<MatchingEngineKeys>> {
     const response = await fetch(this.url("/api/getMatchingEnginePublicKeys"), {
       method: "GET",
       headers: this.headers(),
