@@ -179,4 +179,27 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
       public_key: generator_public_keys.data.generator_public_key,
     };
   }
+
+  public async programStatus(programName: string): Promise<EnclaveResponse<string>> {
+    const response = await fetch(this.url(`/api/getProgramStatus?program_name=${programName}`), { method: "GET", headers: this.headers() });
+    if (!response.ok) {
+      console.log({ response });
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
+  }
+
+  public async startListener(program_name: string): Promise<EnclaveResponse<string>> {
+    const response = await fetch(this.url("/api/startProgram"), {
+      method: "POST",
+      headers: this.headers(),
+      body: JSON.stringify({ program_name }),
+    });
+
+    if (!response.ok) {
+      console.log({ response });
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
+  }
 }

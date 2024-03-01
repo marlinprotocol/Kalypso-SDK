@@ -135,7 +135,7 @@ export interface MatchingEngineConfigPayload {
 }
 
 export interface EnclaveResponse<T> {
-  status: string;
+  status?: string;
   message: string;
   data: T;
 }
