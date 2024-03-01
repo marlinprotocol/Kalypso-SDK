@@ -32,7 +32,7 @@ const createAskTest = async () => {
 
   const latestBlock = await provider.getBlockNumber();
 
-  const marketId = "0";
+  const marketId = "3";
   const assignmentDeadline = new BigNumber(latestBlock).plus(10000000000);
   console.log({ latestBlock, assignmentDeadline: assignmentDeadline.toFixed(0) });
   const proofGenerationTimeInBlocks = new BigNumber(10000000000);
@@ -51,6 +51,8 @@ const createAskTest = async () => {
   if (!isGoodRequest) {
     throw new Error("Better not create a request, if it is not provable to prevent loss of funds");
   }
+
+  console.log({ isGoodRequest });
 
   // Create ASK request
   const askRequest = await kalypso.MarketPlace().createAsk(

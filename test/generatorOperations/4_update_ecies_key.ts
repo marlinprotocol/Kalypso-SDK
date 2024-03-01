@@ -10,6 +10,8 @@ const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
 const provider = new ethers.JsonRpcProvider(keys.rpc);
 const wallet = new ethers.Wallet(`${keys.generator_private_key}`, provider);
 
+const marketId = 3;
+
 async function main() {
   console.log("using address", await wallet.getAddress());
 
@@ -39,7 +41,6 @@ async function main() {
   // console.log("\nGenerator public keys :");
   // console.log(generator_public_keys);
 
-  const marketId = 0;
   const enclaveSignature = await kalypso
     .Generator()
     .GeneratorEnclaveConnector()

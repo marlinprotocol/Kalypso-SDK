@@ -10,6 +10,7 @@ export interface KalspsoConfig {
   generatorEnclave?: Enclave;
   matchingEngineEnclave?: Enclave;
   ivsEnclave?: Enclave;
+  checkInputUrl: string;
 }
 
 interface Enclave {

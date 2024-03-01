@@ -31,6 +31,12 @@ export abstract class BaseEnclaveClient {
     throw new Error("api key not provided");
   }
 
+  protected headerWithNoApiKey(): HeaderInit {
+    return {
+      "Content-Type": "application/json",
+    };
+  }
+
   protected baseUrl(url: string, api: string): string {
     return `${url}${api}`;
   }

@@ -27,7 +27,7 @@ const createAskTest = async () => {
 
   const ivsCheckEciesCheckingKey = await kalypso.MarketPlace().IvsEnclaveConnector().fetchInputVerifierPublicKeys();
 
-  const marketId = 0;
+  const marketId = 3;
   // third argument to this function is your custom encryption key. If nothing is provided, matching engine pubkey is used
   const result = await kalypso.MarketPlace().checkInputsAndEncryptedSecretWithIvs(
     marketId,

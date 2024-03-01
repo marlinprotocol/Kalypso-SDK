@@ -6,10 +6,12 @@ import fetch from "node-fetch";
 
 export class IvsHttpClient extends BaseEnclaveClient {
   private ivsEndPoint: string;
+  private _checkInputUrl: string;
 
-  constructor(ivsEndPoint: string, ivs_attestation_utility_endpoint: string, apikey?: string) {
+  constructor(ivsEndPoint: string, ivs_attestation_utility_endpoint: string, checkInputUrl: string, apikey?: string) {
     super(ivs_attestation_utility_endpoint, apikey);
     this.ivsEndPoint = ivsEndPoint;
+    this._checkInputUrl = checkInputUrl;
   }
 
   protected override url(api: string): string {
@@ -22,7 +24,7 @@ export class IvsHttpClient extends BaseEnclaveClient {
   }
 
   public checkInputUrl(): string {
-    return `${this.ivsEndPoint}/api/checkInput`;
+    return `${this._checkInputUrl}/checkInput`;
   }
 
   public async startInputVerifier(): Promise<EnclaveResponse<string>> {

@@ -19,11 +19,12 @@
   "ivsEnclave": {
     "url": "http://43.205.177.43:5000",
     "utilityUrl": "http://43.205.177.43:1500",
-    "apikey": "736cb73e-6e0c-4332-82bd-eda1bea7b1dd"
+    "apikey": "949bc5d2-d2ce-4076-ad42-181f91ff8b79"
   },
   "matchingEngineEnclave": {
     "url": "http://13.201.131.193:5000",
     "utilityUrl": "http://13.201.131.193:1500",
     "apikey": "b962e113-eed3-417d-b492-42e07e8e2fd5"
-  }
+  },
+  "checkInputUrl": "http://43.205.177.43:3030"
 }
