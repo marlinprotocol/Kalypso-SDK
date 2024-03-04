@@ -23,7 +23,7 @@ async function main(): Promise<string> {
     inputOuputVerifierUrl: "ivs url mandatory",
   };
 
-  const wrapperAddress = "0x96AEC4bFEF7D802cd609Af69058D07ECB22e9015";
+  const wrapperAddress = "0xb39010E04Dbd9D9E51e9155c9632535D66Abd4e9";
   const slashingPenalty = "10000000000";
   const marketBytes = Buffer.from(JSON.stringify(marketSetupData), "utf-8");
 
