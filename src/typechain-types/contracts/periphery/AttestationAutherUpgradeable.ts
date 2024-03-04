@@ -23,7 +23,12 @@ import type {
 } from "../../common";
 
 export interface AttestationAutherUpgradeableInterface extends Interface {
-  getFunction(nameOrSignature: "ATTESTATION_MAX_AGE" | "ATTESTATION_VERIFIER" | "verifyKey"): FunctionFragment;
+  getFunction(
+    nameOrSignature:
+      | "ATTESTATION_MAX_AGE"
+      | "ATTESTATION_VERIFIER"
+      | "verifyKey"
+  ): FunctionFragment;
 
   getEvent(
     nameOrSignatureOrTopic:
@@ -35,15 +40,34 @@ export interface AttestationAutherUpgradeableInterface extends Interface {
       | "Initialized"
   ): EventFragment;
 
-  encodeFunctionData(functionFragment: "ATTESTATION_MAX_AGE", values?: undefined): string;
-  encodeFunctionData(functionFragment: "ATTESTATION_VERIFIER", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "ATTESTATION_MAX_AGE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "ATTESTATION_VERIFIER",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "verifyKey",
-    values: [BytesLike, BytesLike, BytesLike, BigNumberish, BigNumberish, BigNumberish]
+    values: [
+      BytesLike,
+      BytesLike,
+      BytesLike,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish
+    ]
   ): string;
 
-  decodeFunctionResult(functionFragment: "ATTESTATION_MAX_AGE", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "ATTESTATION_VERIFIER", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "ATTESTATION_MAX_AGE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "ATTESTATION_VERIFIER",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "verifyKey", data: BytesLike): Result;
 }
 
@@ -60,8 +84,18 @@ export namespace EnclaveImageRevokedEvent {
 }
 
 export namespace EnclaveImageWhitelistedEvent {
-  export type InputTuple = [imageId: BytesLike, PCR0: BytesLike, PCR1: BytesLike, PCR2: BytesLike];
-  export type OutputTuple = [imageId: string, PCR0: string, PCR1: string, PCR2: string];
+  export type InputTuple = [
+    imageId: BytesLike,
+    PCR0: BytesLike,
+    PCR1: BytesLike,
+    PCR2: BytesLike
+  ];
+  export type OutputTuple = [
+    imageId: string,
+    PCR0: string,
+    PCR1: string,
+    PCR2: string
+  ];
   export interface OutputObject {
     imageId: string;
     PCR0: string;
@@ -141,15 +175,31 @@ export interface AttestationAutherUpgradeable extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>;
+  listeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(
+    event?: TCEvent
+  ): Promise<this>;
 
   ATTESTATION_MAX_AGE: TypedContractMethod<[], [bigint], "view">;
 
@@ -168,10 +218,16 @@ export interface AttestationAutherUpgradeable extends BaseContract {
     "nonpayable"
   >;
 
-  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
+  getFunction<T extends ContractMethod = ContractMethod>(
+    key: string | FunctionFragment
+  ): T;
 
-  getFunction(nameOrSignature: "ATTESTATION_MAX_AGE"): TypedContractMethod<[], [bigint], "view">;
-  getFunction(nameOrSignature: "ATTESTATION_VERIFIER"): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "ATTESTATION_MAX_AGE"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "ATTESTATION_VERIFIER"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "verifyKey"
   ): TypedContractMethod<
@@ -189,7 +245,11 @@ export interface AttestationAutherUpgradeable extends BaseContract {
 
   getEvent(
     key: "EnclaveImageRevoked"
-  ): TypedContractEvent<EnclaveImageRevokedEvent.InputTuple, EnclaveImageRevokedEvent.OutputTuple, EnclaveImageRevokedEvent.OutputObject>;
+  ): TypedContractEvent<
+    EnclaveImageRevokedEvent.InputTuple,
+    EnclaveImageRevokedEvent.OutputTuple,
+    EnclaveImageRevokedEvent.OutputObject
+  >;
   getEvent(
     key: "EnclaveImageWhitelisted"
   ): TypedContractEvent<
@@ -199,10 +259,18 @@ export interface AttestationAutherUpgradeable extends BaseContract {
   >;
   getEvent(
     key: "EnclaveKeyRevoked"
-  ): TypedContractEvent<EnclaveKeyRevokedEvent.InputTuple, EnclaveKeyRevokedEvent.OutputTuple, EnclaveKeyRevokedEvent.OutputObject>;
+  ): TypedContractEvent<
+    EnclaveKeyRevokedEvent.InputTuple,
+    EnclaveKeyRevokedEvent.OutputTuple,
+    EnclaveKeyRevokedEvent.OutputObject
+  >;
   getEvent(
     key: "EnclaveKeyVerified"
-  ): TypedContractEvent<EnclaveKeyVerifiedEvent.InputTuple, EnclaveKeyVerifiedEvent.OutputTuple, EnclaveKeyVerifiedEvent.OutputObject>;
+  ): TypedContractEvent<
+    EnclaveKeyVerifiedEvent.InputTuple,
+    EnclaveKeyVerifiedEvent.OutputTuple,
+    EnclaveKeyVerifiedEvent.OutputObject
+  >;
   getEvent(
     key: "EnclaveKeyWhitelisted"
   ): TypedContractEvent<
@@ -212,7 +280,11 @@ export interface AttestationAutherUpgradeable extends BaseContract {
   >;
   getEvent(
     key: "Initialized"
-  ): TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
+  ): TypedContractEvent<
+    InitializedEvent.InputTuple,
+    InitializedEvent.OutputTuple,
+    InitializedEvent.OutputObject
+  >;
 
   filters: {
     "EnclaveImageRevoked(bytes32)": TypedContractEvent<
@@ -270,7 +342,15 @@ export interface AttestationAutherUpgradeable extends BaseContract {
       EnclaveKeyWhitelistedEvent.OutputObject
     >;
 
-    "Initialized(uint8)": TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
-    Initialized: TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
+    "Initialized(uint8)": TypedContractEvent<
+      InitializedEvent.InputTuple,
+      InitializedEvent.OutputTuple,
+      InitializedEvent.OutputObject
+    >;
+    Initialized: TypedContractEvent<
+      InitializedEvent.InputTuple,
+      InitializedEvent.OutputTuple,
+      InitializedEvent.OutputObject
+    >;
   };
 }

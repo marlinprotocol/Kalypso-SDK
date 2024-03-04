@@ -40,7 +40,14 @@ export class I_transfer_verifier__factory {
   static createInterface(): I_transfer_verifierInterface {
     return new Interface(_abi) as I_transfer_verifierInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): I_transfer_verifier {
-    return new Contract(address, _abi, runner) as unknown as I_transfer_verifier;
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): I_transfer_verifier {
+    return new Contract(
+      address,
+      _abi,
+      runner
+    ) as unknown as I_transfer_verifier;
   }
 }

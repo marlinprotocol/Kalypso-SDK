@@ -188,7 +188,14 @@ export class IAccessControlUpgradeable__factory {
   static createInterface(): IAccessControlUpgradeableInterface {
     return new Interface(_abi) as IAccessControlUpgradeableInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): IAccessControlUpgradeable {
-    return new Contract(address, _abi, runner) as unknown as IAccessControlUpgradeable;
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): IAccessControlUpgradeable {
+    return new Contract(
+      address,
+      _abi,
+      runner
+    ) as unknown as IAccessControlUpgradeable;
   }
 }

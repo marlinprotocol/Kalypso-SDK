@@ -233,7 +233,14 @@ export class AccessControlUpgradeable__factory {
   static createInterface(): AccessControlUpgradeableInterface {
     return new Interface(_abi) as AccessControlUpgradeableInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): AccessControlUpgradeable {
-    return new Contract(address, _abi, runner) as unknown as AccessControlUpgradeable;
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): AccessControlUpgradeable {
+    return new Contract(
+      address,
+      _abi,
+      runner
+    ) as unknown as AccessControlUpgradeable;
   }
 }

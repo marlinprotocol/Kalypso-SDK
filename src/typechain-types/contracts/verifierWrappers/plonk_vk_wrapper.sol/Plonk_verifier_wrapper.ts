@@ -13,7 +13,13 @@ import type {
   ContractMethod,
   Listener,
 } from "ethers";
-import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../../../common";
+import type {
+  TypedContractEvent,
+  TypedDeferredTopicFilter,
+  TypedEventLog,
+  TypedListener,
+  TypedContractMethod,
+} from "../../../common";
 
 export declare namespace ProofMarketplace {
   export type AskStruct = {
@@ -63,33 +69,99 @@ export interface Plonk_verifier_wrapperInterface extends Interface {
       | "verifyInputs"
   ): FunctionFragment;
 
-  encodeFunctionData(functionFragment: "checkSampleInputsAndProof", values?: undefined): string;
-  encodeFunctionData(functionFragment: "createRequest", values: [ProofMarketplace.AskStruct, BigNumberish, BytesLike, BytesLike]): string;
-  encodeFunctionData(functionFragment: "encodeInputAndProofForVerification", values: [BytesLike[], BytesLike]): string;
-  encodeFunctionData(functionFragment: "encodeInputs", values: [BytesLike[]]): string;
-  encodeFunctionData(functionFragment: "encodeProof", values: [BytesLike]): string;
+  encodeFunctionData(
+    functionFragment: "checkSampleInputsAndProof",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createRequest",
+    values: [ProofMarketplace.AskStruct, BigNumberish, BytesLike, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "encodeInputAndProofForVerification",
+    values: [BytesLike[], BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "encodeInputs",
+    values: [BytesLike[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "encodeProof",
+    values: [BytesLike]
+  ): string;
   encodeFunctionData(functionFragment: "iverifier", values?: undefined): string;
-  encodeFunctionData(functionFragment: "proofMarketplace", values?: undefined): string;
-  encodeFunctionData(functionFragment: "sampleInput", values?: undefined): string;
-  encodeFunctionData(functionFragment: "sampleProof", values?: undefined): string;
-  encodeFunctionData(functionFragment: "setProofMarketplaceContract", values: [AddressLike]): string;
+  encodeFunctionData(
+    functionFragment: "proofMarketplace",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "sampleInput",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "sampleProof",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setProofMarketplaceContract",
+    values: [AddressLike]
+  ): string;
   encodeFunctionData(functionFragment: "verify", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "verifyAgainstSampleInputs", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "verifyInputs", values: [BytesLike]): string;
+  encodeFunctionData(
+    functionFragment: "verifyAgainstSampleInputs",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "verifyInputs",
+    values: [BytesLike]
+  ): string;
 
-  decodeFunctionResult(functionFragment: "checkSampleInputsAndProof", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "createRequest", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "encodeInputAndProofForVerification", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "encodeInputs", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "encodeProof", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "checkSampleInputsAndProof",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "createRequest",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "encodeInputAndProofForVerification",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "encodeInputs",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "encodeProof",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "iverifier", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "proofMarketplace", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "sampleInput", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "sampleProof", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setProofMarketplaceContract", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "proofMarketplace",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "sampleInput",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "sampleProof",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setProofMarketplaceContract",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "verify", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "verifyAgainstSampleInputs", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "verifyInputs", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "verifyAgainstSampleInputs",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "verifyInputs",
+    data: BytesLike
+  ): Result;
 }
 
 export interface Plonk_verifier_wrapper extends BaseContract {
@@ -109,25 +181,50 @@ export interface Plonk_verifier_wrapper extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>;
+  listeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(
+    event?: TCEvent
+  ): Promise<this>;
 
   checkSampleInputsAndProof: TypedContractMethod<[], [boolean], "view">;
 
   createRequest: TypedContractMethod<
-    [ask: ProofMarketplace.AskStruct, secretType: BigNumberish, secret_inputs: BytesLike, acl: BytesLike],
+    [
+      ask: ProofMarketplace.AskStruct,
+      secretType: BigNumberish,
+      secret_inputs: BytesLike,
+      acl: BytesLike
+    ],
     [void],
     "nonpayable"
   >;
 
-  encodeInputAndProofForVerification: TypedContractMethod<[inputs: BytesLike[], proof: BytesLike], [string], "view">;
+  encodeInputAndProofForVerification: TypedContractMethod<
+    [inputs: BytesLike[], proof: BytesLike],
+    [string],
+    "view"
+  >;
 
   encodeInputs: TypedContractMethod<[inputs: BytesLike[]], [string], "view">;
 
@@ -141,37 +238,82 @@ export interface Plonk_verifier_wrapper extends BaseContract {
 
   sampleProof: TypedContractMethod<[], [string], "view">;
 
-  setProofMarketplaceContract: TypedContractMethod<[_proofMarketplace: AddressLike], [void], "nonpayable">;
+  setProofMarketplaceContract: TypedContractMethod<
+    [_proofMarketplace: AddressLike],
+    [void],
+    "nonpayable"
+  >;
 
   verify: TypedContractMethod<[encodedData: BytesLike], [boolean], "view">;
 
-  verifyAgainstSampleInputs: TypedContractMethod<[encodedProof: BytesLike], [boolean], "view">;
+  verifyAgainstSampleInputs: TypedContractMethod<
+    [encodedProof: BytesLike],
+    [boolean],
+    "view"
+  >;
 
   verifyInputs: TypedContractMethod<[inputs: BytesLike], [boolean], "view">;
 
-  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
+  getFunction<T extends ContractMethod = ContractMethod>(
+    key: string | FunctionFragment
+  ): T;
 
-  getFunction(nameOrSignature: "checkSampleInputsAndProof"): TypedContractMethod<[], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "checkSampleInputsAndProof"
+  ): TypedContractMethod<[], [boolean], "view">;
   getFunction(
     nameOrSignature: "createRequest"
   ): TypedContractMethod<
-    [ask: ProofMarketplace.AskStruct, secretType: BigNumberish, secret_inputs: BytesLike, acl: BytesLike],
+    [
+      ask: ProofMarketplace.AskStruct,
+      secretType: BigNumberish,
+      secret_inputs: BytesLike,
+      acl: BytesLike
+    ],
     [void],
     "nonpayable"
   >;
   getFunction(
     nameOrSignature: "encodeInputAndProofForVerification"
-  ): TypedContractMethod<[inputs: BytesLike[], proof: BytesLike], [string], "view">;
-  getFunction(nameOrSignature: "encodeInputs"): TypedContractMethod<[inputs: BytesLike[]], [string], "view">;
-  getFunction(nameOrSignature: "encodeProof"): TypedContractMethod<[proof: BytesLike], [string], "view">;
-  getFunction(nameOrSignature: "iverifier"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "proofMarketplace"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "sampleInput"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "sampleProof"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "setProofMarketplaceContract"): TypedContractMethod<[_proofMarketplace: AddressLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "verify"): TypedContractMethod<[encodedData: BytesLike], [boolean], "view">;
-  getFunction(nameOrSignature: "verifyAgainstSampleInputs"): TypedContractMethod<[encodedProof: BytesLike], [boolean], "view">;
-  getFunction(nameOrSignature: "verifyInputs"): TypedContractMethod<[inputs: BytesLike], [boolean], "view">;
+  ): TypedContractMethod<
+    [inputs: BytesLike[], proof: BytesLike],
+    [string],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "encodeInputs"
+  ): TypedContractMethod<[inputs: BytesLike[]], [string], "view">;
+  getFunction(
+    nameOrSignature: "encodeProof"
+  ): TypedContractMethod<[proof: BytesLike], [string], "view">;
+  getFunction(
+    nameOrSignature: "iverifier"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "proofMarketplace"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "sampleInput"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "sampleProof"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "setProofMarketplaceContract"
+  ): TypedContractMethod<
+    [_proofMarketplace: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "verify"
+  ): TypedContractMethod<[encodedData: BytesLike], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "verifyAgainstSampleInputs"
+  ): TypedContractMethod<[encodedProof: BytesLike], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "verifyInputs"
+  ): TypedContractMethod<[inputs: BytesLike], [boolean], "view">;
 
   filters: {};
 }

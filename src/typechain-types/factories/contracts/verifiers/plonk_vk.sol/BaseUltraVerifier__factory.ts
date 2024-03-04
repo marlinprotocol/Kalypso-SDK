@@ -3,7 +3,10 @@
 /* eslint-disable */
 
 import { Contract, Interface, type ContractRunner } from "ethers";
-import type { BaseUltraVerifier, BaseUltraVerifierInterface } from "../../../../contracts/verifiers/plonk_vk.sol/BaseUltraVerifier";
+import type {
+  BaseUltraVerifier,
+  BaseUltraVerifierInterface,
+} from "../../../../contracts/verifiers/plonk_vk.sol/BaseUltraVerifier";
 
 const _abi = [
   {
@@ -91,7 +94,10 @@ export class BaseUltraVerifier__factory {
   static createInterface(): BaseUltraVerifierInterface {
     return new Interface(_abi) as BaseUltraVerifierInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): BaseUltraVerifier {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): BaseUltraVerifier {
     return new Contract(address, _abi, runner) as unknown as BaseUltraVerifier;
   }
 }

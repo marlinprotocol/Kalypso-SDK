@@ -12,16 +12,36 @@ import type {
   ContractMethod,
   Listener,
 } from "ethers";
-import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../../common";
+import type {
+  TypedContractEvent,
+  TypedDeferredTopicFilter,
+  TypedEventLog,
+  TypedListener,
+  TypedContractMethod,
+} from "../../common";
 
 export interface DisputeInterface extends Interface {
-  getFunction(nameOrSignature: "ENTITY_KEY_REGISTRY" | "checkDispute"): FunctionFragment;
+  getFunction(
+    nameOrSignature: "ENTITY_KEY_REGISTRY" | "checkDispute"
+  ): FunctionFragment;
 
-  encodeFunctionData(functionFragment: "ENTITY_KEY_REGISTRY", values?: undefined): string;
-  encodeFunctionData(functionFragment: "checkDispute", values: [BigNumberish, BytesLike, BytesLike, BytesLike]): string;
+  encodeFunctionData(
+    functionFragment: "ENTITY_KEY_REGISTRY",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "checkDispute",
+    values: [BigNumberish, BytesLike, BytesLike, BytesLike]
+  ): string;
 
-  decodeFunctionResult(functionFragment: "ENTITY_KEY_REGISTRY", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "checkDispute", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "ENTITY_KEY_REGISTRY",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "checkDispute",
+    data: BytesLike
+  ): Result;
 }
 
 export interface Dispute extends BaseContract {
@@ -41,31 +61,61 @@ export interface Dispute extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>;
+  listeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(
+    event?: TCEvent
+  ): Promise<this>;
 
   ENTITY_KEY_REGISTRY: TypedContractMethod<[], [string], "view">;
 
   checkDispute: TypedContractMethod<
-    [askId: BigNumberish, proverData: BytesLike, invalidProofSignature: BytesLike, expectedImageId: BytesLike],
+    [
+      askId: BigNumberish,
+      proverData: BytesLike,
+      invalidProofSignature: BytesLike,
+      expectedImageId: BytesLike
+    ],
     [boolean],
     "view"
   >;
 
-  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
+  getFunction<T extends ContractMethod = ContractMethod>(
+    key: string | FunctionFragment
+  ): T;
 
-  getFunction(nameOrSignature: "ENTITY_KEY_REGISTRY"): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "ENTITY_KEY_REGISTRY"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "checkDispute"
   ): TypedContractMethod<
-    [askId: BigNumberish, proverData: BytesLike, invalidProofSignature: BytesLike, expectedImageId: BytesLike],
+    [
+      askId: BigNumberish,
+      proverData: BytesLike,
+      invalidProofSignature: BytesLike,
+      expectedImageId: BytesLike
+    ],
     [boolean],
     "view"
   >;

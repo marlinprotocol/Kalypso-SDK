@@ -96,98 +96,337 @@ export interface GeneratorRegistryInterface extends Interface {
       | "Upgraded"
   ): EventFragment;
 
-  encodeFunctionData(functionFragment: "DEFAULT_ADMIN_ROLE", values?: undefined): string;
-  encodeFunctionData(functionFragment: "ENTITY_KEY_REGISTRY", values?: undefined): string;
-  encodeFunctionData(functionFragment: "PARALLEL_REQUESTS_UPPER_LIMIT", values?: undefined): string;
-  encodeFunctionData(functionFragment: "PROOF_MARKET_PLACE_ROLE", values?: undefined): string;
-  encodeFunctionData(functionFragment: "STAKING_TOKEN", values?: undefined): string;
-  encodeFunctionData(functionFragment: "UNLOCK_WAIT_BLOCKS", values?: undefined): string;
-  encodeFunctionData(functionFragment: "addIvsKey", values: [BigNumberish, BytesLike, BytesLike]): string;
-  encodeFunctionData(functionFragment: "assignGeneratorTask", values: [AddressLike, BigNumberish, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "changeRewardAddress", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "completeGeneratorTask", values: [AddressLike, BigNumberish, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "decreaseDeclaredCompute", values?: undefined): string;
-  encodeFunctionData(functionFragment: "deregister", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "generatorInfoPerMarket", values: [AddressLike, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "generatorRegistry", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "getGeneratorAssignmentDetails", values: [AddressLike, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "getGeneratorRewardDetails", values: [AddressLike, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "getGeneratorState", values: [AddressLike, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "getRoleAdmin", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "getRoleMember", values: [BytesLike, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "getRoleMemberCount", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "grantRole", values: [BytesLike, AddressLike]): string;
-  encodeFunctionData(functionFragment: "hasRole", values: [BytesLike, AddressLike]): string;
-  encodeFunctionData(functionFragment: "increaseDeclaredCompute", values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: "initialize", values: [AddressLike, AddressLike]): string;
-  encodeFunctionData(functionFragment: "intendToReduceCompute", values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: "intendToReduceStake", values: [BigNumberish]): string;
+  encodeFunctionData(
+    functionFragment: "DEFAULT_ADMIN_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "ENTITY_KEY_REGISTRY",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "PARALLEL_REQUESTS_UPPER_LIMIT",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "PROOF_MARKET_PLACE_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "STAKING_TOKEN",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "UNLOCK_WAIT_BLOCKS",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addIvsKey",
+    values: [BigNumberish, BytesLike, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "assignGeneratorTask",
+    values: [AddressLike, BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "changeRewardAddress",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "completeGeneratorTask",
+    values: [AddressLike, BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "decreaseDeclaredCompute",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "deregister",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "generatorInfoPerMarket",
+    values: [AddressLike, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "generatorRegistry",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getGeneratorAssignmentDetails",
+    values: [AddressLike, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getGeneratorRewardDetails",
+    values: [AddressLike, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getGeneratorState",
+    values: [AddressLike, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getRoleAdmin",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getRoleMember",
+    values: [BytesLike, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getRoleMemberCount",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "grantRole",
+    values: [BytesLike, AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "hasRole",
+    values: [BytesLike, AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "increaseDeclaredCompute",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "initialize",
+    values: [AddressLike, AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "intendToReduceCompute",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "intendToReduceStake",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "joinMarketplace",
-    values: [BigNumberish, BigNumberish, BigNumberish, BigNumberish, boolean, BytesLike, BytesLike]
+    values: [
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      boolean,
+      BytesLike,
+      BytesLike
+    ]
   ): string;
-  encodeFunctionData(functionFragment: "leaveMarketplace", values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: "leaveMarketplaces", values: [BigNumberish[]]): string;
-  encodeFunctionData(functionFragment: "proofMarketplace", values?: undefined): string;
-  encodeFunctionData(functionFragment: "proxiableUUID", values?: undefined): string;
-  encodeFunctionData(functionFragment: "register", values: [AddressLike, BigNumberish, BigNumberish, BytesLike]): string;
-  encodeFunctionData(functionFragment: "removeEncryptionKey", values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: "renounceRole", values: [BytesLike, AddressLike]): string;
-  encodeFunctionData(functionFragment: "requestForExitMarketplace", values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: "requestForExitMarketplaces", values: [BigNumberish[]]): string;
-  encodeFunctionData(functionFragment: "revokeRole", values: [BytesLike, AddressLike]): string;
-  encodeFunctionData(functionFragment: "slashGenerator", values: [AddressLike, BigNumberish, BigNumberish, AddressLike]): string;
-  encodeFunctionData(functionFragment: "stake", values: [AddressLike, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "unstake", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "updateEncryptionKey", values: [BigNumberish, BytesLike, BytesLike]): string;
-  encodeFunctionData(functionFragment: "upgradeTo", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "upgradeToAndCall", values: [AddressLike, BytesLike]): string;
+  encodeFunctionData(
+    functionFragment: "leaveMarketplace",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "leaveMarketplaces",
+    values: [BigNumberish[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "proofMarketplace",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "proxiableUUID",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "register",
+    values: [AddressLike, BigNumberish, BigNumberish, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "removeEncryptionKey",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "renounceRole",
+    values: [BytesLike, AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "requestForExitMarketplace",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "requestForExitMarketplaces",
+    values: [BigNumberish[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "revokeRole",
+    values: [BytesLike, AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "slashGenerator",
+    values: [AddressLike, BigNumberish, BigNumberish, AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "stake",
+    values: [AddressLike, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "supportsInterface",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "unstake",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "updateEncryptionKey",
+    values: [BigNumberish, BytesLike, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "upgradeTo",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "upgradeToAndCall",
+    values: [AddressLike, BytesLike]
+  ): string;
 
-  decodeFunctionResult(functionFragment: "DEFAULT_ADMIN_ROLE", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "ENTITY_KEY_REGISTRY", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "PARALLEL_REQUESTS_UPPER_LIMIT", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "PROOF_MARKET_PLACE_ROLE", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "STAKING_TOKEN", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "UNLOCK_WAIT_BLOCKS", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "DEFAULT_ADMIN_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "ENTITY_KEY_REGISTRY",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "PARALLEL_REQUESTS_UPPER_LIMIT",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "PROOF_MARKET_PLACE_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "STAKING_TOKEN",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "UNLOCK_WAIT_BLOCKS",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "addIvsKey", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "assignGeneratorTask", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "changeRewardAddress", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "completeGeneratorTask", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "decreaseDeclaredCompute", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "assignGeneratorTask",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "changeRewardAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "completeGeneratorTask",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "decreaseDeclaredCompute",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "deregister", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "generatorInfoPerMarket", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "generatorRegistry", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getGeneratorAssignmentDetails", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getGeneratorRewardDetails", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getGeneratorState", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getRoleAdmin", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getRoleMember", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getRoleMemberCount", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "generatorInfoPerMarket",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "generatorRegistry",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getGeneratorAssignmentDetails",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getGeneratorRewardDetails",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getGeneratorState",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getRoleAdmin",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getRoleMember",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getRoleMemberCount",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "increaseDeclaredCompute", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "increaseDeclaredCompute",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "intendToReduceCompute", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "intendToReduceStake", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "joinMarketplace", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "leaveMarketplace", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "leaveMarketplaces", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "proofMarketplace", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "proxiableUUID", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "intendToReduceCompute",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "intendToReduceStake",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "joinMarketplace",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "leaveMarketplace",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "leaveMarketplaces",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "proofMarketplace",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "proxiableUUID",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "register", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "removeEncryptionKey", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "renounceRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "requestForExitMarketplace", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "requestForExitMarketplaces", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "removeEncryptionKey",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "renounceRole",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "requestForExitMarketplace",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "requestForExitMarketplaces",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "slashGenerator", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "slashGenerator",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "stake", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "supportsInterface", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "supportsInterface",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "unstake", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "updateEncryptionKey", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "updateEncryptionKey",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "upgradeToAndCall", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "upgradeToAndCall",
+    data: BytesLike
+  ): Result;
 }
 
 export namespace AddIvsKeyEvent {
@@ -242,7 +481,10 @@ export namespace BeaconUpgradedEvent {
 }
 
 export namespace ChangedGeneratorRewardAddressEvent {
-  export type InputTuple = [generator: AddressLike, newRewardAddress: AddressLike];
+  export type InputTuple = [
+    generator: AddressLike,
+    newRewardAddress: AddressLike
+  ];
   export type OutputTuple = [generator: string, newRewardAddress: string];
   export interface OutputObject {
     generator: string;
@@ -305,8 +547,16 @@ export namespace InitializedEvent {
 }
 
 export namespace JoinedMarketplaceEvent {
-  export type InputTuple = [generator: AddressLike, marketId: BigNumberish, computeAllocation: BigNumberish];
-  export type OutputTuple = [generator: string, marketId: bigint, computeAllocation: bigint];
+  export type InputTuple = [
+    generator: AddressLike,
+    marketId: BigNumberish,
+    computeAllocation: BigNumberish
+  ];
+  export type OutputTuple = [
+    generator: string,
+    marketId: bigint,
+    computeAllocation: bigint
+  ];
   export interface OutputObject {
     generator: string;
     marketId: bigint;
@@ -332,8 +582,16 @@ export namespace LeftMarketplaceEvent {
 }
 
 export namespace RegisteredGeneratorEvent {
-  export type InputTuple = [generator: AddressLike, initialCompute: BigNumberish, initialStake: BigNumberish];
-  export type OutputTuple = [generator: string, initialCompute: bigint, initialStake: bigint];
+  export type InputTuple = [
+    generator: AddressLike,
+    initialCompute: BigNumberish,
+    initialStake: BigNumberish
+  ];
+  export type OutputTuple = [
+    generator: string,
+    initialCompute: bigint,
+    initialStake: bigint
+  ];
   export interface OutputObject {
     generator: string;
     initialCompute: bigint;
@@ -359,7 +617,10 @@ export namespace RemovedStakeEvent {
 }
 
 export namespace RequestComputeDecreaseEvent {
-  export type InputTuple = [generator: AddressLike, intendedUtilization: BigNumberish];
+  export type InputTuple = [
+    generator: AddressLike,
+    intendedUtilization: BigNumberish
+  ];
   export type OutputTuple = [generator: string, intendedUtilization: bigint];
   export interface OutputObject {
     generator: string;
@@ -385,7 +646,10 @@ export namespace RequestExitMarketplaceEvent {
 }
 
 export namespace RequestStakeDecreaseEvent {
-  export type InputTuple = [generator: AddressLike, intendedUtilization: BigNumberish];
+  export type InputTuple = [
+    generator: AddressLike,
+    intendedUtilization: BigNumberish
+  ];
   export type OutputTuple = [generator: string, intendedUtilization: bigint];
   export interface OutputObject {
     generator: string;
@@ -398,8 +662,16 @@ export namespace RequestStakeDecreaseEvent {
 }
 
 export namespace RoleAdminChangedEvent {
-  export type InputTuple = [role: BytesLike, previousAdminRole: BytesLike, newAdminRole: BytesLike];
-  export type OutputTuple = [role: string, previousAdminRole: string, newAdminRole: string];
+  export type InputTuple = [
+    role: BytesLike,
+    previousAdminRole: BytesLike,
+    newAdminRole: BytesLike
+  ];
+  export type OutputTuple = [
+    role: string,
+    previousAdminRole: string,
+    newAdminRole: string
+  ];
   export interface OutputObject {
     role: string;
     previousAdminRole: string;
@@ -412,7 +684,11 @@ export namespace RoleAdminChangedEvent {
 }
 
 export namespace RoleGrantedEvent {
-  export type InputTuple = [role: BytesLike, account: AddressLike, sender: AddressLike];
+  export type InputTuple = [
+    role: BytesLike,
+    account: AddressLike,
+    sender: AddressLike
+  ];
   export type OutputTuple = [role: string, account: string, sender: string];
   export interface OutputObject {
     role: string;
@@ -426,7 +702,11 @@ export namespace RoleGrantedEvent {
 }
 
 export namespace RoleRevokedEvent {
-  export type InputTuple = [role: BytesLike, account: AddressLike, sender: AddressLike];
+  export type InputTuple = [
+    role: BytesLike,
+    account: AddressLike,
+    sender: AddressLike
+  ];
   export type OutputTuple = [role: string, account: string, sender: string];
   export interface OutputObject {
     role: string;
@@ -468,15 +748,31 @@ export interface GeneratorRegistry extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>;
+  listeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(
+    event?: TCEvent
+  ): Promise<this>;
 
   DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
 
@@ -490,25 +786,49 @@ export interface GeneratorRegistry extends BaseContract {
 
   UNLOCK_WAIT_BLOCKS: TypedContractMethod<[], [bigint], "view">;
 
-  addIvsKey: TypedContractMethod<[marketId: BigNumberish, attestationData: BytesLike, enclaveSignature: BytesLike], [void], "nonpayable">;
-
-  assignGeneratorTask: TypedContractMethod<
-    [generatorAddress: AddressLike, marketId: BigNumberish, stakeToLock: BigNumberish],
+  addIvsKey: TypedContractMethod<
+    [
+      marketId: BigNumberish,
+      attestationData: BytesLike,
+      enclaveSignature: BytesLike
+    ],
     [void],
     "nonpayable"
   >;
 
-  changeRewardAddress: TypedContractMethod<[newRewardAddress: AddressLike], [void], "nonpayable">;
+  assignGeneratorTask: TypedContractMethod<
+    [
+      generatorAddress: AddressLike,
+      marketId: BigNumberish,
+      stakeToLock: BigNumberish
+    ],
+    [void],
+    "nonpayable"
+  >;
+
+  changeRewardAddress: TypedContractMethod<
+    [newRewardAddress: AddressLike],
+    [void],
+    "nonpayable"
+  >;
 
   completeGeneratorTask: TypedContractMethod<
-    [generatorAddress: AddressLike, marketId: BigNumberish, stakeToRelease: BigNumberish],
+    [
+      generatorAddress: AddressLike,
+      marketId: BigNumberish,
+      stakeToRelease: BigNumberish
+    ],
     [void],
     "nonpayable"
   >;
 
   decreaseDeclaredCompute: TypedContractMethod<[], [void], "nonpayable">;
 
-  deregister: TypedContractMethod<[refundAddress: AddressLike], [void], "nonpayable">;
+  deregister: TypedContractMethod<
+    [refundAddress: AddressLike],
+    [void],
+    "nonpayable"
+  >;
 
   generatorInfoPerMarket: TypedContractMethod<
     [arg0: AddressLike, arg1: BigNumberish],
@@ -527,7 +847,18 @@ export interface GeneratorRegistry extends BaseContract {
   generatorRegistry: TypedContractMethod<
     [arg0: AddressLike],
     [
-      [string, bigint, bigint, bigint, bigint, bigint, bigint, bigint, bigint, string] & {
+      [
+        string,
+        bigint,
+        bigint,
+        bigint,
+        bigint,
+        bigint,
+        bigint,
+        bigint,
+        bigint,
+        string
+      ] & {
         rewardAddress: string;
         totalStake: bigint;
         sumOfComputeAllocations: bigint;
@@ -543,29 +874,69 @@ export interface GeneratorRegistry extends BaseContract {
     "view"
   >;
 
-  getGeneratorAssignmentDetails: TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[bigint, bigint]], "view">;
+  getGeneratorAssignmentDetails: TypedContractMethod<
+    [generatorAddress: AddressLike, marketId: BigNumberish],
+    [[bigint, bigint]],
+    "view"
+  >;
 
-  getGeneratorRewardDetails: TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[string, bigint]], "view">;
+  getGeneratorRewardDetails: TypedContractMethod<
+    [generatorAddress: AddressLike, marketId: BigNumberish],
+    [[string, bigint]],
+    "view"
+  >;
 
-  getGeneratorState: TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[bigint, bigint]], "view">;
+  getGeneratorState: TypedContractMethod<
+    [generatorAddress: AddressLike, marketId: BigNumberish],
+    [[bigint, bigint]],
+    "view"
+  >;
 
   getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
 
-  getRoleMember: TypedContractMethod<[role: BytesLike, index: BigNumberish], [string], "view">;
+  getRoleMember: TypedContractMethod<
+    [role: BytesLike, index: BigNumberish],
+    [string],
+    "view"
+  >;
 
   getRoleMemberCount: TypedContractMethod<[role: BytesLike], [bigint], "view">;
 
-  grantRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
+  grantRole: TypedContractMethod<
+    [role: BytesLike, account: AddressLike],
+    [void],
+    "nonpayable"
+  >;
 
-  hasRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
+  hasRole: TypedContractMethod<
+    [role: BytesLike, account: AddressLike],
+    [boolean],
+    "view"
+  >;
 
-  increaseDeclaredCompute: TypedContractMethod<[computeToIncrease: BigNumberish], [void], "nonpayable">;
+  increaseDeclaredCompute: TypedContractMethod<
+    [computeToIncrease: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
-  initialize: TypedContractMethod<[_admin: AddressLike, _proofMarketplace: AddressLike], [void], "nonpayable">;
+  initialize: TypedContractMethod<
+    [_admin: AddressLike, _proofMarketplace: AddressLike],
+    [void],
+    "nonpayable"
+  >;
 
-  intendToReduceCompute: TypedContractMethod<[newUtilization: BigNumberish], [void], "nonpayable">;
+  intendToReduceCompute: TypedContractMethod<
+    [newUtilization: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
-  intendToReduceStake: TypedContractMethod<[newUtilization: BigNumberish], [void], "nonpayable">;
+  intendToReduceStake: TypedContractMethod<
+    [newUtilization: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
   joinMarketplace: TypedContractMethod<
     [
@@ -581,73 +952,177 @@ export interface GeneratorRegistry extends BaseContract {
     "nonpayable"
   >;
 
-  leaveMarketplace: TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
+  leaveMarketplace: TypedContractMethod<
+    [marketId: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
-  leaveMarketplaces: TypedContractMethod<[marketIds: BigNumberish[]], [void], "nonpayable">;
+  leaveMarketplaces: TypedContractMethod<
+    [marketIds: BigNumberish[]],
+    [void],
+    "nonpayable"
+  >;
 
   proofMarketplace: TypedContractMethod<[], [string], "view">;
 
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
   register: TypedContractMethod<
-    [rewardAddress: AddressLike, declaredCompute: BigNumberish, initialStake: BigNumberish, generatorData: BytesLike],
+    [
+      rewardAddress: AddressLike,
+      declaredCompute: BigNumberish,
+      initialStake: BigNumberish,
+      generatorData: BytesLike
+    ],
     [void],
     "nonpayable"
   >;
 
-  removeEncryptionKey: TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
+  removeEncryptionKey: TypedContractMethod<
+    [marketId: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
-  renounceRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
+  renounceRole: TypedContractMethod<
+    [role: BytesLike, account: AddressLike],
+    [void],
+    "nonpayable"
+  >;
 
-  requestForExitMarketplace: TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
+  requestForExitMarketplace: TypedContractMethod<
+    [marketId: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
-  requestForExitMarketplaces: TypedContractMethod<[marketIds: BigNumberish[]], [void], "nonpayable">;
+  requestForExitMarketplaces: TypedContractMethod<
+    [marketIds: BigNumberish[]],
+    [void],
+    "nonpayable"
+  >;
 
-  revokeRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
+  revokeRole: TypedContractMethod<
+    [role: BytesLike, account: AddressLike],
+    [void],
+    "nonpayable"
+  >;
 
   slashGenerator: TypedContractMethod<
-    [generatorAddress: AddressLike, marketId: BigNumberish, slashingAmount: BigNumberish, rewardAddress: AddressLike],
+    [
+      generatorAddress: AddressLike,
+      marketId: BigNumberish,
+      slashingAmount: BigNumberish,
+      rewardAddress: AddressLike
+    ],
     [bigint],
     "nonpayable"
   >;
 
-  stake: TypedContractMethod<[generatorAddress: AddressLike, amount: BigNumberish], [bigint], "nonpayable">;
+  stake: TypedContractMethod<
+    [generatorAddress: AddressLike, amount: BigNumberish],
+    [bigint],
+    "nonpayable"
+  >;
 
-  supportsInterface: TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+  supportsInterface: TypedContractMethod<
+    [interfaceId: BytesLike],
+    [boolean],
+    "view"
+  >;
 
   unstake: TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
 
   updateEncryptionKey: TypedContractMethod<
-    [marketId: BigNumberish, attestationData: BytesLike, enclaveSignature: BytesLike],
+    [
+      marketId: BigNumberish,
+      attestationData: BytesLike,
+      enclaveSignature: BytesLike
+    ],
     [void],
     "nonpayable"
   >;
 
-  upgradeTo: TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
+  upgradeTo: TypedContractMethod<
+    [newImplementation: AddressLike],
+    [void],
+    "nonpayable"
+  >;
 
-  upgradeToAndCall: TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;
+  upgradeToAndCall: TypedContractMethod<
+    [newImplementation: AddressLike, data: BytesLike],
+    [void],
+    "payable"
+  >;
 
-  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
+  getFunction<T extends ContractMethod = ContractMethod>(
+    key: string | FunctionFragment
+  ): T;
 
-  getFunction(nameOrSignature: "DEFAULT_ADMIN_ROLE"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "ENTITY_KEY_REGISTRY"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "PARALLEL_REQUESTS_UPPER_LIMIT"): TypedContractMethod<[], [bigint], "view">;
-  getFunction(nameOrSignature: "PROOF_MARKET_PLACE_ROLE"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "STAKING_TOKEN"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "UNLOCK_WAIT_BLOCKS"): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "DEFAULT_ADMIN_ROLE"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "ENTITY_KEY_REGISTRY"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "PARALLEL_REQUESTS_UPPER_LIMIT"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "PROOF_MARKET_PLACE_ROLE"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "STAKING_TOKEN"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "UNLOCK_WAIT_BLOCKS"
+  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "addIvsKey"
-  ): TypedContractMethod<[marketId: BigNumberish, attestationData: BytesLike, enclaveSignature: BytesLike], [void], "nonpayable">;
+  ): TypedContractMethod<
+    [
+      marketId: BigNumberish,
+      attestationData: BytesLike,
+      enclaveSignature: BytesLike
+    ],
+    [void],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "assignGeneratorTask"
-  ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish, stakeToLock: BigNumberish], [void], "nonpayable">;
-  getFunction(nameOrSignature: "changeRewardAddress"): TypedContractMethod<[newRewardAddress: AddressLike], [void], "nonpayable">;
+  ): TypedContractMethod<
+    [
+      generatorAddress: AddressLike,
+      marketId: BigNumberish,
+      stakeToLock: BigNumberish
+    ],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "changeRewardAddress"
+  ): TypedContractMethod<[newRewardAddress: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "completeGeneratorTask"
-  ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish, stakeToRelease: BigNumberish], [void], "nonpayable">;
-  getFunction(nameOrSignature: "decreaseDeclaredCompute"): TypedContractMethod<[], [void], "nonpayable">;
-  getFunction(nameOrSignature: "deregister"): TypedContractMethod<[refundAddress: AddressLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "generatorInfoPerMarket"): TypedContractMethod<
+  ): TypedContractMethod<
+    [
+      generatorAddress: AddressLike,
+      marketId: BigNumberish,
+      stakeToRelease: BigNumberish
+    ],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "decreaseDeclaredCompute"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "deregister"
+  ): TypedContractMethod<[refundAddress: AddressLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "generatorInfoPerMarket"
+  ): TypedContractMethod<
     [arg0: AddressLike, arg1: BigNumberish],
     [
       [bigint, bigint, bigint, bigint, bigint] & {
@@ -660,10 +1135,23 @@ export interface GeneratorRegistry extends BaseContract {
     ],
     "view"
   >;
-  getFunction(nameOrSignature: "generatorRegistry"): TypedContractMethod<
+  getFunction(
+    nameOrSignature: "generatorRegistry"
+  ): TypedContractMethod<
     [arg0: AddressLike],
     [
-      [string, bigint, bigint, bigint, bigint, bigint, bigint, bigint, bigint, string] & {
+      [
+        string,
+        bigint,
+        bigint,
+        bigint,
+        bigint,
+        bigint,
+        bigint,
+        bigint,
+        bigint,
+        string
+      ] & {
         rewardAddress: string;
         totalStake: bigint;
         sumOfComputeAllocations: bigint;
@@ -680,24 +1168,72 @@ export interface GeneratorRegistry extends BaseContract {
   >;
   getFunction(
     nameOrSignature: "getGeneratorAssignmentDetails"
-  ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[bigint, bigint]], "view">;
+  ): TypedContractMethod<
+    [generatorAddress: AddressLike, marketId: BigNumberish],
+    [[bigint, bigint]],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "getGeneratorRewardDetails"
-  ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[string, bigint]], "view">;
+  ): TypedContractMethod<
+    [generatorAddress: AddressLike, marketId: BigNumberish],
+    [[string, bigint]],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "getGeneratorState"
-  ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[bigint, bigint]], "view">;
-  getFunction(nameOrSignature: "getRoleAdmin"): TypedContractMethod<[role: BytesLike], [string], "view">;
-  getFunction(nameOrSignature: "getRoleMember"): TypedContractMethod<[role: BytesLike, index: BigNumberish], [string], "view">;
-  getFunction(nameOrSignature: "getRoleMemberCount"): TypedContractMethod<[role: BytesLike], [bigint], "view">;
-  getFunction(nameOrSignature: "grantRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "hasRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
-  getFunction(nameOrSignature: "increaseDeclaredCompute"): TypedContractMethod<[computeToIncrease: BigNumberish], [void], "nonpayable">;
+  ): TypedContractMethod<
+    [generatorAddress: AddressLike, marketId: BigNumberish],
+    [[bigint, bigint]],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "getRoleAdmin"
+  ): TypedContractMethod<[role: BytesLike], [string], "view">;
+  getFunction(
+    nameOrSignature: "getRoleMember"
+  ): TypedContractMethod<
+    [role: BytesLike, index: BigNumberish],
+    [string],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "getRoleMemberCount"
+  ): TypedContractMethod<[role: BytesLike], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "grantRole"
+  ): TypedContractMethod<
+    [role: BytesLike, account: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "hasRole"
+  ): TypedContractMethod<
+    [role: BytesLike, account: AddressLike],
+    [boolean],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "increaseDeclaredCompute"
+  ): TypedContractMethod<
+    [computeToIncrease: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "initialize"
-  ): TypedContractMethod<[_admin: AddressLike, _proofMarketplace: AddressLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "intendToReduceCompute"): TypedContractMethod<[newUtilization: BigNumberish], [void], "nonpayable">;
-  getFunction(nameOrSignature: "intendToReduceStake"): TypedContractMethod<[newUtilization: BigNumberish], [void], "nonpayable">;
+  ): TypedContractMethod<
+    [_admin: AddressLike, _proofMarketplace: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "intendToReduceCompute"
+  ): TypedContractMethod<[newUtilization: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "intendToReduceStake"
+  ): TypedContractMethod<[newUtilization: BigNumberish], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "joinMarketplace"
   ): TypedContractMethod<
@@ -713,48 +1249,132 @@ export interface GeneratorRegistry extends BaseContract {
     [void],
     "nonpayable"
   >;
-  getFunction(nameOrSignature: "leaveMarketplace"): TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
-  getFunction(nameOrSignature: "leaveMarketplaces"): TypedContractMethod<[marketIds: BigNumberish[]], [void], "nonpayable">;
-  getFunction(nameOrSignature: "proofMarketplace"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "proxiableUUID"): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "leaveMarketplace"
+  ): TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "leaveMarketplaces"
+  ): TypedContractMethod<[marketIds: BigNumberish[]], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "proofMarketplace"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "proxiableUUID"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "register"
   ): TypedContractMethod<
-    [rewardAddress: AddressLike, declaredCompute: BigNumberish, initialStake: BigNumberish, generatorData: BytesLike],
+    [
+      rewardAddress: AddressLike,
+      declaredCompute: BigNumberish,
+      initialStake: BigNumberish,
+      generatorData: BytesLike
+    ],
     [void],
     "nonpayable"
   >;
-  getFunction(nameOrSignature: "removeEncryptionKey"): TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
-  getFunction(nameOrSignature: "renounceRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "requestForExitMarketplace"): TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
-  getFunction(nameOrSignature: "requestForExitMarketplaces"): TypedContractMethod<[marketIds: BigNumberish[]], [void], "nonpayable">;
-  getFunction(nameOrSignature: "revokeRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "removeEncryptionKey"
+  ): TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "renounceRole"
+  ): TypedContractMethod<
+    [role: BytesLike, account: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "requestForExitMarketplace"
+  ): TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "requestForExitMarketplaces"
+  ): TypedContractMethod<[marketIds: BigNumberish[]], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "revokeRole"
+  ): TypedContractMethod<
+    [role: BytesLike, account: AddressLike],
+    [void],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "slashGenerator"
   ): TypedContractMethod<
-    [generatorAddress: AddressLike, marketId: BigNumberish, slashingAmount: BigNumberish, rewardAddress: AddressLike],
+    [
+      generatorAddress: AddressLike,
+      marketId: BigNumberish,
+      slashingAmount: BigNumberish,
+      rewardAddress: AddressLike
+    ],
     [bigint],
     "nonpayable"
   >;
-  getFunction(nameOrSignature: "stake"): TypedContractMethod<[generatorAddress: AddressLike, amount: BigNumberish], [bigint], "nonpayable">;
-  getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
-  getFunction(nameOrSignature: "unstake"): TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "stake"
+  ): TypedContractMethod<
+    [generatorAddress: AddressLike, amount: BigNumberish],
+    [bigint],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "supportsInterface"
+  ): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "unstake"
+  ): TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "updateEncryptionKey"
-  ): TypedContractMethod<[marketId: BigNumberish, attestationData: BytesLike, enclaveSignature: BytesLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "upgradeTo"): TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
+  ): TypedContractMethod<
+    [
+      marketId: BigNumberish,
+      attestationData: BytesLike,
+      enclaveSignature: BytesLike
+    ],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "upgradeTo"
+  ): TypedContractMethod<
+    [newImplementation: AddressLike],
+    [void],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "upgradeToAndCall"
-  ): TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;
+  ): TypedContractMethod<
+    [newImplementation: AddressLike, data: BytesLike],
+    [void],
+    "payable"
+  >;
 
-  getEvent(key: "AddIvsKey"): TypedContractEvent<AddIvsKeyEvent.InputTuple, AddIvsKeyEvent.OutputTuple, AddIvsKeyEvent.OutputObject>;
-  getEvent(key: "AddedStake"): TypedContractEvent<AddedStakeEvent.InputTuple, AddedStakeEvent.OutputTuple, AddedStakeEvent.OutputObject>;
+  getEvent(
+    key: "AddIvsKey"
+  ): TypedContractEvent<
+    AddIvsKeyEvent.InputTuple,
+    AddIvsKeyEvent.OutputTuple,
+    AddIvsKeyEvent.OutputObject
+  >;
+  getEvent(
+    key: "AddedStake"
+  ): TypedContractEvent<
+    AddedStakeEvent.InputTuple,
+    AddedStakeEvent.OutputTuple,
+    AddedStakeEvent.OutputObject
+  >;
   getEvent(
     key: "AdminChanged"
-  ): TypedContractEvent<AdminChangedEvent.InputTuple, AdminChangedEvent.OutputTuple, AdminChangedEvent.OutputObject>;
+  ): TypedContractEvent<
+    AdminChangedEvent.InputTuple,
+    AdminChangedEvent.OutputTuple,
+    AdminChangedEvent.OutputObject
+  >;
   getEvent(
     key: "BeaconUpgraded"
-  ): TypedContractEvent<BeaconUpgradedEvent.InputTuple, BeaconUpgradedEvent.OutputTuple, BeaconUpgradedEvent.OutputObject>;
+  ): TypedContractEvent<
+    BeaconUpgradedEvent.InputTuple,
+    BeaconUpgradedEvent.OutputTuple,
+    BeaconUpgradedEvent.OutputObject
+  >;
   getEvent(
     key: "ChangedGeneratorRewardAddress"
   ): TypedContractEvent<
@@ -764,7 +1384,11 @@ export interface GeneratorRegistry extends BaseContract {
   >;
   getEvent(
     key: "DecreaseCompute"
-  ): TypedContractEvent<DecreaseComputeEvent.InputTuple, DecreaseComputeEvent.OutputTuple, DecreaseComputeEvent.OutputObject>;
+  ): TypedContractEvent<
+    DecreaseComputeEvent.InputTuple,
+    DecreaseComputeEvent.OutputTuple,
+    DecreaseComputeEvent.OutputObject
+  >;
   getEvent(
     key: "DeregisteredGenerator"
   ): TypedContractEvent<
@@ -774,22 +1398,46 @@ export interface GeneratorRegistry extends BaseContract {
   >;
   getEvent(
     key: "IncreasedCompute"
-  ): TypedContractEvent<IncreasedComputeEvent.InputTuple, IncreasedComputeEvent.OutputTuple, IncreasedComputeEvent.OutputObject>;
+  ): TypedContractEvent<
+    IncreasedComputeEvent.InputTuple,
+    IncreasedComputeEvent.OutputTuple,
+    IncreasedComputeEvent.OutputObject
+  >;
   getEvent(
     key: "Initialized"
-  ): TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
+  ): TypedContractEvent<
+    InitializedEvent.InputTuple,
+    InitializedEvent.OutputTuple,
+    InitializedEvent.OutputObject
+  >;
   getEvent(
     key: "JoinedMarketplace"
-  ): TypedContractEvent<JoinedMarketplaceEvent.InputTuple, JoinedMarketplaceEvent.OutputTuple, JoinedMarketplaceEvent.OutputObject>;
+  ): TypedContractEvent<
+    JoinedMarketplaceEvent.InputTuple,
+    JoinedMarketplaceEvent.OutputTuple,
+    JoinedMarketplaceEvent.OutputObject
+  >;
   getEvent(
     key: "LeftMarketplace"
-  ): TypedContractEvent<LeftMarketplaceEvent.InputTuple, LeftMarketplaceEvent.OutputTuple, LeftMarketplaceEvent.OutputObject>;
+  ): TypedContractEvent<
+    LeftMarketplaceEvent.InputTuple,
+    LeftMarketplaceEvent.OutputTuple,
+    LeftMarketplaceEvent.OutputObject
+  >;
   getEvent(
     key: "RegisteredGenerator"
-  ): TypedContractEvent<RegisteredGeneratorEvent.InputTuple, RegisteredGeneratorEvent.OutputTuple, RegisteredGeneratorEvent.OutputObject>;
+  ): TypedContractEvent<
+    RegisteredGeneratorEvent.InputTuple,
+    RegisteredGeneratorEvent.OutputTuple,
+    RegisteredGeneratorEvent.OutputObject
+  >;
   getEvent(
     key: "RemovedStake"
-  ): TypedContractEvent<RemovedStakeEvent.InputTuple, RemovedStakeEvent.OutputTuple, RemovedStakeEvent.OutputObject>;
+  ): TypedContractEvent<
+    RemovedStakeEvent.InputTuple,
+    RemovedStakeEvent.OutputTuple,
+    RemovedStakeEvent.OutputObject
+  >;
   getEvent(
     key: "RequestComputeDecrease"
   ): TypedContractEvent<
@@ -813,39 +1461,77 @@ export interface GeneratorRegistry extends BaseContract {
   >;
   getEvent(
     key: "RoleAdminChanged"
-  ): TypedContractEvent<RoleAdminChangedEvent.InputTuple, RoleAdminChangedEvent.OutputTuple, RoleAdminChangedEvent.OutputObject>;
+  ): TypedContractEvent<
+    RoleAdminChangedEvent.InputTuple,
+    RoleAdminChangedEvent.OutputTuple,
+    RoleAdminChangedEvent.OutputObject
+  >;
   getEvent(
     key: "RoleGranted"
-  ): TypedContractEvent<RoleGrantedEvent.InputTuple, RoleGrantedEvent.OutputTuple, RoleGrantedEvent.OutputObject>;
+  ): TypedContractEvent<
+    RoleGrantedEvent.InputTuple,
+    RoleGrantedEvent.OutputTuple,
+    RoleGrantedEvent.OutputObject
+  >;
   getEvent(
     key: "RoleRevoked"
-  ): TypedContractEvent<RoleRevokedEvent.InputTuple, RoleRevokedEvent.OutputTuple, RoleRevokedEvent.OutputObject>;
-  getEvent(key: "Upgraded"): TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>;
+  ): TypedContractEvent<
+    RoleRevokedEvent.InputTuple,
+    RoleRevokedEvent.OutputTuple,
+    RoleRevokedEvent.OutputObject
+  >;
+  getEvent(
+    key: "Upgraded"
+  ): TypedContractEvent<
+    UpgradedEvent.InputTuple,
+    UpgradedEvent.OutputTuple,
+    UpgradedEvent.OutputObject
+  >;
 
   filters: {
-    "AddIvsKey(uint256,address)": TypedContractEvent<AddIvsKeyEvent.InputTuple, AddIvsKeyEvent.OutputTuple, AddIvsKeyEvent.OutputObject>;
-    AddIvsKey: TypedContractEvent<AddIvsKeyEvent.InputTuple, AddIvsKeyEvent.OutputTuple, AddIvsKeyEvent.OutputObject>;
+    "AddIvsKey(uint256,address)": TypedContractEvent<
+      AddIvsKeyEvent.InputTuple,
+      AddIvsKeyEvent.OutputTuple,
+      AddIvsKeyEvent.OutputObject
+    >;
+    AddIvsKey: TypedContractEvent<
+      AddIvsKeyEvent.InputTuple,
+      AddIvsKeyEvent.OutputTuple,
+      AddIvsKeyEvent.OutputObject
+    >;
 
     "AddedStake(address,uint256)": TypedContractEvent<
       AddedStakeEvent.InputTuple,
       AddedStakeEvent.OutputTuple,
       AddedStakeEvent.OutputObject
     >;
-    AddedStake: TypedContractEvent<AddedStakeEvent.InputTuple, AddedStakeEvent.OutputTuple, AddedStakeEvent.OutputObject>;
+    AddedStake: TypedContractEvent<
+      AddedStakeEvent.InputTuple,
+      AddedStakeEvent.OutputTuple,
+      AddedStakeEvent.OutputObject
+    >;
 
     "AdminChanged(address,address)": TypedContractEvent<
       AdminChangedEvent.InputTuple,
       AdminChangedEvent.OutputTuple,
       AdminChangedEvent.OutputObject
     >;
-    AdminChanged: TypedContractEvent<AdminChangedEvent.InputTuple, AdminChangedEvent.OutputTuple, AdminChangedEvent.OutputObject>;
+    AdminChanged: TypedContractEvent<
+      AdminChangedEvent.InputTuple,
+      AdminChangedEvent.OutputTuple,
+      AdminChangedEvent.OutputObject
+    >;
 
     "BeaconUpgraded(address)": TypedContractEvent<
       BeaconUpgradedEvent.InputTuple,
       BeaconUpgradedEvent.OutputTuple,
       BeaconUpgradedEvent.OutputObject
     >;
-    BeaconUpgraded: TypedContractEvent<BeaconUpgradedEvent.InputTuple, BeaconUpgradedEvent.OutputTuple, BeaconUpgradedEvent.OutputObject>;
+    BeaconUpgraded: TypedContractEvent<
+      BeaconUpgradedEvent.InputTuple,
+      BeaconUpgradedEvent.OutputTuple,
+      BeaconUpgradedEvent.OutputObject
+    >;
 
     "ChangedGeneratorRewardAddress(address,address)": TypedContractEvent<
       ChangedGeneratorRewardAddressEvent.InputTuple,
@@ -891,8 +1577,16 @@ export interface GeneratorRegistry extends BaseContract {
       IncreasedComputeEvent.OutputObject
     >;
 
-    "Initialized(uint8)": TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
-    Initialized: TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
+    "Initialized(uint8)": TypedContractEvent<
+      InitializedEvent.InputTuple,
+      InitializedEvent.OutputTuple,
+      InitializedEvent.OutputObject
+    >;
+    Initialized: TypedContractEvent<
+      InitializedEvent.InputTuple,
+      InitializedEvent.OutputTuple,
+      InitializedEvent.OutputObject
+    >;
 
     "JoinedMarketplace(address,uint256,uint256)": TypedContractEvent<
       JoinedMarketplaceEvent.InputTuple,
@@ -932,7 +1626,11 @@ export interface GeneratorRegistry extends BaseContract {
       RemovedStakeEvent.OutputTuple,
       RemovedStakeEvent.OutputObject
     >;
-    RemovedStake: TypedContractEvent<RemovedStakeEvent.InputTuple, RemovedStakeEvent.OutputTuple, RemovedStakeEvent.OutputObject>;
+    RemovedStake: TypedContractEvent<
+      RemovedStakeEvent.InputTuple,
+      RemovedStakeEvent.OutputTuple,
+      RemovedStakeEvent.OutputObject
+    >;
 
     "RequestComputeDecrease(address,uint256)": TypedContractEvent<
       RequestComputeDecreaseEvent.InputTuple,
@@ -983,16 +1681,32 @@ export interface GeneratorRegistry extends BaseContract {
       RoleGrantedEvent.OutputTuple,
       RoleGrantedEvent.OutputObject
     >;
-    RoleGranted: TypedContractEvent<RoleGrantedEvent.InputTuple, RoleGrantedEvent.OutputTuple, RoleGrantedEvent.OutputObject>;
+    RoleGranted: TypedContractEvent<
+      RoleGrantedEvent.InputTuple,
+      RoleGrantedEvent.OutputTuple,
+      RoleGrantedEvent.OutputObject
+    >;
 
     "RoleRevoked(bytes32,address,address)": TypedContractEvent<
       RoleRevokedEvent.InputTuple,
       RoleRevokedEvent.OutputTuple,
       RoleRevokedEvent.OutputObject
     >;
-    RoleRevoked: TypedContractEvent<RoleRevokedEvent.InputTuple, RoleRevokedEvent.OutputTuple, RoleRevokedEvent.OutputObject>;
+    RoleRevoked: TypedContractEvent<
+      RoleRevokedEvent.InputTuple,
+      RoleRevokedEvent.OutputTuple,
+      RoleRevokedEvent.OutputObject
+    >;
 
-    "Upgraded(address)": TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>;
-    Upgraded: TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>;
+    "Upgraded(address)": TypedContractEvent<
+      UpgradedEvent.InputTuple,
+      UpgradedEvent.OutputTuple,
+      UpgradedEvent.OutputObject
+    >;
+    Upgraded: TypedContractEvent<
+      UpgradedEvent.InputTuple,
+      UpgradedEvent.OutputTuple,
+      UpgradedEvent.OutputObject
+    >;
   };
 }

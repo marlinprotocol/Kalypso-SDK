@@ -68,7 +68,14 @@ export class PausableUpgradeable__factory {
   static createInterface(): PausableUpgradeableInterface {
     return new Interface(_abi) as PausableUpgradeableInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): PausableUpgradeable {
-    return new Contract(address, _abi, runner) as unknown as PausableUpgradeable;
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): PausableUpgradeable {
+    return new Contract(
+      address,
+      _abi,
+      runner
+    ) as unknown as PausableUpgradeable;
   }
 }

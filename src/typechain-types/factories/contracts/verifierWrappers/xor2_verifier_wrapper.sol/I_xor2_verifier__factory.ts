@@ -50,7 +50,10 @@ export class I_xor2_verifier__factory {
   static createInterface(): I_xor2_verifierInterface {
     return new Interface(_abi) as I_xor2_verifierInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): I_xor2_verifier {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): I_xor2_verifier {
     return new Contract(address, _abi, runner) as unknown as I_xor2_verifier;
   }
 }

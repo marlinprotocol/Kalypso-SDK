@@ -61,7 +61,14 @@ export class IERC1967Upgradeable__factory {
   static createInterface(): IERC1967UpgradeableInterface {
     return new Interface(_abi) as IERC1967UpgradeableInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): IERC1967Upgradeable {
-    return new Contract(address, _abi, runner) as unknown as IERC1967Upgradeable;
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): IERC1967Upgradeable {
+    return new Contract(
+      address,
+      _abi,
+      runner
+    ) as unknown as IERC1967Upgradeable;
   }
 }
