@@ -15,7 +15,7 @@ const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
 
 dotenv.config();
 
-const reward = new BigNumber(10).pow(18).multipliedBy(11).div(10).toFixed(0);
+const reward = new BigNumber(10).pow(18).multipliedBy(45).div(10).toFixed(0);
 
 const createAskTest = async () => {
   const provider = new ethers.JsonRpcProvider(keys.rpc);
