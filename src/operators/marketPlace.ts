@@ -408,7 +408,7 @@ export class MarketPlace {
 
       if (logs && logs.length != 0) {
         let decoded_event = this.proofMarketPlace.interface.decodeEventLog("ProofCreated", logs[0].data, logs[0].topics);
-        return { proof_generated: true, proof: decoded_event[2], message: "Proof fetched." };
+        return { proof_generated: true, proof: decoded_event[1], message: "Proof fetched." };
       }
 
       startBlock = _endBlock + 1;
@@ -438,7 +438,7 @@ export class MarketPlace {
 
   //Fetching the AskId
   public async getAskId(receipt: ethers.TransactionReceipt): Promise<string> {
-    let ask_created_log = { topics: receipt.logs[4].topics.flat(), data: receipt.logs[4].data };
+    let ask_created_log = { topics: receipt.logs[2].topics.flat(), data: receipt.logs[2].data };
     let decoded_logs = this.proofMarketPlace.interface.parseLog(ask_created_log);
     if (decoded_logs?.args[0]) {
       return decoded_logs.args[0].toString();

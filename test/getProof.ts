@@ -17,6 +17,7 @@ async function main() {
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
   let txHash = "0x366dc71f1f9f52424f3c23a9cf732f6d9a1e671d44739136628b9d2d092e0a36";
+  // let txHash = "0xd372431f85abf1c8543e3d8ed2c02fdd7dcd061646181589521a16c929633d57";
 
   let receipt = await provider.getTransactionReceipt(txHash);
   console.log(receipt);
