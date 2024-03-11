@@ -13,62 +13,25 @@ import type {
   ContractMethod,
   Listener,
 } from "ethers";
-import type {
-  TypedContractEvent,
-  TypedDeferredTopicFilter,
-  TypedEventLog,
-  TypedListener,
-  TypedContractMethod,
-} from "../../common";
+import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../../common";
 
 export interface MockAttestationVerifierInterface extends Interface {
   getFunction(
-    nameOrSignature:
-      | "isVerified"
-      | "verify(bytes)"
-      | "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)"
-      | "whitelistEnclave"
+    nameOrSignature: "isVerified" | "verify(bytes)" | "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)" | "whitelistEnclave"
   ): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: "isVerified",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "verify(bytes)",
-    values: [BytesLike]
-  ): string;
+  encodeFunctionData(functionFragment: "isVerified", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "verify(bytes)", values: [BytesLike]): string;
   encodeFunctionData(
     functionFragment: "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)",
-    values: [
-      BytesLike,
-      BytesLike,
-      BytesLike,
-      BytesLike,
-      BytesLike,
-      BigNumberish,
-      BigNumberish,
-      BigNumberish
-    ]
+    values: [BytesLike, BytesLike, BytesLike, BytesLike, BytesLike, BigNumberish, BigNumberish, BigNumberish]
   ): string;
-  encodeFunctionData(
-    functionFragment: "whitelistEnclave",
-    values: [BytesLike, AddressLike]
-  ): string;
+  encodeFunctionData(functionFragment: "whitelistEnclave", values: [BytesLike, AddressLike]): string;
 
   decodeFunctionResult(functionFragment: "isVerified", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "verify(bytes)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "whitelistEnclave",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "verify(bytes)", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "whitelistEnclave", data: BytesLike): Result;
 }
 
 export interface MockAttestationVerifier extends BaseContract {
@@ -88,31 +51,15 @@ export interface MockAttestationVerifier extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  on<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
 
-  once<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
 
-  listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
-  ): Promise<this>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
   isVerified: TypedContractMethod<[arg0: AddressLike], [string], "view">;
 
@@ -133,22 +80,12 @@ export interface MockAttestationVerifier extends BaseContract {
     "view"
   >;
 
-  whitelistEnclave: TypedContractMethod<
-    [imageId: BytesLike, enclaveKey: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  whitelistEnclave: TypedContractMethod<[imageId: BytesLike, enclaveKey: AddressLike], [void], "nonpayable">;
 
-  getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
-  ): T;
+  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
-  getFunction(
-    nameOrSignature: "isVerified"
-  ): TypedContractMethod<[arg0: AddressLike], [string], "view">;
-  getFunction(
-    nameOrSignature: "verify(bytes)"
-  ): TypedContractMethod<[arg0: BytesLike], [void], "view">;
+  getFunction(nameOrSignature: "isVerified"): TypedContractMethod<[arg0: AddressLike], [string], "view">;
+  getFunction(nameOrSignature: "verify(bytes)"): TypedContractMethod<[arg0: BytesLike], [void], "view">;
   getFunction(
     nameOrSignature: "verify(bytes,bytes,bytes,bytes,bytes,uint256,uint256,uint256)"
   ): TypedContractMethod<
@@ -167,11 +104,7 @@ export interface MockAttestationVerifier extends BaseContract {
   >;
   getFunction(
     nameOrSignature: "whitelistEnclave"
-  ): TypedContractMethod<
-    [imageId: BytesLike, enclaveKey: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  ): TypedContractMethod<[imageId: BytesLike, enclaveKey: AddressLike], [void], "nonpayable">;
 
   filters: {};
 }

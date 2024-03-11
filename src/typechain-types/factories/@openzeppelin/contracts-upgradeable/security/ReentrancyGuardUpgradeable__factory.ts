@@ -29,14 +29,7 @@ export class ReentrancyGuardUpgradeable__factory {
   static createInterface(): ReentrancyGuardUpgradeableInterface {
     return new Interface(_abi) as ReentrancyGuardUpgradeableInterface;
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): ReentrancyGuardUpgradeable {
-    return new Contract(
-      address,
-      _abi,
-      runner
-    ) as unknown as ReentrancyGuardUpgradeable;
+  static connect(address: string, runner?: ContractRunner | null): ReentrancyGuardUpgradeable {
+    return new Contract(address, _abi, runner) as unknown as ReentrancyGuardUpgradeable;
   }
 }

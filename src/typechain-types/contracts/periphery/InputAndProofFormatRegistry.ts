@@ -12,71 +12,28 @@ import type {
   ContractMethod,
   Listener,
 } from "ethers";
-import type {
-  TypedContractEvent,
-  TypedDeferredTopicFilter,
-  TypedEventLog,
-  TypedListener,
-  TypedContractMethod,
-} from "../../common";
+import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../../common";
 
 export interface InputAndProofFormatRegistryInterface extends Interface {
   getFunction(
-    nameOrSignature:
-      | "admin"
-      | "inputArrayLength"
-      | "inputs"
-      | "proofArrayLength"
-      | "proofs"
-      | "setInputFormat"
-      | "setProofFormat"
+    nameOrSignature: "admin" | "inputArrayLength" | "inputs" | "proofArrayLength" | "proofs" | "setInputFormat" | "setProofFormat"
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "admin", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "inputArrayLength",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "inputs",
-    values: [BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "proofArrayLength",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "proofs",
-    values: [BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setInputFormat",
-    values: [BigNumberish, string[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setProofFormat",
-    values: [BigNumberish, string[]]
-  ): string;
+  encodeFunctionData(functionFragment: "inputArrayLength", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "inputs", values: [BigNumberish, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "proofArrayLength", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "proofs", values: [BigNumberish, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "setInputFormat", values: [BigNumberish, string[]]): string;
+  encodeFunctionData(functionFragment: "setProofFormat", values: [BigNumberish, string[]]): string;
 
   decodeFunctionResult(functionFragment: "admin", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "inputArrayLength",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "inputArrayLength", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "inputs", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "proofArrayLength",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "proofArrayLength", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "proofs", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "setInputFormat",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setProofFormat",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "setInputFormat", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setProofFormat", data: BytesLike): Result;
 }
 
 export interface InputAndProofFormatRegistry extends BaseContract {
@@ -96,103 +53,43 @@ export interface InputAndProofFormatRegistry extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  on<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
 
-  once<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
 
-  listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
-  ): Promise<this>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
   admin: TypedContractMethod<[], [string], "view">;
 
   inputArrayLength: TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
 
-  inputs: TypedContractMethod<
-    [arg0: BigNumberish, arg1: BigNumberish],
-    [string],
-    "view"
-  >;
+  inputs: TypedContractMethod<[arg0: BigNumberish, arg1: BigNumberish], [string], "view">;
 
   proofArrayLength: TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
 
-  proofs: TypedContractMethod<
-    [arg0: BigNumberish, arg1: BigNumberish],
-    [string],
-    "view"
-  >;
+  proofs: TypedContractMethod<[arg0: BigNumberish, arg1: BigNumberish], [string], "view">;
 
-  setInputFormat: TypedContractMethod<
-    [marketId: BigNumberish, inputsFormat: string[]],
-    [void],
-    "nonpayable"
-  >;
+  setInputFormat: TypedContractMethod<[marketId: BigNumberish, inputsFormat: string[]], [void], "nonpayable">;
 
-  setProofFormat: TypedContractMethod<
-    [marketId: BigNumberish, proofFormat: string[]],
-    [void],
-    "nonpayable"
-  >;
+  setProofFormat: TypedContractMethod<[marketId: BigNumberish, proofFormat: string[]], [void], "nonpayable">;
 
-  getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
-  ): T;
+  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
-  getFunction(
-    nameOrSignature: "admin"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "inputArrayLength"
-  ): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "inputs"
-  ): TypedContractMethod<
-    [arg0: BigNumberish, arg1: BigNumberish],
-    [string],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "proofArrayLength"
-  ): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "proofs"
-  ): TypedContractMethod<
-    [arg0: BigNumberish, arg1: BigNumberish],
-    [string],
-    "view"
-  >;
+  getFunction(nameOrSignature: "admin"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "inputArrayLength"): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
+  getFunction(nameOrSignature: "inputs"): TypedContractMethod<[arg0: BigNumberish, arg1: BigNumberish], [string], "view">;
+  getFunction(nameOrSignature: "proofArrayLength"): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
+  getFunction(nameOrSignature: "proofs"): TypedContractMethod<[arg0: BigNumberish, arg1: BigNumberish], [string], "view">;
   getFunction(
     nameOrSignature: "setInputFormat"
-  ): TypedContractMethod<
-    [marketId: BigNumberish, inputsFormat: string[]],
-    [void],
-    "nonpayable"
-  >;
+  ): TypedContractMethod<[marketId: BigNumberish, inputsFormat: string[]], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "setProofFormat"
-  ): TypedContractMethod<
-    [marketId: BigNumberish, proofFormat: string[]],
-    [void],
-    "nonpayable"
-  >;
+  ): TypedContractMethod<[marketId: BigNumberish, proofFormat: string[]], [void], "nonpayable">;
 
   filters: {};
 }

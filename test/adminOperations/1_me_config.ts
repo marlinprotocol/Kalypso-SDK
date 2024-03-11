@@ -14,10 +14,11 @@ async function main(): Promise<string> {
   console.log("using address", await wallet.getAddress());
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
+  const startBlock = 18469999; // block number from which the ME starts parsing the onchain data
   const result = await kalypso
     .MarketPlace()
     .MatchingEngineEnclaveConnector()
-    .matchingEngineConfigSetup(keys.rpc, parseInt((await provider.getNetwork()).chainId.toString()), keys.private_key, 18469999);
+    .matchingEngineConfigSetup(keys.rpc, parseInt((await provider.getNetwork()).chainId.toString()), keys.private_key, startBlock);
   console.log({ result });
 
   return "Done";

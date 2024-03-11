@@ -23,7 +23,8 @@ async function main() {
     .MarketPlace()
     .MatchingEngineEnclaveConnector()
     .getAttestationSignature(attestationResult.attestation_document.toString(), await wallet.getAddress());
-  console.log(JSON.stringify(data, null, 4));
+
+  console.log(JSON.stringify(data, null, 4)); // signed attestation from the attestation verifier
 
   return "Done";
 }

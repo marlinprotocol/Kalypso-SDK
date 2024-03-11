@@ -8,8 +8,10 @@ const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
 
 const provider = new ethers.JsonRpcProvider(keys.rpc);
 const wallet = new ethers.Wallet(`${keys.generator_private_key}`, provider);
+const rewardAddress = await wallet.getAddress(); // address which receives the proof generation rewards
 
 const declaredCompute = 100;
+const generatorMetadata = "0xff00abcd00ff";
 
 async function main() {
   console.log("using address", await wallet.getAddress());
@@ -19,7 +21,7 @@ async function main() {
   let tx: ContractTransactionResponse;
   let receipt: ContractTransactionReceipt | null;
 
-  tx = await kalypso.Generator().register(await wallet.getAddress(), declaredCompute, "0xff00abcd00ff");
+  tx = await kalypso.Generator().register(rewardAddress, declaredCompute, generatorMetadata);
   receipt = await tx.wait();
   console.log("Registration Transaction: ", receipt?.hash);
 

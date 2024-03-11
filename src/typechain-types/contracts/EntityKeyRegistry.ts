@@ -30,11 +30,7 @@ export declare namespace AttestationAutherUpgradeable {
     PCR2: BytesLike;
   };
 
-  export type EnclaveImageStructOutput = [
-    PCR0: string,
-    PCR1: string,
-    PCR2: string
-  ] & { PCR0: string; PCR1: string; PCR2: string };
+  export type EnclaveImageStructOutput = [PCR0: string, PCR1: string, PCR2: string] & { PCR0: string; PCR1: string; PCR2: string };
 }
 
 export interface EntityKeyRegistryInterface extends Interface {
@@ -84,188 +80,58 @@ export interface EntityKeyRegistryInterface extends Interface {
       | "Upgraded"
   ): EventFragment;
 
-  encodeFunctionData(
-    functionFragment: "ATTESTATION_MAX_AGE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "ATTESTATION_VERIFIER",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "DEFAULT_ADMIN_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "KEY_REGISTER_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "addGeneratorRegistry",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "allowOnlyVerified",
-    values: [AddressLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getRoleAdmin",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getRoleMember",
-    values: [BytesLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getRoleMemberCount",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "grantRole",
-    values: [BytesLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasRole",
-    values: [BytesLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "initialize",
-    values: [AddressLike, AttestationAutherUpgradeable.EnclaveImageStruct[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "proxiableUUID",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "pub_key",
-    values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "removePubkey",
-    values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "renounceRole",
-    values: [BytesLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "revokeRole",
-    values: [BytesLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "supportsInterface",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "updatePubkey",
-    values: [AddressLike, BigNumberish, BytesLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "upgradeTo",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "upgradeToAndCall",
-    values: [AddressLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "verifyKey(bytes)",
-    values: [BytesLike]
-  ): string;
+  encodeFunctionData(functionFragment: "ATTESTATION_MAX_AGE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "ATTESTATION_VERIFIER", values?: undefined): string;
+  encodeFunctionData(functionFragment: "DEFAULT_ADMIN_ROLE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "KEY_REGISTER_ROLE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "addGeneratorRegistry", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "allowOnlyVerified", values: [AddressLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "getRoleAdmin", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "getRoleMember", values: [BytesLike, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "getRoleMemberCount", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "grantRole", values: [BytesLike, AddressLike]): string;
+  encodeFunctionData(functionFragment: "hasRole", values: [BytesLike, AddressLike]): string;
+  encodeFunctionData(functionFragment: "initialize", values: [AddressLike, AttestationAutherUpgradeable.EnclaveImageStruct[]]): string;
+  encodeFunctionData(functionFragment: "proxiableUUID", values?: undefined): string;
+  encodeFunctionData(functionFragment: "pub_key", values: [AddressLike, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "removePubkey", values: [AddressLike, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "renounceRole", values: [BytesLike, AddressLike]): string;
+  encodeFunctionData(functionFragment: "revokeRole", values: [BytesLike, AddressLike]): string;
+  encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "updatePubkey", values: [AddressLike, BigNumberish, BytesLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "upgradeTo", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "upgradeToAndCall", values: [AddressLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "verifyKey(bytes)", values: [BytesLike]): string;
   encodeFunctionData(
     functionFragment: "verifyKey(bytes,bytes,bytes32,uint256,uint256,uint256)",
-    values: [
-      BytesLike,
-      BytesLike,
-      BytesLike,
-      BigNumberish,
-      BigNumberish,
-      BigNumberish
-    ]
+    values: [BytesLike, BytesLike, BytesLike, BigNumberish, BigNumberish, BigNumberish]
   ): string;
-  encodeFunctionData(
-    functionFragment: "whitelistImageUsingPcrs",
-    values: [BytesLike]
-  ): string;
+  encodeFunctionData(functionFragment: "whitelistImageUsingPcrs", values: [BytesLike]): string;
 
-  decodeFunctionResult(
-    functionFragment: "ATTESTATION_MAX_AGE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "ATTESTATION_VERIFIER",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "DEFAULT_ADMIN_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "KEY_REGISTER_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "addGeneratorRegistry",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "allowOnlyVerified",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getRoleAdmin",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getRoleMember",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getRoleMemberCount",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "ATTESTATION_MAX_AGE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ATTESTATION_VERIFIER", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "DEFAULT_ADMIN_ROLE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "KEY_REGISTER_ROLE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "addGeneratorRegistry", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "allowOnlyVerified", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getRoleAdmin", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getRoleMember", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getRoleMemberCount", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "proxiableUUID",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "proxiableUUID", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "pub_key", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "removePubkey",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "renounceRole",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "removePubkey", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "renounceRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "supportsInterface",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "updatePubkey",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "supportsInterface", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "updatePubkey", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "upgradeToAndCall",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "verifyKey(bytes)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "verifyKey(bytes,bytes,bytes32,uint256,uint256,uint256)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "whitelistImageUsingPcrs",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "upgradeToAndCall", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "verifyKey(bytes)", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "verifyKey(bytes,bytes,bytes32,uint256,uint256,uint256)", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "whitelistImageUsingPcrs", data: BytesLike): Result;
 }
 
 export namespace AdminChangedEvent {
@@ -306,18 +172,8 @@ export namespace EnclaveImageRevokedEvent {
 }
 
 export namespace EnclaveImageWhitelistedEvent {
-  export type InputTuple = [
-    imageId: BytesLike,
-    PCR0: BytesLike,
-    PCR1: BytesLike,
-    PCR2: BytesLike
-  ];
-  export type OutputTuple = [
-    imageId: string,
-    PCR0: string,
-    PCR1: string,
-    PCR2: string
-  ];
+  export type InputTuple = [imageId: BytesLike, PCR0: BytesLike, PCR1: BytesLike, PCR2: BytesLike];
+  export type OutputTuple = [imageId: string, PCR0: string, PCR1: string, PCR2: string];
   export interface OutputObject {
     imageId: string;
     PCR0: string;
@@ -394,16 +250,8 @@ export namespace RemoveKeyEvent {
 }
 
 export namespace RoleAdminChangedEvent {
-  export type InputTuple = [
-    role: BytesLike,
-    previousAdminRole: BytesLike,
-    newAdminRole: BytesLike
-  ];
-  export type OutputTuple = [
-    role: string,
-    previousAdminRole: string,
-    newAdminRole: string
-  ];
+  export type InputTuple = [role: BytesLike, previousAdminRole: BytesLike, newAdminRole: BytesLike];
+  export type OutputTuple = [role: string, previousAdminRole: string, newAdminRole: string];
   export interface OutputObject {
     role: string;
     previousAdminRole: string;
@@ -416,11 +264,7 @@ export namespace RoleAdminChangedEvent {
 }
 
 export namespace RoleGrantedEvent {
-  export type InputTuple = [
-    role: BytesLike,
-    account: AddressLike,
-    sender: AddressLike
-  ];
+  export type InputTuple = [role: BytesLike, account: AddressLike, sender: AddressLike];
   export type OutputTuple = [role: string, account: string, sender: string];
   export interface OutputObject {
     role: string;
@@ -434,11 +278,7 @@ export namespace RoleGrantedEvent {
 }
 
 export namespace RoleRevokedEvent {
-  export type InputTuple = [
-    role: BytesLike,
-    account: AddressLike,
-    sender: AddressLike
-  ];
+  export type InputTuple = [role: BytesLike, account: AddressLike, sender: AddressLike];
   export type OutputTuple = [role: string, account: string, sender: string];
   export interface OutputObject {
     role: string;
@@ -493,31 +333,15 @@ export interface EntityKeyRegistry extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  on<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
 
-  once<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>;
 
-  listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
-  ): Promise<this>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
   ATTESTATION_MAX_AGE: TypedContractMethod<[], [bigint], "view">;
 
@@ -527,109 +351,49 @@ export interface EntityKeyRegistry extends BaseContract {
 
   KEY_REGISTER_ROLE: TypedContractMethod<[], [string], "view">;
 
-  addGeneratorRegistry: TypedContractMethod<
-    [_generatorRegistry: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  addGeneratorRegistry: TypedContractMethod<[_generatorRegistry: AddressLike], [void], "nonpayable">;
 
-  allowOnlyVerified: TypedContractMethod<
-    [key: AddressLike, _imageId: BytesLike],
-    [boolean],
-    "view"
-  >;
+  allowOnlyVerified: TypedContractMethod<[key: AddressLike, _imageId: BytesLike], [boolean], "view">;
 
   getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
 
-  getRoleMember: TypedContractMethod<
-    [role: BytesLike, index: BigNumberish],
-    [string],
-    "view"
-  >;
+  getRoleMember: TypedContractMethod<[role: BytesLike, index: BigNumberish], [string], "view">;
 
   getRoleMemberCount: TypedContractMethod<[role: BytesLike], [bigint], "view">;
 
-  grantRole: TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  grantRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
 
-  hasRole: TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [boolean],
-    "view"
-  >;
+  hasRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
 
   initialize: TypedContractMethod<
-    [
-      _admin: AddressLike,
-      initWhitelistImages: AttestationAutherUpgradeable.EnclaveImageStruct[]
-    ],
+    [_admin: AddressLike, initWhitelistImages: AttestationAutherUpgradeable.EnclaveImageStruct[]],
     [void],
     "nonpayable"
   >;
 
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
-  pub_key: TypedContractMethod<
-    [arg0: AddressLike, arg1: BigNumberish],
-    [string],
-    "view"
-  >;
+  pub_key: TypedContractMethod<[arg0: AddressLike, arg1: BigNumberish], [string], "view">;
 
-  removePubkey: TypedContractMethod<
-    [keyOwner: AddressLike, keyIndex: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
+  removePubkey: TypedContractMethod<[keyOwner: AddressLike, keyIndex: BigNumberish], [void], "nonpayable">;
 
-  renounceRole: TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  renounceRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
 
-  revokeRole: TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  revokeRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
 
-  supportsInterface: TypedContractMethod<
-    [interfaceId: BytesLike],
-    [boolean],
-    "view"
-  >;
+  supportsInterface: TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
 
   updatePubkey: TypedContractMethod<
-    [
-      keyOwner: AddressLike,
-      keyIndex: BigNumberish,
-      pubkey: BytesLike,
-      attestation_data: BytesLike
-    ],
+    [keyOwner: AddressLike, keyIndex: BigNumberish, pubkey: BytesLike, attestation_data: BytesLike],
     [void],
     "nonpayable"
   >;
 
-  upgradeTo: TypedContractMethod<
-    [newImplementation: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  upgradeTo: TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
 
-  upgradeToAndCall: TypedContractMethod<
-    [newImplementation: AddressLike, data: BytesLike],
-    [void],
-    "payable"
-  >;
+  upgradeToAndCall: TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;
 
-  "verifyKey(bytes)": TypedContractMethod<
-    [attestation_data: BytesLike],
-    [void],
-    "nonpayable"
-  >;
+  "verifyKey(bytes)": TypedContractMethod<[attestation_data: BytesLike], [void], "nonpayable">;
 
   "verifyKey(bytes,bytes,bytes32,uint256,uint256,uint256)": TypedContractMethod<
     [
@@ -644,142 +408,46 @@ export interface EntityKeyRegistry extends BaseContract {
     "nonpayable"
   >;
 
-  whitelistImageUsingPcrs: TypedContractMethod<
-    [pcrs: BytesLike],
-    [void],
-    "nonpayable"
-  >;
+  whitelistImageUsingPcrs: TypedContractMethod<[pcrs: BytesLike], [void], "nonpayable">;
 
-  getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
-  ): T;
+  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
-  getFunction(
-    nameOrSignature: "ATTESTATION_MAX_AGE"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "ATTESTATION_VERIFIER"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "DEFAULT_ADMIN_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "KEY_REGISTER_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "addGeneratorRegistry"
-  ): TypedContractMethod<
-    [_generatorRegistry: AddressLike],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "allowOnlyVerified"
-  ): TypedContractMethod<
-    [key: AddressLike, _imageId: BytesLike],
-    [boolean],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "getRoleAdmin"
-  ): TypedContractMethod<[role: BytesLike], [string], "view">;
-  getFunction(
-    nameOrSignature: "getRoleMember"
-  ): TypedContractMethod<
-    [role: BytesLike, index: BigNumberish],
-    [string],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "getRoleMemberCount"
-  ): TypedContractMethod<[role: BytesLike], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "grantRole"
-  ): TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "hasRole"
-  ): TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [boolean],
-    "view"
-  >;
+  getFunction(nameOrSignature: "ATTESTATION_MAX_AGE"): TypedContractMethod<[], [bigint], "view">;
+  getFunction(nameOrSignature: "ATTESTATION_VERIFIER"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "DEFAULT_ADMIN_ROLE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "KEY_REGISTER_ROLE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "addGeneratorRegistry"): TypedContractMethod<[_generatorRegistry: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "allowOnlyVerified"): TypedContractMethod<[key: AddressLike, _imageId: BytesLike], [boolean], "view">;
+  getFunction(nameOrSignature: "getRoleAdmin"): TypedContractMethod<[role: BytesLike], [string], "view">;
+  getFunction(nameOrSignature: "getRoleMember"): TypedContractMethod<[role: BytesLike, index: BigNumberish], [string], "view">;
+  getFunction(nameOrSignature: "getRoleMemberCount"): TypedContractMethod<[role: BytesLike], [bigint], "view">;
+  getFunction(nameOrSignature: "grantRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "hasRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
   getFunction(
     nameOrSignature: "initialize"
   ): TypedContractMethod<
-    [
-      _admin: AddressLike,
-      initWhitelistImages: AttestationAutherUpgradeable.EnclaveImageStruct[]
-    ],
+    [_admin: AddressLike, initWhitelistImages: AttestationAutherUpgradeable.EnclaveImageStruct[]],
     [void],
     "nonpayable"
   >;
-  getFunction(
-    nameOrSignature: "proxiableUUID"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "pub_key"
-  ): TypedContractMethod<
-    [arg0: AddressLike, arg1: BigNumberish],
-    [string],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "removePubkey"
-  ): TypedContractMethod<
-    [keyOwner: AddressLike, keyIndex: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "renounceRole"
-  ): TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "revokeRole"
-  ): TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "supportsInterface"
-  ): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+  getFunction(nameOrSignature: "proxiableUUID"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "pub_key"): TypedContractMethod<[arg0: AddressLike, arg1: BigNumberish], [string], "view">;
+  getFunction(nameOrSignature: "removePubkey"): TypedContractMethod<[keyOwner: AddressLike, keyIndex: BigNumberish], [void], "nonpayable">;
+  getFunction(nameOrSignature: "renounceRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "revokeRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
   getFunction(
     nameOrSignature: "updatePubkey"
   ): TypedContractMethod<
-    [
-      keyOwner: AddressLike,
-      keyIndex: BigNumberish,
-      pubkey: BytesLike,
-      attestation_data: BytesLike
-    ],
+    [keyOwner: AddressLike, keyIndex: BigNumberish, pubkey: BytesLike, attestation_data: BytesLike],
     [void],
     "nonpayable"
   >;
-  getFunction(
-    nameOrSignature: "upgradeTo"
-  ): TypedContractMethod<
-    [newImplementation: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  getFunction(nameOrSignature: "upgradeTo"): TypedContractMethod<[newImplementation: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "upgradeToAndCall"
-  ): TypedContractMethod<
-    [newImplementation: AddressLike, data: BytesLike],
-    [void],
-    "payable"
-  >;
-  getFunction(
-    nameOrSignature: "verifyKey(bytes)"
-  ): TypedContractMethod<[attestation_data: BytesLike], [void], "nonpayable">;
+  ): TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;
+  getFunction(nameOrSignature: "verifyKey(bytes)"): TypedContractMethod<[attestation_data: BytesLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "verifyKey(bytes,bytes,bytes32,uint256,uint256,uint256)"
   ): TypedContractMethod<
@@ -794,31 +462,17 @@ export interface EntityKeyRegistry extends BaseContract {
     [void],
     "nonpayable"
   >;
-  getFunction(
-    nameOrSignature: "whitelistImageUsingPcrs"
-  ): TypedContractMethod<[pcrs: BytesLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "whitelistImageUsingPcrs"): TypedContractMethod<[pcrs: BytesLike], [void], "nonpayable">;
 
   getEvent(
     key: "AdminChanged"
-  ): TypedContractEvent<
-    AdminChangedEvent.InputTuple,
-    AdminChangedEvent.OutputTuple,
-    AdminChangedEvent.OutputObject
-  >;
+  ): TypedContractEvent<AdminChangedEvent.InputTuple, AdminChangedEvent.OutputTuple, AdminChangedEvent.OutputObject>;
   getEvent(
     key: "BeaconUpgraded"
-  ): TypedContractEvent<
-    BeaconUpgradedEvent.InputTuple,
-    BeaconUpgradedEvent.OutputTuple,
-    BeaconUpgradedEvent.OutputObject
-  >;
+  ): TypedContractEvent<BeaconUpgradedEvent.InputTuple, BeaconUpgradedEvent.OutputTuple, BeaconUpgradedEvent.OutputObject>;
   getEvent(
     key: "EnclaveImageRevoked"
-  ): TypedContractEvent<
-    EnclaveImageRevokedEvent.InputTuple,
-    EnclaveImageRevokedEvent.OutputTuple,
-    EnclaveImageRevokedEvent.OutputObject
-  >;
+  ): TypedContractEvent<EnclaveImageRevokedEvent.InputTuple, EnclaveImageRevokedEvent.OutputTuple, EnclaveImageRevokedEvent.OutputObject>;
   getEvent(
     key: "EnclaveImageWhitelisted"
   ): TypedContractEvent<
@@ -828,18 +482,10 @@ export interface EntityKeyRegistry extends BaseContract {
   >;
   getEvent(
     key: "EnclaveKeyRevoked"
-  ): TypedContractEvent<
-    EnclaveKeyRevokedEvent.InputTuple,
-    EnclaveKeyRevokedEvent.OutputTuple,
-    EnclaveKeyRevokedEvent.OutputObject
-  >;
+  ): TypedContractEvent<EnclaveKeyRevokedEvent.InputTuple, EnclaveKeyRevokedEvent.OutputTuple, EnclaveKeyRevokedEvent.OutputObject>;
   getEvent(
     key: "EnclaveKeyVerified"
-  ): TypedContractEvent<
-    EnclaveKeyVerifiedEvent.InputTuple,
-    EnclaveKeyVerifiedEvent.OutputTuple,
-    EnclaveKeyVerifiedEvent.OutputObject
-  >;
+  ): TypedContractEvent<EnclaveKeyVerifiedEvent.InputTuple, EnclaveKeyVerifiedEvent.OutputTuple, EnclaveKeyVerifiedEvent.OutputObject>;
   getEvent(
     key: "EnclaveKeyWhitelisted"
   ): TypedContractEvent<
@@ -849,53 +495,19 @@ export interface EntityKeyRegistry extends BaseContract {
   >;
   getEvent(
     key: "Initialized"
-  ): TypedContractEvent<
-    InitializedEvent.InputTuple,
-    InitializedEvent.OutputTuple,
-    InitializedEvent.OutputObject
-  >;
-  getEvent(
-    key: "RemoveKey"
-  ): TypedContractEvent<
-    RemoveKeyEvent.InputTuple,
-    RemoveKeyEvent.OutputTuple,
-    RemoveKeyEvent.OutputObject
-  >;
+  ): TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
+  getEvent(key: "RemoveKey"): TypedContractEvent<RemoveKeyEvent.InputTuple, RemoveKeyEvent.OutputTuple, RemoveKeyEvent.OutputObject>;
   getEvent(
     key: "RoleAdminChanged"
-  ): TypedContractEvent<
-    RoleAdminChangedEvent.InputTuple,
-    RoleAdminChangedEvent.OutputTuple,
-    RoleAdminChangedEvent.OutputObject
-  >;
+  ): TypedContractEvent<RoleAdminChangedEvent.InputTuple, RoleAdminChangedEvent.OutputTuple, RoleAdminChangedEvent.OutputObject>;
   getEvent(
     key: "RoleGranted"
-  ): TypedContractEvent<
-    RoleGrantedEvent.InputTuple,
-    RoleGrantedEvent.OutputTuple,
-    RoleGrantedEvent.OutputObject
-  >;
+  ): TypedContractEvent<RoleGrantedEvent.InputTuple, RoleGrantedEvent.OutputTuple, RoleGrantedEvent.OutputObject>;
   getEvent(
     key: "RoleRevoked"
-  ): TypedContractEvent<
-    RoleRevokedEvent.InputTuple,
-    RoleRevokedEvent.OutputTuple,
-    RoleRevokedEvent.OutputObject
-  >;
-  getEvent(
-    key: "UpdateKey"
-  ): TypedContractEvent<
-    UpdateKeyEvent.InputTuple,
-    UpdateKeyEvent.OutputTuple,
-    UpdateKeyEvent.OutputObject
-  >;
-  getEvent(
-    key: "Upgraded"
-  ): TypedContractEvent<
-    UpgradedEvent.InputTuple,
-    UpgradedEvent.OutputTuple,
-    UpgradedEvent.OutputObject
-  >;
+  ): TypedContractEvent<RoleRevokedEvent.InputTuple, RoleRevokedEvent.OutputTuple, RoleRevokedEvent.OutputObject>;
+  getEvent(key: "UpdateKey"): TypedContractEvent<UpdateKeyEvent.InputTuple, UpdateKeyEvent.OutputTuple, UpdateKeyEvent.OutputObject>;
+  getEvent(key: "Upgraded"): TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>;
 
   filters: {
     "AdminChanged(address,address)": TypedContractEvent<
@@ -903,22 +515,14 @@ export interface EntityKeyRegistry extends BaseContract {
       AdminChangedEvent.OutputTuple,
       AdminChangedEvent.OutputObject
     >;
-    AdminChanged: TypedContractEvent<
-      AdminChangedEvent.InputTuple,
-      AdminChangedEvent.OutputTuple,
-      AdminChangedEvent.OutputObject
-    >;
+    AdminChanged: TypedContractEvent<AdminChangedEvent.InputTuple, AdminChangedEvent.OutputTuple, AdminChangedEvent.OutputObject>;
 
     "BeaconUpgraded(address)": TypedContractEvent<
       BeaconUpgradedEvent.InputTuple,
       BeaconUpgradedEvent.OutputTuple,
       BeaconUpgradedEvent.OutputObject
     >;
-    BeaconUpgraded: TypedContractEvent<
-      BeaconUpgradedEvent.InputTuple,
-      BeaconUpgradedEvent.OutputTuple,
-      BeaconUpgradedEvent.OutputObject
-    >;
+    BeaconUpgraded: TypedContractEvent<BeaconUpgradedEvent.InputTuple, BeaconUpgradedEvent.OutputTuple, BeaconUpgradedEvent.OutputObject>;
 
     "EnclaveImageRevoked(bytes32)": TypedContractEvent<
       EnclaveImageRevokedEvent.InputTuple,
@@ -975,27 +579,11 @@ export interface EntityKeyRegistry extends BaseContract {
       EnclaveKeyWhitelistedEvent.OutputObject
     >;
 
-    "Initialized(uint8)": TypedContractEvent<
-      InitializedEvent.InputTuple,
-      InitializedEvent.OutputTuple,
-      InitializedEvent.OutputObject
-    >;
-    Initialized: TypedContractEvent<
-      InitializedEvent.InputTuple,
-      InitializedEvent.OutputTuple,
-      InitializedEvent.OutputObject
-    >;
+    "Initialized(uint8)": TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
+    Initialized: TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
 
-    "RemoveKey(address,uint256)": TypedContractEvent<
-      RemoveKeyEvent.InputTuple,
-      RemoveKeyEvent.OutputTuple,
-      RemoveKeyEvent.OutputObject
-    >;
-    RemoveKey: TypedContractEvent<
-      RemoveKeyEvent.InputTuple,
-      RemoveKeyEvent.OutputTuple,
-      RemoveKeyEvent.OutputObject
-    >;
+    "RemoveKey(address,uint256)": TypedContractEvent<RemoveKeyEvent.InputTuple, RemoveKeyEvent.OutputTuple, RemoveKeyEvent.OutputObject>;
+    RemoveKey: TypedContractEvent<RemoveKeyEvent.InputTuple, RemoveKeyEvent.OutputTuple, RemoveKeyEvent.OutputObject>;
 
     "RoleAdminChanged(bytes32,bytes32,bytes32)": TypedContractEvent<
       RoleAdminChangedEvent.InputTuple,
@@ -1013,43 +601,19 @@ export interface EntityKeyRegistry extends BaseContract {
       RoleGrantedEvent.OutputTuple,
       RoleGrantedEvent.OutputObject
     >;
-    RoleGranted: TypedContractEvent<
-      RoleGrantedEvent.InputTuple,
-      RoleGrantedEvent.OutputTuple,
-      RoleGrantedEvent.OutputObject
-    >;
+    RoleGranted: TypedContractEvent<RoleGrantedEvent.InputTuple, RoleGrantedEvent.OutputTuple, RoleGrantedEvent.OutputObject>;
 
     "RoleRevoked(bytes32,address,address)": TypedContractEvent<
       RoleRevokedEvent.InputTuple,
       RoleRevokedEvent.OutputTuple,
       RoleRevokedEvent.OutputObject
     >;
-    RoleRevoked: TypedContractEvent<
-      RoleRevokedEvent.InputTuple,
-      RoleRevokedEvent.OutputTuple,
-      RoleRevokedEvent.OutputObject
-    >;
+    RoleRevoked: TypedContractEvent<RoleRevokedEvent.InputTuple, RoleRevokedEvent.OutputTuple, RoleRevokedEvent.OutputObject>;
 
-    "UpdateKey(address,uint256)": TypedContractEvent<
-      UpdateKeyEvent.InputTuple,
-      UpdateKeyEvent.OutputTuple,
-      UpdateKeyEvent.OutputObject
-    >;
-    UpdateKey: TypedContractEvent<
-      UpdateKeyEvent.InputTuple,
-      UpdateKeyEvent.OutputTuple,
-      UpdateKeyEvent.OutputObject
-    >;
+    "UpdateKey(address,uint256)": TypedContractEvent<UpdateKeyEvent.InputTuple, UpdateKeyEvent.OutputTuple, UpdateKeyEvent.OutputObject>;
+    UpdateKey: TypedContractEvent<UpdateKeyEvent.InputTuple, UpdateKeyEvent.OutputTuple, UpdateKeyEvent.OutputObject>;
 
-    "Upgraded(address)": TypedContractEvent<
-      UpgradedEvent.InputTuple,
-      UpgradedEvent.OutputTuple,
-      UpgradedEvent.OutputObject
-    >;
-    Upgraded: TypedContractEvent<
-      UpgradedEvent.InputTuple,
-      UpgradedEvent.OutputTuple,
-      UpgradedEvent.OutputObject
-    >;
+    "Upgraded(address)": TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>;
+    Upgraded: TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>;
   };
 }

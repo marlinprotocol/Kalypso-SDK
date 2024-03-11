@@ -45,10 +45,7 @@ declare module "hardhat/types/runtime" {
       name: "ERC1967UpgradeUpgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC1967UpgradeUpgradeable__factory>;
-    getContractFactory(
-      name: "Initializable",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Initializable__factory>;
+    getContractFactory(name: "Initializable", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.Initializable__factory>;
     getContractFactory(
       name: "UUPSUpgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -81,18 +78,12 @@ declare module "hardhat/types/runtime" {
       name: "IERC165Upgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165Upgradeable__factory>;
-    getContractFactory(
-      name: "ERC20",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ERC20__factory>;
+    getContractFactory(name: "ERC20", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.ERC20__factory>;
     getContractFactory(
       name: "IERC20Metadata",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20Metadata__factory>;
-    getContractFactory(
-      name: "IERC20",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC20__factory>;
+    getContractFactory(name: "IERC20", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC20__factory>;
     getContractFactory(
       name: "EntityKeyRegistry",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -105,42 +96,18 @@ declare module "hardhat/types/runtime" {
       name: "IAttestationVerifier",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IAttestationVerifier__factory>;
-    getContractFactory(
-      name: "IVerifier",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IVerifier__factory>;
-    getContractFactory(
-      name: "Dispute",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Dispute__factory>;
-    getContractFactory(
-      name: "Error",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Error__factory>;
+    getContractFactory(name: "IVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IVerifier__factory>;
+    getContractFactory(name: "Dispute", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.Dispute__factory>;
+    getContractFactory(name: "Error", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.Error__factory>;
     getContractFactory(
       name: "MockAttestationVerifier",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MockAttestationVerifier__factory>;
-    getContractFactory(
-      name: "MockToken",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MockToken__factory>;
-    getContractFactory(
-      name: "MockVerifier",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MockVerifier__factory>;
-    getContractFactory(
-      name: "UC_Rekt",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.UC_Rekt__factory>;
-    getContractFactory(
-      name: "UC",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.UC__factory>;
-    getContractFactory(
-      name: "UC_with_rg",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.UC_with_rg__factory>;
+    getContractFactory(name: "MockToken", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.MockToken__factory>;
+    getContractFactory(name: "MockVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.MockVerifier__factory>;
+    getContractFactory(name: "UC_Rekt", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.UC_Rekt__factory>;
+    getContractFactory(name: "UC", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.UC__factory>;
+    getContractFactory(name: "UC_with_rg", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.UC_with_rg__factory>;
     getContractFactory(
       name: "AttestationAutherUpgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -153,10 +120,7 @@ declare module "hardhat/types/runtime" {
       name: "InputAndProofFormatRegistry",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.InputAndProofFormatRegistry__factory>;
-    getContractFactory(
-      name: "PriorityLog",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.PriorityLog__factory>;
+    getContractFactory(name: "PriorityLog", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.PriorityLog__factory>;
     getContractFactory(
       name: "ProofMarketplace",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -165,26 +129,14 @@ declare module "hardhat/types/runtime" {
       name: "BaseUltraVerifier",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.BaseUltraVerifier__factory>;
-    getContractFactory(
-      name: "UltraVerifier",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.UltraVerifier__factory>;
+    getContractFactory(name: "UltraVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.UltraVerifier__factory>;
     getContractFactory(
       name: "TransferVerifier",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TransferVerifier__factory>;
-    getContractFactory(
-      name: "XorVerifier",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.XorVerifier__factory>;
-    getContractFactory(
-      name: "ZkbVerifier",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ZkbVerifier__factory>;
-    getContractFactory(
-      name: "I_plonk_vk",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.I_plonk_vk__factory>;
+    getContractFactory(name: "XorVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.XorVerifier__factory>;
+    getContractFactory(name: "ZkbVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.ZkbVerifier__factory>;
+    getContractFactory(name: "I_plonk_vk", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.I_plonk_vk__factory>;
     getContractFactory(
       name: "Plonk_verifier_wrapper",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -246,11 +198,7 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.ERC1967UpgradeUpgradeable>;
-    getContractAt(
-      name: "Initializable",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Initializable>;
+    getContractAt(name: "Initializable", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.Initializable>;
     getContractAt(
       name: "UUPSUpgradeable",
       address: string | ethers.Addressable,
@@ -291,21 +239,9 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165Upgradeable>;
-    getContractAt(
-      name: "ERC20",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ERC20>;
-    getContractAt(
-      name: "IERC20Metadata",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IERC20Metadata>;
-    getContractAt(
-      name: "IERC20",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IERC20>;
+    getContractAt(name: "ERC20", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.ERC20>;
+    getContractAt(name: "IERC20Metadata", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20Metadata>;
+    getContractAt(name: "IERC20", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20>;
     getContractAt(
       name: "EntityKeyRegistry",
       address: string | ethers.Addressable,
@@ -321,51 +257,19 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.IAttestationVerifier>;
-    getContractAt(
-      name: "IVerifier",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IVerifier>;
-    getContractAt(
-      name: "Dispute",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Dispute>;
-    getContractAt(
-      name: "Error",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Error>;
+    getContractAt(name: "IVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IVerifier>;
+    getContractAt(name: "Dispute", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.Dispute>;
+    getContractAt(name: "Error", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.Error>;
     getContractAt(
       name: "MockAttestationVerifier",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.MockAttestationVerifier>;
-    getContractAt(
-      name: "MockToken",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.MockToken>;
-    getContractAt(
-      name: "MockVerifier",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.MockVerifier>;
-    getContractAt(
-      name: "UC_Rekt",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.UC_Rekt>;
-    getContractAt(
-      name: "UC",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.UC>;
-    getContractAt(
-      name: "UC_with_rg",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.UC_with_rg>;
+    getContractAt(name: "MockToken", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.MockToken>;
+    getContractAt(name: "MockVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.MockVerifier>;
+    getContractAt(name: "UC_Rekt", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.UC_Rekt>;
+    getContractAt(name: "UC", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.UC>;
+    getContractAt(name: "UC_with_rg", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.UC_with_rg>;
     getContractAt(
       name: "AttestationAutherUpgradeable",
       address: string | ethers.Addressable,
@@ -381,11 +285,7 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.InputAndProofFormatRegistry>;
-    getContractAt(
-      name: "PriorityLog",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.PriorityLog>;
+    getContractAt(name: "PriorityLog", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.PriorityLog>;
     getContractAt(
       name: "ProofMarketplace",
       address: string | ethers.Addressable,
@@ -396,31 +296,15 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.BaseUltraVerifier>;
-    getContractAt(
-      name: "UltraVerifier",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.UltraVerifier>;
+    getContractAt(name: "UltraVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.UltraVerifier>;
     getContractAt(
       name: "TransferVerifier",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.TransferVerifier>;
-    getContractAt(
-      name: "XorVerifier",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.XorVerifier>;
-    getContractAt(
-      name: "ZkbVerifier",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ZkbVerifier>;
-    getContractAt(
-      name: "I_plonk_vk",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.I_plonk_vk>;
+    getContractAt(name: "XorVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.XorVerifier>;
+    getContractAt(name: "ZkbVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.ZkbVerifier>;
+    getContractAt(name: "I_plonk_vk", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.I_plonk_vk>;
     getContractAt(
       name: "Plonk_verifier_wrapper",
       address: string | ethers.Addressable,
@@ -479,14 +363,8 @@ declare module "hardhat/types/runtime" {
       name: "ERC1967UpgradeUpgradeable",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ERC1967UpgradeUpgradeable>;
-    deployContract(
-      name: "Initializable",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.Initializable>;
-    deployContract(
-      name: "UUPSUpgradeable",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.UUPSUpgradeable>;
+    deployContract(name: "Initializable", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Initializable>;
+    deployContract(name: "UUPSUpgradeable", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.UUPSUpgradeable>;
     deployContract(
       name: "PausableUpgradeable",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -515,18 +393,9 @@ declare module "hardhat/types/runtime" {
       name: "IERC165Upgradeable",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC165Upgradeable>;
-    deployContract(
-      name: "ERC20",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.ERC20>;
-    deployContract(
-      name: "IERC20Metadata",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IERC20Metadata>;
-    deployContract(
-      name: "IERC20",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IERC20>;
+    deployContract(name: "ERC20", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ERC20>;
+    deployContract(name: "IERC20Metadata", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20Metadata>;
+    deployContract(name: "IERC20", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>;
     deployContract(
       name: "EntityKeyRegistry",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -539,42 +408,18 @@ declare module "hardhat/types/runtime" {
       name: "IAttestationVerifier",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IAttestationVerifier>;
-    deployContract(
-      name: "IVerifier",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IVerifier>;
-    deployContract(
-      name: "Dispute",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.Dispute>;
-    deployContract(
-      name: "Error",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.Error>;
+    deployContract(name: "IVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IVerifier>;
+    deployContract(name: "Dispute", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Dispute>;
+    deployContract(name: "Error", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Error>;
     deployContract(
       name: "MockAttestationVerifier",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.MockAttestationVerifier>;
-    deployContract(
-      name: "MockToken",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.MockToken>;
-    deployContract(
-      name: "MockVerifier",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.MockVerifier>;
-    deployContract(
-      name: "UC_Rekt",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.UC_Rekt>;
-    deployContract(
-      name: "UC",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.UC>;
-    deployContract(
-      name: "UC_with_rg",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.UC_with_rg>;
+    deployContract(name: "MockToken", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockToken>;
+    deployContract(name: "MockVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockVerifier>;
+    deployContract(name: "UC_Rekt", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.UC_Rekt>;
+    deployContract(name: "UC", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.UC>;
+    deployContract(name: "UC_with_rg", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.UC_with_rg>;
     deployContract(
       name: "AttestationAutherUpgradeable",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -587,38 +432,17 @@ declare module "hardhat/types/runtime" {
       name: "InputAndProofFormatRegistry",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.InputAndProofFormatRegistry>;
-    deployContract(
-      name: "PriorityLog",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.PriorityLog>;
-    deployContract(
-      name: "ProofMarketplace",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.ProofMarketplace>;
+    deployContract(name: "PriorityLog", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.PriorityLog>;
+    deployContract(name: "ProofMarketplace", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ProofMarketplace>;
     deployContract(
       name: "BaseUltraVerifier",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.BaseUltraVerifier>;
-    deployContract(
-      name: "UltraVerifier",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.UltraVerifier>;
-    deployContract(
-      name: "TransferVerifier",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.TransferVerifier>;
-    deployContract(
-      name: "XorVerifier",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.XorVerifier>;
-    deployContract(
-      name: "ZkbVerifier",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.ZkbVerifier>;
-    deployContract(
-      name: "I_plonk_vk",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.I_plonk_vk>;
+    deployContract(name: "UltraVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.UltraVerifier>;
+    deployContract(name: "TransferVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.TransferVerifier>;
+    deployContract(name: "XorVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.XorVerifier>;
+    deployContract(name: "ZkbVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ZkbVerifier>;
+    deployContract(name: "I_plonk_vk", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.I_plonk_vk>;
     deployContract(
       name: "Plonk_verifier_wrapper",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -631,10 +455,7 @@ declare module "hardhat/types/runtime" {
       name: "Transfer_verifier_wrapper",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Transfer_verifier_wrapper>;
-    deployContract(
-      name: "I_xor2_verifier",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.I_xor2_verifier>;
+    deployContract(name: "I_xor2_verifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.I_xor2_verifier>;
     deployContract(
       name: "Xor2_verifier_wrapper",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -725,21 +546,13 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC165Upgradeable>;
-    deployContract(
-      name: "ERC20",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.ERC20>;
+    deployContract(name: "ERC20", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ERC20>;
     deployContract(
       name: "IERC20Metadata",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC20Metadata>;
-    deployContract(
-      name: "IERC20",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IERC20>;
+    deployContract(name: "IERC20", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>;
     deployContract(
       name: "EntityKeyRegistry",
       args: any[],
@@ -755,51 +568,23 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IAttestationVerifier>;
-    deployContract(
-      name: "IVerifier",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IVerifier>;
-    deployContract(
-      name: "Dispute",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.Dispute>;
-    deployContract(
-      name: "Error",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.Error>;
+    deployContract(name: "IVerifier", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IVerifier>;
+    deployContract(name: "Dispute", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Dispute>;
+    deployContract(name: "Error", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Error>;
     deployContract(
       name: "MockAttestationVerifier",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.MockAttestationVerifier>;
-    deployContract(
-      name: "MockToken",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.MockToken>;
+    deployContract(name: "MockToken", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockToken>;
     deployContract(
       name: "MockVerifier",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.MockVerifier>;
-    deployContract(
-      name: "UC_Rekt",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.UC_Rekt>;
-    deployContract(
-      name: "UC",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.UC>;
-    deployContract(
-      name: "UC_with_rg",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.UC_with_rg>;
+    deployContract(name: "UC_Rekt", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.UC_Rekt>;
+    deployContract(name: "UC", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.UC>;
+    deployContract(name: "UC_with_rg", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.UC_with_rg>;
     deployContract(
       name: "AttestationAutherUpgradeable",
       args: any[],
@@ -850,11 +635,7 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ZkbVerifier>;
-    deployContract(
-      name: "I_plonk_vk",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.I_plonk_vk>;
+    deployContract(name: "I_plonk_vk", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.I_plonk_vk>;
     deployContract(
       name: "Plonk_verifier_wrapper",
       args: any[],
@@ -882,28 +663,10 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.Xor2_verifier_wrapper>;
 
     // default types
-    getContractFactory(
-      name: string,
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<ethers.ContractFactory>;
-    getContractFactory(
-      abi: any[],
-      bytecode: ethers.BytesLike,
-      signer?: ethers.Signer
-    ): Promise<ethers.ContractFactory>;
-    getContractAt(
-      nameOrAbi: string | any[],
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<ethers.Contract>;
-    deployContract(
-      name: string,
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<ethers.Contract>;
-    deployContract(
-      name: string,
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<ethers.Contract>;
+    getContractFactory(name: string, signerOrOptions?: ethers.Signer | FactoryOptions): Promise<ethers.ContractFactory>;
+    getContractFactory(abi: any[], bytecode: ethers.BytesLike, signer?: ethers.Signer): Promise<ethers.ContractFactory>;
+    getContractAt(nameOrAbi: string | any[], address: string | ethers.Addressable, signer?: ethers.Signer): Promise<ethers.Contract>;
+    deployContract(name: string, signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<ethers.Contract>;
+    deployContract(name: string, args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<ethers.Contract>;
   }
 }

@@ -19,11 +19,13 @@ async function main(): Promise<string> {
 
   const meAttestationData = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getAttestation(attestationVeriferEndPoint);
   console.log({ me_enclave_ecies_key: meAttestationData.secp_key });
+
   const mePubkey = PublicKey.fromHex(meAttestationData.secp_key as string);
   console.log({ me_compressed: mePubkey.compressed.toString("hex") });
 
   const mePCRS = KalypsoSdk.getRlpedPcrsFromAttestation(meAttestationData.attestation_document);
   console.log({ mePCRS });
+
   const result = await kalypso.Admin().setMatchingEngineImage(mePCRS);
 
   console.log({ result: result.hash });

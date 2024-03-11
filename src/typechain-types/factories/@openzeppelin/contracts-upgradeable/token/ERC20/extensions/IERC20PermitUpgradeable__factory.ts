@@ -91,14 +91,7 @@ export class IERC20PermitUpgradeable__factory {
   static createInterface(): IERC20PermitUpgradeableInterface {
     return new Interface(_abi) as IERC20PermitUpgradeableInterface;
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): IERC20PermitUpgradeable {
-    return new Contract(
-      address,
-      _abi,
-      runner
-    ) as unknown as IERC20PermitUpgradeable;
+  static connect(address: string, runner?: ContractRunner | null): IERC20PermitUpgradeable {
+    return new Contract(address, _abi, runner) as unknown as IERC20PermitUpgradeable;
   }
 }
