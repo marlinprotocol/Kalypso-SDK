@@ -14,7 +14,7 @@ async function main() {
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  const data = await kalypso.Generator().GeneratorEnclaveConnector().stopGenerator();
+  const data = await kalypso.Generator().GeneratorEnclaveConnector().stopListener();
   console.log(JSON.stringify(data, null, 4));
 
   return "Done";

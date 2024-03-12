@@ -29,34 +29,6 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     return await response.json();
   }
 
-  // New methods based on your list
-  public async startGenerator(): Promise<EnclaveResponse<string>> {
-    const response = await fetch(this.url("/api/startGenerator"), { method: "POST", headers: this.headers() });
-    if (!response.ok) {
-      console.log({ response });
-      throw new Error(`Error: ${response.status}`);
-    }
-    return await response.json();
-  }
-
-  public async restartGenerator(): Promise<EnclaveResponse<null>> {
-    const response = await fetch(this.url("/api/restartGenerator"), { method: "POST", headers: this.headers() });
-    if (!response.ok) {
-      console.log({ response });
-      throw new Error(`Error: ${response.status}`);
-    }
-    return await response.json();
-  }
-
-  public async stopGenerator(): Promise<EnclaveResponse<string>> {
-    const response = await fetch(this.url("/api/stopGenerator"), { method: "POST", headers: this.headers() });
-    if (!response.ok) {
-      console.log({ response });
-      throw new Error(`Error: ${response.status}`);
-    }
-    return await response.json();
-  }
-
   public async generatorConfigSetup(
     generator_config: GeneratorConfig[],
     ws_url: string,
@@ -190,10 +162,23 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
   }
 
   public async startListener(): Promise<EnclaveResponse<string>> {
+    return this.startProgram("listener");
+  }
+
+  public async stopListener(): Promise<EnclaveResponse<string>> {
+    return this.stopProgram("listener");
+  }
+
+  public async restartListener(): Promise<EnclaveResponse<string>> {
+    return this.restartProgram("listener");
+  }
+
+  public async startProgram(program_name: string): Promise<EnclaveResponse<string>> {
+    console.log("calling", this.url("/api/startProgram"));
     const response = await fetch(this.url("/api/startProgram"), {
       method: "POST",
       headers: this.headerWithNoApiKey(),
-      body: JSON.stringify({ program_name: "listener" }),
+      body: JSON.stringify({ program_name }),
     });
 
     if (!response.ok) {
@@ -203,9 +188,24 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     return await response.json();
   }
 
-  public async startProgram(program_name: string): Promise<EnclaveResponse<string>> {
-    console.log("calling", this.url("/api/startProgram"));
-    const response = await fetch(this.url("/api/startProgram"), {
+  public async restartProgram(program_name: string): Promise<EnclaveResponse<string>> {
+    console.log("calling", this.url("/api/restartProgram"));
+    const response = await fetch(this.url("/api/restartProgram"), {
+      method: "POST",
+      headers: this.headerWithNoApiKey(),
+      body: JSON.stringify({ program_name }),
+    });
+
+    if (!response.ok) {
+      console.log({ response });
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
+  }
+
+  public async stopProgram(program_name: string): Promise<EnclaveResponse<string>> {
+    console.log("calling", this.url("/api/stopProgram"));
+    const response = await fetch(this.url("/api/stopProgram"), {
       method: "POST",
       headers: this.headerWithNoApiKey(),
       body: JSON.stringify({ program_name }),
