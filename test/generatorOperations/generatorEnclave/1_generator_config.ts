@@ -25,6 +25,8 @@ async function main() {
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
+  const generatorStartBlock = await provider.getBlockNumber();
+
   const result = await kalypso
     .Generator()
     .GeneratorEnclaveConnector()
@@ -33,7 +35,7 @@ async function main() {
       "wss://arb-sepolia.g.alchemy.com/v2/HRgHr93dID1CdtMKBF0P8Khafl5MHYaN/",
       "https://arb-sepolia.g.alchemy.com/v2/HRgHr93dID1CdtMKBF0P8Khafl5MHYaN",
       "91e60908ad659c964169211f07d7c2328ca8919d81dfd772c850bebfd67d4cdf",
-      18470349,
+      generatorStartBlock,
       421614,
       kalypso.MarketPlace().IvsEnclaveConnector().checkInputUrl(),
       supportedMarketData

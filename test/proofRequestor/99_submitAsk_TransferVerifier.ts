@@ -15,7 +15,7 @@ const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
 
 dotenv.config();
 
-const reward = new BigNumber(10).pow(18).multipliedBy(45).div(10).toFixed(0);
+const reward = new BigNumber(10).pow(18).multipliedBy(145).div(10).toFixed(0);
 
 const createAskTest = async () => {
   const provider = new ethers.JsonRpcProvider(keys.rpc);
@@ -33,9 +33,9 @@ const createAskTest = async () => {
   const latestBlock = await provider.getBlockNumber();
 
   const marketId = "3";
-  const assignmentDeadline = new BigNumber(latestBlock).plus(10000000000);
+  const assignmentDeadline = new BigNumber(latestBlock).plus(100000000000);
   console.log({ latestBlock, assignmentDeadline: assignmentDeadline.toFixed(0) });
-  const proofGenerationTimeInBlocks = new BigNumber(10000000000);
+  const proofGenerationTimeInBlocks = new BigNumber(100000000000);
 
   const ivsCheckEciesCheckingKey = await kalypso.MarketPlace().IvsEnclaveConnector().fetchInputVerifierPublicKeys();
 

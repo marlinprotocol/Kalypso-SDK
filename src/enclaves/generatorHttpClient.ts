@@ -189,7 +189,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
   }
 
   public async restartProgram(program_name: string): Promise<EnclaveResponse<string>> {
-    console.log("calling", this.url("/api/restartProgram"));
+    console.log("calling", this.url("/api/restartProgram"), { program_name });
     const response = await fetch(this.url("/api/restartProgram"), {
       method: "POST",
       headers: this.headerWithNoApiKey(),

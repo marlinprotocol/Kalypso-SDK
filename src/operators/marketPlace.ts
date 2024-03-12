@@ -316,25 +316,25 @@ export class MarketPlace {
       aclData = result.aclData;
     }
 
-    const platformFee = await this.getPlatformFee(secretType, askRequest, dataToSend, aclData);
-    const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
-    if (new BigNumber(platformTokenBalance.toString()).lt(platformFee.toString())) {
-      throw new Error("Ensure sufficient platform token balance");
-    }
+    // const platformFee = await this.getPlatformFee(secretType, askRequest, dataToSend, aclData);
+    // const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
+    // if (new BigNumber(platformTokenBalance.toString()).lt(platformFee.toString())) {
+    //   throw new Error("Ensure sufficient platform token balance");
+    // }
+
+    // const platformTokenAllowance = await this.platformToken.allowance(
+    //   await this.signer.getAddress(),
+    //   await this.proofMarketPlace.getAddress()
+    // );
+    // if (new BigNumber(platformTokenAllowance.toString()).lt(platformFee.toString())) {
+    //   const approvalTx = await this.platformToken.approve(await this.proofMarketPlace.getAddress(), platformFee.toString());
+    //   const approvalReceipt = await approvalTx.wait();
+    //   console.log("Approval Tx: ", approvalReceipt?.hash);
+    // }
 
     const paymentTokenBalance = await this.paymentToken.balanceOf(await this.signer.getAddress());
     if (new BigNumber(paymentTokenBalance.toString()).lt(reward.toString())) {
       throw new Error("Ensure sufficient payment token balance");
-    }
-
-    const platformTokenAllowance = await this.platformToken.allowance(
-      await this.signer.getAddress(),
-      await this.proofMarketPlace.getAddress()
-    );
-    if (new BigNumber(platformTokenAllowance.toString()).lt(platformFee.toString())) {
-      const approvalTx = await this.platformToken.approve(await this.proofMarketPlace.getAddress(), platformFee.toString());
-      const approvalReceipt = await approvalTx.wait();
-      console.log("Approval Tx: ", approvalReceipt?.hash);
     }
 
     const paymentTokenAllowance = await this.paymentToken.allowance(
