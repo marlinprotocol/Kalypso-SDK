@@ -3,6 +3,7 @@ import { KalspsoConfig } from "../../src/types";
 import { KalypsoSdk } from "../../src";
 import * as fs from "fs";
 import BigNumber from "bignumber.js";
+import { marketId } from "../../requestData.json";
 
 const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb-sepolia.json", "utf-8"));
 const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
@@ -10,7 +11,6 @@ const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
 const provider = new ethers.JsonRpcProvider(keys.rpc);
 const wallet = new ethers.Wallet(`${keys.generator_private_key}`, provider);
 
-const marketId = 3;
 const computeAllocatedPerRequest = 1;
 const proofGenerationCost = new BigNumber(10).pow(18).toFixed(0);
 const proposedTimeInBlocks = 10000;

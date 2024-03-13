@@ -9,7 +9,7 @@ const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
 const provider = new ethers.JsonRpcProvider(keys.rpc);
 const wallet = new ethers.Wallet(`${keys.generator_private_key}`, provider);
 
-const marketId = 0;
+import { marketId } from "../../requestData.json";
 
 async function main() {
   console.log("using address", await wallet.getAddress());

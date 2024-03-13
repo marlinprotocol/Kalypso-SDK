@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { KalspsoConfig } from "../../../src/types";
 import { KalypsoSdk } from "../../../src";
 import * as fs from "fs";
+import { marketId } from "../../../requestData.json";
 
 const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb-sepolia.json", "utf-8"));
 const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
@@ -17,7 +18,7 @@ type DynamicKeyObject<T> = {
 
 const supportedMarketData: DynamicKeyObject<PORT> = {};
 
-const supportedMarket = "3";
+const supportedMarket = marketId;
 supportedMarketData[supportedMarket] = "6000";
 
 async function main() {

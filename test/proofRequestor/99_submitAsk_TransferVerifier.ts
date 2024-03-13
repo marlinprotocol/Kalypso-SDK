@@ -9,6 +9,7 @@ import BigNumber from "bignumber.js";
 
 import * as fs from "fs";
 import { KalspsoConfig } from "../../src/types";
+import { marketId } from "../../requestData.json";
 
 const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb-sepolia.json", "utf-8"));
 const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
@@ -32,7 +33,6 @@ const createAskTest = async () => {
 
   const latestBlock = await provider.getBlockNumber();
 
-  const marketId = "3";
   const assignmentDeadline = new BigNumber(latestBlock).plus(100000000000);
   console.log({ latestBlock, assignmentDeadline: assignmentDeadline.toFixed(0) });
   const proofGenerationTimeInBlocks = new BigNumber(100000000000);

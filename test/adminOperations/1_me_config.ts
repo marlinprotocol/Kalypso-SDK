@@ -3,6 +3,7 @@ import { KalspsoConfig } from "../../src/types";
 import { KalypsoSdk } from "../../src";
 
 import * as fs from "fs";
+import { startBlock } from "../../requestData.json";
 
 const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb-sepolia.json", "utf-8"));
 const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
@@ -14,7 +15,6 @@ async function main(): Promise<string> {
   console.log("using address", await wallet.getAddress());
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  const startBlock = 18469999; // block number from which the ME starts parsing the onchain data
   const result = await kalypso
     .MarketPlace()
     .MatchingEngineEnclaveConnector()
