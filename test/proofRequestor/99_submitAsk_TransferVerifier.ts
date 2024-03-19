@@ -51,7 +51,6 @@ const createAskTest = async () => {
   if (!isGoodRequest) {
     throw new Error("Better not create a request, if it is not provable to prevent loss of funds");
   }
-
   console.log({ isGoodRequest });
 
   // Create ASK request
@@ -63,7 +62,8 @@ const createAskTest = async () => {
     proofGenerationTimeInBlocks.toFixed(0),
     await wallet.getAddress(),
     0, // TODO: keep this 0 for now
-    Buffer.from(secretString)
+    Buffer.from(secretString),
+    false
   );
   const tx = await askRequest.wait();
   console.log("Ask Request Hash: ", askRequest.hash, " at block", tx?.blockNumber);
