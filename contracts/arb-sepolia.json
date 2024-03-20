@@ -24,7 +24,7 @@
   "matchingEngineEnclave": {
     "url": "http://13.201.131.193:5000",
     "utilityUrl": "http://13.201.131.193:1500",
-    "apikey": "e8122c6e-faf6-457e-9026-ceb864a013a0"
+    "apikey": "38af97ff-e3e1-4f59-95b2-461cf5fb9e60"
   },
   "checkInputUrl": "http://43.205.177.43:3030",
   "attestationVerifierEndPoint": "http://3.108.235.103:1400"
