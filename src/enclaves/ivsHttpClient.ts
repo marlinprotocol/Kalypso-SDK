@@ -8,8 +8,14 @@ export class IvsHttpClient extends BaseEnclaveClient {
   private ivsEndPoint: string;
   private _checkInputUrl: string;
 
-  constructor(ivsEndPoint: string, ivs_attestation_utility_endpoint: string, checkInputUrl: string, apikey?: string) {
-    super(ivs_attestation_utility_endpoint, apikey);
+  constructor(
+    attestationVerifierEndpoint: string,
+    ivsEndPoint: string,
+    ivs_attestation_utility_endpoint: string,
+    checkInputUrl: string,
+    apikey?: string
+  ) {
+    super(ivs_attestation_utility_endpoint, attestationVerifierEndpoint, apikey);
     this.ivsEndPoint = ivsEndPoint;
     this._checkInputUrl = checkInputUrl;
   }

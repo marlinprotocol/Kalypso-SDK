@@ -15,9 +15,7 @@ async function main(): Promise<string> {
   console.log("using address", await wallet.getAddress());
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  const attestationVeriferEndPoint = "http://127.0.0.1:1400";
-
-  const meAttestationData = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getAttestation(attestationVeriferEndPoint);
+  const meAttestationData = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getAttestation();
   console.log({ me_enclave_ecies_key: meAttestationData.secp_key });
 
   const mePubkey = PublicKey.fromHex(meAttestationData.secp_key as string);

@@ -15,11 +15,9 @@ const marketId = 3;
 async function main() {
   console.log("using address", await wallet.getAddress());
 
-  const attestation_verifier_endpoint = "http://127.0.0.1:1400";
-
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  let attestation = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation(attestation_verifier_endpoint);
+  let attestation = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation();
   // let attestation = await kalypso
   //   .Generator()
   //   .GeneratorEnclaveConnector()

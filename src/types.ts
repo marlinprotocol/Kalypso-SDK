@@ -11,6 +11,7 @@ export interface KalspsoConfig {
   matchingEngineEnclave?: Enclave;
   ivsEnclave?: Enclave;
   checkInputUrl: string;
+  attestationVerifierEndPoint: string;
 }
 
 interface Enclave {

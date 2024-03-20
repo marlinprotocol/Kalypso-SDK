@@ -23,8 +23,7 @@ async function main() {
   let tx: ContractTransactionResponse;
   let receipt: ContractTransactionReceipt | null;
 
-  const attestation_verifier_endpoint = "http://127.0.0.1:1400";
-  let attestation = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation(attestation_verifier_endpoint);
+  let attestation = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation();
 
   const enclaveSignature = await kalypso
     .Generator()

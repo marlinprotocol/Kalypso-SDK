@@ -56,6 +56,7 @@ export class MarketPlace {
 
     if (config.ivsEnclave) {
       this.ivsHttpClient = new IvsHttpClient(
+        config.attestationVerifierEndPoint,
         config.ivsEnclave.url,
         config.ivsEnclave.utilityUrl,
         config.checkInputUrl,

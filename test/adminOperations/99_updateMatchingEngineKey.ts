@@ -26,8 +26,7 @@ async function main1(): Promise<string> {
   // const pubKeyString = "0x" + secretKey.publicKey.uncompressed.toString("hex").substring(2);
   // const meAttestation = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getMockAttestation(pubKeyString);
 
-  const attestation_verifier_endpoint = "http://127.0.0.1:1400";
-  const meAttestation = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getAttestation(attestation_verifier_endpoint);
+  const meAttestation = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getAttestation();
 
   const pubkey = PublicKey.fromHex(meAttestation.secp_key as string);
   console.log("me key from attestation", pubkey.compressed.toString("hex"));

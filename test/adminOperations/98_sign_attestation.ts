@@ -14,8 +14,7 @@ async function main() {
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  const attestation_verifier_endpoint = "http://127.0.0.1:1400";
-  const attestationResult = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getAttestation(attestation_verifier_endpoint);
+  const attestationResult = await kalypso.MarketPlace().MatchingEngineEnclaveConnector().getAttestation();
 
   console.log({ attestationResult });
 

@@ -7,10 +7,12 @@ import { HeaderInit } from "node-fetch";
 
 export abstract class BaseEnclaveClient {
   protected attestation_utility_endpoint: string;
+  protected attestation_verifier_endpoint: string;
   protected apikey?: string;
 
-  constructor(attestation_utility_endpoint: string, apikey?: string) {
+  constructor(attestation_utility_endpoint: string, attestation_verifier_endpoint: string, apikey?: string) {
     this.attestation_utility_endpoint = attestation_utility_endpoint;
+    this.attestation_verifier_endpoint = attestation_verifier_endpoint;
 
     if (apikey) {
       this.apikey = apikey;
@@ -65,7 +67,7 @@ export abstract class BaseEnclaveClient {
    * @param attestation_verifier_endpoint URL at which the attestation verifier is hosted
    * @returns Attestation
    */
-  public async getAttestation(attestation_verifier_endpoint: string, printAttestation: boolean = false): Promise<AttestationResponse> {
+  public async getAttestation(printAttestation: boolean = false): Promise<AttestationResponse> {
     //Fetching the attestation document
     const attestation_build_data = await this.buildAttestation();
     console.log("fetched attestation successfully");
@@ -83,7 +85,7 @@ export abstract class BaseEnclaveClient {
       body: JSON.stringify(attestation_build_data),
     };
 
-    let attestation_verifier_response = await fetch(this.baseUrl(attestation_verifier_endpoint, "/verify"), verify_attestation_config);
+    let attestation_verifier_response = await fetch(this.baseUrl(this.attestation_verifier_endpoint, "/verify"), verify_attestation_config);
     if (!attestation_verifier_response.ok) {
       console.log({ attestation_verifier_response });
     }

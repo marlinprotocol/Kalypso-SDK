@@ -16,10 +16,8 @@ async function main(): Promise<string> {
   console.log("using address", await wallet.getAddress());
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  const attestationVeriferEndPoint = "http://127.0.0.1:1400";
-
   const marketId = 4;
-  const ivsAttestationData = await kalypso.MarketPlace().IvsEnclaveConnector().getAttestation(attestationVeriferEndPoint);
+  const ivsAttestationData = await kalypso.MarketPlace().IvsEnclaveConnector().getAttestation();
   // console.log({ ivsAttestationData });
   // console.log({ ivs_enclave_ecies_key: ivsAttestationData.secp_key });
   // const ivsPubkey = PublicKey.fromHex(ivsAttestationData.secp_key as string);
