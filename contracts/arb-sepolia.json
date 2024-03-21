@@ -3,14 +3,14 @@
   "staking_token": "0xdb69299dDE4A00c99b885D9f8748B2AeD1Fe4Ed4",
   "mock_attestation_verifier": "0x1dC40628443D93eA82945a9206e0b527BA3EA028",
   "attestation_verifier": "0x3aB3487269206d5f6a10725d4e477BaA3611adcA",
-  "entity_registry": "0xc54F0B48727902472e077Ae56b6321c4f2d77aD6",
-  "generator_registry": "0x6FD6ED78f6D8a04bC9DF9480B4CD4A7E37e885a4",
-  "dispute": "0x8a9E313c1Db691BAEa8B1Cf4D32645E05608c2e3",
-  "proof_market_place": "0x9db3AF484D362765064854f73d90312e662dB65a",
-  "transfer_verifier_wrapper": "0x98EF29f10518B5b3384596fCa6F39816C363CCbd",
-  "zkb_verifier_wrapper": "0x16237643290a485F3CC77B0dfA0d459885Ca3505",
-  "priority_list": "0x87508a0025a1FC7aE9DCD20ae63A58dFf75f0c0F",
-  "input_and_proof_format": "0x2783aBc51a7C7Bac3c031E2fCD28a31356Efa425",
+  "entity_registry": "0xBf6AfC0dB112e1e330Ea3fF4640Bac5fBA3e4B65",
+  "generator_registry": "0x2CcCb1ac0fa40922bc800619E09fc3bD821ea4F8",
+  "dispute": "0xB6fd179Df4F71F5b6053B9fCeA35ba479F5DcD70",
+  "proof_market_place": "0x81C80965f4E1b073858cc9D55d7D9A517C9fF258",
+  "transfer_verifier_wrapper": "0x21E375738B4cf2d7FFbDF26b4bB6bF082f8EE8BE",
+  "zkb_verifier_wrapper": "0x8042cC4A7C4edab47E13844b4A234d0cA7170c88",
+  "priority_list": "0x1573e360330e7B36592DFC5157b5Ce56cccb6cb5",
+  "input_and_proof_format": "0xB586c6e1397BEC6cBc0C3Ad608263cA48CD78E17",
   "generatorEnclave": {
     "url": "http://43.205.85.160:5000",
     "utilityUrl": "http://43.205.85.160:1500",
@@ -19,12 +19,12 @@
   "ivsEnclave": {
     "url": "http://43.205.177.43:5000",
     "utilityUrl": "http://43.205.177.43:1500",
-    "apikey": "949bc5d2-d2ce-4076-ad42-181f91ff8b79"
+    "apikey": "1d252f53-4b83-4916-b657-0a9cc6fcacfa"
   },
   "matchingEngineEnclave": {
     "url": "http://13.201.131.193:5000",
     "utilityUrl": "http://13.201.131.193:1500",
-    "apikey": "38af97ff-e3e1-4f59-95b2-461cf5fb9e60"
+    "apikey": "fcc61154-ccdd-4255-ae73-92dc86db85e6"
   },
   "checkInputUrl": "http://43.205.177.43:3030",
   "attestationVerifierEndPoint": "http://3.108.235.103:1400"
