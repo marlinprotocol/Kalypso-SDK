@@ -30,7 +30,8 @@ export abstract class BaseEnclaveClient {
         "API-Key": this.apikey,
       };
     }
-    throw new Error("api key not provided");
+
+    return {};
   }
 
   protected headerWithNoApiKey(): HeaderInit {

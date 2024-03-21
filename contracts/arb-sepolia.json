@@ -13,13 +13,11 @@
   "input_and_proof_format": "0xB586c6e1397BEC6cBc0C3Ad608263cA48CD78E17",
   "generatorEnclave": {
     "url": "http://43.205.85.160:5000",
-    "utilityUrl": "http://43.205.85.160:1500",
-    "apikey": "ea35cd66-a0af-418b-9def-f2cb036f4397 "
+    "utilityUrl": "http://43.205.85.160:1500"
   },
   "ivsEnclave": {
     "url": "http://43.205.177.43:5000",
-    "utilityUrl": "http://43.205.177.43:1500",
-    "apikey": "1d252f53-4b83-4916-b657-0a9cc6fcacfa"
+    "utilityUrl": "http://43.205.177.43:1500"
   },
   "matchingEngineEnclave": {
     "url": "http://13.201.131.193:5000",
