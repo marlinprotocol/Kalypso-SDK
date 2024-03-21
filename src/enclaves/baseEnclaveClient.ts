@@ -205,7 +205,6 @@ export abstract class BaseEnclaveClient {
     // console.log({ payload });
     let attestation_server_response = await fetch(this.url("/api/signAttestation"), {
       method: "POST",
-      headers: this.headers(),
       body: payload,
     });
 

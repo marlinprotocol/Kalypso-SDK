@@ -13,7 +13,8 @@
   "input_and_proof_format": "0xB586c6e1397BEC6cBc0C3Ad608263cA48CD78E17",
   "generatorEnclave": {
     "url": "http://43.205.85.160:5000",
-    "utilityUrl": "http://43.205.85.160:1500"
+    "utilityUrl": "http://43.205.85.160:1500",
+    "apikey": "some dummy value"
   },
   "ivsEnclave": {
     "url": "http://43.205.177.43:5000",

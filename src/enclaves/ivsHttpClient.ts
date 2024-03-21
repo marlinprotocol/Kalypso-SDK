@@ -73,6 +73,7 @@ export class IvsHttpClient extends BaseEnclaveClient {
       throw new Error(`Error: ${response.status}`);
     }
     const returnData = await response.json();
+    console.log({ returnData });
     return {
       status: returnData.status,
       message: returnData.message,
