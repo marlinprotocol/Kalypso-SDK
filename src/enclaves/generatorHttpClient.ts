@@ -177,7 +177,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     console.log("calling", this.url("/api/startProgram"));
     const response = await fetch(this.url("/api/startProgram"), {
       method: "POST",
-      headers: this.headerWithNoApiKey(),
+      headers: this.headers(),
       body: JSON.stringify({ program_name }),
     });
 
@@ -192,7 +192,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     console.log("calling", this.url("/api/restartProgram"), { program_name });
     const response = await fetch(this.url("/api/restartProgram"), {
       method: "POST",
-      headers: this.headerWithNoApiKey(),
+      headers: this.headers(),
       body: JSON.stringify({ program_name }),
     });
 
@@ -207,7 +207,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     console.log("calling", this.url("/api/stopProgram"));
     const response = await fetch(this.url("/api/stopProgram"), {
       method: "POST",
-      headers: this.headerWithNoApiKey(),
+      headers: this.headers(),
       body: JSON.stringify({ program_name }),
     });
 

@@ -34,12 +34,6 @@ export abstract class BaseEnclaveClient {
     return {};
   }
 
-  protected headerWithNoApiKey(): HeaderInit {
-    return {
-      "Content-Type": "application/json",
-    };
-  }
-
   protected baseUrl(url: string, api: string): string {
     return `${url}${api}`;
   }
