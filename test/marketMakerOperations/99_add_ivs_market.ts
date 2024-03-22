@@ -19,7 +19,7 @@ async function main(): Promise<string> {
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
   const ivsAttestationData = await kalypso.MarketPlace().IvsEnclaveConnector().getAttestation();
-  // console.log({ ivsAttestationData });
+  console.log({ ivsAttestationData });
   // console.log({ ivs_enclave_ecies_key: ivsAttestationData.secp_key });
   // const ivsPubkey = PublicKey.fromHex(ivsAttestationData.secp_key as string);
   // console.log({ ivs_compressed: ivsPubkey.compressed.toString("hex") });
