@@ -343,7 +343,10 @@ export class MarketPlace {
       await this.proofMarketPlace.getAddress()
     );
     if (new BigNumber(paymentTokenAllowance.toString()).lt(reward.toString())) {
-      const approvalTx = await this.paymentToken.approve(await this.proofMarketPlace.getAddress(), reward.toString());
+      const approvalTx = await this.paymentToken.approve(
+        await this.proofMarketPlace.getAddress(),
+        new BigNumber(reward.toString()).multipliedBy(10).toFixed(0)
+      );
       const approvalReceipt = await approvalTx.wait();
       console.log("Approval Tx: ", approvalReceipt?.hash);
     }
