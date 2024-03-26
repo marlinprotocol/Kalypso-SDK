@@ -32,7 +32,7 @@ async function main(): Promise<string> {
   const ivsPubkey = PublicKey.fromHex(ivsAttestationData.secp_key as string);
   console.log({ ivs_compressed: ivsPubkey.compressed.toString("hex") });
 
-  const ivsImagePcrs = KalypsoSdk.getRlpedPcrsFromAttestation(ivsAttestationData.attestation_document);
+  // const ivsImagePcrs = KalypsoSdk.getRlpedPcrsFromAttestation(ivsAttestationData.attestation_document);
 
   const proverAttestationData = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation();
   console.log({ prover_enclave_key: proverAttestationData.secp_key });
@@ -41,7 +41,7 @@ async function main(): Promise<string> {
 
   const proverImagePcrs = KalypsoSdk.getRlpedPcrsFromAttestation(proverAttestationData.attestation_document);
 
-  const tx = await kalypso.MarketPlace().createNewMarket(marketBytes, wrapperAddress, slashingPenalty, proverImagePcrs, ivsImagePcrs);
+  const tx = await kalypso.MarketPlace().createNewMarket(marketBytes, wrapperAddress, slashingPenalty, proverImagePcrs, proverImagePcrs);
   await tx.wait();
 
   const receiptHash = tx.hash;

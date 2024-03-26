@@ -1,5 +1,5 @@
 import { BytesLike, ethers } from "ethers";
-import { ProofMarketPlace__factory } from "../src/typechain-types";
+import { ProofMarketplace__factory } from "../src/typechain-types";
 import * as fs from "fs";
 
 const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
@@ -10,7 +10,7 @@ const decodeAsk = async (transactionhash: string) => {
 
   const transaction = await provider.getTransaction(transactionhash);
 
-  const pm_interface = ProofMarketPlace__factory.createInterface();
+  const pm_interface = ProofMarketplace__factory.createInterface();
   const decodedData = pm_interface.decodeFunctionData("createAsk", transaction?.data as BytesLike);
 
   const secretData = decodedData[decodedData.length - 2];

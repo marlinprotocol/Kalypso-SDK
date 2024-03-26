@@ -20,7 +20,7 @@ const reward = new BigNumber(10).pow(18).multipliedBy(145).div(10).toFixed(0);
 
 const createAskTest = async () => {
   const provider = new ethers.JsonRpcProvider(keys.rpc);
-  const wallet = new ethers.Wallet(keys.private_key, provider);
+  const wallet = new ethers.Wallet(keys.treasury_private_key, provider);
 
   console.log("using address", await wallet.getAddress());
 
