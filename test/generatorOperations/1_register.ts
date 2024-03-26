@@ -8,13 +8,13 @@ const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
 
 const provider = new ethers.JsonRpcProvider(keys.rpc);
 const wallet = new ethers.Wallet(`${keys.generator_private_key}`, provider);
-const rewardAddress = await wallet.getAddress(); // address which receives the proof generation rewards
 
 const declaredCompute = 100;
 const generatorMetadata = "0xff00abcd00ff";
 
 async function main() {
   console.log("using address", await wallet.getAddress());
+  const rewardAddress = await wallet.getAddress(); // address which receives the proof generation rewards
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 

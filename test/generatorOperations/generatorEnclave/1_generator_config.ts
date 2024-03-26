@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { KalspsoConfig } from "../../../src/types";
+import { KalspsoConfig, PortAndIvsUrl } from "../../../src/types";
 import { KalypsoSdk } from "../../../src";
 import * as fs from "fs";
 import { marketId } from "../../../requestData.json";
@@ -10,16 +10,14 @@ const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
 const provider = new ethers.JsonRpcProvider(keys.rpc);
 const wallet = new ethers.Wallet(`${keys.generator_private_key}`, provider);
 
-type PORT = string;
-
 type DynamicKeyObject<T> = {
   [key: string]: T;
 };
 
-const supportedMarketData: DynamicKeyObject<PORT> = {};
+const supportedMarketData: DynamicKeyObject<PortAndIvsUrl> = {};
 
 const supportedMarket = marketId;
-supportedMarketData[supportedMarket] = "6000";
+supportedMarketData[supportedMarket] = { port: "6000", ivs_url: "http://43.205.177.43" };
 
 async function main() {
   console.log("using address", await wallet.getAddress());

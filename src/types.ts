@@ -105,7 +105,7 @@ export interface RuntimeConfig {
   generator_registry: string;
   ivs_url: string;
   markets: {
-    [key: string]: string;
+    [key: string]: PortAndIvsUrl;
   };
 }
 
@@ -165,4 +165,9 @@ export interface SignAddressResponse {
 export interface MatchingEngineKeys {
   matching_engine_ecies_public_key: string;
   matching_engine_public_key: string;
+}
+
+export interface PortAndIvsUrl {
+  port: string;
+  ivs_url: string;
 }

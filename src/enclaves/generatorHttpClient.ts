@@ -1,4 +1,4 @@
-import { PublicKeyResponse, KalspsoConfig, EnclaveResponse } from "../types";
+import { PublicKeyResponse, KalspsoConfig, EnclaveResponse, PortAndIvsUrl } from "../types";
 import fetch from "node-fetch";
 import { HeaderInit } from "node-fetch";
 import { GeneratorConfigPayload, GeneratorConfig, UpdateRuntimeConfig, SignAddressResponse } from "../types";
@@ -38,7 +38,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     chain_id: number,
     ivs_url: string,
     markets: {
-      [key: string]: string;
+      [key: string]: PortAndIvsUrl;
     }
   ): Promise<EnclaveResponse<string>> {
     const generatorConfigData: GeneratorConfigPayload = {
@@ -174,7 +174,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
   }
 
   public async startProgram(program_name: string): Promise<EnclaveResponse<string>> {
-    console.log("calling", this.url("/api/startProgram"));
+    console.log("calling", this.url("/api/startProgram"), program_name);
     const response = await fetch(this.url("/api/startProgram"), {
       method: "POST",
       headers: this.headers(),
@@ -182,7 +182,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     });
 
     if (!response.ok) {
-      console.log({ response });
+      console.log({ response: response });
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
