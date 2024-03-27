@@ -102,15 +102,13 @@ export abstract class BaseEnclaveClient {
 
     let abiCoder = new ethers.AbiCoder();
     let encodedData = abiCoder.encode(
-      ["bytes", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256", "uint256"],
+      ["bytes", "bytes", "bytes", "bytes", "bytes", "uint256"],
       [
         "0x" + attestation_verifier_response_data.signature,
         ecies_pubkey,
         "0x" + attestation_build_data.pcrs[0],
         "0x" + attestation_build_data.pcrs[1],
         "0x" + attestation_build_data.pcrs[2],
-        "" + attestation_build_data.min_cpus,
-        "" + attestation_build_data.min_mem,
         "" + attestation_build_data.timestamp,
       ]
     );
@@ -159,8 +157,8 @@ export abstract class BaseEnclaveClient {
 
     let abiCoder = new ethers.AbiCoder();
     let encodedData = abiCoder.encode(
-      ["bytes", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256", "uint256"],
-      ["0x00", ecies_pubkey, "0x00", "0x00", "0x00", 1, 1, getTimestampMs()]
+      ["bytes", "bytes", "bytes", "bytes", "bytes", "uint256"],
+      ["0x00", ecies_pubkey, "0x00", "0x00", "0x00", getTimestampMs()]
     );
 
     return {
