@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/marlinprotocol/Kalypso-SDK#readme",
   "devDependencies": {
+    "@types/libsodium-wrappers": "^0.7.13",
     "@types/mocha": "^10.0.1",
     "@types/node-fetch": "^2.6.9",
     "@types/node-gzip": "^1.1.0",
@@ -44,6 +45,7 @@
     "bignumber.js": "^9.1.1",
     "eciesjs": "^0.4.4",
     "ethers": "^6.6.6",
+    "libsodium-wrappers": "^0.7.13",
     "node-fetch": "^2.7.0",
     "pako": "^2.1.0"
   }
