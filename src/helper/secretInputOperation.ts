@@ -1,12 +1,5 @@
 import { encrypt, decrypt } from "eciesjs";
 import crypto from "crypto";
-import {
-  randombytes_buf,
-  crypto_aead_chacha20poly1305_ietf_encrypt,
-  crypto_aead_chacha20poly1305_IETF_KEYBYTES,
-  crypto_aead_chacha20poly1305_IETF_NPUBBYTES,
-} from "libsodium-wrappers";
-import * as sodium from "libsodium-wrappers";
 import { SecretData } from "../types";
 
 export function encryptECIES(publicKey: string, data: Buffer): Buffer {
@@ -154,26 +147,3 @@ export async function decryptDataWithECIESandAES(encryptedData: Buffer, aclData:
   }
 }
 
-export async function encryptWithLibsodium(data: Buffer, secretKey: Buffer, marketId?: Buffer): Promise<Buffer> {
-  await sodium.ready;
-
-  if (secretKey.length !== crypto_aead_chacha20poly1305_IETF_KEYBYTES) {
-    throw new Error(`Invalid secret key length: expected ${crypto_aead_chacha20poly1305_IETF_KEYBYTES} bytes.`);
-  }
-
-  // Generate a random nonce (similar to an IV in AES-GCM), if market is not provided as IV
-  const nonce = marketId || randombytes_buf(crypto_aead_chacha20poly1305_IETF_NPUBBYTES);
-
-  // Encrypt the data (note: libsodium's encryption functions return the ciphertext combined with the auth tag)
-  const encryptedData = crypto_aead_chacha20poly1305_ietf_encrypt(
-    data,
-    null, // Additional data (not used here, but could be for additional authentication)
-    null, // nsec parameter (not used in this context)
-    nonce,
-    secretKey
-  );
-
-  // Return a Buffer that concatenates the nonce and the encrypted data (ciphertext + auth tag)
-  return Buffer.concat([Buffer.from(nonce), Buffer.from(encryptedData)]);
-  // return Buffer.from(encryptedData);
-}

@@ -6,8 +6,7 @@ import {
   encryptAES,
   decryptAES,
   encryptAesGcm,
-  decryptAesGcm,
-  encryptWithLibsodium,
+  decryptAesGcm
 } from "../../src/helper/secretInputOperation";
 import { PrivateKey } from "eciesjs";
 
@@ -124,38 +123,6 @@ async function test_aes_gcm_dec(): Promise<string> {
   return "Done8";
 }
 
-async function test_aes_gcm_enc_with_libsodium(): Promise<string> {
-
-  let cipher_hex_string = "0000111100001111000011110000111100001111000011110000111100001111";
-  let cipher = Buffer.from(cipher_hex_string, "hex");
-
-  const data = Buffer.from("this is the data that we wish to encrypt");
-
-  let encrypted_data = await encryptWithLibsodium(data, cipher);
-  let encrypted_data_hex = encrypted_data.toString("hex");
-
-  // values won't match
-  console.log({ encrypted_data_hex });
-  return "Done9";
-}
-
-async function test_libsodium_generated_data_decrypt_from_crypto(): Promise<string> {
-  let encrypted_hex_string =
-    "bc01aa0ba9c0f81be948e77df97980dad4bdfc6a1bbd708d4414dd51ecfc267a0f7b0aac53bba846928cdcfe1a65656170503590c9e3f52131aed9f805095a9474e4c6a4";
-  let encrypted_buffer = Buffer.from(encrypted_hex_string, "hex");
-
-  let cipher_hex_string = "0000111100001111000011110000111100001111000011110000111100001111";
-  let cipher = Buffer.from(cipher_hex_string, "hex");
-
-  const actual_data = "this is the data that we wish to encrypt";
-
-  let decrypted_data = decryptAesGcm(encrypted_buffer, cipher);
-  let decrypted = decrypted_data.toString();
-
-  console.log({ decrypted, actual_data });
-  return "Done10";
-}
-
 main()
   .then((data) => {
     console.log(data);
@@ -180,14 +147,6 @@ main()
   .then((data) => {
     console.log(data);
     return test_aes_gcm_dec();
-  })
-  .then((data) => {
-    console.log(data);
-    return test_aes_gcm_enc_with_libsodium();
-  })
-  .then((data) => {
-    console.log(data);
-    return test_libsodium_generated_data_decrypt_from_crypto();
   })
   .then(console.log)
   .catch(console.log);
