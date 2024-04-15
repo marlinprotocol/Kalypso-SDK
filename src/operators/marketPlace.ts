@@ -9,6 +9,7 @@ import {
 } from "../typechain-types";
 import BigNumber from "bignumber.js";
 import { encryptDataWithECIESandAesGcm } from "../helper/secretInputOperation";
+import { bigNumberishToBuffer } from "../helper/helpers";
 import * as pako from "pako";
 import { AskState, KalspsoConfig, PublicAndSecretInputPair } from "../types";
 import { MatchingEngineHttpClient } from "../enclaves/matchingEngineHttpClient";
@@ -129,7 +130,8 @@ export class MarketPlace {
     }
 
     const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
-    const result = await encryptDataWithECIESandAesGcm(secret, pubKey);
+    const associatedData = bigNumberishToBuffer(marketId);
+    const result = await encryptDataWithECIESandAesGcm(secret, pubKey, associatedData);
 
     const platformFee = await this.getPlatformFee(secretType, askRequest, result.encryptedData, result.aclData);
     const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
@@ -202,7 +204,7 @@ export class MarketPlace {
       );
     }
 
-    const result = await this.createPublicAndEncryptedSecretPair(proverData, secretBuffer, eciesPubKey);
+    const result = await this.createPublicAndEncryptedSecretPair(proverData, secretBuffer, marketId, eciesPubKey);
 
     console.log("Checking encrypted request against ivs", ivsUrl);
 
@@ -231,6 +233,7 @@ export class MarketPlace {
   public async createPublicAndEncryptedSecretPair(
     proverData: BytesLike,
     secretBuffer: Buffer,
+    marketId: BigNumberish,
     eciesPubKey?: string
   ): Promise<PublicAndSecretInputPair> {
     //deflate the secret buffer to reduce tx cost
@@ -245,7 +248,8 @@ export class MarketPlace {
     }
 
     const pubKey = eciesPubKey.split("x")[1]; // this is hex string
-    const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey);
+    const associatedData = bigNumberishToBuffer(marketId);
+    const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey, associatedData );
     console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
 
     return {
@@ -305,7 +309,8 @@ export class MarketPlace {
     let aclData = Buffer.from("");
 
     if (![NO_ENCLAVE_ID_1, NO_ENCLAVE_ID_2].includes(marketData.proverImageId.toLowerCase())) {
-      const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey);
+      const associatedData = bigNumberishToBuffer(marketId);
+      const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey, associatedData);
       console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
       dataToSend = result.encryptedData;
       aclData = result.aclData;

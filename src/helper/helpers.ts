@@ -1,5 +1,6 @@
 import { InputAndProofFormatRegistry__factory } from "../typechain-types";
 import { BigNumber } from "bignumber.js";
+import { ethers } from "ethers";
 
 type getInputTypeParameters = {
   marketId: string;
@@ -76,4 +77,11 @@ export function splitHexString(hexString: string, n: number): string[] {
 
 export function bytesToHexString(bytes: Buffer): string {
   return bytes.toString("hex");
+}
+
+export function bigNumberishToBuffer(value: ethers.BigNumberish): Buffer {
+  // Convert BigNumberish value to a uintArray
+  const uintArray = ethers.toBeArray(value);
+  // Convert the string to a Buffer
+  return Buffer.from(uintArray);
 }

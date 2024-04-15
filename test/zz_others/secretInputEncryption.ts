@@ -20,9 +20,10 @@ async function main(): Promise<string> {
 
   // Encrypt data
   const result = await encryptDataWithECIESandAES(data, pk);
+  const data2 = Buffer.from("market");
 
   // Decrypt data
-  const decryptedData = await decryptDataWithECIESandAES(result.encryptedData, result.aclData, sk.secret);
+  const decryptedData = await decryptDataWithECIESandAES(result.encryptedData, result.aclData, sk.secret, data2);
 
   console.log({ data: data.toString(), decryptedData: decryptedData.toString() });
   return "Done1";
@@ -98,8 +99,9 @@ async function test_aes_gcm_enc(): Promise<string> {
   let cipher = Buffer.from(cipher_hex_string, "hex");
 
   const data = Buffer.from("this is the data that we wish to encrypt");
+  const data2 = Buffer.from("market");
 
-  let encrypted_data = encryptAesGcm(data, cipher);
+  let encrypted_data = encryptAesGcm(data, cipher, data2);
   let encrypted_data_hex = encrypted_data.toString("hex");
 
   // values won't match
@@ -109,15 +111,16 @@ async function test_aes_gcm_enc(): Promise<string> {
 
 async function test_aes_gcm_dec(): Promise<string> {
   let encrypted_hex_string =
-    "ecbb775a7b7cc75d8be195a7b5a588da1a98a08589211bfa01f332c6cae330b4b841b969253249a232b16006078b05ac0b80735cf6f123400bf3958bd015c76f80b978e6";
+  "2a6d82a2e497fc2da4e6c7a6966145821aadb94c60e9bd5611204d455d066230137203e5a72ff1ba14440fa7a9cb8c4d58849c7f14199eeafb7a520e7afaf85e464bfb4f";
   let encrypted_buffer = Buffer.from(encrypted_hex_string, "hex");
 
   let cipher_hex_string = "0000111100001111000011110000111100001111000011110000111100001111";
   let cipher = Buffer.from(cipher_hex_string, "hex");
-
+  const data2 = Buffer.from("market");
+  
   const actual_data = "this is the data that we wish to encrypt";
 
-  let decrypted_data = decryptAesGcm(encrypted_buffer, cipher);
+  let decrypted_data = decryptAesGcm(encrypted_buffer, cipher, data2);
   let decrypted = decrypted_data.toString();
 
   console.log({ decrypted, actual_data });
@@ -148,8 +151,8 @@ async function test_libsodium_generated_data_decrypt_from_crypto(): Promise<stri
   let cipher = Buffer.from(cipher_hex_string, "hex");
 
   const actual_data = "this is the data that we wish to encrypt";
-
-  let decrypted_data = decryptAesGcm(encrypted_buffer, cipher);
+  const data2 = Buffer.from("market");
+  let decrypted_data = decryptAesGcm(encrypted_buffer, cipher, data2);
   let decrypted = decrypted_data.toString();
 
   console.log({ decrypted, actual_data });
