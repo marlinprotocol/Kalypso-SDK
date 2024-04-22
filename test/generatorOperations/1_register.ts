@@ -10,7 +10,6 @@ const provider = new ethers.JsonRpcProvider(keys.rpc);
 const wallet = new ethers.Wallet(`${keys.generator_private_key}`, provider);
 
 const declaredCompute = 100;
-const generatorMetadata = "0xff00abcd00ff";
 
 async function main() {
   console.log("using address", await wallet.getAddress());
@@ -21,6 +20,7 @@ async function main() {
   let tx: ContractTransactionResponse;
   let receipt: ContractTransactionReceipt | null;
 
+  const generatorMetadata = Buffer.from("TestGenerator|enclave_image_link|");
   tx = await kalypso.Generator().register(rewardAddress, declaredCompute, generatorMetadata);
   receipt = await tx.wait();
   console.log("Registration Transaction: ", receipt?.hash);
