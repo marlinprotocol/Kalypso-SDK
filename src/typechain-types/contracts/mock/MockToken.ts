@@ -25,18 +25,7 @@ import type {
 
 export interface MockTokenInterface extends Interface {
   getFunction(
-    nameOrSignature:
-      | "allowance"
-      | "approve"
-      | "balanceOf"
-      | "decimals"
-      | "decreaseAllowance"
-      | "increaseAllowance"
-      | "name"
-      | "symbol"
-      | "totalSupply"
-      | "transfer"
-      | "transferFrom"
+    nameOrSignature: "allowance" | "approve" | "balanceOf" | "decimals" | "name" | "symbol" | "totalSupply" | "transfer" | "transferFrom"
   ): FunctionFragment;
 
   getEvent(nameOrSignatureOrTopic: "Approval" | "Transfer"): EventFragment;
@@ -45,8 +34,6 @@ export interface MockTokenInterface extends Interface {
   encodeFunctionData(functionFragment: "approve", values: [AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
-  encodeFunctionData(functionFragment: "decreaseAllowance", values: [AddressLike, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "increaseAllowance", values: [AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(functionFragment: "totalSupply", values?: undefined): string;
@@ -57,8 +44,6 @@ export interface MockTokenInterface extends Interface {
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "decreaseAllowance", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "increaseAllowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "totalSupply", data: BytesLike): Result;
@@ -123,15 +108,11 @@ export interface MockToken extends BaseContract {
 
   allowance: TypedContractMethod<[owner: AddressLike, spender: AddressLike], [bigint], "view">;
 
-  approve: TypedContractMethod<[spender: AddressLike, amount: BigNumberish], [boolean], "nonpayable">;
+  approve: TypedContractMethod<[spender: AddressLike, value: BigNumberish], [boolean], "nonpayable">;
 
   balanceOf: TypedContractMethod<[account: AddressLike], [bigint], "view">;
 
   decimals: TypedContractMethod<[], [bigint], "view">;
-
-  decreaseAllowance: TypedContractMethod<[spender: AddressLike, subtractedValue: BigNumberish], [boolean], "nonpayable">;
-
-  increaseAllowance: TypedContractMethod<[spender: AddressLike, addedValue: BigNumberish], [boolean], "nonpayable">;
 
   name: TypedContractMethod<[], [string], "view">;
 
@@ -139,29 +120,23 @@ export interface MockToken extends BaseContract {
 
   totalSupply: TypedContractMethod<[], [bigint], "view">;
 
-  transfer: TypedContractMethod<[to: AddressLike, amount: BigNumberish], [boolean], "nonpayable">;
+  transfer: TypedContractMethod<[to: AddressLike, value: BigNumberish], [boolean], "nonpayable">;
 
-  transferFrom: TypedContractMethod<[from: AddressLike, to: AddressLike, amount: BigNumberish], [boolean], "nonpayable">;
+  transferFrom: TypedContractMethod<[from: AddressLike, to: AddressLike, value: BigNumberish], [boolean], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "allowance"): TypedContractMethod<[owner: AddressLike, spender: AddressLike], [bigint], "view">;
-  getFunction(nameOrSignature: "approve"): TypedContractMethod<[spender: AddressLike, amount: BigNumberish], [boolean], "nonpayable">;
+  getFunction(nameOrSignature: "approve"): TypedContractMethod<[spender: AddressLike, value: BigNumberish], [boolean], "nonpayable">;
   getFunction(nameOrSignature: "balanceOf"): TypedContractMethod<[account: AddressLike], [bigint], "view">;
   getFunction(nameOrSignature: "decimals"): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "decreaseAllowance"
-  ): TypedContractMethod<[spender: AddressLike, subtractedValue: BigNumberish], [boolean], "nonpayable">;
-  getFunction(
-    nameOrSignature: "increaseAllowance"
-  ): TypedContractMethod<[spender: AddressLike, addedValue: BigNumberish], [boolean], "nonpayable">;
   getFunction(nameOrSignature: "name"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "symbol"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "totalSupply"): TypedContractMethod<[], [bigint], "view">;
-  getFunction(nameOrSignature: "transfer"): TypedContractMethod<[to: AddressLike, amount: BigNumberish], [boolean], "nonpayable">;
+  getFunction(nameOrSignature: "transfer"): TypedContractMethod<[to: AddressLike, value: BigNumberish], [boolean], "nonpayable">;
   getFunction(
     nameOrSignature: "transferFrom"
-  ): TypedContractMethod<[from: AddressLike, to: AddressLike, amount: BigNumberish], [boolean], "nonpayable">;
+  ): TypedContractMethod<[from: AddressLike, to: AddressLike, value: BigNumberish], [boolean], "nonpayable">;
 
   getEvent(key: "Approval"): TypedContractEvent<ApprovalEvent.InputTuple, ApprovalEvent.OutputTuple, ApprovalEvent.OutputObject>;
   getEvent(key: "Transfer"): TypedContractEvent<TransferEvent.InputTuple, TransferEvent.OutputTuple, TransferEvent.OutputObject>;

@@ -249,7 +249,7 @@ export class MarketPlace {
 
     const pubKey = eciesPubKey.split("x")[1]; // this is hex string
     const associatedData = bigNumberishToBuffer(marketId);
-    const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey, associatedData );
+    const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey, associatedData);
     console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
 
     return {

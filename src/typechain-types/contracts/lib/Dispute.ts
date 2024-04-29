@@ -54,7 +54,7 @@ export interface Dispute extends BaseContract {
   ENTITY_KEY_REGISTRY: TypedContractMethod<[], [string], "view">;
 
   checkDispute: TypedContractMethod<
-    [askId: BigNumberish, proverData: BytesLike, invalidProofSignature: BytesLike, expectedImageId: BytesLike],
+    [askId: BigNumberish, proverData: BytesLike, invalidProofSignature: BytesLike, expectedFamilyId: BytesLike],
     [boolean],
     "view"
   >;
@@ -65,7 +65,7 @@ export interface Dispute extends BaseContract {
   getFunction(
     nameOrSignature: "checkDispute"
   ): TypedContractMethod<
-    [askId: BigNumberish, proverData: BytesLike, invalidProofSignature: BytesLike, expectedImageId: BytesLike],
+    [askId: BigNumberish, proverData: BytesLike, invalidProofSignature: BytesLike, expectedFamilyId: BytesLike],
     [boolean],
     "view"
   >;

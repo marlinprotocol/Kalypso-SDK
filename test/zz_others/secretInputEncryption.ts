@@ -111,13 +111,13 @@ async function test_aes_gcm_enc(): Promise<string> {
 
 async function test_aes_gcm_dec(): Promise<string> {
   let encrypted_hex_string =
-  "2a6d82a2e497fc2da4e6c7a6966145821aadb94c60e9bd5611204d455d066230137203e5a72ff1ba14440fa7a9cb8c4d58849c7f14199eeafb7a520e7afaf85e464bfb4f";
+    "2a6d82a2e497fc2da4e6c7a6966145821aadb94c60e9bd5611204d455d066230137203e5a72ff1ba14440fa7a9cb8c4d58849c7f14199eeafb7a520e7afaf85e464bfb4f";
   let encrypted_buffer = Buffer.from(encrypted_hex_string, "hex");
 
   let cipher_hex_string = "0000111100001111000011110000111100001111000011110000111100001111";
   let cipher = Buffer.from(cipher_hex_string, "hex");
   const data2 = Buffer.from("market");
-  
+
   const actual_data = "this is the data that we wish to encrypt";
 
   let decrypted_data = decryptAesGcm(encrypted_buffer, cipher, data2);
@@ -128,7 +128,6 @@ async function test_aes_gcm_dec(): Promise<string> {
 }
 
 async function test_aes_gcm_enc_with_libsodium(): Promise<string> {
-
   let cipher_hex_string = "0000111100001111000011110000111100001111000011110000111100001111";
   let cipher = Buffer.from(cipher_hex_string, "hex");
 

@@ -75,7 +75,6 @@ export function decryptAesGcm(encryptedData: Buffer, secretKey: Buffer, associat
   }
 }
 
-
 export function decryptAES(encryptedData: Buffer, secretKey: Buffer): Buffer {
   if (encryptedData.length <= 16) {
     throw new Error("Invalid encrypted data format.");
@@ -141,7 +140,12 @@ export async function encryptDataWithECIESandAesGcm(data: Buffer, publicKey: str
   };
 }
 
-export async function decryptDataWithECIESandAES(encryptedData: Buffer, aclData: Buffer, privateKey: Buffer, associatedData: Buffer): Promise<Buffer> {
+export async function decryptDataWithECIESandAES(
+  encryptedData: Buffer,
+  aclData: Buffer,
+  privateKey: Buffer,
+  associatedData: Buffer
+): Promise<Buffer> {
   // Decrypt the secret key using ECIES private key
   const decryptedSecretKey = decryptECIES(privateKey, aclData);
 

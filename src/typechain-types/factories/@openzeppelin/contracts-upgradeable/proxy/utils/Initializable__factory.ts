@@ -7,13 +7,23 @@ import type { Initializable, InitializableInterface } from "../../../../../@open
 
 const _abi = [
   {
+    inputs: [],
+    name: "InvalidInitialization",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotInitializing",
+    type: "error",
+  },
+  {
     anonymous: false,
     inputs: [
       {
         indexed: false,
-        internalType: "uint8",
+        internalType: "uint64",
         name: "version",
-        type: "uint8",
+        type: "uint64",
       },
     ],
     name: "Initialized",
