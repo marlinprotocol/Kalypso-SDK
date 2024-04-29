@@ -8,646 +8,411 @@ import type { Error, ErrorInterface } from "../../../contracts/lib/Error";
 
 const _abi = [
   {
-    inputs: [],
-    name: "ALREADY_JOINED_MARKET",
-    outputs: [
+    inputs: [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
+        internalType: "bytes32",
+        name: "imageId",
+        type: "bytes32",
       },
     ],
-    stateMutability: "view",
-    type: "function",
+    name: "AlreadyABlacklistedImage",
+    type: "error",
   },
   {
     inputs: [],
-    name: "ARITY_MISMATCH",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "AlreadyJoinedMarket",
+    type: "error",
   },
   {
     inputs: [],
-    name: "ASSIGN_ONLY_TO_IDLE_GENERATORS",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "ArityMismatch",
+    type: "error",
   },
   {
     inputs: [],
-    name: "ATTESTATION_TIMEOUT",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "AssignOnlyToIdleGenerators",
+    type: "error",
   },
   {
     inputs: [],
-    name: "CANNOT_BE_ADMIN_LESS",
-    outputs: [
+    name: "AttestationTimeout",
+    type: "error",
+  },
+  {
+    inputs: [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
+        internalType: "bytes32",
+        name: "imageId",
+        type: "bytes32",
       },
     ],
-    stateMutability: "view",
-    type: "function",
+    name: "BlacklistedImage",
+    type: "error",
   },
   {
     inputs: [],
-    name: "CANNOT_BE_ZERO",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "CannotAssignExpiredTasks",
+    type: "error",
   },
   {
     inputs: [],
-    name: "CANNOT_USE_MATCHING_ENGINE_ROLE",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "CannotBeAdminLess",
+    type: "error",
   },
   {
     inputs: [],
-    name: "CAN_N0T_BE_SLASHED",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "CannotBeMoreThanDeclaredCompute",
+    type: "error",
   },
   {
     inputs: [],
-    name: "CAN_NOT_ASSIGN_EXPIRED_TASKS",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "CannotBeSlashed",
+    type: "error",
   },
   {
     inputs: [],
-    name: "CAN_NOT_BE_MORE_THAN_DECLARED_COMPUTE",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "CannotBeZero",
+    type: "error",
   },
   {
     inputs: [],
-    name: "CAN_NOT_LEAVE_MARKET_WITH_ACTIVE_REQUEST",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "CannotLeaveMarketWithActiveRequest",
+    type: "error",
   },
   {
     inputs: [],
-    name: "CAN_NOT_LEAVE_WITH_ACTIVE_MARKET",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "CannotLeaveWithActiveMarket",
+    type: "error",
   },
   {
     inputs: [],
-    name: "CAN_NOT_SLASH_USING_VALID_INPUTS",
-    outputs: [
+    name: "CannotModifyImagesForPublicMarkets",
+    type: "error",
+  },
+  {
+    inputs: [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
+        internalType: "uint256",
+        name: "marketId",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes32",
+        name: "imageId",
+        type: "bytes32",
       },
     ],
-    stateMutability: "view",
-    type: "function",
+    name: "CannotRemoveDefaultImageFromMarket",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "askId",
+        type: "uint256",
+      },
+    ],
+    name: "CannotSlashUsingValidInputs",
+    type: "error",
   },
   {
     inputs: [],
-    name: "ENCLAVE_KEY_NOT_VERIFIED",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "CannotUseMatchingEngineRole",
+    type: "error",
   },
   {
     inputs: [],
-    name: "EXCEEDS_ACCEPTABLE_RANGE",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "EnclaveKeyNotVerified",
+    type: "error",
   },
   {
     inputs: [],
-    name: "GENERATOR_ALREADY_EXISTS",
-    outputs: [
+    name: "ExceedsAcceptableRange",
+    type: "error",
+  },
+  {
+    inputs: [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
+        internalType: "bytes32",
+        name: "imageId",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes32",
+        name: "familyId",
+        type: "bytes32",
       },
     ],
-    stateMutability: "view",
-    type: "function",
+    name: "FailedAddingToFamily",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "imageId",
+        type: "bytes32",
+      },
+    ],
+    name: "FailedWhitelistingImages",
+    type: "error",
   },
   {
     inputs: [],
-    name: "INACTIVE_MARKET",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "GeneratorAlreadyExists",
+    type: "error",
   },
   {
     inputs: [],
-    name: "INCORRECT_IMAGE_ID",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "InactiveMarket",
+    type: "error",
   },
   {
     inputs: [],
-    name: "INSUFFICIENT_GENERATOR_COMPUTE_AVAILABLE",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "IncorrectImageId",
+    type: "error",
   },
   {
     inputs: [],
-    name: "INSUFFICIENT_STAKE_TO_LOCK",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "InferredImageIdIsDifferent",
+    type: "error",
   },
   {
     inputs: [],
-    name: "INVALID_CONTRACT_ADDRESS",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "InsufficientGeneratorComputeAvailable",
+    type: "error",
   },
   {
     inputs: [],
-    name: "INVALID_ECIES_ACL",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "InsufficientStakeToLock",
+    type: "error",
   },
   {
     inputs: [],
-    name: "INVALID_ENCLAVE_KEY",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "InvalidContractAddress",
+    type: "error",
   },
   {
     inputs: [],
-    name: "INVALID_ENCLAVE_SIGNATURE",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "InvalidECIESACL",
+    type: "error",
   },
   {
     inputs: [],
-    name: "INVALID_GENERATOR",
-    outputs: [
+    name: "InvalidEnclaveKey",
+    type: "error",
+  },
+  {
+    inputs: [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
+        internalType: "address",
+        name: "invalidSignerAddress",
+        type: "address",
       },
     ],
-    stateMutability: "view",
-    type: "function",
+    name: "InvalidEnclaveSignature",
+    type: "error",
   },
   {
     inputs: [],
-    name: "INVALID_GENERATOR_STATE_PER_MARKET",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "InvalidGenerator",
+    type: "error",
   },
   {
     inputs: [],
-    name: "INVALID_INPUTS",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "InvalidGeneratorStatePerMarket",
+    type: "error",
   },
   {
     inputs: [],
-    name: "INVALID_MARKET",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "InvalidInputs",
+    type: "error",
   },
   {
     inputs: [],
-    name: "INVALID_PROOF",
-    outputs: [
+    name: "InvalidMarket",
+    type: "error",
+  },
+  {
+    inputs: [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
+        internalType: "uint256",
+        name: "askId",
+        type: "uint256",
       },
     ],
-    stateMutability: "view",
-    type: "function",
+    name: "InvalidProof",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+    ],
+    name: "KeyAlreadyExists",
+    type: "error",
   },
   {
     inputs: [],
-    name: "KEY_ALREADY_EXISTS",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "MarketAlreadyExists",
+    type: "error",
   },
   {
     inputs: [],
-    name: "MARKET_ALREADY_EXISTS",
-    outputs: [
+    name: "MaxParallelRequestsPerMarketExceeded",
+    type: "error",
+  },
+  {
+    inputs: [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
+        internalType: "bytes32",
+        name: "imageId",
+        type: "bytes32",
       },
     ],
-    stateMutability: "view",
-    type: "function",
+    name: "MustBeAnEnclave",
+    type: "error",
   },
   {
     inputs: [],
-    name: "MAX_PARALLEL_REQUESTS_PER_MARKET_EXCEEDED",
-    outputs: [
+    name: "OnlyAdminCanCall",
+    type: "error",
+  },
+  {
+    inputs: [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
+        internalType: "uint256",
+        name: "askId",
+        type: "uint256",
       },
     ],
-    stateMutability: "view",
-    type: "function",
+    name: "OnlyAssignedAsksCanBeProved",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "askId",
+        type: "uint256",
+      },
+    ],
+    name: "OnlyExpiredAsksCanBeCancelled",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "askId",
+        type: "uint256",
+      },
+    ],
+    name: "OnlyGeneratorCanDiscardRequest",
+    type: "error",
   },
   {
     inputs: [],
-    name: "ONLY_ADMIN_CAN_CALL",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "OnlyMarketCreator",
+    type: "error",
   },
   {
     inputs: [],
-    name: "ONLY_ASSIGNED_ASKS_CAN_BE_PROVED",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "OnlyMatchingEngineCanAssign",
+    type: "error",
   },
   {
     inputs: [],
-    name: "ONLY_EXPIRED_ASKS_CAN_BE_CANCELLED",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "OnlyValidGeneratorsCanRequestExit",
+    type: "error",
   },
   {
     inputs: [],
-    name: "ONLY_GENERATOR_CAN_DISCARD_REQUEST",
-    outputs: [
+    name: "OnlyWorkingGenerators",
+    type: "error",
+  },
+  {
+    inputs: [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
+        internalType: "uint256",
+        name: "askId",
+        type: "uint256",
       },
     ],
-    stateMutability: "view",
-    type: "function",
+    name: "ProofPriceMismatch",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "askId",
+        type: "uint256",
+      },
+    ],
+    name: "ProofTimeMismatch",
+    type: "error",
   },
   {
     inputs: [],
-    name: "ONLY_MATCHING_ENGINE_CAN_ASSIGN",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "PublicMarketsDontNeedKey",
+    type: "error",
   },
   {
     inputs: [],
-    name: "ONLY_VALID_GENERATORS_CAN_REQUEST_EXIT",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "ReduceComputeRequestNotInPlace",
+    type: "error",
   },
   {
     inputs: [],
-    name: "ONLY_WORKING_GENERATORS",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "ReductionRequestNotValid",
+    type: "error",
   },
   {
     inputs: [],
-    name: "PROOF_PRICE_MISMATCH",
-    outputs: [
+    name: "RequestAlreadyInPlace",
+    type: "error",
+  },
+  {
+    inputs: [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
+        internalType: "uint256",
+        name: "askId",
+        type: "uint256",
       },
     ],
-    stateMutability: "view",
-    type: "function",
+    name: "ShouldBeInAssignedState",
+    type: "error",
   },
   {
     inputs: [],
-    name: "PROOF_TIME_MISMATCH",
-    outputs: [
+    name: "ShouldBeInCreateState",
+    type: "error",
+  },
+  {
+    inputs: [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
+        internalType: "uint256",
+        name: "askId",
+        type: "uint256",
       },
     ],
-    stateMutability: "view",
-    type: "function",
+    name: "ShouldBeInCrossedDeadlineState",
+    type: "error",
   },
   {
     inputs: [],
-    name: "PUBLIC_MARKETS_DONT_NEED_KEY",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "REDUCE_COMPUTE_REQUEST_NOT_IN_PLACE",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "REDUCTION_REQUEST_NOT_VALID",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "REQUEST_ALREADY_IN_PLACE",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "SHOULD_BE_IN_ASSIGNED_STATE",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "SHOULD_BE_IN_CREATE_STATE",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "SHOULD_BE_IN_CROSSED_DEADLINE_STATE",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "UNSTAKE_REQUEST_NOT_IN_PLACE",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    name: "UnstakeRequestNotInPlace",
+    type: "error",
   },
 ] as const;
 
 const _bytecode =
-  "0x6109ce61003a600b82828239805160001a60731461002d57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600436106102c55760003560e01c806395b723c21161018c578063bd3085b2116100f3578063da2e49b3116100ac578063de1f41a111610086578063de1f41a1146108c4578063ed1aee10146108e5578063ee5492b514610907578063fac3c0991461092957600080fd5b8063da2e49b31461085e578063dc5da82414610880578063ddacd553146108a257600080fd5b8063bd3085b214610794578063bd89b3bc146107b6578063bf46f4d0146107d7578063c26843e6146107f9578063c5ec3fb91461081a578063d12c48881461083c57600080fd5b8063a3929bb311610145578063a3929bb3146106cb578063a87901f8146106ed578063ab0d9bb61461070f578063ab69565e14610730578063b11baeaf14610751578063b15d28111461077357600080fd5b806395b723c2146106015780639b6ded16146106235780639fc7a18414610645578063a015a22414610667578063a1bb5c6214610688578063a1f3e052146106a957600080fd5b80634fc8d17a116102305780636db0ff1d116101e95780636db0ff1d1461053a5780636efa9fcd1461055b578063712eb0871461057c57806374b167481461059e5780639295c75b146105bf5780639378162c146105e057600080fd5b80634fc8d17a146104705780635e7cd3271461049157806360f6e440146104b3578063685bb0ff146104d5578063692113ef146104f75780636c592f251461051957600080fd5b8063168a1ecf11610282578063168a1ecf146103a9578063190ca58b146103ca5780631f1138e0146103eb5780632d4ef04d1461040c5780633c7765671461042d5780633fc6b77e1461044f57600080fd5b806306a2c02c146102ca5780630a2fd507146103015780630a6ae55d146103225780630c8d1b0a146103445780630df3560f146103665780631409c39714610387575b600080fd5b6102eb6040518060400160405280600281526020016108e760f31b81525081565b6040516102f8919061094a565b60405180910390f35b6102eb60405180604001604052806002815260200161473960f01b81525081565b6102eb6040518060400160405280600381526020016254523560e81b81525081565b6102eb604051806040016040528060038152602001622a291960e91b81525081565b6102eb60405180604001604052806002815260200161239960f11b81525081565b6102eb6040518060400160405280600381526020016254523360e81b81525081565b6102eb60405180604001604052806002815260200161082760f31b81525081565b6102eb60405180604001604052806002815260200161413360f01b81525081565b6102eb60405180604001604052806002815260200161104d60f21b81525081565b6102eb60405180604001604052806002815260200161269960f11b81525081565b6102eb6040518060400160405280600381526020016250533760e81b81525081565b6102eb60405180604001604052806002815260200161473760f01b81525081565b6102eb604051806040016040528060028152602001614d3360f01b81525081565b6102eb604051806040016040528060038152602001622a291b60e91b81525081565b6102eb6040518060400160405280600381526020016220989960e91b81525081565b6102eb6040518060400160405280600381526020016211cc4d60ea1b81525081565b6102eb6040518060400160405280600381526020016223989960e91b81525081565b6102eb60405180604001604052806002815260200161413960f01b81525081565b6102eb6040518060400160405280600281526020016111cd60f21b81525081565b6102eb60405180604001604052806002815260200161209b60f11b81525081565b6102eb6040518060400160405280600381526020016228299b60e91b81525081565b6102eb60405180604001604052806002815260200161413160f01b81525081565b6102eb60405180604001604052806002815260200161239b60f11b81525081565b6102eb60405180604001604052806002815260200161413560f01b81525081565b6102eb6040518060400160405280600381526020016241313160e81b81525081565b6102eb6040518060400160405280600381526020016228299960e91b81525081565b6102eb6040518060400160405280600381526020016254523160e81b81525081565b6102eb60405180604001604052806002815260200161413760f01b81525081565b6102eb604051806040016040528060028152602001614d3160f01b81525081565b6102eb6040518060400160405280600381526020016247313560e81b81525081565b6102eb6040518060400160405280600381526020016250533960e81b81525081565b6102eb6040518060400160405280600381526020016247313160e81b81525081565b6102eb60405180604001604052806002815260200161473360f01b81525081565b6102eb60405180604001604052806002815260200161269b60f11b81525081565b6102eb6040518060400160405280600381526020016241313360e81b81525081565b6102eb60405180604001604052806002815260200161134d60f21b81525081565b6102eb604051806040016040528060038152602001620a0a6760eb1b81525081565b6102eb60405180604001604052806002815260200161473160f01b81525081565b6102eb6040518060400160405280600381526020016204131360ec1b81525081565b6102eb604051806040016040528060028152602001614d3560f01b81525081565b6102eb6040518060400160405280600381526020016250533560e81b81525081565b6102eb6040518060400160405280600381526020016250533360e81b81525081565b6102eb6040518060400160405280600381526020016204731360ec1b81525081565b6102eb6040518060400160405280600381526020016247313360e81b81525081565b6102eb6040518060400160405280600381526020016250533160e81b81525081565b6102eb60405180604001604052806002815260200161209960f11b81525081565b6102eb604051806040016040528060038152602001621414cd60ea1b81525081565b6102eb6040518060400160405280600381526020016215148d60ea1b81525081565b6102eb60405180604001604052806002815260200161473560f01b81525081565b600060208083528351808285015260005b818110156109775785810183015185820160400152820161095b565b506000604082860101526040601f19601f830116850101925050509291505056fea2646970667358221220254343376755cd8da596cde666ee4c34825b2f7bb5e2fb4a5f9f5ea1e398c2b064736f6c63430008130033";
+  "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122065776ea3e3b6cda7ac3054e75d2943162bc98ae475600c6384ef77b46d5d7bf864736f6c63430008180033";
 
 type ErrorConstructorParams = [signer?: Signer] | ConstructorParameters<typeof ContractFactory>;
 

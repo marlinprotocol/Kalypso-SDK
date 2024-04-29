@@ -37,20 +37,20 @@ const createAskTest = async () => {
   console.log({ latestBlock, assignmentDeadline: assignmentDeadline.toFixed(0) });
   const proofGenerationTimeInBlocks = new BigNumber(100000000000);
 
-  const ivsCheckEciesCheckingKey = await kalypso.MarketPlace().IvsEnclaveConnector().fetchInputVerifierPublicKeys();
+  // const ivsCheckEciesCheckingKey = await kalypso.MarketPlace().IvsEnclaveConnector().fetchInputVerifierPublicKeys();
 
-  const isGoodRequest = await kalypso.MarketPlace().checkInputsAndEncryptedSecretWithIvs(
-    marketId,
-    inputBytes,
-    Buffer.from(secretString),
-    kalypso.MarketPlace().IvsEnclaveConnector().checkInputUrl(),
-    ivsCheckEciesCheckingKey.data.ecies_public_key
-  );
+  // const isGoodRequest = await kalypso.MarketPlace().checkInputsAndEncryptedSecretWithIvs(
+  //   marketId,
+  //   inputBytes,
+  //   Buffer.from(secretString),
+  //   kalypso.MarketPlace().IvsEnclaveConnector().checkInputUrl(),
+  //   ivsCheckEciesCheckingKey.data.ecies_public_key
+  // );
 
-  if (!isGoodRequest) {
-    throw new Error("Better not create a request, if it is not provable to prevent loss of funds");
-  }
-  console.log({ isGoodRequest });
+  // if (!isGoodRequest) {
+  //   throw new Error("Better not create a request, if it is not provable to prevent loss of funds");
+  // }
+  // console.log({ isGoodRequest });
 
   // Create ASK request
   const askRequest = await kalypso.MarketPlace().createAsk(

@@ -1,0 +1,34 @@
+{
+  "version": "deneb",
+  "data": {
+    "proposer_index": "781204",
+    "proposal_slot": "8662069",
+    "parent_block_number": "19462001",
+    "parent_block_root": "0xa585d7e42531aba06226f19a50a95bfa2a52930523c29d146ae7cbeb794225b6",
+    "parent_block_hash": "0x7d05c3f0e6b2c4f4347a3e474f831cd98a17ad74bfdcd468a6f9f6540d69d3da",
+    "payload_attributes": {
+      "timestamp": "1710768851",
+      "prev_randao": "0x6951af691f15c963e63492dcc0c0e1a4f5c488428bd39d8a50ab4086555e75da",
+      "suggested_fee_recipient": "0x4838b106fce9647bdf1e7877bf73ce8b0bad5f97",
+      "withdrawals": [
+        { "index": "38832662", "validator_index": "830382", "address": "0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f", "amount": "18414751" },
+        { "index": "38832663", "validator_index": "830383", "address": "0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f", "amount": "18386219" },
+        { "index": "38832664", "validator_index": "830384", "address": "0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f", "amount": "18431966" },
+        { "index": "38832665", "validator_index": "830385", "address": "0x210b3cb99fa1de0a64085fa80e18c22fe4722a1b", "amount": "18261143" },
+        { "index": "38832666", "validator_index": "830386", "address": "0x210b3cb99fa1de0a64085fa80e18c22fe4722a1b", "amount": "18261542" },
+        { "index": "38832667", "validator_index": "830387", "address": "0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f", "amount": "18391969" },
+        { "index": "38832668", "validator_index": "830388", "address": "0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f", "amount": "18359316" },
+        { "index": "38832669", "validator_index": "830389", "address": "0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f", "amount": "18336970" },
+        { "index": "38832670", "validator_index": "830390", "address": "0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f", "amount": "18335467" },
+        { "index": "38832671", "validator_index": "830391", "address": "0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f", "amount": "18357367" },
+        { "index": "38832672", "validator_index": "830392", "address": "0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f", "amount": "18424976" },
+        { "index": "38832673", "validator_index": "830393", "address": "0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f", "amount": "18346282" },
+        { "index": "38832674", "validator_index": "830394", "address": "0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f", "amount": "18343477" },
+        { "index": "38832675", "validator_index": "830395", "address": "0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f", "amount": "18396632" },
+        { "index": "38832676", "validator_index": "830396", "address": "0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f", "amount": "18330819" },
+        { "index": "38832677", "validator_index": "830397", "address": "0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f", "amount": "18349899" }
+      ],
+      "parent_beacon_block_root": "0xa585d7e42531aba06226f19a50a95bfa2a52930523c29d146ae7cbeb794225b6"
+    }
+  }
+}

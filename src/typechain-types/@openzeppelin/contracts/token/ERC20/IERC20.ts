@@ -100,26 +100,26 @@ export interface IERC20 extends BaseContract {
 
   allowance: TypedContractMethod<[owner: AddressLike, spender: AddressLike], [bigint], "view">;
 
-  approve: TypedContractMethod<[spender: AddressLike, amount: BigNumberish], [boolean], "nonpayable">;
+  approve: TypedContractMethod<[spender: AddressLike, value: BigNumberish], [boolean], "nonpayable">;
 
   balanceOf: TypedContractMethod<[account: AddressLike], [bigint], "view">;
 
   totalSupply: TypedContractMethod<[], [bigint], "view">;
 
-  transfer: TypedContractMethod<[to: AddressLike, amount: BigNumberish], [boolean], "nonpayable">;
+  transfer: TypedContractMethod<[to: AddressLike, value: BigNumberish], [boolean], "nonpayable">;
 
-  transferFrom: TypedContractMethod<[from: AddressLike, to: AddressLike, amount: BigNumberish], [boolean], "nonpayable">;
+  transferFrom: TypedContractMethod<[from: AddressLike, to: AddressLike, value: BigNumberish], [boolean], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "allowance"): TypedContractMethod<[owner: AddressLike, spender: AddressLike], [bigint], "view">;
-  getFunction(nameOrSignature: "approve"): TypedContractMethod<[spender: AddressLike, amount: BigNumberish], [boolean], "nonpayable">;
+  getFunction(nameOrSignature: "approve"): TypedContractMethod<[spender: AddressLike, value: BigNumberish], [boolean], "nonpayable">;
   getFunction(nameOrSignature: "balanceOf"): TypedContractMethod<[account: AddressLike], [bigint], "view">;
   getFunction(nameOrSignature: "totalSupply"): TypedContractMethod<[], [bigint], "view">;
-  getFunction(nameOrSignature: "transfer"): TypedContractMethod<[to: AddressLike, amount: BigNumberish], [boolean], "nonpayable">;
+  getFunction(nameOrSignature: "transfer"): TypedContractMethod<[to: AddressLike, value: BigNumberish], [boolean], "nonpayable">;
   getFunction(
     nameOrSignature: "transferFrom"
-  ): TypedContractMethod<[from: AddressLike, to: AddressLike, amount: BigNumberish], [boolean], "nonpayable">;
+  ): TypedContractMethod<[from: AddressLike, to: AddressLike, value: BigNumberish], [boolean], "nonpayable">;
 
   getEvent(key: "Approval"): TypedContractEvent<ApprovalEvent.InputTuple, ApprovalEvent.OutputTuple, ApprovalEvent.OutputObject>;
   getEvent(key: "Transfer"): TypedContractEvent<TransferEvent.InputTuple, TransferEvent.OutputTuple, TransferEvent.OutputObject>;
