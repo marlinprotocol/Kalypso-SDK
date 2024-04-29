@@ -1,0 +1,13 @@
+{
+  "rpc_url": "https://arb-sepolia.g.alchemy.com/v2/WPcL0MatIn2ai-4O6BcJgfeuXqD7WxRi",
+  "chain_id": "421614",
+  "matching_engine_key": "e46cff1bf3ff95a5fe699598d2872e2f264c2934186d37c4ad36089f5d3494ba",
+  "relayer_private_key": "91e60908ad659c964169211f07d7c2328ca8919d81dfd772c850bebfd67d4cdf",
+  "proof_market_place": "0x9db3AF484D362765064854f73d90312e662dB65a",
+  "generator_registry": "0x6FD6ED78f6D8a04bC9DF9480B4CD4A7E37e885a4",
+  "start_block": "18469999",
+  "payment_token": "0x01d84D33CC8636F83d2bb771e184cE57d8356863",
+  "platform_token": "0xdb69299dDE4A00c99b885D9f8748B2AeD1Fe4Ed4",
+  "attestation_verifier": "0x3aB3487269206d5f6a10725d4e477BaA3611adcA",
+  "entity_registry": "0xc54F0B48727902472e077Ae56b6321c4f2d77aD6"
+}
