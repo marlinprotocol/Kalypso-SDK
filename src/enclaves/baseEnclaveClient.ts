@@ -53,7 +53,6 @@ export abstract class BaseEnclaveClient {
   }
 
   public async verifyAttestation(): Promise<any> {
-    // /verify/attestation
     throw new Error("if not required separately, remove this function");
   }
 
@@ -71,7 +70,6 @@ export abstract class BaseEnclaveClient {
       console.log({ attestation_build_data });
     }
 
-    //Verifying the attestation document with whitelisted enclave
     let verify_attestation_config = {
       method: "POST",
       headers: {

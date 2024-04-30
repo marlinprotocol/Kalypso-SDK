@@ -2,15 +2,15 @@
   "payment_token": "0x01d84D33CC8636F83d2bb771e184cE57d8356863",
   "staking_token": "0xdb69299dDE4A00c99b885D9f8748B2AeD1Fe4Ed4",
   "mock_attestation_verifier": "0x1dC40628443D93eA82945a9206e0b527BA3EA028",
-  "attestation_verifier": "0x3aB3487269206d5f6a10725d4e477BaA3611adcA",
-  "entity_registry": "0x80e97Ab2d0b0889ced2DF8368cCa744C7bca3a30",
-  "generator_registry": "0xb758b72D1a357e98Bb8cc094491a5717fC87c6fB",
-  "dispute": "0xE56B55e2bDF917d4e189941d2f9AC2b63E8414EC",
-  "proof_market_place": "0xAdfF6239a21A037035a68619f2E17f0ca5179960",
-  "transfer_verifier_wrapper": "0xF9D1Bc742Fdd5c93F331037052eE4EadA1224F9B",
-  "zkb_verifier_wrapper": "0xF6a2380962B819cBfE4105A76A99225385C1C4E6",
-  "priority_list": "0x78cc33e116928D1A37a53DDD416032F39b9B754f",
-  "input_and_proof_format": "0x4Bcb208E9f2E9713f8c72C43765464eFfDe32840",
+  "attestation_verifier": "0x777c32858660B3B38D54216c43589A74a4896220",
+  "entity_registry": "0x0D4898CaB2bdb3d3b897169939CE6Eff0D0C17E5",
+  "generator_registry": "0xfdeC7eD3BA91C335C8dEc0C0740474F3177ECeAa",
+  "dispute": "0x74F8483114672cFf13B78deFCe0073F185d533B3",
+  "proof_market_place": "0x62aD0E44Fd3E307e5d8C6D218d0c6CDa9d6A4C9c",
+  "transfer_verifier_wrapper": "0x7ccc3F681295a1742ca8207d4c263D7E4E322250",
+  "zkb_verifier_wrapper": "0x215fE92626F79fF253B35Db865b803ACcd76fbBa",
+  "priority_list": "0x6023b000A66978A10ae7Ef106A981dFB38489b1d",
+  "input_and_proof_format": "0x9BaE76CFc8e21D2c5a3499384BC52a63b6Ba1801",
   "generatorEnclave": {
     "url": "http://43.205.85.160:5000",
     "utilityUrl": "http://43.205.85.160:1500"
@@ -24,5 +24,5 @@
     "utilityUrl": "http://13.201.131.193:1500"
   },
   "checkInputUrl": "http://43.205.177.43:3030",
-  "attestationVerifierEndPoint": "http://3.108.235.103:1400"
+  "attestationVerifierEndPoint": "http://13.201.137.167:1400"
 }
