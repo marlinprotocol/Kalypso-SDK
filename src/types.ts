@@ -142,17 +142,6 @@ export interface EnclaveResponse<T> {
   data: T;
 }
 
-export interface EnclaveAttestationData {
-  attestation_doc: BytesLike;
-  pcrs: BytesLike[];
-  min_cpus: number;
-  min_mem: number;
-  max_age: number;
-  signature: BytesLike;
-  secp256k1_public: BytesLike;
-  timestamp: number;
-}
-
 export interface SignAddressResponse {
   message: string;
   data: {

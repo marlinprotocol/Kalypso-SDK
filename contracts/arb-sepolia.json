@@ -2,15 +2,15 @@
   "payment_token": "0x01d84D33CC8636F83d2bb771e184cE57d8356863",
   "staking_token": "0xdb69299dDE4A00c99b885D9f8748B2AeD1Fe4Ed4",
   "mock_attestation_verifier": "0x1dC40628443D93eA82945a9206e0b527BA3EA028",
-  "attestation_verifier": "0x777c32858660B3B38D54216c43589A74a4896220",
-  "entity_registry": "0x0D4898CaB2bdb3d3b897169939CE6Eff0D0C17E5",
-  "generator_registry": "0xfdeC7eD3BA91C335C8dEc0C0740474F3177ECeAa",
-  "dispute": "0x74F8483114672cFf13B78deFCe0073F185d533B3",
-  "proof_market_place": "0x62aD0E44Fd3E307e5d8C6D218d0c6CDa9d6A4C9c",
-  "transfer_verifier_wrapper": "0x7ccc3F681295a1742ca8207d4c263D7E4E322250",
-  "zkb_verifier_wrapper": "0x215fE92626F79fF253B35Db865b803ACcd76fbBa",
-  "priority_list": "0x6023b000A66978A10ae7Ef106A981dFB38489b1d",
-  "input_and_proof_format": "0x9BaE76CFc8e21D2c5a3499384BC52a63b6Ba1801",
+  "attestation_verifier": "0x3b3266cfa5cac075220BD115902D3C923476EC8a",
+  "entity_registry": "0x2E75011Bd25Fc40A6cc88BAa4b19020B9A0C120F",
+  "generator_registry": "0xDB26Ff91F9aaD967bC406642233b69bE539f3d1F",
+  "dispute": "0x9B16D07Ed6f1df344279ea9F958FcA13dCa655E9",
+  "proof_market_place": "0x6Db494dC0EE6e43B96381B20B64Fce9e9C80985e",
+  "transfer_verifier_wrapper": "0xc7FC3b80503b50fdC212Ed6ba6683515fdb71818",
+  "zkb_verifier_wrapper": "0x8F372BcdEBF78Fdd8AC01EF0548fdcDE8aF13Bf1",
+  "priority_list": "0xfedBdc86B9BDeA11784003b10615bb5eD0fB62FD",
+  "input_and_proof_format": "0x507b6cDE55c94e353D53147892595116391f4297",
   "generatorEnclave": {
     "url": "http://43.205.85.160:5000",
     "utilityUrl": "http://43.205.85.160:1500"
@@ -24,5 +24,5 @@
     "utilityUrl": "http://13.201.131.193:1500"
   },
   "checkInputUrl": "http://43.205.177.43:3030",
-  "attestationVerifierEndPoint": "http://13.201.137.167:1400"
+  "attestationVerifierEndPoint": "http://13.201.207.60:1400"
 }

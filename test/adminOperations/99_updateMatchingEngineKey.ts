@@ -42,9 +42,7 @@ async function main1(): Promise<string> {
     .getAttestationSignature(meAttestation.attestation_document.toString(), kalypsoConfig.proof_market_place);
 
   const tx = await kalypso.Admin().updateMeEciesKeyAndSigner(meAttestation.attestation_document, meSignature);
-
-  const receipt = await tx.wait();
-  console.log("Updated ME Signer Tx ", receipt?.hash);
+  console.log("Updated ME Signer Tx ", tx.hash);
   return "Updated ME Signer";
 }
 

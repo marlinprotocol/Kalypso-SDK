@@ -1,4 +1,4 @@
-import { AttestationResponse, EnclaveAttestationData, EnclaveResponse } from "../types";
+import { AttestationResponse, EnclaveResponse } from "../types";
 import fetch from "node-fetch";
 import { ethers, BytesLike } from "ethers";
 import BigNumber from "bignumber.js";
@@ -61,7 +61,7 @@ export abstract class BaseEnclaveClient {
    * @param attestation_verifier_endpoint URL at which the attestation verifier is hosted
    * @returns Attestation
    */
-  public async getAttestation(printAttestation: boolean = false): Promise<AttestationResponse> {
+  public async getAttestation(printAttestation: boolean = true): Promise<AttestationResponse> {
     //Fetching the attestation document
     const attestation_build_data = await this.buildAttestation();
     console.log("fetched attestation successfully");
@@ -73,21 +73,36 @@ export abstract class BaseEnclaveClient {
     let verify_attestation_config = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/octet-stream",
       },
-      body: JSON.stringify(attestation_build_data),
+      body: attestation_build_data,
     };
 
-    let attestation_verifier_response = await fetch(this.baseUrl(this.attestation_verifier_endpoint, "/verify"), verify_attestation_config);
+    let attestation_verifier_response = await fetch(
+      this.baseUrl(this.attestation_verifier_endpoint, "/verify/raw"),
+      verify_attestation_config
+    );
     if (!attestation_verifier_response.ok) {
       console.log({ attestation_verifier_response });
     }
+
+    // {
+    //   attestation_verifier_response_data: {
+    //     signature: 'cda952f703a48509ea4933b8ed5ddab3ec5155eb6f56f2a0df24273de98659037dbefa47fac1f535d0b49f7be5b8ce085d4fdb80ecc24d23423e15bd5128e3151b',
+    //     secp256k1_public: '3dd84ca6431416c7b603815a4c7cd359e78cd5f337caee1f23c4cc645bd6d9da1e055f4756e76ee36e5e56f0853588993085f5e021753bbac67886d2b596ba49',
+    //     pcr0: '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    //     pcr1: '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    //     pcr2: '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    //     timestamp: 1714473375157,
+    //     verifier_secp256k1_public: 'e646f8b0071d5ba75931402522cc6a5c42a84a6fea238864e5ac9a0e12d83bd36d0c8109d3ca2b699fce8d082bf313f5d2ae249bb275b6b6e91e0fcd9262f4bb'
+    //   }
+    // }
     let attestation_verifier_response_data = await attestation_verifier_response.json();
     if (printAttestation) {
       console.log({ attestation_verifier_response_data });
     }
 
-    let ecies_pubkey = "0x" + attestation_build_data.secp256k1_public.toString();
+    let ecies_pubkey = "0x" + attestation_verifier_response_data.secp256k1_public.toString();
     // let verifier_address = "0x" + ethers.keccak256("0x" + attestation_verifier_response_data.secp_key).slice(-40);
     // console.log({ ecies_pubkey });
     // console.log({ verifier_address });
@@ -100,16 +115,14 @@ export abstract class BaseEnclaveClient {
 
     let abiCoder = new ethers.AbiCoder();
     let encodedData = abiCoder.encode(
-      ["bytes", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256", "uint256"],
+      ["bytes", "bytes", "bytes", "bytes", "bytes", "uint256"],
       [
         "0x" + attestation_verifier_response_data.signature,
         ecies_pubkey,
-        "0x" + attestation_build_data.pcrs[0],
-        "0x" + attestation_build_data.pcrs[1],
-        "0x" + attestation_build_data.pcrs[2],
-        "" + attestation_build_data.min_cpus,
-        "" + attestation_build_data.min_mem,
-        "" + attestation_build_data.timestamp,
+        "0x" + attestation_verifier_response_data.pcr0,
+        "0x" + attestation_verifier_response_data.pcr1,
+        "0x" + attestation_verifier_response_data.pcr2,
+        "" + attestation_verifier_response_data.timestamp,
       ]
     );
 
@@ -119,7 +132,7 @@ export abstract class BaseEnclaveClient {
 
     return {
       attestation_document: encodedData,
-      secp_key: attestation_build_data.secp256k1_public,
+      secp_key: ecies_pubkey,
     };
   }
 
@@ -127,14 +140,11 @@ export abstract class BaseEnclaveClient {
    *
    * @returns Your Enclave Attestation in required format
    */
-  protected async buildAttestation(): Promise<EnclaveAttestationData> {
-    const attestation_end_point = this.utilityUrl("/attestation");
+  protected async buildAttestation(): Promise<any> {
+    const attestation_end_point = this.utilityUrl("/attestation/raw");
     console.log("build attestation", attestation_end_point);
     let attestation_build_config = {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
     };
 
     let attestation_server_response = await fetch(attestation_end_point, attestation_build_config);
@@ -142,7 +152,9 @@ export abstract class BaseEnclaveClient {
       console.log({ attestation_server_response });
       throw new Error("failed building the attestation");
     }
-    return await attestation_server_response.json();
+
+    let result = await attestation_server_response.body;
+    return result;
   }
 
   /**
