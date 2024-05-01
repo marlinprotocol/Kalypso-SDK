@@ -103,7 +103,7 @@ export abstract class BaseEnclaveClient {
     }
 
     let ecies_pubkey = "0x" + attestation_verifier_response_data.secp256k1_public.toString();
-    // let verifier_address = "0x" + ethers.keccak256("0x" + attestation_verifier_response_data.secp_key).slice(-40);
+    // let verifier_address = "0x" + ethers.keccak256("0x" + attestation_verifier_response_data.verifier_secp256k1_public).slice(-40);
     // console.log({ ecies_pubkey });
     // console.log({ verifier_address });
 
