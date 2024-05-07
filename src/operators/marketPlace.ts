@@ -189,11 +189,6 @@ export class MarketPlace {
     ivsUrl: string,
     eciesCheckingKey: BytesLike
   ): Promise<boolean> {
-    //this should fetched from proof market place contract
-    // const ivsUrl = "http://localhost:3030/checkInput";
-
-    // const eciesPubKey = "0x024813e9113562b2659f7a062c4eca19f89efb9b1c80df439d2eef3c9f0f370001";
-    // const eciesPubKey = "0x044813e9113562b2659f7a062c4eca19f89efb9b1c80df439d2eef3c9f0f370001e06393ff736f11f4e4122dfe570b3823d756358b3955811ef704690dc40e6b22"
     let eciesPubKey = eciesCheckingKey.toString();
 
     console.log({ eciesPubKey });
@@ -204,7 +199,7 @@ export class MarketPlace {
       );
     }
 
-    const result = await this.createPublicAndEncryptedSecretPair(proverData, secretBuffer, marketId, eciesPubKey);
+    const result = await this.createEncryptedRequestData(proverData, secretBuffer, marketId, eciesPubKey);
 
     console.log("Checking encrypted request against ivs", ivsUrl);
 
@@ -230,7 +225,7 @@ export class MarketPlace {
     return false;
   }
 
-  public async createPublicAndEncryptedSecretPair(
+  public async createEncryptedRequestData(
     proverData: BytesLike,
     secretBuffer: Buffer,
     marketId: BigNumberish,
