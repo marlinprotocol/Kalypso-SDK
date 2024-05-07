@@ -65,8 +65,9 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
       headers: this.headers(),
       body: JSON.stringify(generatorConfigData),
     });
+
     if (!response.ok) {
-      console.log({ response });
+      console.log(await response.json());
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
@@ -79,7 +80,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
       body: JSON.stringify(config),
     });
     if (!response.ok) {
-      console.log({ response });
+      console.log(JSON.stringify(response, null, 4));
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();

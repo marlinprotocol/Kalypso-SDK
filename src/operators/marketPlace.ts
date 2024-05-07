@@ -353,7 +353,31 @@ export class MarketPlace {
     return this.proofMarketPlace.createAsk(askRequest, secretType, dataToSend, aclData, { ...options });
   }
 
-  public async createNewMarket(
+  public async createPrivateMarket(
+    marketMetaData: BytesLike,
+    verifier: string,
+    slashingPenalty: BigNumberish,
+    proverPcrs: BytesLike,
+    options?: Overrides
+  ): Promise<ContractTransactionResponse> {
+    return this.createNewMarket(marketMetaData, verifier, slashingPenalty, proverPcrs, proverPcrs, options);
+  }
+
+  public async createPublicMarket(
+    marketMetaData: BytesLike,
+    verifier: string,
+    slashingPenalty: BigNumberish,
+    ivsPcrs: BytesLike,
+    options?: Overrides
+  ): Promise<ContractTransactionResponse> {
+    const zero_pcr = "0x" + "00".repeat(48);
+    let abicode = new ethers.AbiCoder();
+    let noEnclavePcrs = abicode.encode(["bytes", "bytes", "bytes"], [zero_pcr, zero_pcr, zero_pcr]);
+
+    return this.createNewMarket(marketMetaData, verifier, slashingPenalty, noEnclavePcrs, ivsPcrs, options);
+  }
+
+  private async createNewMarket(
     marketMetaData: BytesLike,
     verifier: string,
     slashingPenalty: BigNumberish,

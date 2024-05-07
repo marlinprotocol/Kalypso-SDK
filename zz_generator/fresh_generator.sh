@@ -1,4 +1,4 @@
-# yarn test ./test/generatorOperations/16_cancel_all_possible_asks.ts
+yarn test ./test/generatorOperations/16_cancel_all_possible_asks.ts
 yarn test ./test/generatorOperations/generatorEnclave/1_generator_config.ts
 
 yarn test ./test/generatorOperations/1_register.ts
