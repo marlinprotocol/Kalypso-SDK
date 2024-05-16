@@ -18,3 +18,5 @@ keys/*
 extraKeys
 
 **/.DS_Store
+
+.npmrc

@@ -1,6 +1,6 @@
 {
   "name": "kalypso-sdk",
-  "version": "1.0.23",
+  "version": "1.0.25",
   "description": "Kalypso SDK",
   "main": "dist/index.js",
   "files": [
@@ -21,7 +21,7 @@
     "type": "git",
     "url": "git+https://github.com/marlinprotocol/Kalypso-SDK.git"
   },
-  "author": "infy8",
+  "author": "Marlin",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/marlinprotocol/Kalypso-SDK/issues"
