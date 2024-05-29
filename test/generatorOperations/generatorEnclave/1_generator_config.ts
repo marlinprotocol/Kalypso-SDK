@@ -33,7 +33,7 @@ async function main() {
       [{ address: await wallet.getAddress(), data: "Some data", supported_markets: Object.keys(supportedMarketData) }],
       "wss://arb-sepolia.g.alchemy.com/v2/HRgHr93dID1CdtMKBF0P8Khafl5MHYaN/",
       "https://arb-sepolia.g.alchemy.com/v2/HRgHr93dID1CdtMKBF0P8Khafl5MHYaN",
-      "91e60908ad659c964169211f07d7c2328ca8919d81dfd772c850bebfd67d4cdf",
+      "8d13b631b2d10d0ea70ad06beb22b97e4aaa4c1d802e4b0ed1c7f466190bfe63", //0xae58E9187d21923cbbF8ce05e3d05354cD90Fc7A
       generatorStartBlock,
       421614,
       kalypso.MarketPlace().IvsEnclaveConnector().checkInputUrl(),
