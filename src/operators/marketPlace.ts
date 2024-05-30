@@ -109,8 +109,8 @@ export class MarketPlace {
     blocksForProofGeneration: BigNumberish,
     refundAddress: string,
     secretType: BigNumberish,
-    secret: Buffer,
-    acl: Buffer,
+    encryptedData: Buffer,
+    aclData: Buffer,
     options?: Overrides
   ): Promise<ContractTransactionResponse> {
     const askRequest: ProofMarketplace.AskStruct = {
@@ -123,17 +123,7 @@ export class MarketPlace {
       refundAddress: refundAddress,
     };
 
-    const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress(), 0);
-    // if key is rightly updated, it should 68 chars (33 bytes in length)
-    if (matchingEnginePubKey.length !== 68) {
-      throw new Error("matching engine pub key is not updated in the registry");
-    }
-
-    const pubKey = matchingEnginePubKey.split("x")[1]; // this is hex string
-    const associatedData = bigNumberishToBuffer(marketId);
-    const result = await encryptDataWithECIESandAesGcm(secret, pubKey, associatedData);
-
-    const platformFee = await this.getPlatformFee(secretType, askRequest, result.encryptedData, result.aclData);
+    const platformFee = await this.getPlatformFee(secretType, askRequest, encryptedData, aclData);
     const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
 
     if (new BigNumber(platformTokenBalance.toString()).lt(platformFee.toString())) {
@@ -176,12 +166,21 @@ export class MarketPlace {
         refundAddress: refundAddress,
       },
       secretType,
-      secret,
-      acl,
+      encryptedData,
+      aclData,
       { ...options }
     );
   }
 
+  /**
+   * @deprecated
+   * @param marketId
+   * @param proverData
+   * @param secretBuffer
+   * @param ivsUrl
+   * @param eciesCheckingKey
+   * @returns
+   */
   public async checkInputsAndEncryptedSecretWithIvs(
     marketId: BigNumberish,
     proverData: BytesLike,
