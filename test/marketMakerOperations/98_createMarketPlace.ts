@@ -20,10 +20,10 @@ async function main(): Promise<string> {
     verifierCode: "link to the verifier code",
     proverOysterImage: "link to the oyster code",
     setupCeremonyData: ["to decide"],
-    inputOuputVerifierUrl: "ivs url mandatory",
+    inputOuputVerifierUrl: "ivs optional for private markets",
   };
 
-  const wrapperAddress = "0xb39010E04Dbd9D9E51e9155c9632535D66Abd4e9";
+  const wrapperAddress = "0x0aFF73d8EFCE8e11EE32b9483260A665AE1c8184";
   const slashingPenalty = "10000000000";
   const marketBytes = Buffer.from(JSON.stringify(marketSetupData), "utf-8");
 
@@ -39,6 +39,7 @@ async function main(): Promise<string> {
   console.log({ prover_compressed: proverPubKey.compressed.toString("hex") });
 
   const proverImagePcrs = KalypsoSdk.getRlpedPcrsFromAttestation(proverAttestationData.attestation_document);
+  console.log({proverImagePcrs})
 
   const tx = await kalypso.MarketPlace().createPrivateMarket(marketBytes, wrapperAddress, slashingPenalty, proverImagePcrs);
   console.log("Market Creation Receipt hash", tx.hash);

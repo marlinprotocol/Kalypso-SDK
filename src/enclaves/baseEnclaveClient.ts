@@ -149,7 +149,7 @@ export abstract class BaseEnclaveClient {
 
     let attestation_server_response = await fetch(attestation_end_point, attestation_build_config);
     if (!attestation_server_response.ok) {
-      console.log({ attestation_server_response });
+      // console.log({ attestation_server_response });
       throw new Error("failed building the attestation");
     }
 
