@@ -5,6 +5,8 @@ import { KalypsoSdk } from "../../src";
 import * as fs from "fs";
 import { PublicKey } from "eciesjs";
 
+import { marketId } from "../../requestData.json";
+
 const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb-sepolia.json", "utf-8"));
 const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
 
@@ -14,24 +16,6 @@ const wallet = new ethers.Wallet(keys.private_key, provider);
 async function main(): Promise<string> {
   console.log("using address", await wallet.getAddress());
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
-  const marketSetupData = {
-    zkAppName: "Name of the app",
-    proverCode: "link to the prover code",
-    verifierCode: "link to the verifier code",
-    proverOysterImage: "link to the oyster code",
-    setupCeremonyData: ["to decide"],
-    inputOuputVerifierUrl: "ivs optional for private markets",
-  };
-
-  const wrapperAddress = "0x0aFF73d8EFCE8e11EE32b9483260A665AE1c8184";
-  const slashingPenalty = "10000000000";
-  const marketBytes = Buffer.from(JSON.stringify(marketSetupData), "utf-8");
-
-  // const ivsAttestationData = await kalypso.MarketPlace().IvsEnclaveConnector().getAttestation();
-  // console.log({ ivs_enclave_ecies_key: ivsAttestationData.secp_key });
-  // const ivsPubkey = PublicKey.fromHex(ivsAttestationData.secp_key as string);
-  // console.log({ ivs_compressed: ivsPubkey.compressed.toString("hex") });
-  // const ivsImagePcrs = KalypsoSdk.getRlpedPcrsFromAttestation(ivsAttestationData.attestation_document);
 
   const proverAttestationData = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation();
   console.log({ prover_enclave_key: proverAttestationData.secp_key });
@@ -41,8 +25,8 @@ async function main(): Promise<string> {
   const proverImagePcrs = KalypsoSdk.getRlpedPcrsFromAttestation(proverAttestationData.attestation_document);
   console.log({ proverImagePcrs });
 
-  const tx = await kalypso.MarketPlace().createPrivateMarket(marketBytes, wrapperAddress, slashingPenalty, proverImagePcrs);
-  console.log("Market Creation Receipt hash", tx.hash);
+  const tx = await kalypso.MarketPlace().addExtraImages(marketId, [proverImagePcrs], []);
+  console.log("Add Extra Images to Market", tx.hash);
 
   return "Done";
 }

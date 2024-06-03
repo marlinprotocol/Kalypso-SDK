@@ -357,6 +357,15 @@ export class MarketPlace {
     return this.createNewMarket(marketMetaData, verifier, slashingPenalty, proverPcrs, proverPcrs, options);
   }
 
+  public async addExtraImages(
+    marketId: BigNumberish,
+    proverImages: BytesLike[],
+    ivsImages: BytesLike[],
+    options?: Overrides
+  ): Promise<ContractTransactionResponse> {
+    return this.proofMarketPlace.addExtraImages(marketId, proverImages, ivsImages, { ...options });
+  }
+
   public async createPublicMarket(
     marketMetaData: BytesLike,
     verifier: string,
