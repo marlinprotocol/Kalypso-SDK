@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import { ethers } from "ethers";
 
 import * as secret from "../secret.json";
-import * as input from "../input.json";
+// import * as input from "../input.json";
 import BigNumber from "bignumber.js";
 
 import * as fs from "fs";
@@ -24,8 +24,16 @@ const createAskTest = async () => {
 
   console.log("using address", await wallet.getAddress());
 
+  const avail = {
+    p_in_1: "aleo1rn636g94mx3qqhf7m79nsne3llv4dqs25707yhwcrk92p0kwrc9qe392wg",
+    p_in_2: "3u64",
+    p_in_3: "1u64",
+    secret: "",
+  };
+
   let abiCoder = new ethers.AbiCoder();
-  let inputBytes = abiCoder.encode(["uint256[5]"], [[input.root, input.nullifier, input.out_commit, input.delta, input.memo]]);
+  let inputBytes = abiCoder.encode(["string[3]"], [[avail.p_in_1, avail.p_in_2, avail.p_in_3]]);
+  console.log({ inputBytes });
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
@@ -62,7 +70,7 @@ const createAskTest = async () => {
     await wallet.getAddress(),
     0, // TODO: keep this 0 for now
     Buffer.from(secretString),
-    false
+    false,
   );
   const tx = await askRequest.wait();
   console.log("Ask Request Hash: ", askRequest.hash, " at block", tx?.blockNumber);

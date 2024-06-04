@@ -1,4 +1,5 @@
 {
-  "marketId": 3,
-  "startBlock": 39359256
+  "marketId": 13,
+  "startBlock": 50759256,
+  "teeVerifier": "0x0D4272c6193E8Dce74e8533D9941981c67a94C8c"
 }

@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export { IVerifier__factory } from "./IVerifier__factory";
+export { SetPmp__factory } from "./SetPmp__factory";

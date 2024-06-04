@@ -16,7 +16,7 @@ async function main() {
 
   // 3.111.17.6
   const attestationVeriferEndPoint = "http://65.1.112.107:1400";
-  const attestationResult = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation(attestationVeriferEndPoint);
+  const attestationResult = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation();
 
   const data = await kalypso
     .Generator()

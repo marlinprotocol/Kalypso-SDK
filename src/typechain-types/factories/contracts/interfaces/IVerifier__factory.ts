@@ -21,19 +21,6 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "proofMarketplace",
-    outputs: [
-      {
-        internalType: "contract ProofMarketplace",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "sampleInput",
     outputs: [
       {
@@ -56,19 +43,6 @@ const _abi = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "contract ProofMarketplace",
-        name: "_proofMarketplace",
-        type: "address",
-      },
-    ],
-    name: "setProofMarketplaceContract",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {

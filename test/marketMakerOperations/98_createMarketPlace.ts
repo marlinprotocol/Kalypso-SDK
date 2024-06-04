@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { KalspsoConfig } from "../../src/types";
 import { KalypsoSdk } from "../../src";
+import { teeVerifier } from "../../requestData.json";
 
 import * as fs from "fs";
 import { PublicKey } from "eciesjs";
@@ -9,7 +10,7 @@ const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb
 const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
 
 const provider = new ethers.JsonRpcProvider(keys.rpc);
-const wallet = new ethers.Wallet(keys.private_key, provider);
+const wallet = new ethers.Wallet(keys.treasury_private_key, provider);
 
 async function main(): Promise<string> {
   console.log("using address", await wallet.getAddress());
@@ -23,7 +24,9 @@ async function main(): Promise<string> {
     inputOuputVerifierUrl: "ivs optional for private markets",
   };
 
-  const wrapperAddress = "0x0aFF73d8EFCE8e11EE32b9483260A665AE1c8184";
+  // const wrapperAddress = "0xD8bfa8E31Caa0088cD86993a0D3e2329Fc3A8B8d";
+
+  const wrapperAddress = teeVerifier;
   const slashingPenalty = "10000000000";
   const marketBytes = Buffer.from(JSON.stringify(marketSetupData), "utf-8");
 

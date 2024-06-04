@@ -7,6 +7,7 @@ export interface KalspsoConfig {
   attestation_verifier: string;
   entity_registry: string;
   proof_market_place: string;
+  tee_verifier_deployer: string;
   generatorEnclave?: Enclave;
   matchingEngineEnclave?: Enclave;
   ivsEnclave?: Enclave;

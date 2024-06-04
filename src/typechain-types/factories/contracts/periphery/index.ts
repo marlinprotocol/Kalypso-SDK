@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export * as interfaces from "./interfaces";
+export { AttestationAuther__factory } from "./AttestationAuther__factory";
 export { AttestationAutherUpgradeable__factory } from "./AttestationAutherUpgradeable__factory";
 export { AttestationVerifier__factory } from "./AttestationVerifier__factory";
 export { InputAndProofFormatRegistry__factory } from "./InputAndProofFormatRegistry__factory";

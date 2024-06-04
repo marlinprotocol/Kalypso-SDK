@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { IVerifier } from "./IVerifier";
+export type { SetPmp } from "./SetPmp";

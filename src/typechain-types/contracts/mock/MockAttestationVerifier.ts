@@ -28,7 +28,7 @@ export declare namespace IAttestationVerifier {
     PCR0: string,
     PCR1: string,
     PCR2: string,
-    timestampInMilliseconds: bigint
+    timestampInMilliseconds: bigint,
   ] & {
     enclavePubKey: string;
     PCR0: string;
@@ -40,17 +40,17 @@ export declare namespace IAttestationVerifier {
 
 export interface MockAttestationVerifierInterface extends Interface {
   getFunction(
-    nameOrSignature: "verify(bytes)" | "verify(bytes,bytes,bytes,bytes,bytes,uint256)" | "verify(bytes,(bytes,bytes,bytes,bytes,uint256))"
+    nameOrSignature: "verify(bytes)" | "verify(bytes,bytes,bytes,bytes,bytes,uint256)" | "verify(bytes,(bytes,bytes,bytes,bytes,uint256))",
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "verify(bytes)", values: [BytesLike]): string;
   encodeFunctionData(
     functionFragment: "verify(bytes,bytes,bytes,bytes,bytes,uint256)",
-    values: [BytesLike, BytesLike, BytesLike, BytesLike, BytesLike, BigNumberish]
+    values: [BytesLike, BytesLike, BytesLike, BytesLike, BytesLike, BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "verify(bytes,(bytes,bytes,bytes,bytes,uint256))",
-    values: [BytesLike, IAttestationVerifier.AttestationStruct]
+    values: [BytesLike, IAttestationVerifier.AttestationStruct],
   ): string;
 
   decodeFunctionResult(functionFragment: "verify(bytes)", data: BytesLike): Result;
@@ -67,12 +67,12 @@ export interface MockAttestationVerifier extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -103,14 +103,14 @@ export interface MockAttestationVerifier extends BaseContract {
 
   getFunction(nameOrSignature: "verify(bytes)"): TypedContractMethod<[arg0: BytesLike], [void], "view">;
   getFunction(
-    nameOrSignature: "verify(bytes,bytes,bytes,bytes,bytes,uint256)"
+    nameOrSignature: "verify(bytes,bytes,bytes,bytes,bytes,uint256)",
   ): TypedContractMethod<
     [attestation: BytesLike, enclaveKey: BytesLike, PCR0: BytesLike, PCR1: BytesLike, PCR2: BytesLike, timestamp: BigNumberish],
     [void],
     "view"
   >;
   getFunction(
-    nameOrSignature: "verify(bytes,(bytes,bytes,bytes,bytes,uint256))"
+    nameOrSignature: "verify(bytes,(bytes,bytes,bytes,bytes,uint256))",
   ): TypedContractMethod<[signature: BytesLike, attestation: IAttestationVerifier.AttestationStruct], [void], "view">;
 
   filters: {};
