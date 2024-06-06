@@ -33,7 +33,7 @@ export declare namespace ProofMarketplace {
     timeTakenForProofGeneration: bigint,
     deadline: bigint,
     refundAddress: string,
-    proverData: string,
+    proverData: string
   ] & {
     marketId: bigint;
     reward: bigint;
@@ -60,7 +60,7 @@ export interface Xor2_verifier_wrapperInterface extends Interface {
       | "setProofMarketplaceContract"
       | "verify"
       | "verifyAgainstSampleInputs"
-      | "verifyInputs",
+      | "verifyInputs"
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "checkSampleInputsAndProof", values?: undefined): string;
@@ -71,13 +71,13 @@ export interface Xor2_verifier_wrapperInterface extends Interface {
       [BigNumberish],
       [BigNumberish, BigNumberish],
       [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]],
-      [BigNumberish, BigNumberish],
-    ],
+      [BigNumberish, BigNumberish]
+    ]
   ): string;
   encodeFunctionData(functionFragment: "encodeInputs", values: [[BigNumberish]]): string;
   encodeFunctionData(
     functionFragment: "encodeProof",
-    values: [[BigNumberish, BigNumberish], [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]], [BigNumberish, BigNumberish]],
+    values: [[BigNumberish, BigNumberish], [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]], [BigNumberish, BigNumberish]]
   ): string;
   encodeFunctionData(functionFragment: "iverifier", values?: undefined): string;
   encodeFunctionData(functionFragment: "proofMarketplace", values?: undefined): string;
@@ -112,12 +112,12 @@ export interface Xor2_verifier_wrapper extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -143,7 +143,7 @@ export interface Xor2_verifier_wrapper extends BaseContract {
       inputs: [BigNumberish],
       a: [BigNumberish, BigNumberish],
       b: [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]],
-      c: [BigNumberish, BigNumberish],
+      c: [BigNumberish, BigNumberish]
     ],
     [string],
     "view"
@@ -177,27 +177,27 @@ export interface Xor2_verifier_wrapper extends BaseContract {
 
   getFunction(nameOrSignature: "checkSampleInputsAndProof"): TypedContractMethod<[], [boolean], "view">;
   getFunction(
-    nameOrSignature: "createRequest",
+    nameOrSignature: "createRequest"
   ): TypedContractMethod<
     [ask: ProofMarketplace.AskStruct, secretType: BigNumberish, secret_inputs: BytesLike, acl: BytesLike],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "encodeInputAndProofForVerification",
+    nameOrSignature: "encodeInputAndProofForVerification"
   ): TypedContractMethod<
     [
       inputs: [BigNumberish],
       a: [BigNumberish, BigNumberish],
       b: [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]],
-      c: [BigNumberish, BigNumberish],
+      c: [BigNumberish, BigNumberish]
     ],
     [string],
     "view"
   >;
   getFunction(nameOrSignature: "encodeInputs"): TypedContractMethod<[inputs: [BigNumberish]], [string], "view">;
   getFunction(
-    nameOrSignature: "encodeProof",
+    nameOrSignature: "encodeProof"
   ): TypedContractMethod<
     [a: [BigNumberish, BigNumberish], b: [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]], c: [BigNumberish, BigNumberish]],
     [string],

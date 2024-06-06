@@ -35,7 +35,7 @@ const createAskTest = async () => {
     Buffer.from(secretString),
     kalypso.MarketPlace().IvsEnclaveConnector().checkInputUrl(),
     // ivsCheckEciesCheckingKey.data.public_key, // don't use ecies public key here
-    ivsCheckEciesCheckingKey.data.ecies_public_key,
+    ivsCheckEciesCheckingKey.data.ecies_public_key
   );
   console.log(JSON.stringify(result, null, 4));
 };

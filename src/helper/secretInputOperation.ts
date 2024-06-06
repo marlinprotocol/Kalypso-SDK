@@ -144,7 +144,7 @@ export async function decryptDataWithECIESandAES(
   encryptedData: Buffer,
   aclData: Buffer,
   privateKey: Buffer,
-  associatedData: Buffer,
+  associatedData: Buffer
 ): Promise<Buffer> {
   // Decrypt the secret key using ECIES private key
   const decryptedSecretKey = decryptECIES(privateKey, aclData);
@@ -173,7 +173,7 @@ export async function encryptWithLibsodium(data: Buffer, secretKey: Buffer, mark
     null, // Additional data (not used here, but could be for additional authentication)
     null, // nsec parameter (not used in this context)
     nonce,
-    secretKey,
+    secretKey
   );
 
   // Return a Buffer that concatenates the nonce and the encrypted data (ciphertext + auth tag)

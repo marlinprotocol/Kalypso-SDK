@@ -33,12 +33,12 @@ export interface Dispute extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -63,7 +63,7 @@ export interface Dispute extends BaseContract {
 
   getFunction(nameOrSignature: "ENTITY_KEY_REGISTRY"): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "checkDispute",
+    nameOrSignature: "checkDispute"
   ): TypedContractMethod<
     [askId: BigNumberish, proverData: BytesLike, invalidProofSignature: BytesLike, expectedFamilyId: BytesLike],
     [boolean],

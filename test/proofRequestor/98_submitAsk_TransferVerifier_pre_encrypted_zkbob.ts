@@ -50,7 +50,7 @@ const createAskTest = async () => {
     await wallet.getAddress(),
     0, // TODO: keep this 0 for now
     encryptedRequestData.encryptedSecret,
-    encryptedRequestData.acl,
+    encryptedRequestData.acl
   );
   const tx = await askRequest.wait();
   console.log("Ask Request Hash: ", askRequest.hash, " at block", tx?.blockNumber);

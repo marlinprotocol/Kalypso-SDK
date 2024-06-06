@@ -27,7 +27,7 @@ export interface Tee_verifier_wrapper_factoryInterface extends Interface {
 
   getEvent(nameOrSignatureOrTopic: "TeeVerifierWrapperCreated"): EventFragment;
 
-  encodeFunctionData(functionFragment: "create_tee_verifier_wrapper", values: [AddressLike, BytesLike[]]): string;
+  encodeFunctionData(functionFragment: "create_tee_verifier_wrapper", values: [AddressLike, AddressLike, BytesLike[]]): string;
 
   decodeFunctionResult(functionFragment: "create_tee_verifier_wrapper", data: BytesLike): Result;
 }
@@ -53,12 +53,12 @@ export interface Tee_verifier_wrapper_factory extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -71,16 +71,20 @@ export interface Tee_verifier_wrapper_factory extends BaseContract {
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
-  create_tee_verifier_wrapper: TypedContractMethod<[_av: AddressLike, _proverPcrs: BytesLike[]], [string], "nonpayable">;
+  create_tee_verifier_wrapper: TypedContractMethod<
+    [admin: AddressLike, _av: AddressLike, _proverPcrs: BytesLike[]],
+    [string],
+    "nonpayable"
+  >;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(
-    nameOrSignature: "create_tee_verifier_wrapper",
-  ): TypedContractMethod<[_av: AddressLike, _proverPcrs: BytesLike[]], [string], "nonpayable">;
+    nameOrSignature: "create_tee_verifier_wrapper"
+  ): TypedContractMethod<[admin: AddressLike, _av: AddressLike, _proverPcrs: BytesLike[]], [string], "nonpayable">;
 
   getEvent(
-    key: "TeeVerifierWrapperCreated",
+    key: "TeeVerifierWrapperCreated"
   ): TypedContractEvent<
     TeeVerifierWrapperCreatedEvent.InputTuple,
     TeeVerifierWrapperCreatedEvent.OutputTuple,

@@ -17,7 +17,7 @@ async function main() {
   let data = await kalypso.Generator().GeneratorEnclaveConnector().restartListener();
   console.log(JSON.stringify(data, null, 4));
 
-  data = await kalypso.Generator().GeneratorEnclaveConnector().restartProgram("zkbob-generator");
+  data = await kalypso.Generator().GeneratorEnclaveConnector().restartProgram("avail-demo-prover");
   console.log(JSON.stringify(data, null, 4));
 
   return "Done";

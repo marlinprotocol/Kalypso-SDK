@@ -21,7 +21,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     rpc_url: string,
     chain_id: number,
     relayer_private_key: string,
-    start_block: number,
+    start_block: number
   ): Promise<EnclaveResponse<string>> {
     const meConfigData: MatchingEngineConfigPayload = {
       rpc_url,

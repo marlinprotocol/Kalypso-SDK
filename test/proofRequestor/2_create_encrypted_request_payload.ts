@@ -38,8 +38,8 @@ const createAskTest = async () => {
         acl: result.acl.toString("hex"),
       },
       null,
-      4,
-    ),
+      4
+    )
   );
 };
 

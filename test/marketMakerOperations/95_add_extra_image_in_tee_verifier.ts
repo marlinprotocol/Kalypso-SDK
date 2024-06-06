@@ -4,6 +4,7 @@ import { KalypsoSdk } from "../../src";
 
 import * as fs from "fs";
 import { PublicKey } from "eciesjs";
+import { teeVerifier } from "../../requestData.json";
 
 const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb-sepolia.json", "utf-8"));
 const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
@@ -23,9 +24,7 @@ async function main(): Promise<string> {
   const proverImagePcrs = KalypsoSdk.getRlpedPcrsFromAttestation(proverAttestationData.attestation_document);
   console.log({ proverImagePcrs });
 
-  const data = await kalypso
-    .MarketPlace()
-    .createTeeVerifier(kalypsoConfig.tee_verifier_deployer, kalypsoConfig.attestation_verifier, proverImagePcrs);
+  const data = await kalypso.MarketPlace().addImageToTeeVerifier(await wallet.getAddress(), teeVerifier, proverImagePcrs);
 
   console.log("Tee Verifier Creation Receipt hash", data.hash);
 

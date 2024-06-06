@@ -164,6 +164,22 @@ const _abi = [
     type: "error",
   },
   {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "imageId",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes32",
+        name: "familyId",
+        type: "bytes32",
+      },
+    ],
+    name: "ImageAlreadyInFamily",
+    type: "error",
+  },
+  {
     inputs: [],
     name: "InactiveMarket",
     type: "error",
@@ -412,7 +428,7 @@ const _abi = [
 ] as const;
 
 const _bytecode =
-  "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122065776ea3e3b6cda7ac3054e75d2943162bc98ae475600c6384ef77b46d5d7bf864736f6c63430008180033";
+  "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220821b28aca34fae1d1a78b63553a9037ced7b1a68678f477381be8a752068c4f064736f6c63430008180033";
 
 type ErrorConstructorParams = [signer?: Signer] | ConstructorParameters<typeof ContractFactory>;
 

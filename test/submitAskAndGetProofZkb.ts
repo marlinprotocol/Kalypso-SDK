@@ -46,7 +46,7 @@ const createAskAndGetProof = async () => {
       proofGenerationTimeInBlocks.toFixed(0),
       await wallet.getAddress(),
       0, // TODO: keep this 0 for now
-      Buffer.from(secretString),
+      Buffer.from(secretString)
     );
     await askRequest.wait();
     console.log("Ask Request Hash: ", askRequest.hash);

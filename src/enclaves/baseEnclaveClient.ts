@@ -80,7 +80,7 @@ export abstract class BaseEnclaveClient {
 
     let attestation_verifier_response = await fetch(
       this.baseUrl(this.attestation_verifier_endpoint, "/verify/raw"),
-      verify_attestation_config,
+      verify_attestation_config
     );
     if (!attestation_verifier_response.ok) {
       console.log({ attestation_verifier_response });
@@ -123,7 +123,7 @@ export abstract class BaseEnclaveClient {
         "0x" + attestation_verifier_response_data.pcr1,
         "0x" + attestation_verifier_response_data.pcr2,
         "" + attestation_verifier_response_data.timestamp,
-      ],
+      ]
     );
 
     if (printAttestation) {
@@ -170,7 +170,7 @@ export abstract class BaseEnclaveClient {
     let abiCoder = new ethers.AbiCoder();
     let encodedData = abiCoder.encode(
       ["bytes", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256", "uint256"],
-      ["0x00", ecies_pubkey, "0x00", "0x00", "0x00", 1, 1, getTimestampMs()],
+      ["0x00", ecies_pubkey, "0x00", "0x00", "0x00", 1, 1, getTimestampMs()]
     );
 
     return {
