@@ -1,4 +1,4 @@
-npm run test ./test/generatorOperations/16_cancel_all_possible_asks.ts
+# npm run test ./test/generatorOperations/16_cancel_all_possible_asks.ts
 npm run test ./test/generatorOperations/generatorEnclave/1_generator_config.ts
 
 npm run test ./test/generatorOperations/1_register.ts

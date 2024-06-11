@@ -17,7 +17,10 @@ type DynamicKeyObject<T> = {
 const supportedMarketData: DynamicKeyObject<PortAndIvsUrl> = {};
 
 const supportedMarket = marketId;
-supportedMarketData[supportedMarket] = { port: "3030", ivs_url: "http://not_available" };
+
+// 6000 for zkbob
+// 3030 avail-prover
+supportedMarketData[supportedMarket] = { port: "6000", ivs_url: "http://not_available" };
 
 async function main() {
   console.log("using address", await wallet.getAddress());

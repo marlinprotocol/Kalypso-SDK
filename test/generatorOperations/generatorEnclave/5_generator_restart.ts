@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { KalspsoConfig } from "../../../src/types";
 import { KalypsoSdk } from "../../../src";
 import * as fs from "fs";
+import { programName } from "../../../requestData.json";
 
 const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb-sepolia.json", "utf-8"));
 const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
@@ -17,7 +18,7 @@ async function main() {
   let data = await kalypso.Generator().GeneratorEnclaveConnector().restartListener();
   console.log(JSON.stringify(data, null, 4));
 
-  data = await kalypso.Generator().GeneratorEnclaveConnector().restartProgram("avail-demo-prover");
+  data = await kalypso.Generator().GeneratorEnclaveConnector().restartProgram(programName);
   console.log(JSON.stringify(data, null, 4));
 
   return "Done";
