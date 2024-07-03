@@ -1633,7 +1633,7 @@ export class ProofMarketplace__factory extends ContractFactory {
     _treasury: AddressLike,
     _generatorRegistry: AddressLike,
     _entityRegistry: AddressLike,
-    overrides?: NonPayableOverrides & { from?: string }
+    overrides?: NonPayableOverrides & { from?: string },
   ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(_paymentToken, _marketCreationCost, _treasury, _generatorRegistry, _entityRegistry, overrides || {});
   }
@@ -1643,7 +1643,7 @@ export class ProofMarketplace__factory extends ContractFactory {
     _treasury: AddressLike,
     _generatorRegistry: AddressLike,
     _entityRegistry: AddressLike,
-    overrides?: NonPayableOverrides & { from?: string }
+    overrides?: NonPayableOverrides & { from?: string },
   ) {
     return super.deploy(_paymentToken, _marketCreationCost, _treasury, _generatorRegistry, _entityRegistry, overrides || {}) as Promise<
       ProofMarketplace & {

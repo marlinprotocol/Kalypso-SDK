@@ -1,0 +1,10 @@
+{
+  "generator_config": [
+    {
+      "address": "0x4576B7d01Ff1AAB4442aEAea92fE93928463960C",
+      "ecies_private_key": "20b510fac37e04452e7501417d74b1b6522ee2b2114b3561c7250bfb5718b099",
+      "data": "Some data",
+      "supported_markets": ["18"]
+    }
+  ]
+}

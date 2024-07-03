@@ -70,7 +70,7 @@ const createAskTest = async () => {
     await wallet.getAddress(),
     0, // TODO: keep this 0 for now
     Buffer.from(secretString),
-    false
+    false,
   );
   const tx = await askRequest.wait();
   console.log("Ask Request Hash: ", askRequest.hash, " at block", tx?.blockNumber);

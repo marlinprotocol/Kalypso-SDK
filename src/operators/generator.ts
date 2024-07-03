@@ -31,7 +31,7 @@ export class Generator {
         config.generatorEnclave.url,
         config.generatorEnclave.utilityUrl,
         config,
-        config.generatorEnclave.apikey
+        config.generatorEnclave.apikey,
       );
     }
   }
@@ -56,7 +56,7 @@ export class Generator {
     rewardAddress: string,
     declaredCompute: BigNumberish,
     generatorData: BytesLike,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     const result = await this.generatorRegistry.generatorRegistry(await this.signer.getAddress());
     if (result.rewardAddress != "0x0000000000000000000000000000000000000000") {
@@ -202,7 +202,7 @@ export class Generator {
     proposedTime: BigNumberish,
     attestationData: BytesLike,
     enclaveSignature: BytesLike,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     const data = await this.generatorRegistry.generatorInfoPerMarket(await this.signer.getAddress(), marketId);
     if (!new BigNumber(data.proposedTime.toString()).eq(0)) {
@@ -217,7 +217,7 @@ export class Generator {
       true,
       attestationData,
       enclaveSignature,
-      { ...options }
+      { ...options },
     );
   }
 
@@ -235,7 +235,7 @@ export class Generator {
     computeAllocation: BigNumberish,
     proofGeneratorCost: BigNumberish,
     proposedTime: BigNumberish,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     const data = await this.generatorRegistry.generatorInfoPerMarket(await this.signer.getAddress(), marketId);
     if (!new BigNumber(data.proposedTime.toString()).eq(0)) {
@@ -248,9 +248,9 @@ export class Generator {
       proofGeneratorCost.toString(),
       proposedTime.toString(),
       false,
-      "",
-      "",
-      { ...options }
+      "0x",
+      "0x",
+      { ...options },
     );
   }
 
@@ -266,7 +266,7 @@ export class Generator {
     marketId: BigNumberish,
     attestationBytes: BytesLike,
     enclaveSignature: BytesLike,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     return this.generatorRegistry.updateEncryptionKey(marketId, attestationBytes, enclaveSignature, { ...options });
   }
@@ -283,7 +283,7 @@ export class Generator {
     marketId: BigNumberish,
     attestationData: BytesLike,
     enclaveSignature: BytesLike,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     return this.generatorRegistry.addIvsKey(marketId, attestationData, enclaveSignature, { ...options });
   }

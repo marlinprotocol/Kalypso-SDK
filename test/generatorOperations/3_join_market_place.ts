@@ -43,7 +43,7 @@ async function main() {
       proofGenerationCost,
       proposedTimeInBlocks,
       attestation.attestation_document,
-      enclaveSignature
+      enclaveSignature,
     );
   receipt = await tx.wait();
   console.log("Joined Market Place Transaction: ", receipt?.hash);

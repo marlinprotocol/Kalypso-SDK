@@ -1,4 +1,4 @@
-import { AbstractSigner, BytesLike, ethers } from "ethers";
+import { AbstractSigner, BytesLike, TransactionReceipt, ethers } from "ethers";
 import { KalspsoConfig, SecretInputOperations } from "./types";
 import { Admin } from "./operators/admin";
 import { Generator } from "./operators/generator";

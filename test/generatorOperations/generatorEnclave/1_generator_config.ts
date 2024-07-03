@@ -41,7 +41,7 @@ async function main() {
       generatorStartBlock,
       421614,
       kalypso.MarketPlace().IvsEnclaveConnector().checkInputUrl(),
-      supportedMarketData
+      supportedMarketData,
     );
 
   console.log(result);

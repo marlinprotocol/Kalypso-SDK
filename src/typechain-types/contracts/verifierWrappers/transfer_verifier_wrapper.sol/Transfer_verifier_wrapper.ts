@@ -33,7 +33,7 @@ export declare namespace ProofMarketplace {
     timeTakenForProofGeneration: bigint,
     deadline: bigint,
     refundAddress: string,
-    proverData: string
+    proverData: string,
   ] & {
     marketId: bigint;
     reward: bigint;
@@ -60,18 +60,18 @@ export interface Transfer_verifier_wrapperInterface extends Interface {
       | "setProofMarketplaceContract"
       | "verify"
       | "verifyAgainstSampleInputs"
-      | "verifyInputs"
+      | "verifyInputs",
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "checkSampleInputsAndProof", values?: undefined): string;
   encodeFunctionData(functionFragment: "createRequest", values: [ProofMarketplace.AskStruct, BigNumberish, BytesLike, BytesLike]): string;
   encodeFunctionData(
     functionFragment: "encodeInputAndProofForVerification",
-    values: [[BigNumberish, BigNumberish, BigNumberish, BigNumberish, BigNumberish], BigNumberish[]]
+    values: [[BigNumberish, BigNumberish, BigNumberish, BigNumberish, BigNumberish], BigNumberish[]],
   ): string;
   encodeFunctionData(
     functionFragment: "encodeInputs",
-    values: [[BigNumberish, BigNumberish, BigNumberish, BigNumberish, BigNumberish]]
+    values: [[BigNumberish, BigNumberish, BigNumberish, BigNumberish, BigNumberish]],
   ): string;
   encodeFunctionData(functionFragment: "encodeProof", values: [BigNumberish[]]): string;
   encodeFunctionData(functionFragment: "iverifier", values?: undefined): string;
@@ -107,12 +107,12 @@ export interface Transfer_verifier_wrapper extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -163,21 +163,21 @@ export interface Transfer_verifier_wrapper extends BaseContract {
 
   getFunction(nameOrSignature: "checkSampleInputsAndProof"): TypedContractMethod<[], [boolean], "view">;
   getFunction(
-    nameOrSignature: "createRequest"
+    nameOrSignature: "createRequest",
   ): TypedContractMethod<
     [ask: ProofMarketplace.AskStruct, secretType: BigNumberish, secret_inputs: BytesLike, acl: BytesLike],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "encodeInputAndProofForVerification"
+    nameOrSignature: "encodeInputAndProofForVerification",
   ): TypedContractMethod<
     [inputs: [BigNumberish, BigNumberish, BigNumberish, BigNumberish, BigNumberish], proof: BigNumberish[]],
     [string],
     "view"
   >;
   getFunction(
-    nameOrSignature: "encodeInputs"
+    nameOrSignature: "encodeInputs",
   ): TypedContractMethod<[inputs: [BigNumberish, BigNumberish, BigNumberish, BigNumberish, BigNumberish]], [string], "view">;
   getFunction(nameOrSignature: "encodeProof"): TypedContractMethod<[proof: BigNumberish[]], [string], "view">;
   getFunction(nameOrSignature: "iverifier"): TypedContractMethod<[], [string], "view">;

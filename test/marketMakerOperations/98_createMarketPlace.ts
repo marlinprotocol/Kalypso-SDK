@@ -20,15 +20,14 @@ async function main(): Promise<string> {
     proverCode: "link to the prover code",
     verifierCode: "link to the verifier code",
     proverOysterImage: "link to the oyster code",
-    setupCeremonyData: ["to decide"],
     inputOuputVerifierUrl: "ivs optional for private markets",
   };
+  const marketBytes = Buffer.from(JSON.stringify(marketSetupData), "utf-8");
 
   // const wrapperAddress = "0xD8bfa8E31Caa0088cD86993a0D3e2329Fc3A8B8d";
 
   const wrapperAddress = teeVerifier;
   const slashingPenalty = "10000000000";
-  const marketBytes = Buffer.from(JSON.stringify(marketSetupData), "utf-8");
 
   // const ivsAttestationData = await kalypso.MarketPlace().IvsEnclaveConnector().getAttestation();
   // console.log({ ivs_enclave_ecies_key: ivsAttestationData.secp_key });

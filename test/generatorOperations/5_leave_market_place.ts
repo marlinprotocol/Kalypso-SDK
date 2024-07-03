@@ -19,6 +19,7 @@ async function main() {
   let tx: ContractTransactionResponse;
   let receipt: ContractTransactionReceipt | null;
 
+  tx = await kalypso.Generator().requestForExitMarket(marketId);
   tx = await kalypso.Generator().leaveMarketPlace(marketId);
   receipt = await tx.wait();
   console.log("Leave Market Place Transaction: ", receipt?.hash);

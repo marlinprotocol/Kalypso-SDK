@@ -25,7 +25,8 @@ async function main(): Promise<string> {
   const proverImagePcrs = KalypsoSdk.getRlpedPcrsFromAttestation(proverAttestationData.attestation_document);
   console.log({ proverImagePcrs });
 
-  const tx = await kalypso.MarketPlace().addExtraImagesToMarket(marketId, [proverImagePcrs], []);
+  const ivsImagePcrs = proverImagePcrs;
+  const tx = await kalypso.MarketPlace().addExtraImagesToMarket(marketId, [proverImagePcrs], [ivsImagePcrs]);
   console.log("Add Extra Images to Market", tx.hash);
 
   return "Done";
