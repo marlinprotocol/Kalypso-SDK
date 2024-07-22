@@ -11,9 +11,10 @@
   "zkb_verifier_wrapper": "0xeE89C22838a691d03fB3b6f47C387d06917C0bBD",
   "priority_list": "0x138e29f7804Bfe8225E431c79764663620AEac54",
   "input_and_proof_format": "0x43F4159c011f6d05957182748C1F2b77C74fFDB5",
+  "tee_verifier_deployer": "0x5acCC2F599045D13EA03e4c2b7b0Ed9F8C7Fb99C",
   "generatorEnclave": {
-    "url": "http://13.201.226.90:5000",
-    "utilityUrl": "http://13.201.226.90:1500"
+    "url": "http://13.235.50.234:5000",
+    "utilityUrl": "http://13.235.50.234:1500"
   },
   "ivsEnclave": {
     "url": "http://not deployed yet:5000",

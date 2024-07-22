@@ -280,6 +280,7 @@ export class MarketPlace {
       refundAddress: refundAddress,
     };
     const matchingEnginePubKeyAsPerContracts = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress(), 0);
+    // const matchingEnginePubKeyAsPerContracts = "0xcd3e32ce630556cdee33eca02ce59b528f77ff2795c8455072420b6d1d0556aa06255148cf151f4c7986df9a2588e4caaaefebc734e97fc0af24f87823e88d89";
     // 64 bytes
     console.log({ matchingEnginePubKeyAsPerContracts });
     if (matchingEnginePubKeyAsPerContracts.length !== 130) {
@@ -450,6 +451,7 @@ export class MarketPlace {
     const proof_created_filter = this.proofMarketPlace.filters.ProofCreated(askId);
 
     let startBlock = blockNumber;
+    let startBlock2 = blockNumber;
     const latestBlock = await this.signer.provider?.getBlockNumber();
     console.log("Latest block : ", latestBlock);
     while (startBlock <= latestBlock!) {
@@ -467,11 +469,35 @@ export class MarketPlace {
 
       if (logs && logs.length != 0) {
         let decoded_event = this.proofMarketPlace.interface.decodeEventLog("ProofCreated", logs[0].data, logs[0].topics);
+        let TransactionReceipt = await logs[0].getTransactionReceipt();
+        console.log(TransactionReceipt);
         return { proof_generated: true, proof: decoded_event[1], message: "Proof fetched." };
       }
 
       startBlock = _endBlock + 1;
     }
+
+    while (startBlock2 <= latestBlock!) {
+      const _endBlock = Math.min(startBlock2 + 9999, latestBlock!);
+      console.log(`Looking for proof from block ${startBlock2} to ${_endBlock}`);
+
+      const topics = await proof_created_filter.getTopicFilter();
+
+      const logs = await this.signer.provider?.getLogs({
+        fromBlock: startBlock2,
+        toBlock: _endBlock,
+        address: await this.proofMarketPlace.getAddress(),
+        topics,
+      });
+
+      if (logs && logs.length != 0) {
+        let decoded_event = this.proofMarketPlace.interface.decodeEventLog("InvalidInputsDetected", logs[0].data, logs[0].topics);
+        let TransactionReceipt = await logs[0].getTransactionReceipt();
+        console.log(TransactionReceipt);
+        return { proof_generated: false, proof: "", message: "Proof InvalidInputsDetected." };
+      }
+      startBlock2 = _endBlock + 1;
+    }    
 
     return { proof_generated: false, proof: "0x", message: "Proof not submitted yet." };
   }

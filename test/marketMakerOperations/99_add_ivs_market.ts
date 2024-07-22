@@ -18,15 +18,15 @@ async function main(): Promise<string> {
   console.log("using address", await wallet.getAddress());
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  const ivsAttestationData = await kalypso.MarketPlace().IvsEnclaveConnector().getAttestation();
+  const ivsAttestationData = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation();
   console.log({ ivsAttestationData });
   // console.log({ ivs_enclave_ecies_key: ivsAttestationData.secp_key });
   // const ivsPubkey = PublicKey.fromHex(ivsAttestationData.secp_key as string);
   // console.log({ ivs_compressed: ivsPubkey.compressed.toString("hex") });
 
   const enclaveSignature = await kalypso
-    .MarketPlace()
-    .IvsEnclaveConnector()
+    .Generator()
+    .GeneratorEnclaveConnector()
     .getAttestationSignature(ivsAttestationData.attestation_document.toString(), await wallet.getAddress());
 
   console.log({ enclaveSignature });

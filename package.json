@@ -44,7 +44,7 @@
     "@types/node": "^20.4.5",
     "bignumber.js": "^9.1.1",
     "eciesjs": "^0.4.4",
-    "ethers": "^6.6.6",
+    "ethers": "^6.13.1",
     "libsodium-wrappers": "^0.7.13",
     "node-fetch": "^2.7.0",
     "pako": "^2.1.0"

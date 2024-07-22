@@ -135,6 +135,31 @@ export abstract class BaseEnclaveClient {
       secp_key: ecies_pubkey,
     };
   }
+  
+  public async getProof(printAttestation: boolean = true) {
+    //Fetching the attestation document
+    const requestBody = {
+      ask: 'example_ask',
+      private_inputs: ['1', '2'],
+      ask_id: ['ask123']
+    };
+
+    let verify_attestation_config = {
+      method: "POST",
+      headers: this.headers(),
+      body: JSON.stringify(requestBody),
+    };
+
+    let attestation_verifier_response = await fetch(
+      this.baseUrl("http://13.235.50.234:3000", "/generate_proof"),
+      verify_attestation_config,
+    );
+    if (!attestation_verifier_response.ok) {
+      console.log({ attestation_verifier_response });
+    }
+    let attestation_verifier_response_data = await attestation_verifier_response.json();
+    console.log({ attestation_verifier_response_data });
+  }
 
   /**
    *
@@ -150,6 +175,10 @@ export abstract class BaseEnclaveClient {
     let attestation_server_response = await fetch(attestation_end_point, attestation_build_config);
     if (!attestation_server_response.ok) {
       // console.log({ attestation_server_response });
+      console.error("Response:", {
+        status: attestation_server_response.status,
+        statusText: attestation_server_response.statusText,
+      });
       throw new Error("failed building the attestation");
     }
 

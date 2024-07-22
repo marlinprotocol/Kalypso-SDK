@@ -7,15 +7,15 @@ const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb
 const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
 
 const provider = new ethers.JsonRpcProvider(keys.rpc);
-const wallet = new ethers.Wallet(`${keys.generator_private_key}`, provider);
+const wallet = new ethers.Wallet(`${keys.private_key}`, provider);
 
 async function main() {
   console.log("using address", await wallet.getAddress());
 
   const kalypso = new KalypsoSdk(wallet, kalypsoConfig);
 
-  const attestationVeriferEndPoint = "http://65.1.112.107:1400";
-  const data = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation(attestationVeriferEndPoint);
+  // ÷const attestationVeriferEndPoint = "http://65.1.112.107:1400";
+  const data = await kalypso.Generator().GeneratorEnclaveConnector().getAttestation();
   console.log(JSON.stringify(data, null, 4));
 
   return "Done";

@@ -10,7 +10,7 @@ const kalypsoConfig: KalspsoConfig = JSON.parse(fs.readFileSync("./contracts/arb
 const keys = JSON.parse(fs.readFileSync("./keys/arb-sepolia.json", "utf-8"));
 
 const provider = new ethers.JsonRpcProvider(keys.rpc);
-const wallet = new ethers.Wallet(keys.treasury_private_key, provider);
+const wallet = new ethers.Wallet(keys.private_key, provider);
 
 async function main(): Promise<string> {
   console.log("using address", await wallet.getAddress());
@@ -24,7 +24,7 @@ async function main(): Promise<string> {
   const proverImagePcrs = KalypsoSdk.getRlpedPcrsFromAttestation(proverAttestationData.attestation_document);
   console.log({ proverImagePcrs });
 
-  const data = await kalypso.MarketPlace().addImageToTeeVerifier(await wallet.getAddress(), teeVerifier, proverImagePcrs);
+  const data = (await kalypso.MarketPlace().addImageToTeeVerifier(await wallet.getAddress(), teeVerifier, proverImagePcrs));
 
   console.log("Tee Verifier Creation Receipt hash", data.hash);
 
