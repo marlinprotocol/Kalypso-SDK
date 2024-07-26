@@ -189,10 +189,13 @@ export class MarketPlace {
     secretBuffer: Buffer,
     ivsUrl: string,
     eciesCheckingKey: BytesLike,
+    printLogs: boolean = true,
   ): Promise<boolean> {
     let eciesPubKey = eciesCheckingKey.toString();
 
-    console.log({ eciesPubKey });
+    if (printLogs) {
+      console.log({ eciesPubKey });
+    }
 
     if (eciesPubKey == "0x") {
       throw new Error(
@@ -202,7 +205,9 @@ export class MarketPlace {
 
     const result = await this.createEncryptedRequestData(proverData, secretBuffer, marketId, eciesPubKey);
 
-    console.log("Checking encrypted request against ivs", ivsUrl);
+    if (printLogs) {
+      console.log("Checking encrypted request against ivs", ivsUrl);
+    }
 
     const response = await fetch(ivsUrl, {
       method: "POST",
@@ -246,7 +251,6 @@ export class MarketPlace {
     const pubKey = eciesPubKey.split("x")[1]; // this is hex string
     const associatedData = bigNumberishToBuffer(marketId);
     const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey, associatedData);
-    console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
 
     return {
       publicInputs: Buffer.from(proverData.toString().split("0x")[1], "hex"),
@@ -280,9 +284,8 @@ export class MarketPlace {
       refundAddress: refundAddress,
     };
     const matchingEnginePubKeyAsPerContracts = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress(), 0);
-    // 64 bytes
-    console.log({ matchingEnginePubKeyAsPerContracts });
     if (matchingEnginePubKeyAsPerContracts.length !== 130) {
+      console.log({ matchingEnginePubKeyAsPerContracts });
       throw new Error("matching engine pub key is not updated in the registry or wrong");
     }
 
@@ -299,7 +302,6 @@ export class MarketPlace {
 
     const pubKey = matchingEnginePubKeyAsPerContracts.split("x")[1]; // this is hex string
     const marketData = await this.proofMarketPlace.marketData(marketId);
-    console.log({ marketActivationBlock: marketData.activationBlock.toString() });
 
     let dataToSend = secretBuffer;
     let aclData = Buffer.from("");
@@ -311,22 +313,6 @@ export class MarketPlace {
       dataToSend = result.encryptedData;
       aclData = result.aclData;
     }
-
-    // const platformFee = await this.getPlatformFee(secretType, askRequest, dataToSend, aclData);
-    // const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
-    // if (new BigNumber(platformTokenBalance.toString()).lt(platformFee.toString())) {
-    //   throw new Error("Ensure sufficient platform token balance");
-    // }
-
-    // const platformTokenAllowance = await this.platformToken.allowance(
-    //   await this.signer.getAddress(),
-    //   await this.proofMarketPlace.getAddress()
-    // );
-    // if (new BigNumber(platformTokenAllowance.toString()).lt(platformFee.toString())) {
-    //   const approvalTx = await this.platformToken.approve(await this.proofMarketPlace.getAddress(), platformFee.toString());
-    //   const approvalReceipt = await approvalTx.wait();
-    //   console.log("Approval Tx: ", approvalReceipt?.hash);
-    // }
 
     const paymentTokenBalance = await this.paymentToken.balanceOf(await this.signer.getAddress());
     if (new BigNumber(paymentTokenBalance.toString()).lt(reward.toString())) {
@@ -453,7 +439,7 @@ export class MarketPlace {
     let startBlock = blockNumber;
     let startBlock2 = blockNumber;
     const latestBlock = await this.signer.provider?.getBlockNumber();
-    // console.log("Latest block : ", latestBlock);
+
     while (startBlock <= latestBlock!) {
       const _endBlock = Math.min(startBlock + 9999, latestBlock!);
       console.log(`Looking for proof from block ${startBlock} to ${_endBlock}`);
@@ -469,8 +455,6 @@ export class MarketPlace {
 
       if (logs && logs.length != 0) {
         let decoded_event = this.proofMarketPlace.interface.decodeEventLog("ProofCreated", logs[0].data, logs[0].topics);
-        let TransactionReceipt = await logs[0].getTransactionReceipt();
-        console.log(TransactionReceipt);
         return { proof_generated: true, proof: decoded_event[1], message: "Proof fetched." };
       }
 
@@ -491,9 +475,6 @@ export class MarketPlace {
       });
 
       if (logs && logs.length != 0) {
-        // let decoded_event = this.proofMarketPlace.interface.decodeEventLog("InvalidInputsDetected", logs[0].data, logs[0].topics);
-        // let TransactionReceipt = await logs[0].getTransactionReceipt();
-        // console.log(TransactionReceipt);
         return { proof_generated: false, proof: "", message: "Proof InvalidInputsDetected." };
       }
       startBlock2 = _endBlock + 1;

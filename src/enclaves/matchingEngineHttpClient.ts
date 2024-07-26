@@ -22,6 +22,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     chain_id: number,
     relayer_private_key: string,
     start_block: number,
+    printLogs: boolean = true,
   ): Promise<EnclaveResponse<string>> {
     const meConfigData: MatchingEngineConfigPayload = {
       rpc_url,
@@ -35,7 +36,9 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
       attestation_verifier: this.config.attestation_verifier,
       entity_registry: this.config.entity_registry,
     };
-    console.log({ meConfigData });
+    if (printLogs) {
+      console.log({ meConfigData });
+    }
     const response = await fetch(this.url("/api/matchingEngineConfigSetup"), {
       method: "POST",
       headers: this.headers(),
