@@ -448,10 +448,12 @@ export class MarketPlace {
 
   public async getProofByAskId(askId: string, blockNumber: number): Promise<getProofWithAskIdResponse> {
     const proof_created_filter = this.proofMarketPlace.filters.ProofCreated(askId);
+    const invalid_input_filter = this.proofMarketPlace.filters.InvalidInputsDetected(askId);
 
     let startBlock = blockNumber;
+    let startBlock2 = blockNumber;
     const latestBlock = await this.signer.provider?.getBlockNumber();
-    console.log("Latest block : ", latestBlock);
+    // console.log("Latest block : ", latestBlock);
     while (startBlock <= latestBlock!) {
       const _endBlock = Math.min(startBlock + 9999, latestBlock!);
       console.log(`Looking for proof from block ${startBlock} to ${_endBlock}`);
@@ -467,10 +469,34 @@ export class MarketPlace {
 
       if (logs && logs.length != 0) {
         let decoded_event = this.proofMarketPlace.interface.decodeEventLog("ProofCreated", logs[0].data, logs[0].topics);
+        let TransactionReceipt = await logs[0].getTransactionReceipt();
+        console.log(TransactionReceipt);
         return { proof_generated: true, proof: decoded_event[1], message: "Proof fetched." };
       }
 
       startBlock = _endBlock + 1;
+    }
+
+    while (startBlock2 <= latestBlock!) {
+      const _endBlock = Math.min(startBlock2 + 9999, latestBlock!);
+      console.log(`Looking for proof from block ${startBlock2} to ${_endBlock}`);
+
+      const topics = await invalid_input_filter.getTopicFilter();
+
+      const logs = await this.signer.provider?.getLogs({
+        fromBlock: startBlock2,
+        toBlock: _endBlock,
+        address: await this.proofMarketPlace.getAddress(),
+        topics,
+      });
+
+      if (logs && logs.length != 0) {
+        // let decoded_event = this.proofMarketPlace.interface.decodeEventLog("InvalidInputsDetected", logs[0].data, logs[0].topics);
+        // let TransactionReceipt = await logs[0].getTransactionReceipt();
+        // console.log(TransactionReceipt);
+        return { proof_generated: false, proof: "", message: "Proof InvalidInputsDetected." };
+      }
+      startBlock2 = _endBlock + 1;
     }
 
     return { proof_generated: false, proof: "0x", message: "Proof not submitted yet." };
