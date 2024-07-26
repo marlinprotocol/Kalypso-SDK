@@ -1,6 +1,6 @@
 {
   "name": "kalypso-sdk",
-  "version": "1.0.29",
+  "version": "1.0.31",
   "description": "Kalypso SDK",
   "main": "dist/index.js",
   "files": [
