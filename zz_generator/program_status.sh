@@ -1,1 +1,0 @@
-curl --location --request GET 'http://43.205.85.160:5000/api/getProgramStatus?program_name=listener'
