@@ -203,7 +203,7 @@ export class MarketPlace {
       );
     }
 
-    const result = await this.createEncryptedRequestData(proverData, secretBuffer, marketId, eciesPubKey);
+    const result = await MarketPlace.createEncryptedRequestData(proverData, secretBuffer, marketId, eciesPubKey);
 
     if (printLogs) {
       console.log("Checking encrypted request against ivs", ivsUrl);
@@ -231,22 +231,14 @@ export class MarketPlace {
     return false;
   }
 
-  public async createEncryptedRequestData(
+  public static async createEncryptedRequestData(
     proverData: BytesLike,
     secretBuffer: Buffer,
     marketId: BigNumberish,
-    eciesPubKey?: string,
+    eciesPubKey: string,
   ): Promise<PublicAndSecretInputPair> {
     //deflate the secret buffer to reduce tx cost
     secretBuffer = Buffer.from(pako.deflate(secretBuffer));
-
-    if (!eciesPubKey) {
-      const matchingEnginePubKey = await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress(), 0);
-      if (matchingEnginePubKey.length !== 130) {
-        throw new Error("matching engine pub key is not updated in the registry");
-      }
-      eciesPubKey = matchingEnginePubKey;
-    }
 
     const pubKey = eciesPubKey.split("x")[1]; // this is hex string
     const associatedData = bigNumberishToBuffer(marketId);
