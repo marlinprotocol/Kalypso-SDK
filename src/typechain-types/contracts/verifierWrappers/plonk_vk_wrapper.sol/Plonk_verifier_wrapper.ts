@@ -33,7 +33,7 @@ export declare namespace ProofMarketplace {
     timeTakenForProofGeneration: bigint,
     deadline: bigint,
     refundAddress: string,
-    proverData: string,
+    proverData: string
   ] & {
     marketId: bigint;
     reward: bigint;
@@ -60,7 +60,7 @@ export interface Plonk_verifier_wrapperInterface extends Interface {
       | "setProofMarketplaceContract"
       | "verify"
       | "verifyAgainstSampleInputs"
-      | "verifyInputs",
+      | "verifyInputs"
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "checkSampleInputsAndProof", values?: undefined): string;
@@ -101,12 +101,12 @@ export interface Plonk_verifier_wrapper extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -153,14 +153,14 @@ export interface Plonk_verifier_wrapper extends BaseContract {
 
   getFunction(nameOrSignature: "checkSampleInputsAndProof"): TypedContractMethod<[], [boolean], "view">;
   getFunction(
-    nameOrSignature: "createRequest",
+    nameOrSignature: "createRequest"
   ): TypedContractMethod<
     [ask: ProofMarketplace.AskStruct, secretType: BigNumberish, secret_inputs: BytesLike, acl: BytesLike],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "encodeInputAndProofForVerification",
+    nameOrSignature: "encodeInputAndProofForVerification"
   ): TypedContractMethod<[inputs: BytesLike[], proof: BytesLike], [string], "view">;
   getFunction(nameOrSignature: "encodeInputs"): TypedContractMethod<[inputs: BytesLike[]], [string], "view">;
   getFunction(nameOrSignature: "encodeProof"): TypedContractMethod<[proof: BytesLike], [string], "view">;

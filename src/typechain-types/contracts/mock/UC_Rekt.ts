@@ -35,7 +35,7 @@ export interface UC_RektInterface extends Interface {
       | "rektSlot2"
       | "slot1"
       | "supportsInterface"
-      | "upgradeToAndCall",
+      | "upgradeToAndCall"
   ): FunctionFragment;
 
   getEvent(nameOrSignatureOrTopic: "Initialized" | "Upgraded"): EventFragment;
@@ -96,12 +96,12 @@ export interface UC_Rekt extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -146,11 +146,11 @@ export interface UC_Rekt extends BaseContract {
   getFunction(nameOrSignature: "slot1"): TypedContractMethod<[], [bigint], "view">;
   getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
   getFunction(
-    nameOrSignature: "upgradeToAndCall",
+    nameOrSignature: "upgradeToAndCall"
   ): TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;
 
   getEvent(
-    key: "Initialized",
+    key: "Initialized"
   ): TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
   getEvent(key: "Upgraded"): TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>;
 

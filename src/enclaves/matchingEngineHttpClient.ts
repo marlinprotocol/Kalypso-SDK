@@ -22,7 +22,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     chain_id: number,
     relayer_private_key: string,
     start_block: number,
-    printLogs: boolean = true,
+    printLogs: boolean = true
   ): Promise<EnclaveResponse<string>> {
     const meConfigData: MatchingEngineConfigPayload = {
       rpc_url,
