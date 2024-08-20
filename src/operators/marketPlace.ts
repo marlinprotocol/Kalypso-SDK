@@ -41,12 +41,16 @@ export class MarketPlace {
 
   private ivsHttpClient!: IvsHttpClient;
 
+  private checkInputUrl: string;
+
   constructor(signer: AbstractSigner, config: KalspsoConfig) {
     this.signer = signer;
     this.proofMarketPlace = ProofMarketplace__factory.connect(config.proof_market_place, this.signer);
     this.paymentToken = ERC20__factory.connect(config.payment_token, this.signer);
     this.platformToken = ERC20__factory.connect(config.staking_token, this.signer);
     this.entityKeyRegistry = EntityKeyRegistry__factory.connect(config.entity_registry, this.signer);
+
+    this.checkInputUrl = config.checkInputUrl;
 
     if (config.matchingEngineEnclave) {
       this.matchingEngineHttpClient = new MatchingEngineHttpClient(
@@ -174,61 +178,36 @@ export class MarketPlace {
     );
   }
 
-  /**
-   * @deprecated
-   * @param marketId
-   * @param proverData
-   * @param secretBuffer
-   * @param ivsUrl
-   * @param eciesCheckingKey
-   * @returns
-   */
-  public async checkInputsAndEncryptedSecretWithIvs(
-    marketId: BigNumberish,
-    proverData: BytesLike,
-    secretBuffer: Buffer,
-    ivsUrl: string,
-    eciesCheckingKey: BytesLike,
-    printLogs: boolean = true
-  ): Promise<boolean> {
-    let eciesPubKey = eciesCheckingKey.toString();
+  public async verifyEncryptedInputs(publicAndSecretInputPair: PublicAndSecretInputPair, market_id: String): Promise<any> {
+    // pub acl: Vec<u8>,
+    // pub public_inputs: Option<Vec<u8>>,
+    // pub encrypted_secrets: Vec<u8>,
+    // pub me_decryption_url: String,
+    // pub market_id: String,
 
-    if (printLogs) {
-      console.log({ eciesPubKey });
-    }
-
-    if (eciesPubKey == "0x") {
-      throw new Error(
-        `MarketId: ${marketId} has not published it's IVS ecies pubkey and signer to the entity registry contract. Avoid using it or else loose funds`
-      );
-    }
-
-    const result = await MarketPlace.createEncryptedRequestData(proverData, secretBuffer, marketId, eciesPubKey);
-
-    if (printLogs) {
-      console.log("Checking encrypted request against ivs", ivsUrl);
-    }
-
-    const response = await fetch(ivsUrl, {
+    let verify_encrypted_inputs = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        public_inputs: result.publicInputs.toString("hex"),
-        encrypted_secret: result.encryptedSecret.toString("hex"),
-        acl: result.acl.toString("hex"),
+        acl: Array.from(publicAndSecretInputPair.acl),
+        public_inputs: Array.from(publicAndSecretInputPair.publicInputs),
+        encrypted_secrets: Array.from(publicAndSecretInputPair.encryptedSecret),
+        me_decryption_url: "http://13.201.131.193:3000/decryptRequest",
+        market_id,
       }),
-    });
+    };
+
+    let response = await fetch(this.checkInputUrl, verify_encrypted_inputs);
+
     if (!response.ok) {
-      console.error(response);
+      console.log(await response.status);
       throw new Error(`Error: ${response.status}`);
     }
+    const return_data = await response.json();
 
-    if (response.status >= 200 && response.status < 300) {
-      return true;
-    }
-    return false;
+    return return_data.valid || false;
   }
 
   public static async createEncryptedRequestForIvs(
