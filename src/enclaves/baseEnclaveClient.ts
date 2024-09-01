@@ -154,8 +154,8 @@ export abstract class BaseEnclaveClient {
 
     let abiCoder = new ethers.AbiCoder();
     let encodedData = abiCoder.encode(
-      ["bytes", "bytes", "bytes", "bytes", "bytes", "uint256", "uint256", "uint256"],
-      ["0x00", ecies_pubkey, "0x00", "0x00", "0x00", 1, 1, getTimestampMs()]
+      ["bytes", "bytes", "bytes", "bytes", "bytes", "uint256"],
+      ["0x00", ecies_pubkey, "0x00", "0x00", "0x00", getTimestampMs()]
     );
 
     return {
