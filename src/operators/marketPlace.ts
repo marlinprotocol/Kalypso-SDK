@@ -57,7 +57,7 @@ export class MarketPlace {
         config.matchingEngineEnclave.url,
         config.matchingEngineEnclave.utilityUrl,
         config,
-        config.matchingEngineEnclave.apikey
+        config.matchingEngineEnclave.apikey,
       );
     }
 
@@ -67,7 +67,7 @@ export class MarketPlace {
         config.ivsEnclave.url,
         config.ivsEnclave.utilityUrl,
         config.checkInputUrl,
-        config.ivsEnclave.apikey
+        config.ivsEnclave.apikey,
       );
     }
   }
@@ -99,11 +99,16 @@ export class MarketPlace {
     return await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress(), 0);
   }
 
+  public async askCounter(): Promise<number> {
+    const askCounter = await this.proofMarketPlace.askCounter();
+    return new BigNumber(askCounter.toString()).toNumber();
+  }
+
   public async getPlatformFee(
     secretType: BigNumberish,
     ask: ProofMarketplace.AskStruct,
     encryptedSecret: BytesLike,
-    aclData: BytesLike
+    aclData: BytesLike,
   ): Promise<BigNumberish> {
     return this.proofMarketPlace.getPlatformFee(secretType, ask, encryptedSecret, aclData);
   }
@@ -117,7 +122,7 @@ export class MarketPlace {
     secretType: BigNumberish,
     encryptedData: Buffer,
     aclData: Buffer,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     const askRequest: ProofMarketplace.AskStruct = {
       marketId,
@@ -143,7 +148,7 @@ export class MarketPlace {
 
     const platformTokenAllowance = await this.platformToken.allowance(
       await this.signer.getAddress(),
-      await this.proofMarketPlace.getAddress()
+      await this.proofMarketPlace.getAddress(),
     );
     if (new BigNumber(platformTokenAllowance.toString()).lt(platformFee.toString())) {
       const approvalTx = await this.platformToken.approve(await this.proofMarketPlace.getAddress(), platformFee.toString());
@@ -153,7 +158,7 @@ export class MarketPlace {
 
     const paymentTokenAllowance = await this.paymentToken.allowance(
       await this.signer.getAddress(),
-      await this.proofMarketPlace.getAddress()
+      await this.proofMarketPlace.getAddress(),
     );
     if (new BigNumber(paymentTokenAllowance.toString()).lt(reward.toString())) {
       const approvalTx = await this.paymentToken.approve(await this.proofMarketPlace.getAddress(), reward.toString());
@@ -174,11 +179,15 @@ export class MarketPlace {
       secretType,
       encryptedData,
       aclData,
-      { ...options }
+      { ...options },
     );
   }
 
-  public async verifyEncryptedInputs(publicAndSecretInputPair: PublicAndSecretInputPair, market_id: String): Promise<any> {
+  public async verifyEncryptedInputs(
+    publicAndSecretInputPair: PublicAndSecretInputPair,
+    me_decryption_url: string,
+    market_id: String,
+  ): Promise<any> {
     // pub acl: Vec<u8>,
     // pub public_inputs: Option<Vec<u8>>,
     // pub encrypted_secrets: Vec<u8>,
@@ -194,7 +203,7 @@ export class MarketPlace {
         acl: Array.from(publicAndSecretInputPair.acl),
         public_inputs: Array.from(publicAndSecretInputPair.publicInputs),
         encrypted_secrets: Array.from(publicAndSecretInputPair.encryptedSecret),
-        me_decryption_url: "http://13.201.131.193:3000/decryptRequest",
+        me_decryption_url,
         market_id,
       }),
     };
@@ -214,7 +223,7 @@ export class MarketPlace {
     proverData: BytesLike,
     secretBuffer: Buffer,
     marketId: BigNumberish,
-    eciesPubKey: string
+    eciesPubKey: string,
   ): Promise<PublicAndSecretInputPair> {
     const pubKey = eciesPubKey.split("x")[1]; // this is hex string
     const associatedData = bigNumberishToBuffer(marketId);
@@ -231,7 +240,7 @@ export class MarketPlace {
     proverData: BytesLike,
     secretBuffer: Buffer,
     marketId: BigNumberish,
-    eciesPubKey: string
+    eciesPubKey: string,
   ): Promise<PublicAndSecretInputPair> {
     //deflate the secret buffer to reduce tx cost
     secretBuffer = Buffer.from(pako.deflate(secretBuffer));
@@ -249,7 +258,7 @@ export class MarketPlace {
     secretType: BigNumberish,
     secretBuffer: Buffer,
     checkMeKeyBeforeSendingTx: boolean = true,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     //deflate the secret buffer to reduce tx cost
     secretBuffer = Buffer.from(pako.deflate(secretBuffer));
@@ -301,12 +310,12 @@ export class MarketPlace {
 
     const paymentTokenAllowance = await this.paymentToken.allowance(
       await this.signer.getAddress(),
-      await this.proofMarketPlace.getAddress()
+      await this.proofMarketPlace.getAddress(),
     );
     if (new BigNumber(paymentTokenAllowance.toString()).lt(reward.toString())) {
       const approvalTx = await this.paymentToken.approve(
         await this.proofMarketPlace.getAddress(),
-        new BigNumber(reward.toString()).multipliedBy(10).toFixed(0)
+        new BigNumber(reward.toString()).multipliedBy(10).toFixed(0),
       );
       const approvalReceipt = await approvalTx.wait();
       console.log("Approval Tx: ", approvalReceipt?.hash);
@@ -320,7 +329,7 @@ export class MarketPlace {
     verifier: string,
     slashingPenalty: BigNumberish,
     proverPcrs: BytesLike,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     return this.createNewMarket(marketMetaData, verifier, slashingPenalty, proverPcrs, proverPcrs, options);
   }
@@ -329,7 +338,7 @@ export class MarketPlace {
     marketId: BigNumberish,
     proverImages: BytesLike[],
     ivsImages: BytesLike[],
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     return this.proofMarketPlace.addExtraImages(marketId, proverImages, ivsImages, { ...options });
   }
@@ -339,7 +348,7 @@ export class MarketPlace {
     verifier: string,
     slashingPenalty: BigNumberish,
     ivsPcrs: BytesLike,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     const zero_pcr = "0x" + "00".repeat(48);
     let abicode = new ethers.AbiCoder();
@@ -353,7 +362,7 @@ export class MarketPlace {
     teeDeployer: AddressLike,
     av: AddressLike,
     rlpedPcrs: BytesLike,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     const tee_deployer = Tee_verifier_wrapper_factory__factory.connect(teeDeployer.toString(), this.signer);
     return tee_deployer.create_tee_verifier_wrapper(admin, av, [rlpedPcrs], { ...options });
@@ -363,7 +372,7 @@ export class MarketPlace {
     admin: AddressLike,
     teeVerifier: AddressLike,
     rlpedPcrs: BytesLike,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     const tee_verifier = Tee_verifier_wrapper__factory.connect(teeVerifier.toString(), this.signer);
     return tee_verifier.addEnclaveImageToFamily(rlpedPcrs, { ...options });
@@ -381,7 +390,7 @@ export class MarketPlace {
     slashingPenalty: BigNumberish,
     proverPcrs: BytesLike,
     ivsPcrs: BytesLike,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     if (new BigNumber(slashingPenalty.toString()).gt(this.exponent)) {
       throw new Error("Slashing penalty can't be more than " + this.exponent.toFixed(0));
@@ -484,7 +493,7 @@ export class MarketPlace {
 
   //Fetching the AskId
   public async getAskId(receipt: ethers.TransactionReceipt | ethers.ContractTransactionReceipt): Promise<string> {
-    let ask_created_log = { topics: receipt.logs[2].topics.flat(), data: receipt.logs[2].data };
+    let ask_created_log = { topics: receipt.logs[1].topics.flat(), data: receipt.logs[1].data };
     let decoded_logs = this.proofMarketPlace.interface.parseLog(ask_created_log);
     if (decoded_logs?.args[0]) {
       return decoded_logs.args[0].toString();

@@ -54,6 +54,8 @@ export type { EntityKeyRegistry } from "./contracts/EntityKeyRegistry";
 export { EntityKeyRegistry__factory } from "./factories/contracts/EntityKeyRegistry__factory";
 export type { GeneratorRegistry } from "./contracts/GeneratorRegistry";
 export { GeneratorRegistry__factory } from "./factories/contracts/GeneratorRegistry__factory";
+export type { IL2Staking } from "./contracts/interfaces/IL2Staking";
+export { IL2Staking__factory } from "./factories/contracts/interfaces/IL2Staking__factory";
 export type { IVerifier } from "./contracts/interfaces/IVerifier";
 export { IVerifier__factory } from "./factories/contracts/interfaces/IVerifier__factory";
 export type { SetPmp } from "./contracts/interfaces/SetPmp";

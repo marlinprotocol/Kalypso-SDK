@@ -8,27 +8,30 @@ import type {
   FunctionFragment,
   Result,
   Interface,
+  AddressLike,
   ContractRunner,
   ContractMethod,
   Listener,
 } from "ethers";
 import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../../common";
 
-export interface DisputeInterface extends Interface {
-  getFunction(nameOrSignature: "ENTITY_KEY_REGISTRY" | "checkDispute"): FunctionFragment;
+export interface IL2StakingInterface extends Interface {
+  getFunction(nameOrSignature: "intendToReduceStake" | "stake" | "unstake"): FunctionFragment;
 
-  encodeFunctionData(functionFragment: "ENTITY_KEY_REGISTRY", values?: undefined): string;
-  encodeFunctionData(functionFragment: "checkDispute", values: [BigNumberish, BytesLike, BytesLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "intendToReduceStake", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "stake", values: [AddressLike, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "unstake", values: [AddressLike]): string;
 
-  decodeFunctionResult(functionFragment: "ENTITY_KEY_REGISTRY", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "checkDispute", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "intendToReduceStake", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "stake", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "unstake", data: BytesLike): Result;
 }
 
-export interface Dispute extends BaseContract {
-  connect(runner?: ContractRunner | null): Dispute;
+export interface IL2Staking extends BaseContract {
+  connect(runner?: ContractRunner | null): IL2Staking;
   waitForDeployment(): Promise<this>;
 
-  interface: DisputeInterface;
+  interface: IL2StakingInterface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
@@ -51,24 +54,17 @@ export interface Dispute extends BaseContract {
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>;
 
-  ENTITY_KEY_REGISTRY: TypedContractMethod<[], [string], "view">;
+  intendToReduceStake: TypedContractMethod<[stakeToReduce: BigNumberish], [void], "nonpayable">;
 
-  checkDispute: TypedContractMethod<
-    [askId: BigNumberish, proverData: BytesLike, invalidProofSignature: BytesLike, expectedFamilyId: BytesLike],
-    [boolean],
-    "view"
-  >;
+  stake: TypedContractMethod<[generatorAddress: AddressLike, amount: BigNumberish], [bigint], "nonpayable">;
+
+  unstake: TypedContractMethod<[receiver: AddressLike], [void], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
-  getFunction(nameOrSignature: "ENTITY_KEY_REGISTRY"): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "checkDispute",
-  ): TypedContractMethod<
-    [askId: BigNumberish, proverData: BytesLike, invalidProofSignature: BytesLike, expectedFamilyId: BytesLike],
-    [boolean],
-    "view"
-  >;
+  getFunction(nameOrSignature: "intendToReduceStake"): TypedContractMethod<[stakeToReduce: BigNumberish], [void], "nonpayable">;
+  getFunction(nameOrSignature: "stake"): TypedContractMethod<[generatorAddress: AddressLike, amount: BigNumberish], [bigint], "nonpayable">;
+  getFunction(nameOrSignature: "unstake"): TypedContractMethod<[receiver: AddressLike], [void], "nonpayable">;
 
   filters: {};
 }

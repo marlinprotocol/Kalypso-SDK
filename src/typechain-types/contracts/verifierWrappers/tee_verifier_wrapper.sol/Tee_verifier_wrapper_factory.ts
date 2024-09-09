@@ -53,12 +53,12 @@ export interface Tee_verifier_wrapper_factory extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -80,11 +80,11 @@ export interface Tee_verifier_wrapper_factory extends BaseContract {
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(
-    nameOrSignature: "create_tee_verifier_wrapper"
+    nameOrSignature: "create_tee_verifier_wrapper",
   ): TypedContractMethod<[admin: AddressLike, _av: AddressLike, _proverPcrs: BytesLike[]], [string], "nonpayable">;
 
   getEvent(
-    key: "TeeVerifierWrapperCreated"
+    key: "TeeVerifierWrapperCreated",
   ): TypedContractEvent<
     TeeVerifierWrapperCreatedEvent.InputTuple,
     TeeVerifierWrapperCreatedEvent.OutputTuple,
