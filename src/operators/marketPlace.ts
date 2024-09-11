@@ -493,10 +493,13 @@ export class MarketPlace {
 
   //Fetching the AskId
   public async getAskId(receipt: ethers.TransactionReceipt | ethers.ContractTransactionReceipt): Promise<string> {
-    let ask_created_log = { topics: receipt.logs[1].topics.flat(), data: receipt.logs[1].data };
-    let decoded_logs = this.proofMarketPlace.interface.parseLog(ask_created_log);
-    if (decoded_logs?.args[0]) {
-      return decoded_logs.args[0].toString();
+    for (let index = 0; index < receipt.logs.length; index++) {
+      const receipt_log = receipt.logs[index];
+      let log = { topics: receipt_log.topics.flat(), data: receipt_log.data };
+      let decoded_log = this.proofMarketPlace.interface.parseLog(log);
+      if (decoded_log && decoded_log.args[0]) {
+        return decoded_log.args[0].toString();
+      }
     }
     throw new Error("Ask Id not found for the give receipt");
   }
