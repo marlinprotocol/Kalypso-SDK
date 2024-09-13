@@ -152,7 +152,7 @@ export class MarketPlace {
     );
     if (new BigNumber(platformTokenAllowance.toString()).lt(platformFee.toString())) {
       const approvalTx = await this.platformToken.approve(await this.proofMarketPlace.getAddress(), platformFee.toString());
-      const approvalReceipt = await approvalTx.wait();
+      const approvalReceipt = await approvalTx.wait(10);
       console.log("Approval Tx: ", approvalReceipt?.hash);
     }
 
@@ -162,7 +162,7 @@ export class MarketPlace {
     );
     if (new BigNumber(paymentTokenAllowance.toString()).lt(reward.toString())) {
       const approvalTx = await this.paymentToken.approve(await this.proofMarketPlace.getAddress(), reward.toString());
-      const approvalReceipt = await approvalTx.wait();
+      const approvalReceipt = await approvalTx.wait(10);
       console.log("Approval Tx: ", approvalReceipt?.hash);
     }
 
@@ -317,7 +317,7 @@ export class MarketPlace {
         await this.proofMarketPlace.getAddress(),
         new BigNumber(reward.toString()).multipliedBy(10).toFixed(0),
       );
-      const approvalReceipt = await approvalTx.wait();
+      const approvalReceipt = await approvalTx.wait(10);
       console.log("Approval Tx: ", approvalReceipt?.hash);
     }
 
@@ -411,7 +411,7 @@ export class MarketPlace {
 
     if (new BigNumber(allowance.toString()).lt(marketCreationCost.toString())) {
       const approvalTx = await this.approvePaymentTokenToMarketPlace(marketCreationCost);
-      const approvalReceipt = await approvalTx.wait();
+      const approvalReceipt = await approvalTx.wait(10);
 
       console.log("Approved Tokens: ", approvalReceipt?.hash);
     }
@@ -491,13 +491,26 @@ export class MarketPlace {
     throw new Error("Proof Not Found");
   }
 
+  public async getMarketId(receipt: ethers.TransactionReceipt | ethers.ContractTransactionReceipt): Promise<string> {
+    for (let index = 0; index < receipt.logs.length; index++) {
+      const receipt_log = receipt.logs[index];
+      let log = { topics: receipt_log.topics.flat(), data: receipt_log.data };
+      let decoded_log = this.proofMarketPlace.interface.parseLog(log);
+      if (decoded_log && decoded_log.name === "MarketplaceCreated") {
+        return decoded_log.args[0].toString();
+      }
+    }
+
+    throw new Error("MarketId not found for the given receipt");
+  }
+
   //Fetching the AskId
   public async getAskId(receipt: ethers.TransactionReceipt | ethers.ContractTransactionReceipt): Promise<string> {
     for (let index = 0; index < receipt.logs.length; index++) {
       const receipt_log = receipt.logs[index];
       let log = { topics: receipt_log.topics.flat(), data: receipt_log.data };
       let decoded_log = this.proofMarketPlace.interface.parseLog(log);
-      if (decoded_log && decoded_log.args[0]) {
+      if (decoded_log && decoded_log.name === "AskCreated") {
         return decoded_log.args[0].toString();
       }
     }

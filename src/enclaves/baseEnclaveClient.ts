@@ -19,6 +19,38 @@ export abstract class BaseEnclaveClient {
     }
   }
 
+  public static async getEnclaveKey(enclave_attestation_utility_url: string, attestation_verifier_url: string): Promise<string> {
+    const attestation_end_point = `${enclave_attestation_utility_url}/attestation/raw`;
+
+    let attestation_build_config = {
+      method: "GET",
+    };
+
+    let attestation_server_response = await fetch(attestation_end_point, attestation_build_config);
+    if (!attestation_server_response.ok) {
+      // console.log({ attestation_server_response });
+      throw new Error("failed building the attestation");
+    }
+
+    let attestation_build_data = await attestation_server_response.body;
+
+    let verify_attestation_config = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/octet-stream",
+      },
+      body: attestation_build_data,
+    };
+
+    let attestation_verifier_response = await fetch(`${attestation_verifier_url}/verify/raw`, verify_attestation_config);
+
+    let attestation_verifier_response_data = await attestation_verifier_response.json();
+
+    let ecies_pubkey = "0x" + attestation_verifier_response_data.secp256k1_public.toString();
+
+    return ecies_pubkey;
+  }
+
   protected utilityUrl(api: string): string {
     return `${this.attestation_utility_endpoint}${api}`;
   }
@@ -50,10 +82,6 @@ export abstract class BaseEnclaveClient {
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
-  }
-
-  public async verifyAttestation(): Promise<any> {
-    throw new Error("if not required separately, remove this function");
   }
 
   /**
