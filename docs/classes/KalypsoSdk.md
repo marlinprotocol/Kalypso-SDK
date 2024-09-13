@@ -38,7 +38,7 @@
 
 #### Defined in
 
-[index.ts:13](https://github.com/marlinprotocol/Kalypso-SDK/blob/84326aa/src/index.ts#L13)
+[index.ts:13](https://github.com/marlinprotocol/Kalypso-SDK/blob/33179a1/src/index.ts#L13)
 
 ## Properties
 
@@ -48,7 +48,7 @@
 
 #### Defined in
 
-[index.ts:11](https://github.com/marlinprotocol/Kalypso-SDK/blob/84326aa/src/index.ts#L11)
+[index.ts:11](https://github.com/marlinprotocol/Kalypso-SDK/blob/33179a1/src/index.ts#L11)
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 #### Defined in
 
-[index.ts:10](https://github.com/marlinprotocol/Kalypso-SDK/blob/84326aa/src/index.ts#L10)
+[index.ts:10](https://github.com/marlinprotocol/Kalypso-SDK/blob/33179a1/src/index.ts#L10)
 
 ## Methods
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[index.ts:22](https://github.com/marlinprotocol/Kalypso-SDK/blob/84326aa/src/index.ts#L22)
+[index.ts:22](https://github.com/marlinprotocol/Kalypso-SDK/blob/33179a1/src/index.ts#L22)
 
 ___
 
@@ -86,7 +86,7 @@ ___
 
 #### Defined in
 
-[index.ts:26](https://github.com/marlinprotocol/Kalypso-SDK/blob/84326aa/src/index.ts#L26)
+[index.ts:26](https://github.com/marlinprotocol/Kalypso-SDK/blob/33179a1/src/index.ts#L26)
 
 ___
 
@@ -100,7 +100,7 @@ ___
 
 #### Defined in
 
-[index.ts:30](https://github.com/marlinprotocol/Kalypso-SDK/blob/84326aa/src/index.ts#L30)
+[index.ts:30](https://github.com/marlinprotocol/Kalypso-SDK/blob/33179a1/src/index.ts#L30)
 
 ___
 
@@ -114,7 +114,7 @@ ___
 
 #### Defined in
 
-[index.ts:18](https://github.com/marlinprotocol/Kalypso-SDK/blob/84326aa/src/index.ts#L18)
+[index.ts:18](https://github.com/marlinprotocol/Kalypso-SDK/blob/33179a1/src/index.ts#L18)
 
 ___
 
@@ -134,7 +134,7 @@ ___
 
 #### Defined in
 
-[index.ts:46](https://github.com/marlinprotocol/Kalypso-SDK/blob/84326aa/src/index.ts#L46)
+[index.ts:46](https://github.com/marlinprotocol/Kalypso-SDK/blob/33179a1/src/index.ts#L46)
 
 ___
 
@@ -154,7 +154,7 @@ ___
 
 #### Defined in
 
-[index.ts:34](https://github.com/marlinprotocol/Kalypso-SDK/blob/84326aa/src/index.ts#L34)
+[index.ts:34](https://github.com/marlinprotocol/Kalypso-SDK/blob/33179a1/src/index.ts#L34)
 
 ___
 
@@ -174,4 +174,4 @@ ___
 
 #### Defined in
 
-[index.ts:55](https://github.com/marlinprotocol/Kalypso-SDK/blob/84326aa/src/index.ts#L55)
+[index.ts:55](https://github.com/marlinprotocol/Kalypso-SDK/blob/33179a1/src/index.ts#L55)
