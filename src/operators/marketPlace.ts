@@ -32,7 +32,6 @@ export class MarketPlace {
   private signer: AbstractSigner;
   private proofMarketPlace: ProofMarketplace;
   private paymentToken: ERC20;
-  private platformToken: ERC20;
   private entityKeyRegistry: EntityKeyRegistry;
 
   private exponent = new BigNumber(10).pow(18);
@@ -47,7 +46,6 @@ export class MarketPlace {
     this.signer = signer;
     this.proofMarketPlace = ProofMarketplace__factory.connect(config.proof_market_place, this.signer);
     this.paymentToken = ERC20__factory.connect(config.payment_token, this.signer);
-    this.platformToken = ERC20__factory.connect(config.staking_token, this.signer);
     this.entityKeyRegistry = EntityKeyRegistry__factory.connect(config.entity_registry, this.signer);
 
     this.checkInputUrl = config.checkInputUrl;
@@ -91,10 +89,6 @@ export class MarketPlace {
     return this.paymentToken.approve(await this.proofMarketPlace.getAddress(), amount.toString(), { ...options });
   }
 
-  public async approvePlatformTokenToMarketPlace(amount: BigNumberish, options?: Overrides): Promise<ContractTransactionResponse> {
-    return this.platformToken.approve(await this.proofMarketPlace.getAddress(), amount.toString(), { ...options });
-  }
-
   public async readMePubKeyInContract(): Promise<BytesLike> {
     return await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress(), 0);
   }
@@ -134,26 +128,9 @@ export class MarketPlace {
       refundAddress: refundAddress,
     };
 
-    const platformFee = await this.getPlatformFee(secretType, askRequest, encryptedData, aclData);
-    const platformTokenBalance = await this.platformToken.balanceOf(this.signer.getAddress());
-
-    if (new BigNumber(platformTokenBalance.toString()).lt(platformFee.toString())) {
-      throw new Error("Ensure sufficient platform token balance");
-    }
-
     const paymentTokenBalance = await this.paymentToken.balanceOf(await this.signer.getAddress());
     if (new BigNumber(paymentTokenBalance.toString()).lt(reward.toString())) {
       throw new Error("Ensure sufficient payment token balance");
-    }
-
-    const platformTokenAllowance = await this.platformToken.allowance(
-      await this.signer.getAddress(),
-      await this.proofMarketPlace.getAddress(),
-    );
-    if (new BigNumber(platformTokenAllowance.toString()).lt(platformFee.toString())) {
-      const approvalTx = await this.platformToken.approve(await this.proofMarketPlace.getAddress(), platformFee.toString());
-      const approvalReceipt = await approvalTx.wait(10);
-      console.log("Approval Tx: ", approvalReceipt?.hash);
     }
 
     const paymentTokenAllowance = await this.paymentToken.allowance(
@@ -515,6 +492,33 @@ export class MarketPlace {
       }
     }
     throw new Error("Ask Id not found for the give receipt");
+  }
+
+  public async getTeeVerifierAddress(receipt: ethers.TransactionReceipt | ethers.ContractTransactionReceipt): Promise<string> {
+    let tee_verifier_interface = Tee_verifier_wrapper__factory.createInterface();
+    for (let index = 0; index < receipt.logs.length; index++) {
+      const receipt_log = receipt.logs[index];
+      let log = { topics: receipt_log.topics.flat(), data: receipt_log.data };
+      let decoded_log = tee_verifier_interface.parseLog(log);
+      if (decoded_log && decoded_log.name == "TeeVerifierWrapperCreated") {
+        return decoded_log.args[0];
+      }
+    }
+
+    throw new Error("Tee Verifier Not Found");
+  }
+
+  public async flush(address?: AddressLike, options?: Overrides): Promise<ContractTransactionResponse> {
+    if (!address) {
+      address = await this.signer.getAddress();
+    }
+
+    let claimableBalance = await this.proofMarketPlace.claimableAmount(address);
+    if (new BigNumber(claimableBalance.toString()).gt(0)) {
+      return this.proofMarketPlace.flush(address, { ...options });
+    }
+
+    throw new Error("No claimable amount available");
   }
 
   public async getAskState(askId: BigNumberish): Promise<AskState> {
