@@ -84,10 +84,10 @@ export function bigNumberishToBuffer(value: ethers.BigNumberish): Buffer {
 }
 
 /**
- * 
+ *
  * @param enclave_attestation_utility_url URL to fetch the enclave attestation from
  * @param attestation_verifier_url URL to verify the attestation
- * @returns 
+ * @returns
  */
 export async function getEnclaveKey(enclave_attestation_utility_url: string, attestation_verifier_url: string): Promise<string> {
   const attestation_end_point = `${enclave_attestation_utility_url}/attestation/raw`;

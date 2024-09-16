@@ -8,8 +8,8 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
   private generatorEndPoint: string;
   private config: KalspsoConfig;
 
-  constructor(generatorEndPoint: string, generator_attestation_utility_endpoint: string, config: KalspsoConfig, apikey?: string) {
-    super(generator_attestation_utility_endpoint, config.attestationVerifierEndPoint, apikey);
+  constructor(generatorEndPoint: string, generator_attestation_utility_endpoint: string, config: KalspsoConfig, enclavePubkey?: string) {
+    super(generator_attestation_utility_endpoint, config.attestationVerifierEndPoint, enclavePubkey);
 
     this.generatorEndPoint = generatorEndPoint;
     this.config = config;

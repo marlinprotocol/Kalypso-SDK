@@ -1,7 +1,5 @@
-import { BytesLike } from "ethers";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
 import { EnclaveResponse, PublicKeyResponse, SignAddressResponse } from "../types";
-import { HeaderInit } from "node-fetch";
 import fetch from "node-fetch";
 
 export class IvsHttpClient extends BaseEnclaveClient {
@@ -13,9 +11,9 @@ export class IvsHttpClient extends BaseEnclaveClient {
     ivsEndPoint: string,
     ivs_attestation_utility_endpoint: string,
     checkInputUrl: string,
-    apikey?: string,
+    enclavePubkey?: string,
   ) {
-    super(ivs_attestation_utility_endpoint, attestationVerifierEndpoint, apikey);
+    super(ivs_attestation_utility_endpoint, attestationVerifierEndpoint, enclavePubkey);
     this.ivsEndPoint = ivsEndPoint;
     this._checkInputUrl = checkInputUrl;
   }

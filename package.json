@@ -9,7 +9,8 @@
   "scripts": {
     "build": "rm -rf ./dist && tsc",
     "docs": "rm -rf docs && typedoc --plugin typedoc-plugin-markdown",
-    "prettier": "npx prettier --write ."
+    "prettier": "npx prettier --write .",
+    "ts-node": "ts-node"
   },
   "repository": {
     "type": "git",

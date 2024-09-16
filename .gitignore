@@ -20,3 +20,6 @@ extraKeys
 **/.DS_Store
 
 .npmrc
+
+examples
+examples/*

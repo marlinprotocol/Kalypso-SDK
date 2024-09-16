@@ -55,7 +55,7 @@ export class MarketPlace {
         config.matchingEngineEnclave.url,
         config.matchingEngineEnclave.utilityUrl,
         config,
-        config.matchingEngineEnclave.apikey,
+        config.matchingEngineEnclave.enclavePubkey,
       );
     }
 
@@ -65,7 +65,7 @@ export class MarketPlace {
         config.ivsEnclave.url,
         config.ivsEnclave.utilityUrl,
         config.checkInputUrl,
-        config.ivsEnclave.apikey,
+        config.ivsEnclave.enclavePubkey,
       );
     }
   }

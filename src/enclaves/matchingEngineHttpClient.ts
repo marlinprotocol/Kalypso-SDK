@@ -8,8 +8,8 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
   private matchingEngineEndPoint: string;
   private config: KalspsoConfig;
 
-  constructor(matchingEngineEndPoint: string, me_attestation_utility_endpoint: string, config: KalspsoConfig, apikey?: string) {
-    super(me_attestation_utility_endpoint, config.attestationVerifierEndPoint, apikey);
+  constructor(matchingEngineEndPoint: string, me_attestation_utility_endpoint: string, config: KalspsoConfig, enclavePubkeyKey?: string) {
+    super(me_attestation_utility_endpoint, config.attestationVerifierEndPoint, enclavePubkeyKey);
     this.matchingEngineEndPoint = matchingEngineEndPoint;
     this.config = config;
   }

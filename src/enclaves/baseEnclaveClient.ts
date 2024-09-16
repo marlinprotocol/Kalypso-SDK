@@ -5,6 +5,8 @@ import BigNumber from "bignumber.js";
 import { SignAddressResponse } from "../types";
 import { HeaderInit } from "node-fetch";
 import { helpers } from "../helper";
+import { SCHResponse, SecureCommunicationHandler } from "./SecureCommunicationHandler";
+import { randomUUID } from "crypto";
 
 /**
  * @description Contains common features for all types of derived enclaves
@@ -16,29 +18,27 @@ export abstract class BaseEnclaveClient {
   // URL to verify the fetched attestation. The root source of trust
   protected attestation_verifier_endpoint: string;
 
-  /**
-   * @deprecated APIKEY method of communication is not used anymore
-   */
-  protected apikey?: string;
+  private sch?: SecureCommunicationHandler;
 
-  // Enclave key for the connected enclave (for caching)
-  private enclave_key?: BytesLike;
+  private enclavePubkey?: BytesLike;
 
-  constructor(attestation_utility_endpoint: string, attestation_verifier_endpoint: string, apikey?: string) {
+  constructor(attestation_utility_endpoint: string, attestation_verifier_endpoint: string, enclavePubkey?: string) {
     this.attestation_utility_endpoint = attestation_utility_endpoint;
     this.attestation_verifier_endpoint = attestation_verifier_endpoint;
 
-    if (apikey) {
-      this.apikey = apikey;
-    }
+    this.enclavePubkey = enclavePubkey;
   }
 
   /**
-   * 
+   *
    * @returns Enclave key of the connected enclave
    */
   public async getEnclaveKey(): Promise<BytesLike> {
-    return this.enclave_key ?? (this.enclave_key = (await this.getAttestation()).secp_key);
+    return this.enclavePubkey ?? (this.enclavePubkey = (await this.getAttestation()).secp_key);
+  }
+
+  private async getSch(): Promise<SecureCommunicationHandler> {
+    return this.sch ?? (this.sch = new SecureCommunicationHandler((await this.getEnclaveKey()).toString()));
   }
 
   protected utilityUrl(api: string): string {
@@ -46,37 +46,13 @@ export abstract class BaseEnclaveClient {
   }
 
   protected headers(): HeaderInit {
-    if (this.apikey) {
-      return {
-        "Content-Type": "application/json",
-        "API-Key": this.apikey,
-      };
-    }
-
-    return { "Content-Type": "application/json" };
+    return { "Content-Type": "application/json", "API-Key": randomUUID() };
   }
 
   protected baseUrl(url: string, api: string): string {
     return `${url}${api}`;
   }
   protected abstract url(api: string): string;
-
-  /**
-   * @deprecated This method of auth is depricated and will be replaced by a new one
-   * @returns
-   */
-  public async generateApiKey(): Promise<EnclaveResponse<string>> {
-    if (this.apikey) {
-      throw new Error("apikey is already provided");
-    }
-
-    const response = await fetch(this.url("/api/generateApiKey"), { method: "POST" });
-    if (!response.ok) {
-      console.log({ response });
-      throw new Error(`Error: ${response.status}`);
-    }
-    return await response.json();
-  }
 
   /**
    *
@@ -190,6 +166,7 @@ export abstract class BaseEnclaveClient {
   }
 
   /**
+   * @deprecated Will be removed in upcoming versions. Use getAddressSignatureEncrypted
    * @param address Address which needs to be signed
    * @returns Returns the address signed with enclaves private keys
    */
@@ -215,7 +192,38 @@ export abstract class BaseEnclaveClient {
   }
 
   /**
-   *
+   * @param address Address which needs to be signed
+   * @returns Returns the address signed with enclaves private keys
+   */
+  public async getAddressSignatureEncrypted(address: string, printLogs: boolean = true): Promise<BytesLike> {
+    if (printLogs) {
+      console.log(this.url("/api/signAddressEncrypted"));
+    }
+
+    let sch = await this.getSch();
+    let attestation_server_response = await fetch(this.url("/api/signAddressEncrypted"), {
+      method: "POST",
+      headers: this.headers(),
+      body: SecureCommunicationHandler.arrayifySchPayload(await sch.preparePayload({ address })),
+    });
+
+    if (!attestation_server_response.ok) {
+      throw new Error(`Error: ${attestation_server_response.status}`);
+    }
+
+    let schResponse: SCHResponse = await attestation_server_response.json();
+    let response = sch.decodeResponse<{
+      r: string;
+      s: string;
+      v: number;
+    }>(schResponse);
+    const _v = response.v == 27 ? "1b" : "1c";
+    let signature = response.r + response.s.split("x")[1] + _v;
+    return signature;
+  }
+
+  /**
+   * @deprecated Will be removed in upcoming versions. Use getAttestationSignatureEncrypted
    * @param attestation Attestation
    * @param address Address
    * @returns Returns the attestation and address signed by the enclave keys
@@ -240,6 +248,33 @@ export abstract class BaseEnclaveClient {
     let response: SignAddressResponse = await attestation_server_response.json();
     const _v = response.data.v == 27 ? "1b" : "1c";
     let signature = response.data.r + response.data.s.split("x")[1] + _v;
+    return signature;
+  }
+
+  public async getAttestationSignatureEncrypted(attestation: string, address: string, printLogs: boolean = true): Promise<BytesLike> {
+    if (printLogs) {
+      console.log(this.url("/api/signAttestationEncrypted"));
+    }
+
+    let sch = await this.getSch();
+    let attestation_server_response = await fetch(this.url("/api/signAttestationEncrypted"), {
+      method: "POST",
+      headers: this.headers(),
+      body: SecureCommunicationHandler.arrayifySchPayload(await sch.preparePayload({ attestation, address })),
+    });
+
+    if (!attestation_server_response.ok) {
+      throw new Error(`Error: ${attestation_server_response.status}`);
+    }
+
+    let schResponse: SCHResponse = await attestation_server_response.json();
+    let response = sch.decodeResponse<{
+      r: string;
+      s: string;
+      v: number;
+    }>(schResponse);
+    const _v = response.v == 27 ? "1b" : "1c";
+    let signature = response.r + response.s.split("x")[1] + _v;
     return signature;
   }
 

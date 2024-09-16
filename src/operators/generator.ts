@@ -31,7 +31,7 @@ export class Generator {
         config.generatorEnclave.url,
         config.generatorEnclave.utilityUrl,
         config,
-        config.generatorEnclave.apikey,
+        config.generatorEnclave.enclavePubkey,
       );
     }
   }
