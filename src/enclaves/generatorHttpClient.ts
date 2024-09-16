@@ -1,9 +1,8 @@
 import { PublicKeyResponse, KalspsoConfig, EnclaveResponse, PortAndIvsUrl } from "../types";
 import fetch from "node-fetch";
-import { HeaderInit } from "node-fetch";
-import { GeneratorConfigPayload, GeneratorConfig, UpdateRuntimeConfig, SignAddressResponse } from "../types";
+import { GeneratorConfigPayload, GeneratorConfig, UpdateRuntimeConfig } from "../types";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
-import { BytesLike } from "ethers";
+import { helpers } from "../helper";
 
 export class GeneratorHttpClient extends BaseEnclaveClient {
   private generatorEndPoint: string;
@@ -63,7 +62,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     const response = await fetch(this.url("/api/generatorConfigSetup"), {
       method: "POST",
       headers: this.headers(),
-      body: JSON.stringify(generatorConfigData),
+      body: helpers.encodePayload(generatorConfigData),
     });
 
     if (!response.ok) {
@@ -77,7 +76,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     const response = await fetch(this.url("/api/updateRuntimeConfig"), {
       method: "PUT",
       headers: this.headers(),
-      body: JSON.stringify(config),
+      body: helpers.encodePayload(config),
     });
     if (!response.ok) {
       console.log(JSON.stringify(response, null, 4));
@@ -90,7 +89,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     const response = await fetch(this.url("/api/addNewGenerator"), {
       method: "POST",
       headers: this.headers(),
-      body: JSON.stringify(generatorConfig),
+      body: helpers.encodePayload(generatorConfig),
     });
     if (!response.ok) {
       console.log({ response });
@@ -103,7 +102,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     const response = await fetch(this.url("/api/removeGenerator"), {
       method: "DELETE",
       headers: this.headers(),
-      body: JSON.stringify({ address }),
+      body: helpers.encodePayload({ address }),
     });
     if (!response.ok) {
       console.log({ response });
@@ -116,7 +115,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     const response = await fetch(this.url("/api/updateGeneratorConfig"), {
       method: "PUT",
       headers: this.headers(),
-      body: JSON.stringify(generator),
+      body: helpers.encodePayload(generator),
     });
     if (!response.ok) {
       console.log({ response });
@@ -126,14 +125,10 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
   }
 
   public async getGeneratorPublicKeys(generator_address: string): Promise<PublicKeyResponse> {
-    let data = JSON.stringify({
-      generator_address: generator_address,
-    });
-
     let public_key_config = {
       method: "POST",
       headers: this.headers(),
-      body: data,
+      body: helpers.encodePayload({ generator_address }),
     };
 
     let generator_public_keys_response = await fetch(`${this.generatorEndPoint}/api/fetchGeneratorPublicKeys`, public_key_config);
@@ -181,7 +176,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     const response = await fetch(this.url("/api/startProgram"), {
       method: "POST",
       headers: this.headers(),
-      body: JSON.stringify({ program_name }),
+      body: helpers.encodePayload({ program_name }),
     });
 
     if (!response.ok) {
@@ -198,7 +193,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     const response = await fetch(this.url("/api/restartProgram"), {
       method: "POST",
       headers: this.headers(),
-      body: JSON.stringify({ program_name }),
+      body: helpers.encodePayload({ program_name }),
     });
 
     if (!response.ok) {
@@ -215,7 +210,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     const response = await fetch(this.url("/api/stopProgram"), {
       method: "POST",
       headers: this.headers(),
-      body: JSON.stringify({ program_name }),
+      body: helpers.encodePayload({ program_name }),
     });
 
     if (!response.ok) {

@@ -2,6 +2,7 @@ import fetch from "node-fetch";
 import { KalspsoConfig, MatchingEngineConfigPayload, EnclaveResponse, MatchingEngineKeys } from "../types";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
 import { BytesLike, ethers } from "ethers";
+import { helpers } from "../helper";
 
 export class MatchingEngineHttpClient extends BaseEnclaveClient {
   private matchingEngineEndPoint: string;
@@ -42,7 +43,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     const response = await fetch(this.url("/api/matchingEngineConfigSetup"), {
       method: "POST",
       headers: this.headers(),
-      body: JSON.stringify(meConfigData),
+      body: helpers.encodePayload(meConfigData),
     });
     if (!response.ok) {
       console.log({ response });
@@ -55,7 +56,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     const response = await fetch(this.url("/api/updateMatchingEngineConfig"), {
       method: "PUT",
       headers: this.headers(),
-      body: JSON.stringify(config),
+      body: helpers.encodePayload(config),
     });
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -78,7 +79,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     const response = await fetch(this.url("/api/stopMatchingEngine"), {
       method: "POST",
       headers: this.headers(),
-      body: JSON.stringify({}),
+      body: helpers.encodePayload({}),
     });
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -89,7 +90,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     const response = await fetch(this.url("/api/startMatchingEngine"), {
       method: "POST",
       headers: this.headers(),
-      body: JSON.stringify({}),
+      body: helpers.encodePayload({}),
     });
     if (!response.ok) {
       console.log(response);
@@ -101,7 +102,7 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     const response = await fetch(this.url("/api/restartMatchingEngine"), {
       method: "POST",
       headers: this.headers(),
-      body: JSON.stringify({}),
+      body: helpers.encodePayload({}),
     });
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -120,6 +121,12 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     return await response.json();
   }
 
+  /**
+   * @deprecated Only works in dev mode
+   * @param meInternalPrivateKey
+   * @param address
+   * @returns Address signed with the meInternalPrivateKey
+   */
   public async getMockAddressSignature(meInternalPrivateKey: string, address: string): Promise<BytesLike> {
     let matchingEngineSigner = new ethers.Wallet(meInternalPrivateKey);
     let types = ["address"];

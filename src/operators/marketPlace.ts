@@ -11,7 +11,7 @@ import {
 } from "../typechain-types";
 import BigNumber from "bignumber.js";
 import { encryptDataWithECIESandAesGcm } from "../helper/secretInputOperation";
-import { bigNumberishToBuffer } from "../helper/helpers";
+import { helpers } from "../helper";
 import * as pako from "pako";
 import { AskState, KalspsoConfig, PublicAndSecretInputPair } from "../types";
 import { MatchingEngineHttpClient } from "../enclaves/matchingEngineHttpClient";
@@ -196,34 +196,9 @@ export class MarketPlace {
     return return_data.valid || false;
   }
 
-  public static async createEncryptedRequestForIvs(
-    proverData: BytesLike,
-    secretBuffer: Buffer,
-    marketId: BigNumberish,
-    eciesPubKey: string,
-  ): Promise<PublicAndSecretInputPair> {
-    const pubKey = eciesPubKey.split("x")[1]; // this is hex string
-    const associatedData = bigNumberishToBuffer(marketId);
-    const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey, associatedData);
+  public static createEncryptedRequestForIvs = helpers.createEncryptedRequestForIvs;
 
-    return {
-      publicInputs: Buffer.from(proverData.toString().split("0x")[1], "hex"),
-      encryptedSecret: result.encryptedData,
-      acl: result.aclData,
-    };
-  }
-
-  public static async createEncryptedRequestData(
-    proverData: BytesLike,
-    secretBuffer: Buffer,
-    marketId: BigNumberish,
-    eciesPubKey: string,
-  ): Promise<PublicAndSecretInputPair> {
-    //deflate the secret buffer to reduce tx cost
-    secretBuffer = Buffer.from(pako.deflate(secretBuffer));
-
-    return MarketPlace.createEncryptedRequestForIvs(proverData, secretBuffer, marketId, eciesPubKey);
-  }
+  public static createEncryptedRequestData = helpers.createEncryptedRequestData;
 
   public async createAsk(
     marketId: BigNumberish,
@@ -273,7 +248,7 @@ export class MarketPlace {
     let aclData = Buffer.from("");
 
     if (![NO_ENCLAVE_ID_1, NO_ENCLAVE_ID_2].includes(marketData.proverImageId.toLowerCase())) {
-      const associatedData = bigNumberishToBuffer(marketId);
+      const associatedData = helpers.bigNumberishToBuffer(marketId);
       const result = await encryptDataWithECIESandAesGcm(secretBuffer, pubKey, associatedData);
       console.log({ encrypted_secret: result.encryptedData.length, acl: result.aclData.length });
       dataToSend = result.encryptedData;

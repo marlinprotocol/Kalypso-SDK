@@ -4,11 +4,25 @@ import { ethers, BytesLike } from "ethers";
 import BigNumber from "bignumber.js";
 import { SignAddressResponse } from "../types";
 import { HeaderInit } from "node-fetch";
+import { helpers } from "../helper";
 
+/**
+ * @description Contains common features for all types of derived enclaves
+ */
 export abstract class BaseEnclaveClient {
+  // URL to fetch enclave's attestation from
   protected attestation_utility_endpoint: string;
+
+  // URL to verify the fetched attestation. The root source of trust
   protected attestation_verifier_endpoint: string;
+
+  /**
+   * @deprecated APIKEY method of communication is not used anymore
+   */
   protected apikey?: string;
+
+  // Enclave key for the connected enclave (for caching)
+  private enclave_key?: BytesLike;
 
   constructor(attestation_utility_endpoint: string, attestation_verifier_endpoint: string, apikey?: string) {
     this.attestation_utility_endpoint = attestation_utility_endpoint;
@@ -19,36 +33,12 @@ export abstract class BaseEnclaveClient {
     }
   }
 
-  public static async getEnclaveKey(enclave_attestation_utility_url: string, attestation_verifier_url: string): Promise<string> {
-    const attestation_end_point = `${enclave_attestation_utility_url}/attestation/raw`;
-
-    let attestation_build_config = {
-      method: "GET",
-    };
-
-    let attestation_server_response = await fetch(attestation_end_point, attestation_build_config);
-    if (!attestation_server_response.ok) {
-      // console.log({ attestation_server_response });
-      throw new Error("failed building the attestation");
-    }
-
-    let attestation_build_data = await attestation_server_response.body;
-
-    let verify_attestation_config = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/octet-stream",
-      },
-      body: attestation_build_data,
-    };
-
-    let attestation_verifier_response = await fetch(`${attestation_verifier_url}/verify/raw`, verify_attestation_config);
-
-    let attestation_verifier_response_data = await attestation_verifier_response.json();
-
-    let ecies_pubkey = "0x" + attestation_verifier_response_data.secp256k1_public.toString();
-
-    return ecies_pubkey;
+  /**
+   * 
+   * @returns Enclave key of the connected enclave
+   */
+  public async getEnclaveKey(): Promise<BytesLike> {
+    return this.enclave_key ?? (this.enclave_key = (await this.getAttestation()).secp_key);
   }
 
   protected utilityUrl(api: string): string {
@@ -71,6 +61,10 @@ export abstract class BaseEnclaveClient {
   }
   protected abstract url(api: string): string;
 
+  /**
+   * @deprecated This method of auth is depricated and will be replaced by a new one
+   * @returns
+   */
   public async generateApiKey(): Promise<EnclaveResponse<string>> {
     if (this.apikey) {
       throw new Error("apikey is already provided");
@@ -171,9 +165,12 @@ export abstract class BaseEnclaveClient {
   }
 
   /**
+   * Retrieves a mock attestation for a known ECIES public key.
    *
-   * @param ecies_pubkey Known ecies pubkey
-   * @returns Mock Attestation for a known ecies pubkey. This attestation will work only in dev net
+   * @deprecated This function works only in the development network (dev net). Do not use in production.
+   *
+   * @param {string} ecies_pubkey - Known ECIES public key.
+   * @returns {Promise<AttestationResponse>} Mock attestation for a known ECIES public key.
    */
   public async getMockAttestation(ecies_pubkey: string): Promise<AttestationResponse> {
     if (ecies_pubkey.length != 130) {
@@ -193,7 +190,6 @@ export abstract class BaseEnclaveClient {
   }
 
   /**
-   *
    * @param address Address which needs to be signed
    * @returns Returns the address signed with enclaves private keys
    */
@@ -205,7 +201,7 @@ export abstract class BaseEnclaveClient {
     let attestation_server_response = await fetch(this.url("/api/signAddress"), {
       method: "POST",
       headers: this.headers(),
-      body: JSON.stringify({ address }),
+      body: helpers.encodePayload({ address }),
     });
 
     if (!attestation_server_response.ok) {
@@ -229,16 +225,14 @@ export abstract class BaseEnclaveClient {
       console.log(this.url("/api/signAttestation"));
     }
 
-    const payload = JSON.stringify({ attestation, address });
-    // console.log({ payload });
     let attestation_server_response = await fetch(this.url("/api/signAttestation"), {
       method: "POST",
       headers: this.headers(),
-      body: payload,
+      body: helpers.encodePayload({ attestation, address }),
     });
 
     if (!attestation_server_response.ok) {
-      console.log({ payload });
+      console.log(helpers.encodePayload({ attestation, address }));
       console.log({ attestation_server_response });
       throw new Error(`Error: ${attestation_server_response.status}`);
     }
@@ -248,6 +242,12 @@ export abstract class BaseEnclaveClient {
     let signature = response.data.r + response.data.s.split("x")[1] + _v;
     return signature;
   }
+
+  /**
+   * @description Static function to fetch the enclave key
+   * @inheritdoc
+   */
+  public static getEnclaveKey = helpers.getEnclaveKey;
 }
 
 function getTimestampMs(delay: number = 0): number {

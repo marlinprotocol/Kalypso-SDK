@@ -4,7 +4,7 @@ import { Admin } from "./operators/admin";
 import { Generator } from "./operators/generator";
 import { MarketPlace } from "./operators/marketPlace";
 
-import * as secretInputOperation from "./helper/secretInputOperation";
+import { helpers, secretInputOperations } from "./helper";
 
 export class KalypsoSdk {
   private signer: AbstractSigner;
@@ -16,7 +16,7 @@ export class KalypsoSdk {
   }
 
   static SecretInputOperations(): SecretInputOperations {
-    return secretInputOperation;
+    return secretInputOperations;
   }
 
   Admin(): Admin {
@@ -31,34 +31,9 @@ export class KalypsoSdk {
     return new MarketPlace(this.signer, this.config);
   }
 
-  public static getPubKeyAndAddressFromAttestation(attesationData: BytesLike): [string, string] {
-    let abicode = new ethers.AbiCoder();
+  public static getPubKeyAndAddressFromAttestation = helpers.getPubKeyAndAddressFromAttestation;
 
-    let decoded = abicode.decode(["bytes", "bytes", "bytes", "bytes", "bytes", "uint256"], attesationData);
-    let pubkey = decoded[2];
-    let hash = ethers.keccak256(pubkey);
+  public static getImageIdFromAttestation = helpers.getImageIdFromAttestation;
 
-    const address = "0x" + hash.slice(-40);
-
-    return [pubkey, address];
-  }
-
-  public static getImageIdFromAttestation(attesationData: BytesLike): BytesLike {
-    let abicode = new ethers.AbiCoder();
-
-    let decoded = abicode.decode(["bytes", "bytes", "bytes", "bytes", "bytes", "uint256"], attesationData);
-    let encoded = ethers.solidityPacked(["bytes", "bytes", "bytes"], [decoded[2], decoded[3], decoded[4]]);
-    let digest = ethers.keccak256(encoded);
-    return digest;
-  }
-
-  public static getRlpedPcrsFromAttestation(attesationData: BytesLike): BytesLike {
-    let abicode = new ethers.AbiCoder();
-
-    let decoded = abicode.decode(["bytes", "bytes", "bytes", "bytes", "bytes", "uint256"], attesationData);
-    console.log("pcrs", decoded[2], decoded[3], decoded[4]);
-    let encoded = abicode.encode(["bytes", "bytes", "bytes"], [decoded[2], decoded[3], decoded[4]]);
-
-    return encoded;
-  }
+  public static getRlpedPcrsFromAttestation = helpers.getRlpedPcrsFromAttestation;
 }
