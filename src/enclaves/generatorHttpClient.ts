@@ -3,6 +3,7 @@ import fetch from "node-fetch";
 import { GeneratorConfigPayload, GeneratorConfig, UpdateRuntimeConfig } from "../types";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
 import { helpers } from "../helper";
+import { SecureCommunicationHandler } from "./SecureCommunicationHandler";
 
 export class GeneratorHttpClient extends BaseEnclaveClient {
   private generatorEndPoint: string;
@@ -28,6 +29,9 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     return await response.json();
   }
 
+  /**
+   * @deprecated use generatorConfigSetupEncrypted
+   */
   public async generatorConfigSetup(
     generator_config: GeneratorConfig[],
     ws_url: string,
@@ -72,11 +76,76 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     return await response.json();
   }
 
+  /**
+   * @deprecated use generatorConfigSetupEncrypted
+   */
+  public async generatorConfigSetupEncrypted(
+    generator_config: GeneratorConfig[],
+    ws_url: string,
+    http_url: string,
+    gas_key: string,
+    start_block: number,
+    chain_id: number,
+    ivs_url: string,
+    markets: {
+      [key: string]: PortAndIvsUrl;
+    },
+  ): Promise<EnclaveResponse<string>> {
+    const generatorConfigData: GeneratorConfigPayload = {
+      generator_config,
+      runtime_config: {
+        ws_url,
+        http_url,
+        private_key: gas_key,
+        start_block,
+        chain_id,
+        payment_token: this.config.payment_token,
+        generator_registry: this.config.generator_registry,
+        attestation_verifier: this.config.attestation_verifier,
+        entity_registry: this.config.entity_registry,
+        proof_market_place: this.config.proof_market_place,
+        staking_token: this.config.staking_token,
+        ivs_url,
+        markets,
+      },
+    };
+
+    let sch = await this.getSch();
+    const response = await fetch(this.url("/api/generatorConfigSetup"), {
+      method: "POST",
+      headers: this.headers(),
+      body: SecureCommunicationHandler.arrayifySchPayload(await sch.preparePayload(generatorConfigData)),
+    });
+
+    if (!response.ok) {
+      console.log(await response.json());
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
+  }
+
+  /**
+   * @deprecated use updateRuntimeConfigEncrypted
+   */
   public async updateRuntimeConfig(config: UpdateRuntimeConfig): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/updateRuntimeConfig"), {
       method: "PUT",
       headers: this.headers(),
       body: helpers.encodePayload(config),
+    });
+    if (!response.ok) {
+      console.log(JSON.stringify(response, null, 4));
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
+  }
+
+  public async updateRuntimeConfigEncrypted(config: UpdateRuntimeConfig): Promise<EnclaveResponse<string>> {
+    let sch = await this.getSch();
+    const response = await fetch(this.url("/api/updateRuntimeConfig"), {
+      method: "PUT",
+      headers: this.headers(),
+      body: SecureCommunicationHandler.arrayifySchPayload(await sch.preparePayload(config)),
     });
     if (!response.ok) {
       console.log(JSON.stringify(response, null, 4));
