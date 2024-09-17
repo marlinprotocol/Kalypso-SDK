@@ -18,6 +18,8 @@ export interface SCHResponse {
   message: string;
   data: {
     response: number[];
+    salt: number[];
+    signature: number[];
   };
 }
 
@@ -27,12 +29,13 @@ export class SecureCommunicationHandler {
 
   public serverPubKey: string;
 
+  private serverSigningAddres: ethers.AddressLike;
   private abicode = new ethers.AbiCoder();
-
   private signer: ethers.Wallet;
 
   constructor(serverPubkey: string, selfPrivateKey?: string) {
     this.serverPubKey = PublicKey.fromHex(serverPubkey).uncompressed.toString("hex");
+    this.serverSigningAddres = ethers.computeAddress("0x" + this.serverPubKey);
 
     let key: PrivateKey;
     if (selfPrivateKey) {
@@ -73,9 +76,18 @@ export class SecureCommunicationHandler {
     return schPayload;
   }
 
-  public decodeResponse<T>(data: SCHResponse): T {
+  public async decodeResponse<T>(data: SCHResponse): Promise<T> {
     let response = new Uint8Array(Object.values(data.data.response || {}).map(Number));
     let info = Buffer.from(response);
+    let salt = Buffer.from(new Uint8Array(Object.values(data.data.salt || {}).map(Number)));
+    let signature = Buffer.from(new Uint8Array(Object.values(data.data.signature || {}).map(Number)));
+
+    let recoverAddress = SecureCommunicationHandler.RECOVER_ADDRESS(info, salt, signature);
+
+    if (recoverAddress.toString().toLowerCase() !== this.serverSigningAddres.toString().toLowerCase()) {
+      throw new Error("Incorrect signature from the signing enclave");
+    }
+
     let decrypted_data = secretInputOperations.decryptECIES(this.selfPrivateKey, info);
 
     const dataString = decrypted_data.toString("utf-8");
@@ -90,6 +102,23 @@ export class SecureCommunicationHandler {
     };
 
     return JSON.stringify(data);
+  }
+
+  public static RECOVER_ADDRESS(info: Buffer, salt: Buffer, signature: Buffer): ethers.AddressLike {
+    let types = ["bytes", "bytes"];
+    let values = [info, salt];
+
+    let abicode = new ethers.AbiCoder();
+    let encoded = abicode.encode(types, values);
+    let digest = ethers.keccak256(ethers.getBytes(encoded));
+
+    const prefix = "\x19Ethereum Signed Message:\n32";
+    const prefixBytes = ethers.toUtf8Bytes(prefix);
+    const ethMessage = ethers.concat([prefixBytes, ethers.getBytes(digest)]);
+    const ethDigest = ethers.keccak256(ethers.getBytes(ethMessage));
+
+    let recoveredAddress = ethers.recoverAddress(ethers.getBytes(ethDigest), ethers.Signature.from("0x" + signature.toString("hex")));
+    return recoveredAddress;
   }
 }
 

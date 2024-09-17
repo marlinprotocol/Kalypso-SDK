@@ -37,7 +37,7 @@ export abstract class BaseEnclaveClient {
     return this.enclavePubkey ?? (this.enclavePubkey = (await this.getAttestation()).secp_key);
   }
 
-  private async getSch(): Promise<SecureCommunicationHandler> {
+  protected async getSch(): Promise<SecureCommunicationHandler> {
     return this.sch ?? (this.sch = new SecureCommunicationHandler((await this.getEnclaveKey()).toString()));
   }
 
@@ -212,7 +212,7 @@ export abstract class BaseEnclaveClient {
     }
 
     let schResponse: SCHResponse = await attestation_server_response.json();
-    let response = sch.decodeResponse<{
+    let response = await sch.decodeResponse<{
       r: string;
       s: string;
       v: number;
@@ -251,6 +251,11 @@ export abstract class BaseEnclaveClient {
     return signature;
   }
 
+  /**
+   * @param attestation Attestation
+   * @param address Address
+   * @returns Returns the attestation and address signed by the enclave keys
+   */
   public async getAttestationSignatureEncrypted(attestation: string, address: string, printLogs: boolean = true): Promise<BytesLike> {
     if (printLogs) {
       console.log(this.url("/api/signAttestationEncrypted"));
@@ -268,7 +273,7 @@ export abstract class BaseEnclaveClient {
     }
 
     let schResponse: SCHResponse = await attestation_server_response.json();
-    let response = sch.decodeResponse<{
+    let response = await sch.decodeResponse<{
       r: string;
       s: string;
       v: number;

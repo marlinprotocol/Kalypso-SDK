@@ -3,6 +3,7 @@ import { KalspsoConfig, MatchingEngineConfigPayload, EnclaveResponse, MatchingEn
 import { BaseEnclaveClient } from "./baseEnclaveClient";
 import { BytesLike, ethers } from "ethers";
 import { helpers } from "../helper";
+import { SecureCommunicationHandler } from "./SecureCommunicationHandler";
 
 export class MatchingEngineHttpClient extends BaseEnclaveClient {
   private matchingEngineEndPoint: string;
@@ -18,6 +19,9 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     return `${this.matchingEngineEndPoint}${api}`;
   }
 
+  /**
+   * @deprecated Use matchingEngineConfigSetupEncrypted
+   */
   public async matchingEngineConfigSetup(
     rpc_url: string,
     chain_id: number,
@@ -52,11 +56,65 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     return await response.json();
   }
 
+  public async matchingEngineConfigSetupEncrypted(
+    rpc_url: string,
+    chain_id: number,
+    relayer_private_key: string,
+    start_block: number,
+    printLogs: boolean = true,
+  ): Promise<EnclaveResponse<string>> {
+    const meConfigData: MatchingEngineConfigPayload = {
+      rpc_url,
+      chain_id: "" + chain_id,
+      relayer_private_key,
+      proof_market_place: this.config.proof_market_place,
+      generator_registry: this.config.generator_registry,
+      start_block: "" + start_block,
+      payment_token: this.config.payment_token,
+      platform_token: this.config.staking_token,
+      attestation_verifier: this.config.attestation_verifier,
+      entity_registry: this.config.entity_registry,
+    };
+    if (printLogs) {
+      console.log({ meConfigData });
+    }
+
+    let sch = await this.getSch();
+    const response = await fetch(this.url("/api/matchingEngineConfigSetupEncrypted"), {
+      method: "POST",
+      headers: this.headers(),
+      body: SecureCommunicationHandler.arrayifySchPayload(await sch.preparePayload(meConfigData)),
+    });
+
+    if (!response.ok) {
+      console.log({ response });
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
+  }
+
+  /**
+   *
+   * @deprecated use updateMatchingEngineConfigEncrypted instead
+   */
   public async updateMatchingEngineConfig(config: MEConfig): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/updateMatchingEngineConfig"), {
       method: "PUT",
       headers: this.headers(),
       body: helpers.encodePayload(config),
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    return await response.json();
+  }
+
+  public async updateMatchingEngineConfigEncrypted(config: MEConfig): Promise<EnclaveResponse<string>> {
+    let sch = await this.getSch();
+    const response = await fetch(this.url("/api/updateMatchingEngineConfigEncrypted"), {
+      method: "PUT",
+      headers: this.headers(),
+      body: SecureCommunicationHandler.arrayifySchPayload(await sch.preparePayload(config)),
     });
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
