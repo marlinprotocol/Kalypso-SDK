@@ -34,7 +34,7 @@ export abstract class BaseEnclaveClient {
    * @returns Enclave key of the connected enclave
    */
   public async getEnclaveKey(): Promise<BytesLike> {
-    return this.enclavePubkey ?? (this.enclavePubkey = (await this.getAttestation()).secp_key);
+    return this.enclavePubkey ?? (this.enclavePubkey = (await this.getAttestation(false)).secp_key);
   }
 
   protected async getSch(): Promise<SecureCommunicationHandler> {
@@ -61,7 +61,7 @@ export abstract class BaseEnclaveClient {
    */
   public async getAttestation(printLogs: boolean = true): Promise<AttestationResponse> {
     //Fetching the attestation document
-    const attestation_build_data = await this.buildAttestation();
+    const attestation_build_data = await this.buildAttestation(printLogs);
     if (printLogs) {
       console.log("fetched attestation successfully");
       console.log({ attestation_build_data });
@@ -121,7 +121,7 @@ export abstract class BaseEnclaveClient {
    *
    * @returns Your Enclave Attestation in required format
    */
-  protected async buildAttestation(printLogs: boolean = true): Promise<any> {
+  protected async buildAttestation(printLogs: boolean = true): Promise<NodeJS.ReadableStream> {
     const attestation_end_point = this.utilityUrl("/attestation/raw");
     if (printLogs) {
       console.log("build attestation", attestation_end_point);
@@ -212,13 +212,13 @@ export abstract class BaseEnclaveClient {
     }
 
     let schResponse: SCHResponse = await attestation_server_response.json();
-    let response = await sch.decodeResponse<{
+    let receivedSignature = await sch.decodeResponse<{
       r: string;
       s: string;
       v: number;
     }>(schResponse);
-    const _v = response.v == 27 ? "1b" : "1c";
-    let signature = response.r + response.s.split("x")[1] + _v;
+    const _v = receivedSignature.v == 27 ? "1b" : "1c";
+    let signature = receivedSignature.r + receivedSignature.s.split("x")[1] + _v;
     return signature;
   }
 
@@ -273,13 +273,13 @@ export abstract class BaseEnclaveClient {
     }
 
     let schResponse: SCHResponse = await attestation_server_response.json();
-    let response = await sch.decodeResponse<{
+    let receivedSignature = await sch.decodeResponse<{
       r: string;
       s: string;
       v: number;
     }>(schResponse);
-    const _v = response.v == 27 ? "1b" : "1c";
-    let signature = response.r + response.s.split("x")[1] + _v;
+    const _v = receivedSignature.v == 27 ? "1b" : "1c";
+    let signature = receivedSignature.r + receivedSignature.s.split("x")[1] + _v;
     return signature;
   }
 

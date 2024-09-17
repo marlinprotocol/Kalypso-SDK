@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 import { GeneratorConfigPayload, GeneratorConfig, UpdateRuntimeConfig } from "../types";
 import { BaseEnclaveClient } from "./baseEnclaveClient";
 import { helpers } from "../helper";
-import { SecureCommunicationHandler } from "./SecureCommunicationHandler";
+import { SCHResponse, SecureCommunicationHandler } from "./SecureCommunicationHandler";
 
 export class GeneratorHttpClient extends BaseEnclaveClient {
   private generatorEndPoint: string;
@@ -76,9 +76,6 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     return await response.json();
   }
 
-  /**
-   * @deprecated use generatorConfigSetupEncrypted
-   */
   public async generatorConfigSetupEncrypted(
     generator_config: GeneratorConfig[],
     ws_url: string,
@@ -121,7 +118,10 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
       console.log(await response.json());
       throw new Error(`Error: ${response.status}`);
     }
-    return await response.json();
+    let schResponse: SCHResponse = await response.json();
+    const decodedResult = await sch.decodeResponse<{}>(schResponse);
+
+    return { message: schResponse.message, data: JSON.stringify(decodedResult) };
   }
 
   /**
@@ -151,7 +151,10 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
       console.log(JSON.stringify(response, null, 4));
       throw new Error(`Error: ${response.status}`);
     }
-    return await response.json();
+    let schResponse: SCHResponse = await response.json();
+    const decodedResult = await sch.decodeResponse<{}>(schResponse);
+
+    return { message: schResponse.message, data: JSON.stringify(decodedResult) };
   }
 
   public async addNewGenerator(generatorConfig: GeneratorConfig): Promise<EnclaveResponse<string>> {

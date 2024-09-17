@@ -3,7 +3,7 @@ import { KalspsoConfig, MatchingEngineConfigPayload, EnclaveResponse, MatchingEn
 import { BaseEnclaveClient } from "./baseEnclaveClient";
 import { BytesLike, ethers } from "ethers";
 import { helpers } from "../helper";
-import { SecureCommunicationHandler } from "./SecureCommunicationHandler";
+import { SCHResponse, SecureCommunicationHandler } from "./SecureCommunicationHandler";
 
 export class MatchingEngineHttpClient extends BaseEnclaveClient {
   private matchingEngineEndPoint: string;
@@ -90,7 +90,10 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
       console.log({ response });
       throw new Error(`Error: ${response.status}`);
     }
-    return await response.json();
+    let schResponse: SCHResponse = await response.json();
+    const decodedResult = await sch.decodeResponse<{}>(schResponse);
+
+    return { message: schResponse.message, data: JSON.stringify(decodedResult) };
   }
 
   /**
@@ -119,7 +122,10 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
     }
-    return await response.json();
+    let schResponse: SCHResponse = await response.json();
+    const decodedResult = await sch.decodeResponse<{}>(schResponse);
+
+    return { message: schResponse.message, data: JSON.stringify(decodedResult) };
   }
 
   public async getMatchingEngineStatus(): Promise<EnclaveResponse<string>> {
