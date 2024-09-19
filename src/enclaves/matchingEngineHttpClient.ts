@@ -139,6 +139,10 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     return await response.json();
   }
 
+  /**
+   *
+   * @deprecated use stopMatchingEngineEncrypted
+   */
   public async stopMatchingEngine(): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/stopMatchingEngine"), {
       method: "POST",
@@ -150,6 +154,28 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     }
     return await response.json();
   }
+
+  public async stopMatchingEngineEncrypted(): Promise<EnclaveResponse<string>> {
+    const sch = await this.getSch();
+
+    const response = await fetch(this.url("/api/stopMatchingEngine"), {
+      method: "POST",
+      headers: this.headers(),
+      body: SecureCommunicationHandler.arrayifySchPayload(await sch.preparePayload({})),
+    });
+    if (!response.ok) {
+      console.log({ response });
+      throw new Error(`Error: ${response.status}`);
+    }
+    let schResponse: SCHResponse = await response.json();
+    const decodedResult = await sch.decodeResponse<{}>(schResponse);
+
+    return { message: schResponse.message, data: JSON.stringify(decodedResult) };
+  }
+
+  /**
+   * @deprecated Use startMatchingEngineEncrypted instead
+   */
   public async startMatchingEngine(): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/startMatchingEngine"), {
       method: "POST",
@@ -162,6 +188,28 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
     }
     return await response.json();
   }
+
+  public async startMatchingEngineEncrypted(): Promise<EnclaveResponse<string>> {
+    const sch = await this.getSch();
+    const response = await fetch(this.url("/api/startMatchingEngine"), {
+      method: "POST",
+      headers: this.headers(),
+      body: SecureCommunicationHandler.arrayifySchPayload(await sch.preparePayload({})),
+    });
+
+    if (!response.ok) {
+      console.log({ response });
+      throw new Error(`Error: ${response.status}`);
+    }
+    let schResponse: SCHResponse = await response.json();
+    const decodedResult = await sch.decodeResponse<{}>(schResponse);
+
+    return { message: schResponse.message, data: JSON.stringify(decodedResult) };
+  }
+
+  /**
+   * @deprecated Use restartMatchingEngineEncrypted instead
+   */
   public async restartMatchingEngine(): Promise<EnclaveResponse<string>> {
     const response = await fetch(this.url("/api/restartMatchingEngine"), {
       method: "POST",
@@ -172,6 +220,23 @@ export class MatchingEngineHttpClient extends BaseEnclaveClient {
       throw new Error(`Error: ${response.status}`);
     }
     return await response.json();
+  }
+
+  public async restartMatchingEngineEncrypted(): Promise<EnclaveResponse<string>> {
+    const sch = await this.getSch();
+    const response = await fetch(this.url("/api/restartMatchingEngine"), {
+      method: "POST",
+      headers: this.headers(),
+      body: SecureCommunicationHandler.arrayifySchPayload(await sch.preparePayload({})),
+    });
+    if (!response.ok) {
+      console.log({ response });
+      throw new Error(`Error: ${response.status}`);
+    }
+    let schResponse: SCHResponse = await response.json();
+    const decodedResult = await sch.decodeResponse<{}>(schResponse);
+
+    return { message: schResponse.message, data: JSON.stringify(decodedResult) };
   }
 
   public async getMatchingEnginePublicKeys(): Promise<EnclaveResponse<MatchingEngineKeys>> {
