@@ -33,12 +33,12 @@ export interface IVerifier_zksync extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -63,7 +63,7 @@ export interface IVerifier_zksync extends BaseContract {
 
   getFunction(nameOrSignature: "verificationKeyHash"): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "verify",
+    nameOrSignature: "verify"
   ): TypedContractMethod<
     [_publicInputs: BigNumberish[], _proof: BigNumberish[], _recursiveAggregationInput: BigNumberish[]],
     [boolean],

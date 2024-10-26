@@ -364,7 +364,7 @@ export class MockToken__factory extends ContractFactory {
     _totalSupply: BigNumberish,
     _tokenName: string,
     _tokenSymbol: string,
-    overrides?: NonPayableOverrides & { from?: string },
+    overrides?: NonPayableOverrides & { from?: string }
   ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(_admin, _totalSupply, _tokenName, _tokenSymbol, overrides || {});
   }
@@ -373,7 +373,7 @@ export class MockToken__factory extends ContractFactory {
     _totalSupply: BigNumberish,
     _tokenName: string,
     _tokenSymbol: string,
-    overrides?: NonPayableOverrides & { from?: string },
+    overrides?: NonPayableOverrides & { from?: string }
   ) {
     return super.deploy(_admin, _totalSupply, _tokenName, _tokenSymbol, overrides || {}) as Promise<
       MockToken & {

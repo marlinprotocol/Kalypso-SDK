@@ -67,7 +67,7 @@ export interface GeneratorRegistryInterface extends Interface {
       | "supportsInterface"
       | "unstake"
       | "updateEncryptionKey"
-      | "upgradeToAndCall",
+      | "upgradeToAndCall"
   ): FunctionFragment;
 
   getEvent(
@@ -93,7 +93,7 @@ export interface GeneratorRegistryInterface extends Interface {
       | "RoleRevoked"
       | "StakeLockImposed"
       | "StakeLockReleased"
-      | "Upgraded",
+      | "Upgraded"
   ): EventFragment;
 
   encodeFunctionData(functionFragment: "DEFAULT_ADMIN_ROLE", values?: undefined): string;
@@ -123,7 +123,7 @@ export interface GeneratorRegistryInterface extends Interface {
   encodeFunctionData(functionFragment: "intendToReduceStake", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "joinMarketplace",
-    values: [BigNumberish, BigNumberish, BigNumberish, BigNumberish, boolean, BytesLike, BytesLike],
+    values: [BigNumberish, BigNumberish, BigNumberish, BigNumberish, boolean, BytesLike, BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "leaveMarketplace", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "leaveMarketplaces", values: [BigNumberish[]]): string;
@@ -483,12 +483,12 @@ export interface GeneratorRegistry extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
+    toBlock?: string | number | undefined
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -544,7 +544,7 @@ export interface GeneratorRegistry extends BaseContract {
         proofGenerationCost: bigint;
         proposedTime: bigint;
         activeRequests: bigint;
-      },
+      }
     ],
     "view"
   >;
@@ -563,7 +563,7 @@ export interface GeneratorRegistry extends BaseContract {
         intendedStakeUtilization: bigint;
         intendedComputeUtilization: bigint;
         generatorData: string;
-      },
+      }
     ],
     "view"
   >;
@@ -596,7 +596,7 @@ export interface GeneratorRegistry extends BaseContract {
       proposedTime: BigNumberish,
       updateMarketDedicatedKey: boolean,
       attestationData: BytesLike,
-      enclaveSignature: BytesLike,
+      enclaveSignature: BytesLike
     ],
     [void],
     "nonpayable"
@@ -656,14 +656,14 @@ export interface GeneratorRegistry extends BaseContract {
   getFunction(nameOrSignature: "UNLOCK_WAIT_BLOCKS"): TypedContractMethod<[], [bigint], "view">;
   getFunction(nameOrSignature: "UPGRADE_INTERFACE_VERSION"): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "addIvsKey",
+    nameOrSignature: "addIvsKey"
   ): TypedContractMethod<[marketId: BigNumberish, attestationData: BytesLike, enclaveSignature: BytesLike], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "assignGeneratorTask",
+    nameOrSignature: "assignGeneratorTask"
   ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish, stakeToLock: BigNumberish], [void], "nonpayable">;
   getFunction(nameOrSignature: "changeRewardAddress"): TypedContractMethod<[newRewardAddress: AddressLike], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "completeGeneratorTask",
+    nameOrSignature: "completeGeneratorTask"
   ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish, stakeToRelease: BigNumberish], [void], "nonpayable">;
   getFunction(nameOrSignature: "decreaseDeclaredCompute"): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(nameOrSignature: "deregister"): TypedContractMethod<[refundAddress: AddressLike], [void], "nonpayable">;
@@ -676,7 +676,7 @@ export interface GeneratorRegistry extends BaseContract {
         proofGenerationCost: bigint;
         proposedTime: bigint;
         activeRequests: bigint;
-      },
+      }
     ],
     "view"
   >;
@@ -694,30 +694,30 @@ export interface GeneratorRegistry extends BaseContract {
         intendedStakeUtilization: bigint;
         intendedComputeUtilization: bigint;
         generatorData: string;
-      },
+      }
     ],
     "view"
   >;
   getFunction(
-    nameOrSignature: "getGeneratorAssignmentDetails",
+    nameOrSignature: "getGeneratorAssignmentDetails"
   ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[bigint, bigint]], "view">;
   getFunction(
-    nameOrSignature: "getGeneratorRewardDetails",
+    nameOrSignature: "getGeneratorRewardDetails"
   ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[string, bigint]], "view">;
   getFunction(
-    nameOrSignature: "getGeneratorState",
+    nameOrSignature: "getGeneratorState"
   ): TypedContractMethod<[generatorAddress: AddressLike, marketId: BigNumberish], [[bigint, bigint]], "view">;
   getFunction(nameOrSignature: "getRoleAdmin"): TypedContractMethod<[role: BytesLike], [string], "view">;
   getFunction(nameOrSignature: "grantRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "hasRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
   getFunction(nameOrSignature: "increaseDeclaredCompute"): TypedContractMethod<[computeToIncrease: BigNumberish], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "initialize",
+    nameOrSignature: "initialize"
   ): TypedContractMethod<[_admin: AddressLike, _proofMarketplace: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "intendToReduceCompute"): TypedContractMethod<[computeToReduce: BigNumberish], [void], "nonpayable">;
   getFunction(nameOrSignature: "intendToReduceStake"): TypedContractMethod<[stakeToReduce: BigNumberish], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "joinMarketplace",
+    nameOrSignature: "joinMarketplace"
   ): TypedContractMethod<
     [
       marketId: BigNumberish,
@@ -726,7 +726,7 @@ export interface GeneratorRegistry extends BaseContract {
       proposedTime: BigNumberish,
       updateMarketDedicatedKey: boolean,
       attestationData: BytesLike,
-      enclaveSignature: BytesLike,
+      enclaveSignature: BytesLike
     ],
     [void],
     "nonpayable"
@@ -736,7 +736,7 @@ export interface GeneratorRegistry extends BaseContract {
   getFunction(nameOrSignature: "proofMarketplace"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "proxiableUUID"): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "register",
+    nameOrSignature: "register"
   ): TypedContractMethod<
     [rewardAddress: AddressLike, declaredCompute: BigNumberish, initialStake: BigNumberish, generatorData: BytesLike],
     [void],
@@ -744,13 +744,13 @@ export interface GeneratorRegistry extends BaseContract {
   >;
   getFunction(nameOrSignature: "removeEncryptionKey"): TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "renounceRole",
+    nameOrSignature: "renounceRole"
   ): TypedContractMethod<[role: BytesLike, callerConfirmation: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "requestForExitMarketplace"): TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
   getFunction(nameOrSignature: "requestForExitMarketplaces"): TypedContractMethod<[marketIds: BigNumberish[]], [void], "nonpayable">;
   getFunction(nameOrSignature: "revokeRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "slashGenerator",
+    nameOrSignature: "slashGenerator"
   ): TypedContractMethod<
     [generatorAddress: AddressLike, marketId: BigNumberish, slashingAmount: BigNumberish, rewardAddress: AddressLike],
     [bigint],
@@ -760,90 +760,90 @@ export interface GeneratorRegistry extends BaseContract {
   getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
   getFunction(nameOrSignature: "unstake"): TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "updateEncryptionKey",
+    nameOrSignature: "updateEncryptionKey"
   ): TypedContractMethod<[marketId: BigNumberish, attestationData: BytesLike, enclaveSignature: BytesLike], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "upgradeToAndCall",
+    nameOrSignature: "upgradeToAndCall"
   ): TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;
 
   getEvent(key: "AddIvsKey"): TypedContractEvent<AddIvsKeyEvent.InputTuple, AddIvsKeyEvent.OutputTuple, AddIvsKeyEvent.OutputObject>;
   getEvent(key: "AddedStake"): TypedContractEvent<AddedStakeEvent.InputTuple, AddedStakeEvent.OutputTuple, AddedStakeEvent.OutputObject>;
   getEvent(
-    key: "ChangedGeneratorRewardAddress",
+    key: "ChangedGeneratorRewardAddress"
   ): TypedContractEvent<
     ChangedGeneratorRewardAddressEvent.InputTuple,
     ChangedGeneratorRewardAddressEvent.OutputTuple,
     ChangedGeneratorRewardAddressEvent.OutputObject
   >;
   getEvent(
-    key: "ComputeLockImposed",
+    key: "ComputeLockImposed"
   ): TypedContractEvent<ComputeLockImposedEvent.InputTuple, ComputeLockImposedEvent.OutputTuple, ComputeLockImposedEvent.OutputObject>;
   getEvent(
-    key: "ComputeLockReleased",
+    key: "ComputeLockReleased"
   ): TypedContractEvent<ComputeLockReleasedEvent.InputTuple, ComputeLockReleasedEvent.OutputTuple, ComputeLockReleasedEvent.OutputObject>;
   getEvent(
-    key: "DecreaseCompute",
+    key: "DecreaseCompute"
   ): TypedContractEvent<DecreaseComputeEvent.InputTuple, DecreaseComputeEvent.OutputTuple, DecreaseComputeEvent.OutputObject>;
   getEvent(
-    key: "DeregisteredGenerator",
+    key: "DeregisteredGenerator"
   ): TypedContractEvent<
     DeregisteredGeneratorEvent.InputTuple,
     DeregisteredGeneratorEvent.OutputTuple,
     DeregisteredGeneratorEvent.OutputObject
   >;
   getEvent(
-    key: "IncreasedCompute",
+    key: "IncreasedCompute"
   ): TypedContractEvent<IncreasedComputeEvent.InputTuple, IncreasedComputeEvent.OutputTuple, IncreasedComputeEvent.OutputObject>;
   getEvent(
-    key: "Initialized",
+    key: "Initialized"
   ): TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
   getEvent(
-    key: "JoinedMarketplace",
+    key: "JoinedMarketplace"
   ): TypedContractEvent<JoinedMarketplaceEvent.InputTuple, JoinedMarketplaceEvent.OutputTuple, JoinedMarketplaceEvent.OutputObject>;
   getEvent(
-    key: "LeftMarketplace",
+    key: "LeftMarketplace"
   ): TypedContractEvent<LeftMarketplaceEvent.InputTuple, LeftMarketplaceEvent.OutputTuple, LeftMarketplaceEvent.OutputObject>;
   getEvent(
-    key: "RegisteredGenerator",
+    key: "RegisteredGenerator"
   ): TypedContractEvent<RegisteredGeneratorEvent.InputTuple, RegisteredGeneratorEvent.OutputTuple, RegisteredGeneratorEvent.OutputObject>;
   getEvent(
-    key: "RemovedStake",
+    key: "RemovedStake"
   ): TypedContractEvent<RemovedStakeEvent.InputTuple, RemovedStakeEvent.OutputTuple, RemovedStakeEvent.OutputObject>;
   getEvent(
-    key: "RequestComputeDecrease",
+    key: "RequestComputeDecrease"
   ): TypedContractEvent<
     RequestComputeDecreaseEvent.InputTuple,
     RequestComputeDecreaseEvent.OutputTuple,
     RequestComputeDecreaseEvent.OutputObject
   >;
   getEvent(
-    key: "RequestExitMarketplace",
+    key: "RequestExitMarketplace"
   ): TypedContractEvent<
     RequestExitMarketplaceEvent.InputTuple,
     RequestExitMarketplaceEvent.OutputTuple,
     RequestExitMarketplaceEvent.OutputObject
   >;
   getEvent(
-    key: "RequestStakeDecrease",
+    key: "RequestStakeDecrease"
   ): TypedContractEvent<
     RequestStakeDecreaseEvent.InputTuple,
     RequestStakeDecreaseEvent.OutputTuple,
     RequestStakeDecreaseEvent.OutputObject
   >;
   getEvent(
-    key: "RoleAdminChanged",
+    key: "RoleAdminChanged"
   ): TypedContractEvent<RoleAdminChangedEvent.InputTuple, RoleAdminChangedEvent.OutputTuple, RoleAdminChangedEvent.OutputObject>;
   getEvent(
-    key: "RoleGranted",
+    key: "RoleGranted"
   ): TypedContractEvent<RoleGrantedEvent.InputTuple, RoleGrantedEvent.OutputTuple, RoleGrantedEvent.OutputObject>;
   getEvent(
-    key: "RoleRevoked",
+    key: "RoleRevoked"
   ): TypedContractEvent<RoleRevokedEvent.InputTuple, RoleRevokedEvent.OutputTuple, RoleRevokedEvent.OutputObject>;
   getEvent(
-    key: "StakeLockImposed",
+    key: "StakeLockImposed"
   ): TypedContractEvent<StakeLockImposedEvent.InputTuple, StakeLockImposedEvent.OutputTuple, StakeLockImposedEvent.OutputObject>;
   getEvent(
-    key: "StakeLockReleased",
+    key: "StakeLockReleased"
   ): TypedContractEvent<StakeLockReleasedEvent.InputTuple, StakeLockReleasedEvent.OutputTuple, StakeLockReleasedEvent.OutputObject>;
   getEvent(key: "Upgraded"): TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>;
 

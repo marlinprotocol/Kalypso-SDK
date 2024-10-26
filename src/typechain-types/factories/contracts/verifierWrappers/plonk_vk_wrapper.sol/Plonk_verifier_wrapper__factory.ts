@@ -315,7 +315,7 @@ export class Plonk_verifier_wrapper__factory extends ContractFactory {
     _iverifier: AddressLike,
     _sampleInput: BytesLike,
     _sampleProof: BytesLike,
-    overrides?: NonPayableOverrides & { from?: string },
+    overrides?: NonPayableOverrides & { from?: string }
   ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(_iverifier, _sampleInput, _sampleProof, overrides || {});
   }
@@ -323,7 +323,7 @@ export class Plonk_verifier_wrapper__factory extends ContractFactory {
     _iverifier: AddressLike,
     _sampleInput: BytesLike,
     _sampleProof: BytesLike,
-    overrides?: NonPayableOverrides & { from?: string },
+    overrides?: NonPayableOverrides & { from?: string }
   ) {
     return super.deploy(_iverifier, _sampleInput, _sampleProof, overrides || {}) as Promise<
       Plonk_verifier_wrapper & {

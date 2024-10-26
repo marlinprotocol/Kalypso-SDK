@@ -679,7 +679,7 @@ export class Tee_verifier_wrapper__factory extends ContractFactory {
     _admin: AddressLike,
     _av: AddressLike,
     _proverPcrs: BytesLike[],
-    overrides?: NonPayableOverrides & { from?: string },
+    overrides?: NonPayableOverrides & { from?: string }
   ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(_admin, _av, _proverPcrs, overrides || {});
   }
