@@ -162,6 +162,50 @@ export abstract class BaseEnclaveClient {
     };
   }
 
+  public async getAttestationLocal(printLogs: boolean = true): Promise<AttestationResponse> {
+    //Fetching the attestation document
+    const attestation_build_data = await this.buildAttestation(printLogs);
+    if (printLogs) {
+      console.log("fetched attestation successfully");
+      console.log({ attestation_build_data });
+    }
+
+    const arrayBuffer = await AttestationVerifier.streamToArrayBuffer(attestation_build_data);
+    const attestation_verifier_response_data = await AttestationVerifier.get_attestation(arrayBuffer);
+
+    if (printLogs) {
+      console.log({ attestation_verifier_response_data });
+    }
+
+    let ecies_pubkey = "0x" + attestation_verifier_response_data.secp256k1_public.toString();
+
+    if (ecies_pubkey.length != 130) {
+      throw new Error("secp pub key length incorrect");
+    }
+
+    let abiCoder = new ethers.AbiCoder();
+    let encodedData = abiCoder.encode(
+      ["bytes", "bytes", "bytes", "bytes", "bytes", "uint256"],
+      [
+        "0x" + attestation_verifier_response_data.signature,
+        ecies_pubkey,
+        "0x" + attestation_verifier_response_data.pcr0,
+        "0x" + attestation_verifier_response_data.pcr1,
+        "0x" + attestation_verifier_response_data.pcr2,
+        "" + attestation_verifier_response_data.timestamp,
+      ],
+    );
+
+    if (printLogs) {
+      console.log({ encodedData });
+    }
+
+    return {
+      attestation_document: encodedData,
+      secp_key: ecies_pubkey,
+    };
+  }
+
   /**
    *
    * @returns Your Enclave Attestation in required format
