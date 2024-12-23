@@ -36,42 +36,8 @@ interface VerifyAttestationResponse {
 const ATTESTATION_TYPEHASH = "0x6889df476ca38f3f4b417c17eb496682eb401b4f41a2259741a78acc481ea805";
 const DOMAIN_SEPARATOR = "0x0de834feb03c214f785e75b2828ffeceb322312d4487e2fb9640ca5fc32542c7"; // Example placeholder, replace with actual domain separator
 
-class AttestationVerifier {
-  private utilityUrl(path: string): string {
-    // Your logic to construct the URL
-    return `http://13.201.131.193:1500${path}`;
-  }
-
-  // The method that does the fetch
-  // public async buildAttestation(printLogs: boolean = true): Promise<NodeJS.ReadableStream> {
-  //   const attestation_end_point = this.utilityUrl("/attestation/raw");
-  //   const { default: fetch } = await import('node-fetch');
-
-  //   if (printLogs) {
-  //     console.log("build attestation", attestation_end_point);
-  //   }
-
-  //   let attestation_build_config = {
-  //     method: "GET",
-  //   };
-
-  //   // Fetch the attestation
-  //   let attestation_server_response = await fetch(attestation_end_point, attestation_build_config);
-
-  //   if (!attestation_server_response.ok) {
-  //     console.log({ statusCode: attestation_server_response.status });
-  //     throw new Error("failed building the attestation");
-  //   }
-
-  //   // Return the body of the response (which is a ReadableStream in Node.js 18+)
-  //   let result = await attestation_server_response.body;
-  //   if (!result) {
-  //     throw new Error("No body in the response");
-  //   }
-  //   return result;
-  // }
-
-  public async streamToArrayBuffer(stream: NodeJS.ReadableStream): Promise<ArrayBuffer> {
+export class AttestationVerifier {
+  public static async streamToArrayBuffer(stream: NodeJS.ReadableStream): Promise<ArrayBuffer> {
     return new Promise((resolve, reject) => {
       const chunks: Uint8Array[] = [];
       stream.on("data", (chunk) => {
@@ -95,7 +61,7 @@ class AttestationVerifier {
       });
     });
   }
-  public static base64UrlDecode(base64Url: string) {
+  public static base64UrlDecode(base64Url: string): Buffer {
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
     const padding = base64.length % 4 === 0 ? "" : "=".repeat(4 - (base64.length % 4));
     return Buffer.from(base64 + padding, "base64");
@@ -137,7 +103,9 @@ class AttestationVerifier {
 
     const ecKey = new ec("p384");
     // Create the public key object
-    const publicKey = Buffer.concat([Buffer.from([0x04]), xBuffer, yBuffer]).toString("hex");
+    const publicKey = Buffer.concat([new Uint8Array(Buffer.from([0x04])), new Uint8Array(xBuffer), new Uint8Array(yBuffer)]).toString(
+      "hex",
+    );
     const publicKeyBuffer2 = Buffer.from(publicKey, "hex");
     const publicKey2 = ecKey.keyFromPublic(publicKeyBuffer2);
 
@@ -240,10 +208,10 @@ class AttestationVerifier {
 
     // Fill the buffer with keccak256 hashed values
     encodedStruct.set(this.hexToBytes(ATTESTATION_TYPEHASH), 0); // Add typehash
-    encodedStruct.set(this.hexToBytes(keccak256(enclavePubKey)), 32); // Add hashed enclavePubkey
-    encodedStruct.set(this.hexToBytes(keccak256(pcr0)), 64); // Add hashed pcr0
-    encodedStruct.set(this.hexToBytes(keccak256(pcr1)), 96); // Add hashed pcr1
-    encodedStruct.set(this.hexToBytes(keccak256(pcr2)), 128); // Add hashed pcr2
+    encodedStruct.set(this.hexToBytes(keccak256(new Uint8Array(enclavePubKey))), 32); // Add hashed enclavePubkey
+    encodedStruct.set(this.hexToBytes(keccak256(new Uint8Array(pcr0))), 64); // Add hashed pcr0
+    encodedStruct.set(this.hexToBytes(keccak256(new Uint8Array(pcr1))), 96); // Add hashed pcr1
+    encodedStruct.set(this.hexToBytes(keccak256(new Uint8Array(pcr2))), 128); // Add hashed pcr2
 
     // Convert timestamp to a BigNumber, get its hex string, and convert to bytes
     const timestampBytes = this.numberToBytesBE(timestamp, 32);
@@ -316,5 +284,3 @@ class AttestationVerifier {
     return response;
   }
 }
-
-module.exports = AttestationVerifier;

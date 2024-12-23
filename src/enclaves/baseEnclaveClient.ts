@@ -7,7 +7,7 @@ import { HeaderInit } from "node-fetch";
 import { helpers } from "../helper";
 import { SCHResponse, SecureCommunicationHandler } from "./SecureCommunicationHandler";
 import { randomUUID } from "crypto";
-const AttestationVerifier = require("./../attestation/attestation_verifier");
+import { AttestationVerifier } from "./../attestation/attestation_verifier";
 
 /**
  * @description Contains common features for all types of derived enclaves
@@ -35,7 +35,7 @@ export abstract class BaseEnclaveClient {
    * @returns Enclave key of the connected enclave
    */
   public async getEnclaveKey(): Promise<BytesLike> {
-    return this.enclavePubkey ?? (this.enclavePubkey = (await this.getAttestation(false)).secp_key);
+    return this.enclavePubkey ?? (this.enclavePubkey = (await this.getAttestation(false, false)).secp_key);
   }
 
   protected async getSch(): Promise<SecureCommunicationHandler> {
@@ -55,12 +55,20 @@ export abstract class BaseEnclaveClient {
   }
   protected abstract url(api: string): string;
 
+  public async getAttestation(verify_attestation_locally: boolean = false, printLogs: boolean = false): Promise<AttestationResponse> {
+    if (verify_attestation_locally) {
+      return this.getAttestationLocal(printLogs);
+    } else {
+      return this.getAttestationRemote(printLogs);
+    }
+  }
+
   /**
    *
    * @param attestation_verifier_endpoint URL at which the attestation verifier is hosted
    * @returns Attestation
    */
-  public async getAttestation(printLogs: boolean = true): Promise<AttestationResponse> {
+  private async getAttestationRemote(printLogs: boolean = true): Promise<AttestationResponse> {
     //Fetching the attestation document
     const attestation_build_data = await this.buildAttestation(printLogs);
     if (printLogs) {
@@ -118,51 +126,7 @@ export abstract class BaseEnclaveClient {
     };
   }
 
-  public async getAttestationLocal(printLogs: boolean = true): Promise<AttestationResponse> {
-    //Fetching the attestation document
-    const attestation_build_data = await this.buildAttestation(printLogs);
-    if (printLogs) {
-      console.log("fetched attestation successfully");
-      console.log({ attestation_build_data });
-    }
-
-    const arrayBuffer = await AttestationVerifier.streamToArrayBuffer(attestation_build_data);
-    const attestation_verifier_response_data = await AttestationVerifier.get_attestation(arrayBuffer);
-
-    if (printLogs) {
-      console.log({ attestation_verifier_response_data });
-    }
-
-    let ecies_pubkey = "0x" + attestation_verifier_response_data.secp256k1_public.toString();
-
-    if (ecies_pubkey.length != 130) {
-      throw new Error("secp pub key length incorrect");
-    }
-
-    let abiCoder = new ethers.AbiCoder();
-    let encodedData = abiCoder.encode(
-      ["bytes", "bytes", "bytes", "bytes", "bytes", "uint256"],
-      [
-        "0x" + attestation_verifier_response_data.signature,
-        ecies_pubkey,
-        "0x" + attestation_verifier_response_data.pcr0,
-        "0x" + attestation_verifier_response_data.pcr1,
-        "0x" + attestation_verifier_response_data.pcr2,
-        "" + attestation_verifier_response_data.timestamp,
-      ],
-    );
-
-    if (printLogs) {
-      console.log({ encodedData });
-    }
-
-    return {
-      attestation_document: encodedData,
-      secp_key: ecies_pubkey,
-    };
-  }
-
-  public async getAttestationLocal(printLogs: boolean = true): Promise<AttestationResponse> {
+  private async getAttestationLocal(printLogs: boolean = true): Promise<AttestationResponse> {
     //Fetching the attestation document
     const attestation_build_data = await this.buildAttestation(printLogs);
     if (printLogs) {
