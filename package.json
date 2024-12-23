@@ -1,6 +1,6 @@
 {
   "name": "kalypso-sdk",
-  "version": "1.0.51",
+  "version": "1.0.52",
   "description": "Kalypso SDK",
   "main": "dist/index.js",
   "files": [
@@ -24,6 +24,7 @@
   "homepage": "https://github.com/marlinprotocol/Kalypso-SDK#readme",
   "devDependencies": {
     "@types/cbor": "^5.0.1",
+    "@types/elliptic": "^6.4.18",
     "@types/libsodium-wrappers": "^0.7.13",
     "@types/mocha": "^10.0.1",
     "@types/node-fetch": "^2.6.9",

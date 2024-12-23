@@ -2,7 +2,6 @@
 import { X509Certificate, createHash } from "crypto";
 import * as cbor from "cbor";
 
-// const cose = require('cose-js');
 const EMPTY_BUFFER = Buffer.alloc(0);
 
 interface Signature {
@@ -14,7 +13,7 @@ interface SigningPublicKey {
   verify: (digest: Buffer, signature: Signature) => boolean; // Adjust types as needed
 }
 
-class COSE_Sign1 {
+export class COSE_Sign1 {
   protectedHeader: Buffer; // Ensure properties are defined
   unprotected: object;
   payload: Buffer;
@@ -154,5 +153,3 @@ class COSE_Sign1 {
     return SigStructure;
   }
 }
-// Export the class
-module.exports = COSE_Sign1;

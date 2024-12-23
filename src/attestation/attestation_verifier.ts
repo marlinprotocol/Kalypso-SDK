@@ -1,12 +1,8 @@
-const COSE_Sign1 = require("./cose_sign");
-const { X509Certificate } = require("crypto");
-const { ec } = require("elliptic");
-import * as fs from "fs";
-import * as path from "path";
+import { COSE_Sign1 } from "./cose_sign";
+
+import { ec } from "elliptic";
 import { keccak256 } from "ethers";
-// import { keccak256, arrayify } from 'ethers/lib/utils';
-// import * as ether from 'ethers' ;
-import { randomBytes } from "crypto";
+import { randomBytes, X509Certificate } from "crypto";
 import * as secp256k1 from "secp256k1";
 
 interface ECKey {
@@ -117,19 +113,19 @@ export class AttestationVerifier {
     const parsedData = await COSE_Sign1.decodeCBOR(attestationDoc);
     const verifier = new COSE_Sign1(parsedData[0], parsedData[1], parsedData[2], parsedData[3]);
 
-    const attestation_payload_decoded = await COSE_Sign1.decodeCBOR(verifier.payload);
+    const attestation_payload_decoded = await COSE_Sign1.decodeCBOR(new Uint8Array(verifier.payload));
 
-    console.log(attestation_payload_decoded);
+    // console.log(attestation_payload_decoded);
     const enclave_certificate = new X509Certificate(attestation_payload_decoded.certificate);
 
     const pub_key = enclave_certificate.publicKey;
 
     const key_jwk = pub_key.export({
       format: "jwk", // JWK format (ignores other options like type)
-      type: "spki",
+      // type: "spki",
     });
 
-    const public_key = this.public_key(key_jwk);
+    const public_key = this.public_key(key_jwk as any);
     // return public_key;
     const sig_verification = await verifier.verifySignature(public_key);
     // console.log(val);
@@ -196,7 +192,7 @@ IwLz3/Y=
 
     const parsedData = await COSE_Sign1.decodeCBOR(attestationDoc);
     const verifier = new COSE_Sign1(parsedData[0], parsedData[1], parsedData[2], parsedData[3]);
-    const attestation_payload_decoded = await COSE_Sign1.decodeCBOR(verifier.payload);
+    const attestation_payload_decoded = await COSE_Sign1.decodeCBOR(new Uint8Array(verifier.payload));
 
     const pcrs = AttestationVerifier.parse_pcrs(attestation_payload_decoded.pcrs);
 
@@ -237,7 +233,7 @@ IwLz3/Y=
     encodedMessage.set([0x19, 0x01], 0); // EIP-712 prefix
     encodedMessage.set(this.hexToBytes(DOMAIN_SEPARATOR), 2); // Add domain separator
     encodedMessage.set(this.hexToBytes(hashStruct), 34); // Add hashed struct
-    console.log(encodedMessage);
+    // console.log(encodedMessage);
     // Return the final keccak256 digest
     return keccak256(encodedMessage);
   }
@@ -257,7 +253,7 @@ IwLz3/Y=
 
   public static async get_attestation(arrayBuffer: ArrayBuffer) {
     const verified = await this.attestation_verifier(arrayBuffer);
-    console.log(verified);
+    // console.log(verified);
     if (!verified) {
       throw Error("attestation verification failed");
     }
@@ -292,7 +288,7 @@ IwLz3/Y=
       timestamp: attestationDecoded.timestamp,
       verifier_secp256k1_public: privateKey.toString("hex"),
     };
-    console.log(response);
+    // console.log(response);
     return response;
   }
 }
