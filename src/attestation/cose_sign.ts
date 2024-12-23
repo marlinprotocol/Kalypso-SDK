@@ -1,7 +1,6 @@
 // Import specific classes/functions from the 'crypto' module
-import { X509Certificate, createHash } from 'crypto';
-import * as cbor from 'cbor';
-
+import { X509Certificate, createHash } from "crypto";
+import * as cbor from "cbor";
 
 // const cose = require('cose-js');
 const EMPTY_BUFFER = Buffer.alloc(0);
@@ -116,7 +115,6 @@ class COSE_Sign1 {
         const validFromDate = new Date(cert.validFrom);
         const validToDate = new Date(cert.validTo);
 
-
         // Check current time validity of the certificate
         const currentTime = new Date();
         if (isNaN(validFromDate.getTime())) {
@@ -130,7 +128,6 @@ class COSE_Sign1 {
         if (validToDate < currentTime || validFromDate > currentTime) {
           throw new Error(`Certificate time validity failed at index ${i}`);
         }
-
       }
     } catch (error) {
       console.log(error);
