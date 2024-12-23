@@ -1,6 +1,6 @@
 {
   "name": "kalypso-sdk",
-  "version": "1.0.47",
+  "version": "1.0.49",
   "description": "Kalypso SDK",
   "main": "dist/index.js",
   "files": [
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/marlinprotocol/Kalypso-SDK#readme",
   "devDependencies": {
+    "@types/cbor": "^5.0.1",
     "@types/libsodium-wrappers": "^0.7.13",
     "@types/mocha": "^10.0.1",
     "@types/node-fetch": "^2.6.9",
@@ -38,6 +39,7 @@
     "@nomicfoundation/hardhat-ethers": "^3.0.4",
     "@types/node": "^20.4.5",
     "bignumber.js": "^9.1.1",
+    "cbor": "^10.0.3",
     "eciesjs": "^0.4.4",
     "ethers": "^6.6.6",
     "libsodium-wrappers": "^0.7.13",
