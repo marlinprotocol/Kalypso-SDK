@@ -33,12 +33,12 @@ export interface ZkSyncVerifier extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -59,7 +59,7 @@ export interface ZkSyncVerifier extends BaseContract {
 
   getFunction(nameOrSignature: "verificationKeyHash"): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "verify"
+    nameOrSignature: "verify",
   ): TypedContractMethod<[arg0: BigNumberish[], arg1: BigNumberish[], arg2: BigNumberish[]], [boolean], "view">;
 
   filters: {};

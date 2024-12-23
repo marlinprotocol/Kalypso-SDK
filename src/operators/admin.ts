@@ -15,7 +15,7 @@ export class Admin {
   public async updateMeEciesKeyAndSigner(
     attestationBytes: BytesLike,
     meSignature: BytesLike,
-    options?: Overrides
+    options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     return this.proofMarketPlace.verifyMatchingEngine(attestationBytes, meSignature, { ...options });
   }

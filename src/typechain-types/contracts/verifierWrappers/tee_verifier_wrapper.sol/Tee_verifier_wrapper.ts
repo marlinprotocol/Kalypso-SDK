@@ -47,7 +47,7 @@ export declare namespace IAttestationVerifier {
     PCR0: string,
     PCR1: string,
     PCR2: string,
-    timestampInMilliseconds: bigint
+    timestampInMilliseconds: bigint,
   ] & {
     enclavePubKey: string;
     PCR0: string;
@@ -78,7 +78,7 @@ export interface Tee_verifier_wrapperInterface extends Interface {
       | "verifyEnclaveKey"
       | "verifyInputs"
       | "verifyKey"
-      | "verifyProofForTeeVerifier"
+      | "verifyProofForTeeVerifier",
   ): FunctionFragment;
 
   getEvent(
@@ -89,7 +89,7 @@ export interface Tee_verifier_wrapperInterface extends Interface {
       | "EnclaveImageWhitelisted"
       | "EnclaveKeyRevoked"
       | "EnclaveKeyVerified"
-      | "EnclaveKeyWhitelisted"
+      | "EnclaveKeyWhitelisted",
   ): EventFragment;
 
   encodeFunctionData(functionFragment: "ATTESTATION_MAX_AGE", values?: undefined): string;
@@ -235,12 +235,12 @@ export interface Tee_verifier_wrapper extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -307,13 +307,13 @@ export interface Tee_verifier_wrapper extends BaseContract {
   getFunction(nameOrSignature: "admin"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "checkSampleInputsAndProof"): TypedContractMethod<[], [boolean], "view">;
   getFunction(
-    nameOrSignature: "encodeInputAndProofForVerification"
+    nameOrSignature: "encodeInputAndProofForVerification",
   ): TypedContractMethod<[inputs: string[], proof: string], [string], "view">;
   getFunction(nameOrSignature: "encodeInputs"): TypedContractMethod<[inputs: string[]], [string], "view">;
   getFunction(nameOrSignature: "encodeProof"): TypedContractMethod<[proof: string], [string], "view">;
   getFunction(nameOrSignature: "getVerifiedKey"): TypedContractMethod<[_key: AddressLike], [string], "view">;
   getFunction(
-    nameOrSignature: "getWhitelistedImage"
+    nameOrSignature: "getWhitelistedImage",
   ): TypedContractMethod<[_imageId: BytesLike], [AttestationAuther.EnclaveImageStructOutput], "view">;
   getFunction(nameOrSignature: "isImageInFamily"): TypedContractMethod<[imageId: BytesLike, family: BytesLike], [boolean], "view">;
   getFunction(nameOrSignature: "sampleInput"): TypedContractMethod<[], [string], "view">;
@@ -321,46 +321,46 @@ export interface Tee_verifier_wrapper extends BaseContract {
   getFunction(nameOrSignature: "verify"): TypedContractMethod<[encodedData: BytesLike], [boolean], "view">;
   getFunction(nameOrSignature: "verifyAgainstSampleInputs"): TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
   getFunction(
-    nameOrSignature: "verifyEnclaveKey"
+    nameOrSignature: "verifyEnclaveKey",
   ): TypedContractMethod<[signature: BytesLike, attestation: IAttestationVerifier.AttestationStruct], [boolean], "nonpayable">;
   getFunction(nameOrSignature: "verifyInputs"): TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
   getFunction(nameOrSignature: "verifyKey"): TypedContractMethod<[attestation_data: BytesLike], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "verifyProofForTeeVerifier"
+    nameOrSignature: "verifyProofForTeeVerifier",
   ): TypedContractMethod<[proverData: BytesLike, proofData: BytesLike, proofSignature: BytesLike], [boolean], "view">;
 
   getEvent(
-    key: "EnclaveImageAddedToFamily"
+    key: "EnclaveImageAddedToFamily",
   ): TypedContractEvent<
     EnclaveImageAddedToFamilyEvent.InputTuple,
     EnclaveImageAddedToFamilyEvent.OutputTuple,
     EnclaveImageAddedToFamilyEvent.OutputObject
   >;
   getEvent(
-    key: "EnclaveImageRemovedFromFamily"
+    key: "EnclaveImageRemovedFromFamily",
   ): TypedContractEvent<
     EnclaveImageRemovedFromFamilyEvent.InputTuple,
     EnclaveImageRemovedFromFamilyEvent.OutputTuple,
     EnclaveImageRemovedFromFamilyEvent.OutputObject
   >;
   getEvent(
-    key: "EnclaveImageRevoked"
+    key: "EnclaveImageRevoked",
   ): TypedContractEvent<EnclaveImageRevokedEvent.InputTuple, EnclaveImageRevokedEvent.OutputTuple, EnclaveImageRevokedEvent.OutputObject>;
   getEvent(
-    key: "EnclaveImageWhitelisted"
+    key: "EnclaveImageWhitelisted",
   ): TypedContractEvent<
     EnclaveImageWhitelistedEvent.InputTuple,
     EnclaveImageWhitelistedEvent.OutputTuple,
     EnclaveImageWhitelistedEvent.OutputObject
   >;
   getEvent(
-    key: "EnclaveKeyRevoked"
+    key: "EnclaveKeyRevoked",
   ): TypedContractEvent<EnclaveKeyRevokedEvent.InputTuple, EnclaveKeyRevokedEvent.OutputTuple, EnclaveKeyRevokedEvent.OutputObject>;
   getEvent(
-    key: "EnclaveKeyVerified"
+    key: "EnclaveKeyVerified",
   ): TypedContractEvent<EnclaveKeyVerifiedEvent.InputTuple, EnclaveKeyVerifiedEvent.OutputTuple, EnclaveKeyVerifiedEvent.OutputObject>;
   getEvent(
-    key: "EnclaveKeyWhitelisted"
+    key: "EnclaveKeyWhitelisted",
   ): TypedContractEvent<
     EnclaveKeyWhitelistedEvent.InputTuple,
     EnclaveKeyWhitelistedEvent.OutputTuple,

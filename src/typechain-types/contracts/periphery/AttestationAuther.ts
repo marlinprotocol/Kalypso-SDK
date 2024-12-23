@@ -47,7 +47,7 @@ export declare namespace IAttestationVerifier {
     PCR0: string,
     PCR1: string,
     PCR2: string,
-    timestampInMilliseconds: bigint
+    timestampInMilliseconds: bigint,
   ] & {
     enclavePubKey: string;
     PCR0: string;
@@ -65,7 +65,7 @@ export interface AttestationAutherInterface extends Interface {
       | "getVerifiedKey"
       | "getWhitelistedImage"
       | "isImageInFamily"
-      | "verifyEnclaveKey"
+      | "verifyEnclaveKey",
   ): FunctionFragment;
 
   getEvent(
@@ -76,7 +76,7 @@ export interface AttestationAutherInterface extends Interface {
       | "EnclaveImageWhitelisted"
       | "EnclaveKeyRevoked"
       | "EnclaveKeyVerified"
-      | "EnclaveKeyWhitelisted"
+      | "EnclaveKeyWhitelisted",
   ): EventFragment;
 
   encodeFunctionData(functionFragment: "ATTESTATION_MAX_AGE", values?: undefined): string;
@@ -196,12 +196,12 @@ export interface AttestationAuther extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>;
@@ -236,45 +236,45 @@ export interface AttestationAuther extends BaseContract {
   getFunction(nameOrSignature: "ATTESTATION_VERIFIER"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "getVerifiedKey"): TypedContractMethod<[_key: AddressLike], [string], "view">;
   getFunction(
-    nameOrSignature: "getWhitelistedImage"
+    nameOrSignature: "getWhitelistedImage",
   ): TypedContractMethod<[_imageId: BytesLike], [AttestationAuther.EnclaveImageStructOutput], "view">;
   getFunction(nameOrSignature: "isImageInFamily"): TypedContractMethod<[imageId: BytesLike, family: BytesLike], [boolean], "view">;
   getFunction(
-    nameOrSignature: "verifyEnclaveKey"
+    nameOrSignature: "verifyEnclaveKey",
   ): TypedContractMethod<[signature: BytesLike, attestation: IAttestationVerifier.AttestationStruct], [boolean], "nonpayable">;
 
   getEvent(
-    key: "EnclaveImageAddedToFamily"
+    key: "EnclaveImageAddedToFamily",
   ): TypedContractEvent<
     EnclaveImageAddedToFamilyEvent.InputTuple,
     EnclaveImageAddedToFamilyEvent.OutputTuple,
     EnclaveImageAddedToFamilyEvent.OutputObject
   >;
   getEvent(
-    key: "EnclaveImageRemovedFromFamily"
+    key: "EnclaveImageRemovedFromFamily",
   ): TypedContractEvent<
     EnclaveImageRemovedFromFamilyEvent.InputTuple,
     EnclaveImageRemovedFromFamilyEvent.OutputTuple,
     EnclaveImageRemovedFromFamilyEvent.OutputObject
   >;
   getEvent(
-    key: "EnclaveImageRevoked"
+    key: "EnclaveImageRevoked",
   ): TypedContractEvent<EnclaveImageRevokedEvent.InputTuple, EnclaveImageRevokedEvent.OutputTuple, EnclaveImageRevokedEvent.OutputObject>;
   getEvent(
-    key: "EnclaveImageWhitelisted"
+    key: "EnclaveImageWhitelisted",
   ): TypedContractEvent<
     EnclaveImageWhitelistedEvent.InputTuple,
     EnclaveImageWhitelistedEvent.OutputTuple,
     EnclaveImageWhitelistedEvent.OutputObject
   >;
   getEvent(
-    key: "EnclaveKeyRevoked"
+    key: "EnclaveKeyRevoked",
   ): TypedContractEvent<EnclaveKeyRevokedEvent.InputTuple, EnclaveKeyRevokedEvent.OutputTuple, EnclaveKeyRevokedEvent.OutputObject>;
   getEvent(
-    key: "EnclaveKeyVerified"
+    key: "EnclaveKeyVerified",
   ): TypedContractEvent<EnclaveKeyVerifiedEvent.InputTuple, EnclaveKeyVerifiedEvent.OutputTuple, EnclaveKeyVerifiedEvent.OutputObject>;
   getEvent(
-    key: "EnclaveKeyWhitelisted"
+    key: "EnclaveKeyWhitelisted",
   ): TypedContractEvent<
     EnclaveKeyWhitelistedEvent.InputTuple,
     EnclaveKeyWhitelistedEvent.OutputTuple,

@@ -125,7 +125,7 @@ export async function createEncryptedRequestForIvs(
   proverData: BytesLike,
   secretBuffer: Buffer,
   marketId: BigNumberish,
-  eciesPubKey: string
+  eciesPubKey: string,
 ): Promise<PublicAndSecretInputPair> {
   const pubKey = eciesPubKey.split("x")[1]; // this is hex string
   const associatedData = bigNumberishToBuffer(marketId);
@@ -142,7 +142,7 @@ export async function createEncryptedRequestData(
   proverData: BytesLike,
   secretBuffer: Buffer,
   marketId: BigNumberish,
-  eciesPubKey: string
+  eciesPubKey: string,
 ): Promise<PublicAndSecretInputPair> {
   //deflate the secret buffer to reduce tx cost
   secretBuffer = Buffer.from(pako.deflate(secretBuffer));

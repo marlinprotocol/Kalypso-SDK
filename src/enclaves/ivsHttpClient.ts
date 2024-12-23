@@ -11,7 +11,7 @@ export class IvsHttpClient extends BaseEnclaveClient {
     ivsEndPoint: string,
     ivs_attestation_utility_endpoint: string,
     checkInputUrl: string,
-    enclavePubkey?: string
+    enclavePubkey?: string,
   ) {
     super(ivs_attestation_utility_endpoint, attestationVerifierEndpoint, enclavePubkey);
     this.ivsEndPoint = ivsEndPoint;
