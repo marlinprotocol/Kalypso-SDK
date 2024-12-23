@@ -42,7 +42,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     ivs_url: string,
     markets: {
       [key: string]: PortAndIvsUrl;
-    }
+    },
   ): Promise<EnclaveResponse<string>> {
     const generatorConfigData: GeneratorConfigPayload = {
       generator_config,
@@ -86,7 +86,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     ivs_url: string,
     markets: {
       [key: string]: PortAndIvsUrl;
-    }
+    },
   ): Promise<EnclaveResponse<string>> {
     const generatorConfigData: GeneratorConfigPayload = {
       generator_config,
@@ -211,7 +211,7 @@ export class GeneratorHttpClient extends BaseEnclaveClient {
     if (generator_public_keys_response.status != 200) {
       console.log(generator_public_keys_response);
       throw new Error(
-        generator_public_keys.message ? generator_public_keys.message : "There was an error in fetching generator public keys"
+        generator_public_keys.message ? generator_public_keys.message : "There was an error in fetching generator public keys",
       );
     }
     return {

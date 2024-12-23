@@ -395,7 +395,7 @@ export class AttestationAutherUpgradeable__factory extends ContractFactory {
   override getDeployTransaction(
     attestationVerifier: AddressLike,
     maxAge: BigNumberish,
-    overrides?: NonPayableOverrides & { from?: string }
+    overrides?: NonPayableOverrides & { from?: string },
   ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(attestationVerifier, maxAge, overrides || {});
   }
