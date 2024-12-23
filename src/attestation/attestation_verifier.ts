@@ -141,8 +141,7 @@ export class AttestationVerifier {
 
     const reversed = cabundle.reverse();
 
-    const rootCertPem = `
-    -----BEGIN CERTIFICATE-----
+    const rootCertPem = `-----BEGIN CERTIFICATE-----
 MIICETCCAZagAwIBAgIRAPkxdWgbkK/hHUbMtOTn+FYwCgYIKoZIzj0EAwMwSTEL
 MAkGA1UEBhMCVVMxDzANBgNVBAoMBkFtYXpvbjEMMAoGA1UECwwDQVdTMRswGQYD
 VQQDDBJhd3Mubml0cm8tZW5jbGF2ZXMwHhcNMTkxMDI4MTMyODA1WhcNNDkxMDI4
@@ -155,8 +154,8 @@ R+eWw5b6cp3PmanfS5YwDgYDVR0PAQH/BAQDAgGGMAoGCCqGSM49BAMDA2kAMGYC
 MQCjfy+Rocm9Xue4YnwWmNJVA44fA0P5W2OpYow9OYCVRaEevL8uO1XYru5xtMPW
 rfMCMQCi85sWBbJwKKXdS6BptQFuZbT73o/gBh1qUxl/nNr12UO8Yfwr6wPLb+6N
 IwLz3/Y=
------END CERTIFICATE-----
-`;
+-----END CERTIFICATE-----`;
+
     const root_cert = new X509Certificate(rootCertPem);
 
     const cert_verification = verifier.verifyCertificates(enclave_certificate, reversed, root_cert);
