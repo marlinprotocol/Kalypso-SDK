@@ -177,7 +177,7 @@ class AttestationVerifier {
         const reversed = cabundle.reverse();
 
         // Read the certificate file as bytes
-        const rootCertPem = fs.readFileSync('/Users/aniketbaliyan/marlin/Kalypso-SDK/src/attestation/aws.cert');
+        const rootCertPem = fs.readFileSync('./aws.cert');
 
         const root_cert = new X509Certificate(rootCertPem);
 
