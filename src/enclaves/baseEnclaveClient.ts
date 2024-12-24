@@ -81,7 +81,7 @@ export abstract class BaseEnclaveClient {
 
   public async verifyAttestationRemote(
     attestation_build_data: NodeJS.ReadableStream,
-    printLogs: boolean = true,
+    printLogs: boolean = false,
   ): Promise<AttestationResponse> {
     let verify_attestation_config = {
       method: "POST",
@@ -135,7 +135,7 @@ export abstract class BaseEnclaveClient {
 
   public async verifyAttestationLocal(
     attestation_build_data: NodeJS.ReadableStream,
-    printLogs: boolean = true,
+    printLogs: boolean = false,
   ): Promise<AttestationResponse> {
     const arrayBuffer = await AttestationVerifier.streamToArrayBuffer(attestation_build_data);
     const attestation_verifier_response_data = await AttestationVerifier.get_attestation(arrayBuffer);
@@ -205,6 +205,73 @@ export abstract class BaseEnclaveClient {
 
     let result = await attestation_server_response.body;
     return result;
+  }
+
+  public async buildAttestationHex(): Promise<BytesLike> {
+    const attestationBuild = await this.buildAttestation(false);
+    const arrayBuffer = await AttestationVerifier.streamToArrayBuffer(attestationBuild);
+
+    const byteArray = new Uint8Array(arrayBuffer);
+    const hexString = Array.from(byteArray)
+      .map((byte) => byte.toString(16).padStart(2, "0"))
+      .join("");
+
+    return hexString;
+  }
+
+  private bytesLikeToArrayBuffer(bytes: BytesLike): ArrayBuffer {
+    let processedBytes: BytesLike = bytes;
+
+    if (typeof bytes === "string") {
+      // Check if the string is a valid hex string
+      if (!ethers.isHexString(bytes)) {
+        // Assume it's a hex string missing '0x', append '0x'
+        processedBytes = "0x" + bytes;
+      }
+    }
+
+    // Convert BytesLike to Uint8Array
+    const byteArray = ethers.getBytes(processedBytes);
+
+    // Slice the buffer to get a standalone ArrayBuffer
+    const bufferSlice = byteArray.buffer.slice(byteArray.byteOffset, byteArray.byteOffset + byteArray.byteLength);
+
+    // Ensure the buffer is an ArrayBuffer, not a SharedArrayBuffer
+    if (bufferSlice instanceof ArrayBuffer) {
+      return bufferSlice;
+    } else {
+      throw new Error("Buffer is a SharedArrayBuffer, which is not supported.");
+    }
+  }
+
+  public async verifyAttestationHexLocally(attestationHexString: BytesLike): Promise<AttestationResponse> {
+    const arrayBuffer = this.bytesLikeToArrayBuffer(attestationHexString);
+
+    const attestation_verifier_response_data = await AttestationVerifier.get_attestation(arrayBuffer);
+
+    let ecies_pubkey = "0x" + attestation_verifier_response_data.secp256k1_public.toString();
+
+    if (ecies_pubkey.length != 130) {
+      throw new Error("secp pub key length incorrect");
+    }
+
+    let abiCoder = new ethers.AbiCoder();
+    let encodedData = abiCoder.encode(
+      ["bytes", "bytes", "bytes", "bytes", "bytes", "uint256"],
+      [
+        "0x" + attestation_verifier_response_data.signature,
+        ecies_pubkey,
+        "0x" + attestation_verifier_response_data.pcr0,
+        "0x" + attestation_verifier_response_data.pcr1,
+        "0x" + attestation_verifier_response_data.pcr2,
+        "" + attestation_verifier_response_data.timestamp,
+      ],
+    );
+
+    return {
+      attestation_document: encodedData,
+      secp_key: ecies_pubkey,
+    };
   }
 
   /**

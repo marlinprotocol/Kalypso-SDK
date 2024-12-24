@@ -251,7 +251,7 @@ IwLz3/Y=
     return sigHex + recidHex;
   }
 
-  public static async get_attestation(arrayBuffer: ArrayBuffer) {
+  public static async get_attestation(arrayBuffer: ArrayBuffer): Promise<VerifyAttestationResponse> {
     const verified = await this.attestation_verifier(arrayBuffer);
     // console.log(verified);
     if (!verified) {
