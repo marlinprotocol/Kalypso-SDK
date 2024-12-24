@@ -3,8 +3,28 @@ import { COSE_Sign1 } from "./cose_sign";
 import { ec } from "elliptic";
 import { keccak256 } from "ethers";
 import { randomBytes, X509Certificate } from "crypto";
-import * as secp256k1 from "secp256k1";
 
+
+// import { keccak256, arrayify } from 'ethers/lib/utils';
+// import * as ether from 'ethers' ;
+import * as pkijs from "pkijs";
+import * as asn1js from "asn1js";
+import * as secp256k1 from "secp256k1";
+import crypto from "crypto";
+
+function isCryptoEngine(obj: any): obj is Crypto {
+  return obj && typeof obj.subtle === "object";
+}
+
+function setCryptoEngine() {
+  if (typeof window !== "undefined" && isCryptoEngine(window.crypto)) {
+    pkijs.setEngine("WebCrypto", window.crypto, window.crypto.subtle);
+  } else if (typeof global !== "undefined" && isCryptoEngine(crypto.webcrypto)) {
+    pkijs.setEngine("NodeCrypto", crypto.webcrypto, crypto.webcrypto.subtle);
+  } else {
+    throw new Error("No compatible WebCrypto engine found.");
+  }
+}
 interface ECKey {
   // kty: 'EC';       // Key type, 'EC' for Elliptic Curve
   x: string; // The 'x' coordinate of the EC public key
@@ -57,6 +77,16 @@ export class AttestationVerifier {
       });
     });
   }
+
+  // Convert PEM to ArrayBuffer
+  public static  pemToArrayBuffer(pem: string) {
+    const base64 = pem
+      .replace(/-----BEGIN CERTIFICATE-----/g, "")
+      .replace(/-----END CERTIFICATE-----/g, "")
+      .replace(/\s+/g, "");
+    return Uint8Array.from(atob(base64), (c) => c.charCodeAt(0)).buffer;
+  }
+
   public static base64UrlDecode(base64Url: string): Buffer {
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
     const padding = base64.length % 4 === 0 ? "" : "=".repeat(4 - (base64.length % 4));
@@ -93,9 +123,15 @@ export class AttestationVerifier {
     return padded;
   }
 
-  public static public_key(public_key: ECKey) {
-    const xBuffer = this.base64UrlDecode(public_key.x);
-    const yBuffer = this.base64UrlDecode(public_key.y);
+  public static public_key(keyJwk: JsonWebKey) {
+    if (!keyJwk.x || !keyJwk.y || keyJwk.kty !== "EC") {
+      throw new Error("Invalid JWK: Must include x, y, and kty (EC).");
+    }
+
+    const xBuffer = this.base64UrlDecode(keyJwk.x);
+    const yBuffer = this.base64UrlDecode(keyJwk.y);
+    // const xBuffer = this.base64UrlDecode(public_key.x);
+    // const yBuffer = this.base64UrlDecode(public_key.y);
 
     const ecKey = new ec("p384");
     // Create the public key object
@@ -109,6 +145,8 @@ export class AttestationVerifier {
   }
 
   public static async attestation_verifier(arrayBuffer: ArrayBuffer) {
+
+    setCryptoEngine();
     const attestationDoc = new Uint8Array(arrayBuffer);
     const parsedData = await COSE_Sign1.decodeCBOR(attestationDoc);
     const verifier = new COSE_Sign1(parsedData[0], parsedData[1], parsedData[2], parsedData[3]);
@@ -116,19 +154,25 @@ export class AttestationVerifier {
     const attestation_payload_decoded = await COSE_Sign1.decodeCBOR(new Uint8Array(verifier.payload));
 
     // console.log(attestation_payload_decoded);
-    const enclave_certificate = new X509Certificate(attestation_payload_decoded.certificate);
+    // const enclave_certificate = new X509Certificate(attestation_payload_decoded.certificate);
+    // const rawCert = atob(attestation_payload_decoded.certificate); // Decode Base64 PEM
+    
+    const asn1 = asn1js.fromBER(attestation_payload_decoded.certificate);
+    const enclave_certificate = new pkijs.Certificate({ schema: asn1.result });
+    // const pub_key = enclave_certificate.publicKey;
 
-    const pub_key = enclave_certificate.publicKey;
+    const publicKey = await enclave_certificate.getPublicKey();
+    // const key_jwk = publicKey.export({
+    //   format: "jwk", // JWK format (ignores other options like type)
+    //   type: "spki",
+    // });
+    const keyJwk = await crypto.subtle.exportKey("jwk", publicKey);
 
-    const key_jwk = pub_key.export({
-      format: "jwk", // JWK format (ignores other options like type)
-      // type: "spki",
-    });
-
-    const public_key = this.public_key(key_jwk as any);
+    const public_key = this.public_key(keyJwk);
+    
     // return public_key;
     const sig_verification = await verifier.verifySignature(public_key);
-    // console.log(val);
+    console.log("sig_verified" ,sig_verification);
     if (!sig_verification) {
       return false;
     }
@@ -137,7 +181,8 @@ export class AttestationVerifier {
 
     const reversed = cabundle.reverse();
 
-    const rootCertPem = `-----BEGIN CERTIFICATE-----
+    const rootCertPem = 
+    `-----BEGIN CERTIFICATE-----
 MIICETCCAZagAwIBAgIRAPkxdWgbkK/hHUbMtOTn+FYwCgYIKoZIzj0EAwMwSTEL
 MAkGA1UEBhMCVVMxDzANBgNVBAoMBkFtYXpvbjEMMAoGA1UECwwDQVdTMRswGQYD
 VQQDDBJhd3Mubml0cm8tZW5jbGF2ZXMwHhcNMTkxMDI4MTMyODA1WhcNNDkxMDI4
@@ -152,7 +197,10 @@ rfMCMQCi85sWBbJwKKXdS6BptQFuZbT73o/gBh1qUxl/nNr12UO8Yfwr6wPLb+6N
 IwLz3/Y=
 -----END CERTIFICATE-----`;
 
-    const root_cert = new X509Certificate(rootCertPem);
+    // const root_cert = new X509Certificate(rootCertPem);
+    const rootCertBuffer = AttestationVerifier.pemToArrayBuffer(rootCertPem);
+    const asn1RootCert = asn1js.fromBER(rootCertBuffer);
+    const root_cert = new pkijs.Certificate({ schema: asn1RootCert.result });
 
     const cert_verification = verifier.verifyCertificates(enclave_certificate, reversed, root_cert);
     if (!cert_verification) {
@@ -274,10 +322,11 @@ IwLz3/Y=
     // console.log(message2)
 
     const privateKey = randomBytes(32); // Generates 32 random bytes
-
+    // const privateKey = new Uint8Array(32); // 32 bytes for the private key
+    // window.crypto.getRandomValues(privateKey); // Fills the array with random bytes
     // Convert to Uint8Array
-    const privateKeyArray = new Uint8Array(privateKey);
-    const signature = this.signMessage(privateKeyArray, message2);
+    // const privateKeyArray = new Uint8Array(privateKey);
+    const signature = this.signMessage(privateKey, message2);
 
     const response: VerifyAttestationResponse = {
       signature: signature,
@@ -286,7 +335,7 @@ IwLz3/Y=
       pcr1: attestationDecoded.pcrs[1].toString("hex"),
       pcr2: attestationDecoded.pcrs[2].toString("hex"),
       timestamp: attestationDecoded.timestamp,
-      verifier_secp256k1_public: privateKey.toString("hex"),
+      verifier_secp256k1_public: privateKey.toString(),
     };
     // console.log(response);
     return response;
