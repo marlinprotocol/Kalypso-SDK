@@ -58,7 +58,7 @@ export class COSE_Sign1 {
     for (let i = 0; i < view1.length; i++) {
 
         if (view1[i] !== view2[i]) {
-            console.log(i);
+            // console.log(i);
             return false; // Found a difference
         }
     }
@@ -171,7 +171,7 @@ export class COSE_Sign1 {
     const certs = this.getAllCerts(cert, cablundle);
 
     console.log(certs.length);
-    console.log(cert);
+    // console.log(cert);
     try {
       for (let i = 0; i < certs.length - 1; i++) {
         // Get public key from the next certificate in the chain
@@ -223,8 +223,8 @@ export class COSE_Sign1 {
     }
 
     // Compare the rootCert with the cert ( don't know how to compare it in entirety yet)
-    console.log(rootCert);
-    console.log(certs[certs.length - 1]);
+    // console.log(rootCert);
+    // console.log(certs[certs.length - 1]);
     if (!this.compareCertificates(rootCert, certs[certs.length - 1])) {
       console.log("root cert not equal to attestation cert");
       return false;

@@ -172,7 +172,7 @@ export class AttestationVerifier {
     
     // return public_key;
     const sig_verification = await verifier.verifySignature(public_key);
-    console.log("sig_verified" ,sig_verification);
+    // console.log("sig_verified" ,sig_verification);
     if (!sig_verification) {
       return false;
     }
@@ -325,8 +325,8 @@ IwLz3/Y=
     // const privateKey = new Uint8Array(32); // 32 bytes for the private key
     // window.crypto.getRandomValues(privateKey); // Fills the array with random bytes
     // Convert to Uint8Array
-    // const privateKeyArray = new Uint8Array(privateKey);
-    const signature = this.signMessage(privateKey, message2);
+    const privateKeyArray = new Uint8Array(privateKey);
+    const signature = this.signMessage(privateKeyArray, message2);
 
     const response: VerifyAttestationResponse = {
       signature: signature,
