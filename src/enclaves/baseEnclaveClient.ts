@@ -76,6 +76,13 @@ export abstract class BaseEnclaveClient {
       console.log({ attestation_build_data });
     }
 
+    return this.verifyAttestationRemote(attestation_build_data, false);
+  }
+
+  public async verifyAttestationRemote(
+    attestation_build_data: NodeJS.ReadableStream,
+    printLogs: boolean = true,
+  ): Promise<AttestationResponse> {
     let verify_attestation_config = {
       method: "POST",
       headers: {
@@ -126,14 +133,10 @@ export abstract class BaseEnclaveClient {
     };
   }
 
-  private async getAttestationLocal(printLogs: boolean = true): Promise<AttestationResponse> {
-    //Fetching the attestation document
-    const attestation_build_data = await this.buildAttestation(printLogs);
-    if (printLogs) {
-      console.log("fetched attestation successfully");
-      console.log({ attestation_build_data });
-    }
-
+  public async verifyAttestationLocal(
+    attestation_build_data: NodeJS.ReadableStream,
+    printLogs: boolean = true,
+  ): Promise<AttestationResponse> {
     const arrayBuffer = await AttestationVerifier.streamToArrayBuffer(attestation_build_data);
     const attestation_verifier_response_data = await AttestationVerifier.get_attestation(arrayBuffer);
 
@@ -168,6 +171,17 @@ export abstract class BaseEnclaveClient {
       attestation_document: encodedData,
       secp_key: ecies_pubkey,
     };
+  }
+
+  private async getAttestationLocal(printLogs: boolean = true): Promise<AttestationResponse> {
+    //Fetching the attestation document
+    const attestation_build_data = await this.buildAttestation(printLogs);
+    if (printLogs) {
+      console.log("fetched attestation successfully");
+      console.log({ attestation_build_data });
+    }
+
+    return this.verifyAttestationLocal(attestation_build_data);
   }
 
   /**
