@@ -1,6 +1,9 @@
 // Import specific classes/functions from the 'crypto' module
-import { X509Certificate, createHash } from "crypto";
+// import { X509Certificate, createHash } from "crypto";
+
 import * as cbor from "cbor";
+import * as asn1js from "asn1js";
+import * as pkijs from "pkijs";
 
 const EMPTY_BUFFER = Buffer.alloc(0);
 
@@ -10,7 +13,7 @@ interface Signature {
 }
 
 interface SigningPublicKey {
-  verify: (digest: Buffer, signature: Signature) => boolean; // Adjust types as needed
+  verify: (digest: Uint8Array, signature: Signature) => boolean; // Adjust types as needed
 }
 
 export class COSE_Sign1 {
@@ -38,16 +41,88 @@ export class COSE_Sign1 {
     }
   }
 
-  private getAllCerts(cert: X509Certificate, cabundle: Buffer[]) {
-    let allCerts: X509Certificate[] = [cert];
+  private compareArrayBuffers(buffer1: ArrayBufferLike, buffer2: ArrayBufferLike) {
+    // Check if the lengths are the same\
+    // console.log('checking buffers');
+    if (buffer1.byteLength !== buffer2.byteLength) {
+      // console.log('length mismatch');
+      return false; // Different lengths, therefore not equal
+    }
+    // console.log('length matched', buffer1.byteLength);
+    // Convert ArrayBuffers to Uint8Arrays
+    const view1 = new Uint8Array(buffer1);
+    const view2 = new Uint8Array(buffer2);
+
+    // Compare byte by byte
+    for (let i = 0; i < view1.length; i++) {
+      if (view1[i] !== view2[i]) {
+        // console.log(i);
+        return false; // Found a difference
+      }
+    }
+
+    return true; // All bytes match
+  }
+
+  private compareCertificates(cert1: pkijs.Certificate, cert2: pkijs.Certificate) {
+    // Compare serial number
+    if (!this.compareArrayBuffers(cert1.serialNumber.valueBlock.valueHex, cert2.serialNumber.valueBlock.valueHex)) {
+      console.log("serial mismatch");
+      return false;
+    }
+
+    // Compare issuer
+    if (!this.compareArrayBuffers(cert1.issuer.valueBeforeDecode, cert2.issuer.valueBeforeDecode)) {
+      console.log("issuer mismatch");
+      return false;
+    }
+
+    // Compare subject
+    if (!this.compareArrayBuffers(cert1.subject.valueBeforeDecode, cert2.subject.valueBeforeDecode)) {
+      console.log("subject mismatch");
+      return false;
+    }
+
+    // Compare signature algorithm
+    if (cert1.signatureAlgorithm.algorithmId !== cert2.signatureAlgorithm.algorithmId) {
+      console.log("algo id mismatch");
+      return false;
+    }
+
+    // Compare public key
+    if (
+      !this.compareArrayBuffers(
+        cert1.subjectPublicKeyInfo.subjectPublicKey.valueBlock.valueHex,
+        cert2.subjectPublicKeyInfo.subjectPublicKey.valueBlock.valueHex,
+      )
+    ) {
+      console.log("pb key mismatch");
+      return false;
+    }
+
+    return true;
+  }
+
+  // // Utility function to compare ArrayBuffers
+  //   private compareArrayBuffers(buf1, buf2) {
+  //       return buf1.byteLength === buf2.byteLength && buf1.every((value, index) => value === buf2[index]);
+  //   }
+
+  private getAllCerts(cert: pkijs.Certificate, cabundle: Buffer[]) {
+    // let allCerts: X509Certificate[] = [cert];
+    let allCerts: pkijs.Certificate[] = [cert];
 
     // Iterate over cabundle and process each buffer to create X509 certificates
     for (const certBuffer of cabundle) {
       try {
         // Check if certBuffer is actually a Buffer, and then process it
         if (Buffer.isBuffer(certBuffer)) {
-          const cert = new X509Certificate(new Uint8Array(certBuffer)); // Create X509Certificate from buffer
-          allCerts.push(cert); // Add certificate to the allCerts array
+          // const cert = new X509Certificate(new Uint8Array(certBuffer)); // Create X509Certificate from buffer
+          // allCerts.push(cert); // Add certificate to the allCerts array
+          // Convert Buffer to ASN.1 format
+          const asn1 = asn1js.fromBER(certBuffer); // Convert to ASN.1 format
+          const pkijsCert = new pkijs.Certificate({ schema: asn1.result }); // Parse the ASN.1 data into a pkijs Certificate
+          allCerts.push(pkijsCert); // Add certificate to the allCerts array
         } else {
           throw new Error("Invalid certificate format. Expected Buffer.");
         }
@@ -83,45 +158,61 @@ export class COSE_Sign1 {
     const ToBeSigned = cbor.encode(sigStructure);
     // const byteArray = Buffer.from(sigStructure.toString('hex'), 'hex');
     // Compute the digest
-    const hash = createHash("sha384");
-    hash.update(new Uint8Array(ToBeSigned));
-    const structDigest = hash.digest();
+    // const hash = createHash("sha384");
+    // hash.update(new Uint8Array(ToBeSigned));
+    // const structDigest = hash.digest();
 
+    const structDigestArrayBuffer = await crypto.subtle.digest("SHA-384", ToBeSigned);
+    const structDigest = new Uint8Array(structDigestArrayBuffer);
     const sigs = { r: this.signature.slice(0, 48), s: this.signature.slice(48) };
 
     return key.verify(structDigest, sigs);
   }
 
-  public verifyCertificates(cert: X509Certificate, cablundle: Buffer[], rootCert: X509Certificate) {
+  public async verifyCertificates(cert: pkijs.Certificate, cablundle: Buffer[], rootCert: pkijs.Certificate) {
     const certs = this.getAllCerts(cert, cablundle);
 
     console.log(certs.length);
+    // console.log(cert);
     try {
       for (let i = 0; i < certs.length - 1; i++) {
         // Get public key from the next certificate in the chain
-        const pubkey = certs[i + 1].publicKey;
+        // const pubkey = certs[i + 1].publicKey;
+        const currentCert = certs[i];
+        const nextCert = certs[i + 1];
 
-        // Verify the current certificate against the next certificate's public key
-        if (!certs[i].verify(pubkey)) {
+        // Verify the current certificate's signature using the next certificate's public key
+        const verified = await currentCert.verify(nextCert);
+        if (!verified) {
           throw new Error(`Certificate signature verification failed at index ${i}`);
         }
+        // Verify the current certificate against the next certificate's public key
+        // if (!certs[i].verify(pubkey)) {
+        //   throw new Error(`Certificate signature verification failed at index ${i}`);
+        // }
 
         // Check if the next certificate issued the current certificate
-        if (certs[i + 1].subject !== certs[i].issuer) {
+        // console.log(certs[i + 1]);
+
+        // console.log(certs[i]);
+        // console.log(certs[i + 1].subject.valueBeforeDecode);
+        // console.log(certs[i].issuer.valueBeforeDecode);
+        if (!this.compareArrayBuffers(certs[i + 1].subject.valueBeforeDecode, certs[i].issuer.valueBeforeDecode)) {
           throw new Error(`Issuer mismatch at index ${i}`);
         }
 
-        const validFromDate = new Date(cert.validFrom);
-        const validToDate = new Date(cert.validTo);
-
         // Check current time validity of the certificate
+        // Check the validity dates of the certificate
+        const validFromDate = currentCert.notBefore.value;
+        const validToDate = currentCert.notAfter.value;
         const currentTime = new Date();
-        if (isNaN(validFromDate.getTime())) {
-          throw new Error(`Invalid validFrom date format at index ${i}`);
+
+        if (isNaN(validFromDate.getTime()) || isNaN(validToDate.getTime())) {
+          throw new Error(`Invalid date format at index ${i}`);
         }
 
-        if (isNaN(validToDate.getTime())) {
-          throw new Error(`Invalid validTo date format at index ${i}`);
+        if (validToDate < currentTime || validFromDate > currentTime) {
+          throw new Error(`Certificate time validity failed at index ${i}`);
         }
 
         if (validToDate < currentTime || validFromDate > currentTime) {
@@ -134,7 +225,9 @@ export class COSE_Sign1 {
     }
 
     // Compare the rootCert with the cert ( don't know how to compare it in entirety yet)
-    if (rootCert.fingerprint != certs[certs.length - 1].fingerprint) {
+    // console.log(rootCert);
+    // console.log(certs[certs.length - 1]);
+    if (!this.compareCertificates(rootCert, certs[certs.length - 1])) {
       console.log("root cert not equal to attestation cert");
       return false;
     }
