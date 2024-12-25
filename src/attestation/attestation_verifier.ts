@@ -10,21 +10,38 @@ import { randomBytes, X509Certificate } from "crypto";
 import * as pkijs from "pkijs";
 import * as asn1js from "asn1js";
 import * as secp256k1 from "secp256k1";
-import crypto from "crypto";
+// import crypto from "crypto";
 
 function isCryptoEngine(obj: any): obj is Crypto {
   return obj && typeof obj.subtle === "object";
 }
 
-function setCryptoEngine() {
+// function setCryptoEngine() {
+//   if (typeof window !== "undefined" && isCryptoEngine(window.crypto)) {
+//     pkijs.setEngine("WebCrypto", window.crypto, window.crypto.subtle);
+//   } else if (typeof global !== "undefined" && isCryptoEngine(crypto.webcrypto)) {
+//     pkijs.setEngine("NodeCrypto", crypto.webcrypto, crypto.webcrypto.subtle);
+//   } else {
+//     throw new Error("No compatible WebCrypto engine found.");
+//   }
+// }
+async function setCryptoEngine() {
   if (typeof window !== "undefined" && isCryptoEngine(window.crypto)) {
+    // Browser environment
     pkijs.setEngine("WebCrypto", window.crypto, window.crypto.subtle);
-  } else if (typeof global !== "undefined" && isCryptoEngine(crypto.webcrypto)) {
-    pkijs.setEngine("NodeCrypto", crypto.webcrypto, crypto.webcrypto.subtle);
+  } else if (typeof global !== "undefined" && typeof require !== "undefined") {
+    // Node.js environment
+    const { webcrypto } = await import("crypto");
+    if (isCryptoEngine(webcrypto)) {
+      pkijs.setEngine("NodeCrypto", webcrypto, webcrypto.subtle);
+    } else {
+      throw new Error("No compatible NodeCrypto engine found.");
+    }
   } else {
     throw new Error("No compatible WebCrypto engine found.");
   }
 }
+
 interface ECKey {
   // kty: 'EC';       // Key type, 'EC' for Elliptic Curve
   x: string; // The 'x' coordinate of the EC public key
@@ -146,7 +163,7 @@ export class AttestationVerifier {
 
   public static async attestation_verifier(arrayBuffer: ArrayBuffer) {
 
-    setCryptoEngine();
+    await setCryptoEngine();
     const attestationDoc = new Uint8Array(arrayBuffer);
     const parsedData = await COSE_Sign1.decodeCBOR(attestationDoc);
     const verifier = new COSE_Sign1(parsedData[0], parsedData[1], parsedData[2], parsedData[3]);
@@ -167,6 +184,7 @@ export class AttestationVerifier {
     //   type: "spki",
     // });
     const keyJwk = await crypto.subtle.exportKey("jwk", publicKey);
+    // console.log(keyJwk);
 
     const public_key = this.public_key(keyJwk);
     
