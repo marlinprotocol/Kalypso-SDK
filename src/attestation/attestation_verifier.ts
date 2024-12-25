@@ -4,7 +4,6 @@ import { ec } from "elliptic";
 import { keccak256 } from "ethers";
 import { randomBytes, X509Certificate } from "crypto";
 
-
 // import { keccak256, arrayify } from 'ethers/lib/utils';
 // import * as ether from 'ethers' ;
 import * as pkijs from "pkijs";
@@ -96,7 +95,7 @@ export class AttestationVerifier {
   }
 
   // Convert PEM to ArrayBuffer
-  public static  pemToArrayBuffer(pem: string) {
+  public static pemToArrayBuffer(pem: string) {
     const base64 = pem
       .replace(/-----BEGIN CERTIFICATE-----/g, "")
       .replace(/-----END CERTIFICATE-----/g, "")
@@ -162,7 +161,6 @@ export class AttestationVerifier {
   }
 
   public static async attestation_verifier(arrayBuffer: ArrayBuffer) {
-
     await setCryptoEngine();
     const attestationDoc = new Uint8Array(arrayBuffer);
     const parsedData = await COSE_Sign1.decodeCBOR(attestationDoc);
@@ -173,7 +171,7 @@ export class AttestationVerifier {
     // console.log(attestation_payload_decoded);
     // const enclave_certificate = new X509Certificate(attestation_payload_decoded.certificate);
     // const rawCert = atob(attestation_payload_decoded.certificate); // Decode Base64 PEM
-    
+
     const asn1 = asn1js.fromBER(attestation_payload_decoded.certificate);
     const enclave_certificate = new pkijs.Certificate({ schema: asn1.result });
     // const pub_key = enclave_certificate.publicKey;
@@ -187,7 +185,7 @@ export class AttestationVerifier {
     // console.log(keyJwk);
 
     const public_key = this.public_key(keyJwk);
-    
+
     // return public_key;
     const sig_verification = await verifier.verifySignature(public_key);
     // console.log("sig_verified" ,sig_verification);
@@ -199,8 +197,7 @@ export class AttestationVerifier {
 
     const reversed = cabundle.reverse();
 
-    const rootCertPem = 
-    `-----BEGIN CERTIFICATE-----
+    const rootCertPem = `-----BEGIN CERTIFICATE-----
 MIICETCCAZagAwIBAgIRAPkxdWgbkK/hHUbMtOTn+FYwCgYIKoZIzj0EAwMwSTEL
 MAkGA1UEBhMCVVMxDzANBgNVBAoMBkFtYXpvbjEMMAoGA1UECwwDQVdTMRswGQYD
 VQQDDBJhd3Mubml0cm8tZW5jbGF2ZXMwHhcNMTkxMDI4MTMyODA1WhcNNDkxMDI4

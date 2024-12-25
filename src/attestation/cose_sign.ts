@@ -41,26 +41,24 @@ export class COSE_Sign1 {
     }
   }
 
-  private compareArrayBuffers(buffer1:ArrayBufferLike, buffer2:ArrayBufferLike) {
+  private compareArrayBuffers(buffer1: ArrayBufferLike, buffer2: ArrayBufferLike) {
     // Check if the lengths are the same\
     // console.log('checking buffers');
     if (buffer1.byteLength !== buffer2.byteLength) {
-        // console.log('length mismatch');
-        return false; // Different lengths, therefore not equal
+      // console.log('length mismatch');
+      return false; // Different lengths, therefore not equal
     }
     // console.log('length matched', buffer1.byteLength);
     // Convert ArrayBuffers to Uint8Arrays
     const view1 = new Uint8Array(buffer1);
     const view2 = new Uint8Array(buffer2);
 
-
     // Compare byte by byte
     for (let i = 0; i < view1.length; i++) {
-
-        if (view1[i] !== view2[i]) {
-            // console.log(i);
-            return false; // Found a difference
-        }
+      if (view1[i] !== view2[i]) {
+        // console.log(i);
+        return false; // Found a difference
+      }
     }
 
     return true; // All bytes match
@@ -75,36 +73,40 @@ export class COSE_Sign1 {
 
     // Compare issuer
     if (!this.compareArrayBuffers(cert1.issuer.valueBeforeDecode, cert2.issuer.valueBeforeDecode)) {
-      console.log("issuer mismatch");  
+      console.log("issuer mismatch");
       return false;
     }
 
     // Compare subject
     if (!this.compareArrayBuffers(cert1.subject.valueBeforeDecode, cert2.subject.valueBeforeDecode)) {
-      console.log("subject mismatch");    
+      console.log("subject mismatch");
       return false;
     }
 
     // Compare signature algorithm
     if (cert1.signatureAlgorithm.algorithmId !== cert2.signatureAlgorithm.algorithmId) {
-      console.log("algo id mismatch");    
+      console.log("algo id mismatch");
       return false;
     }
 
     // Compare public key
-    if (!this.compareArrayBuffers(cert1.subjectPublicKeyInfo.subjectPublicKey.valueBlock.valueHex, cert2.subjectPublicKeyInfo.subjectPublicKey.valueBlock.valueHex)) {
-      console.log("pb key mismatch");    
+    if (
+      !this.compareArrayBuffers(
+        cert1.subjectPublicKeyInfo.subjectPublicKey.valueBlock.valueHex,
+        cert2.subjectPublicKeyInfo.subjectPublicKey.valueBlock.valueHex,
+      )
+    ) {
+      console.log("pb key mismatch");
       return false;
     }
 
     return true;
-}
+  }
 
-// // Utility function to compare ArrayBuffers
-//   private compareArrayBuffers(buf1, buf2) {
-//       return buf1.byteLength === buf2.byteLength && buf1.every((value, index) => value === buf2[index]);
-//   }
-
+  // // Utility function to compare ArrayBuffers
+  //   private compareArrayBuffers(buf1, buf2) {
+  //       return buf1.byteLength === buf2.byteLength && buf1.every((value, index) => value === buf2[index]);
+  //   }
 
   private getAllCerts(cert: pkijs.Certificate, cabundle: Buffer[]) {
     // let allCerts: X509Certificate[] = [cert];
@@ -161,7 +163,7 @@ export class COSE_Sign1 {
     // const structDigest = hash.digest();
 
     const structDigestArrayBuffer = await crypto.subtle.digest("SHA-384", ToBeSigned);
-    const structDigest = new Uint8Array(structDigestArrayBuffer); 
+    const structDigest = new Uint8Array(structDigestArrayBuffer);
     const sigs = { r: this.signature.slice(0, 48), s: this.signature.slice(48) };
 
     return key.verify(structDigest, sigs);
@@ -182,7 +184,7 @@ export class COSE_Sign1 {
         // Verify the current certificate's signature using the next certificate's public key
         const verified = await currentCert.verify(nextCert);
         if (!verified) {
-            throw new Error(`Certificate signature verification failed at index ${i}`);
+          throw new Error(`Certificate signature verification failed at index ${i}`);
         }
         // Verify the current certificate against the next certificate's public key
         // if (!certs[i].verify(pubkey)) {
@@ -195,22 +197,22 @@ export class COSE_Sign1 {
         // console.log(certs[i]);
         // console.log(certs[i + 1].subject.valueBeforeDecode);
         // console.log(certs[i].issuer.valueBeforeDecode);
-        if (!(this.compareArrayBuffers(certs[i + 1].subject.valueBeforeDecode,certs[i].issuer.valueBeforeDecode))) {
+        if (!this.compareArrayBuffers(certs[i + 1].subject.valueBeforeDecode, certs[i].issuer.valueBeforeDecode)) {
           throw new Error(`Issuer mismatch at index ${i}`);
         }
 
         // Check current time validity of the certificate
-            // Check the validity dates of the certificate
+        // Check the validity dates of the certificate
         const validFromDate = currentCert.notBefore.value;
         const validToDate = currentCert.notAfter.value;
         const currentTime = new Date();
 
         if (isNaN(validFromDate.getTime()) || isNaN(validToDate.getTime())) {
-            throw new Error(`Invalid date format at index ${i}`);
+          throw new Error(`Invalid date format at index ${i}`);
         }
 
         if (validToDate < currentTime || validFromDate > currentTime) {
-            throw new Error(`Certificate time validity failed at index ${i}`);
+          throw new Error(`Certificate time validity failed at index ${i}`);
         }
 
         if (validToDate < currentTime || validFromDate > currentTime) {
