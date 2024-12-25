@@ -219,7 +219,7 @@ export abstract class BaseEnclaveClient {
     return hexString;
   }
 
-  private bytesLikeToArrayBuffer(bytes: BytesLike): ArrayBuffer {
+  public static bytesLikeToArrayBuffer(bytes: BytesLike): ArrayBuffer {
     let processedBytes: BytesLike = bytes;
 
     if (typeof bytes === "string") {
@@ -244,7 +244,7 @@ export abstract class BaseEnclaveClient {
     }
   }
 
-  public async verifyAttestationHexLocally(attestationHexString: BytesLike): Promise<AttestationResponse> {
+  public static async verifyAttestationHexLocally(attestationHexString: BytesLike): Promise<AttestationResponse> {
     const arrayBuffer = this.bytesLikeToArrayBuffer(attestationHexString);
 
     const attestation_verifier_response_data = await AttestationVerifier.get_attestation(arrayBuffer);
