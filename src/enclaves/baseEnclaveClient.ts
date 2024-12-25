@@ -188,8 +188,12 @@ export abstract class BaseEnclaveClient {
    *
    * @returns Your Enclave Attestation in required format
    */
-  public async buildAttestation(printLogs: boolean = true): Promise<NodeJS.ReadableStream> {
+  public async buildAttestation(printLogs: boolean = false): Promise<NodeJS.ReadableStream> {
     const attestation_end_point = this.utilityUrl("/attestation/raw");
+    return BaseEnclaveClient.buildAttestation(attestation_end_point, printLogs);
+  }
+
+  public static async buildAttestation(attestation_end_point: string, printLogs: boolean = false): Promise<NodeJS.ReadableStream> {
     if (printLogs) {
       console.log("build attestation", attestation_end_point);
     }
