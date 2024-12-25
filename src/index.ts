@@ -1,8 +1,9 @@
-import { AbstractSigner, BytesLike, TransactionReceipt, ethers } from "ethers";
+import { AbstractSigner } from "ethers";
 import { KalspsoConfig, SecretInputOperations } from "./types";
 import { Admin } from "./operators/admin";
 import { Generator } from "./operators/generator";
 import { MarketPlace } from "./operators/marketPlace";
+import { BaseEnclaveClient } from "./enclaves/baseEnclaveClient"
 
 import { helpers, secretInputOperations } from "./helper";
 
@@ -37,3 +38,5 @@ export class KalypsoSdk {
 
   public static getRlpedPcrsFromAttestation = helpers.getRlpedPcrsFromAttestation;
 }
+
+export { BaseEnclaveClient };
