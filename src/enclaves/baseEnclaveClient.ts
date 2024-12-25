@@ -193,6 +193,30 @@ export abstract class BaseEnclaveClient {
     return BaseEnclaveClient.buildAttestation(attestation_end_point, printLogs);
   }
 
+  public async buildAttestationHex(): Promise<BytesLike> {
+    const attestationBuild = await this.buildAttestation(false);
+    const arrayBuffer = await AttestationVerifier.streamToArrayBuffer(attestationBuild);
+
+    const byteArray = new Uint8Array(arrayBuffer);
+    const hexString = Array.from(byteArray)
+      .map((byte) => byte.toString(16).padStart(2, "0"))
+      .join("");
+
+    return hexString;
+  }
+
+  public static async buildAttestationHex(attestation_end_point: string, printLogs: boolean = false): Promise<BytesLike> {
+    const attestationBuild = await BaseEnclaveClient.buildAttestation(attestation_end_point, printLogs);
+    const arrayBuffer = await AttestationVerifier.streamToArrayBuffer(attestationBuild);
+
+    const byteArray = new Uint8Array(arrayBuffer);
+    const hexString = Array.from(byteArray)
+      .map((byte) => byte.toString(16).padStart(2, "0"))
+      .join("");
+
+    return hexString;
+  }
+
   public static async buildAttestation(attestation_end_point: string, printLogs: boolean = false): Promise<NodeJS.ReadableStream> {
     if (printLogs) {
       console.log("build attestation", attestation_end_point);
@@ -209,18 +233,6 @@ export abstract class BaseEnclaveClient {
 
     let result = await attestation_server_response.body;
     return result;
-  }
-
-  public async buildAttestationHex(): Promise<BytesLike> {
-    const attestationBuild = await this.buildAttestation(false);
-    const arrayBuffer = await AttestationVerifier.streamToArrayBuffer(attestationBuild);
-
-    const byteArray = new Uint8Array(arrayBuffer);
-    const hexString = Array.from(byteArray)
-      .map((byte) => byte.toString(16).padStart(2, "0"))
-      .join("");
-
-    return hexString;
   }
 
   public static bytesLikeToArrayBuffer(bytes: BytesLike): ArrayBuffer {

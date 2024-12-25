@@ -3,7 +3,7 @@ import { KalspsoConfig, SecretInputOperations } from "./types";
 import { Admin } from "./operators/admin";
 import { Generator } from "./operators/generator";
 import { MarketPlace } from "./operators/marketPlace";
-import { BaseEnclaveClient } from "./enclaves/baseEnclaveClient"
+import { BaseEnclaveClient } from "./enclaves/baseEnclaveClient";
 
 import { helpers, secretInputOperations } from "./helper";
 
