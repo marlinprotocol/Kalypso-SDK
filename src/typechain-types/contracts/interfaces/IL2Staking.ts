@@ -56,14 +56,14 @@ export interface IL2Staking extends BaseContract {
 
   intendToReduceStake: TypedContractMethod<[stakeToReduce: BigNumberish], [void], "nonpayable">;
 
-  stake: TypedContractMethod<[generatorAddress: AddressLike, amount: BigNumberish], [bigint], "nonpayable">;
+  stake: TypedContractMethod<[proverAddress: AddressLike, amount: BigNumberish], [bigint], "nonpayable">;
 
   unstake: TypedContractMethod<[receiver: AddressLike], [void], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "intendToReduceStake"): TypedContractMethod<[stakeToReduce: BigNumberish], [void], "nonpayable">;
-  getFunction(nameOrSignature: "stake"): TypedContractMethod<[generatorAddress: AddressLike, amount: BigNumberish], [bigint], "nonpayable">;
+  getFunction(nameOrSignature: "stake"): TypedContractMethod<[proverAddress: AddressLike, amount: BigNumberish], [bigint], "nonpayable">;
   getFunction(nameOrSignature: "unstake"): TypedContractMethod<[receiver: AddressLike], [void], "nonpayable">;
 
   filters: {};

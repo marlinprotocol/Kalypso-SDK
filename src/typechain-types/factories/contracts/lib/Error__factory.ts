@@ -30,7 +30,7 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "AssignOnlyToIdleGenerators",
+    name: "AssignOnlyToIdleProvers",
     type: "error",
   },
   {
@@ -109,7 +109,7 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "askId",
+        name: "bidId",
         type: "uint256",
       },
     ],
@@ -123,7 +123,33 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "CooldownPeriodNotPassed",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "bidId",
+        type: "uint256",
+      },
+    ],
+    name: "DeadlineNotCrossed",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EnclaveKeyMismatch",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "EnclaveKeyNotVerified",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EndBlockBeforeStartBlock",
     type: "error",
   },
   {
@@ -160,7 +186,7 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "GeneratorAlreadyExists",
+    name: "ImageAlreadyExists",
     type: "error",
   },
   {
@@ -181,6 +207,11 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "ImageNotFound",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "InactiveMarket",
     type: "error",
   },
@@ -196,12 +227,32 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "InsufficientGeneratorComputeAvailable",
+    name: "InsufficientProverComputeAvailable",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InsufficientStake",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InsufficientStakeAmount",
     type: "error",
   },
   {
     inputs: [],
     name: "InsufficientStakeToLock",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidCaptureTimestamp",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidComissionRate",
     type: "error",
   },
   {
@@ -232,12 +283,22 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "InvalidGenerator",
+    name: "InvalidFeeToken",
     type: "error",
   },
   {
     inputs: [],
-    name: "InvalidGeneratorStatePerMarket",
+    name: "InvalidImage",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidIndex",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidIndexLength",
     type: "error",
   },
   {
@@ -247,18 +308,108 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "InvalidLastBlockNumber",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidLength",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "InvalidMarket",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidPCR0Length",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidPCR1Length",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidPCR2Length",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidPool",
     type: "error",
   },
   {
     inputs: [
       {
         internalType: "uint256",
-        name: "askId",
+        name: "bidId",
         type: "uint256",
       },
     ],
     name: "InvalidProof",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidProver",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidProverCommission",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidProverRewardShare",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidProverStatePerMarket",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidPublicKeyLength",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidShares",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidSignatureLength",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidSlashResultBlockRange",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidStakingManager",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidSymbioticStaking",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidWithdrawalAmount",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidWithdrawalDuration",
     type: "error",
   },
   {
@@ -295,6 +446,47 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "NoRewardToClaim",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NoStakeTokenAvailableToLock",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NoStakeTokensAvailable",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotIdxToSubmit",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotRegisteredBlockNumber",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotRegisteredTransmitter",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "bidId",
+        type: "uint256",
+      },
+    ],
+    name: "NotSlashableBidId",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "OnlyAdminCanCall",
     type: "error",
   },
@@ -302,33 +494,22 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "askId",
+        name: "bidId",
         type: "uint256",
       },
     ],
-    name: "OnlyAssignedAsksCanBeProved",
+    name: "OnlyAssignedBidsCanBeProved",
     type: "error",
   },
   {
     inputs: [
       {
         internalType: "uint256",
-        name: "askId",
+        name: "bidId",
         type: "uint256",
       },
     ],
-    name: "OnlyExpiredAsksCanBeCancelled",
-    type: "error",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "askId",
-        type: "uint256",
-      },
-    ],
-    name: "OnlyGeneratorCanDiscardRequest",
+    name: "OnlyExpiredBidsCanBeCancelled",
     type: "error",
   },
   {
@@ -342,20 +523,51 @@ const _abi = [
     type: "error",
   },
   {
-    inputs: [],
-    name: "OnlyValidGeneratorsCanRequestExit",
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "bidId",
+        type: "uint256",
+      },
+    ],
+    name: "OnlyProverCanDiscardRequest",
     type: "error",
   },
   {
     inputs: [],
-    name: "OnlyWorkingGenerators",
+    name: "OnlyProverCanStake",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "OnlyProverCanWithdrawStake",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "OnlyStakingManager",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "OnlyValidProversCanRequestExit",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "OnlyWorkingProvers",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "PoolAlreadyExists",
     type: "error",
   },
   {
     inputs: [
       {
         internalType: "uint256",
-        name: "askId",
+        name: "bidId",
         type: "uint256",
       },
     ],
@@ -366,11 +578,21 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "askId",
+        name: "bidId",
         type: "uint256",
       },
     ],
     name: "ProofTimeMismatch",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ProverAlreadyExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ProverNotRegistered",
     type: "error",
   },
   {
@@ -397,7 +619,7 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "askId",
+        name: "bidId",
         type: "uint256",
       },
     ],
@@ -410,14 +632,23 @@ const _abi = [
     type: "error",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "askId",
-        type: "uint256",
-      },
-    ],
-    name: "ShouldBeInCrossedDeadlineState",
+    inputs: [],
+    name: "SubmissionAlreadyCompleted",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "TokenAlreadyExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "TokenDoesNotExist",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "TokenNotSupported",
     type: "error",
   },
   {
@@ -425,10 +656,75 @@ const _abi = [
     name: "UnstakeRequestNotInPlace",
     type: "error",
   },
+  {
+    inputs: [],
+    name: "WithdrawalTimeNotReached",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroComputeToIncrease",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroComputeToReduce",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroDeclaredCompute",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroNewRewardAddress",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroNumOfTxs",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroProofMarketplaceAddress",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroProverDataLength",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroRewardAddress",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroStakeTokenSelectionWeightSum",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroSymbioticStakingAddress",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroToAddress",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroTokenAddress",
+    type: "error",
+  },
 ] as const;
 
 const _bytecode =
-  "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220821b28aca34fae1d1a78b63553a9037ced7b1a68678f477381be8a752068c4f064736f6c63430008180033";
+  "0x60808060405234601757603a9081601d823930815050f35b600080fdfe600080fdfea26469706673582212207b0bb94374a12e1daa9f2e24cf16d7495a289cc0b68decf9df238081d076a0c264736f6c634300081a0033";
 
 type ErrorConstructorParams = [signer?: Signer] | ConstructorParameters<typeof ContractFactory>;
 

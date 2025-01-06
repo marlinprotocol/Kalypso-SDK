@@ -6,5 +6,8 @@ export type { ucNewSol };
 export type { MockAttestationVerifier } from "./MockAttestationVerifier";
 export type { MockToken } from "./MockToken";
 export type { MockVerifier } from "./MockVerifier";
+export type { POND } from "./POND";
 export type { UC } from "./UC";
 export type { UC_Rekt } from "./UC_Rekt";
+export type { USDC } from "./USDC";
+export type { WETH } from "./WETH";

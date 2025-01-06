@@ -15,8 +15,8 @@ import type {
 } from "ethers";
 import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedContractMethod } from "../../../common";
 
-export declare namespace ProofMarketplace {
-  export type AskStruct = {
+export declare namespace Struct {
+  export type BidStruct = {
     marketId: BigNumberish;
     reward: BigNumberish;
     expiry: BigNumberish;
@@ -26,7 +26,7 @@ export declare namespace ProofMarketplace {
     proverData: BytesLike;
   };
 
-  export type AskStructOutput = [
+  export type BidStructOutput = [
     marketId: bigint,
     reward: bigint,
     expiry: bigint,
@@ -64,7 +64,7 @@ export interface Transfer_verifier_wrapperInterface extends Interface {
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "checkSampleInputsAndProof", values?: undefined): string;
-  encodeFunctionData(functionFragment: "createRequest", values: [ProofMarketplace.AskStruct, BigNumberish, BytesLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "createRequest", values: [Struct.BidStruct, BigNumberish, BytesLike, BytesLike, BytesLike]): string;
   encodeFunctionData(
     functionFragment: "encodeInputAndProofForVerification",
     values: [[BigNumberish, BigNumberish, BigNumberish, BigNumberish, BigNumberish], BigNumberish[]],
@@ -128,7 +128,7 @@ export interface Transfer_verifier_wrapper extends BaseContract {
   checkSampleInputsAndProof: TypedContractMethod<[], [boolean], "view">;
 
   createRequest: TypedContractMethod<
-    [ask: ProofMarketplace.AskStruct, secretType: BigNumberish, secret_inputs: BytesLike, acl: BytesLike],
+    [bid: Struct.BidStruct, secretType: BigNumberish, secret_inputs: BytesLike, acl: BytesLike, extra_data: BytesLike],
     [void],
     "nonpayable"
   >;
@@ -165,7 +165,7 @@ export interface Transfer_verifier_wrapper extends BaseContract {
   getFunction(
     nameOrSignature: "createRequest",
   ): TypedContractMethod<
-    [ask: ProofMarketplace.AskStruct, secretType: BigNumberish, secret_inputs: BytesLike, acl: BytesLike],
+    [bid: Struct.BidStruct, secretType: BigNumberish, secret_inputs: BytesLike, acl: BytesLike, extra_data: BytesLike],
     [void],
     "nonpayable"
   >;

@@ -9,6 +9,8 @@ import {
   Tee_verifier_wrapper_factory__factory,
   Tee_verifier_wrapper__factory,
 } from "../typechain-types";
+import { Struct } from "../typechain-types/contracts/ProofMarketplace";
+
 import BigNumber from "bignumber.js";
 import { encryptDataWithECIESandAesGcm } from "../helper/secretInputOperation";
 import { helpers } from "../helper";
@@ -93,14 +95,9 @@ export class MarketPlace {
     return await this.entityKeyRegistry.pub_key(await this.proofMarketPlace.getAddress(), 0);
   }
 
-  public async askCounter(): Promise<number> {
-    const askCounter = await this.proofMarketPlace.askCounter();
-    return new BigNumber(askCounter.toString()).toNumber();
-  }
-
   public async getPlatformFee(
     secretType: BigNumberish,
-    ask: ProofMarketplace.AskStruct,
+    ask: Struct.BidStruct,
     encryptedSecret: BytesLike,
     aclData: BytesLike,
   ): Promise<BigNumberish> {
@@ -114,17 +111,18 @@ export class MarketPlace {
     blocksForProofGeneration: BigNumberish,
     refundAddress: string,
     secretType: BigNumberish,
-    encryptedData: Buffer,
-    aclData: Buffer,
+    encryptedData: BytesLike,
+    aclData: BytesLike,
+    extraData: BytesLike,
     options?: Overrides,
   ): Promise<ContractTransactionResponse> {
-    const askRequest: ProofMarketplace.AskStruct = {
+    const bid: Struct.BidStruct = {
       marketId,
-      proverData,
       reward,
       expiry: assignmentDeadline,
       timeTakenForProofGeneration: blocksForProofGeneration,
       deadline: 0,
+      proverData,
       refundAddress: refundAddress,
     };
 
@@ -143,21 +141,7 @@ export class MarketPlace {
       console.log("Approval Tx: ", approvalReceipt?.hash);
     }
 
-    return this.proofMarketPlace.createAsk(
-      {
-        marketId,
-        proverData,
-        reward,
-        expiry: assignmentDeadline,
-        timeTakenForProofGeneration: blocksForProofGeneration,
-        deadline: 0,
-        refundAddress: refundAddress,
-      },
-      secretType,
-      encryptedData,
-      aclData,
-      { ...options },
-    );
+    return this.proofMarketPlace.createBid(bid, secretType, encryptedData, aclData, extraData, { ...options });
   }
 
   public async verifyEncryptedInputs(
@@ -209,13 +193,14 @@ export class MarketPlace {
     refundAddress: string,
     secretType: BigNumberish,
     secretBuffer: Buffer,
+    extraData: Buffer,
     checkMeKeyBeforeSendingTx: boolean = true,
     options?: Overrides,
   ): Promise<ContractTransactionResponse> {
     //deflate the secret buffer to reduce tx cost
-    secretBuffer = Buffer.from(pako.deflate(secretBuffer));
+    secretBuffer = Buffer.from(pako.deflate(new Uint8Array(secretBuffer)));
 
-    const askRequest: ProofMarketplace.AskStruct = {
+    const bidRequest: Struct.BidStruct = {
       marketId,
       proverData,
       reward,
@@ -273,17 +258,23 @@ export class MarketPlace {
       console.log("Approval Tx: ", approvalReceipt?.hash);
     }
 
-    return this.proofMarketPlace.createAsk(askRequest, secretType, dataToSend, aclData, { ...options });
+    return this.proofMarketPlace.createBid(
+      bidRequest,
+      secretType,
+      new Uint8Array(dataToSend),
+      new Uint8Array(aclData),
+      new Uint8Array(extraData),
+      { ...options },
+    );
   }
 
   public async createPrivateMarket(
     marketMetaData: BytesLike,
     verifier: string,
-    slashingPenalty: BigNumberish,
     proverPcrs: BytesLike,
     options?: Overrides,
   ): Promise<ContractTransactionResponse> {
-    return this.createNewMarket(marketMetaData, verifier, slashingPenalty, proverPcrs, proverPcrs, options);
+    return this.createNewMarket(marketMetaData, verifier, proverPcrs, proverPcrs, options);
   }
 
   public async addExtraImagesToMarket(
@@ -298,7 +289,6 @@ export class MarketPlace {
   public async createPublicMarket(
     marketMetaData: BytesLike,
     verifier: string,
-    slashingPenalty: BigNumberish,
     ivsPcrs: BytesLike,
     options?: Overrides,
   ): Promise<ContractTransactionResponse> {
@@ -306,7 +296,7 @@ export class MarketPlace {
     let abicode = new ethers.AbiCoder();
     let noEnclavePcrs = abicode.encode(["bytes", "bytes", "bytes"], [zero_pcr, zero_pcr, zero_pcr]);
 
-    return this.createNewMarket(marketMetaData, verifier, slashingPenalty, noEnclavePcrs, ivsPcrs, options);
+    return this.createNewMarket(marketMetaData, verifier, noEnclavePcrs, ivsPcrs, options);
   }
 
   public async createTeeVerifier(
@@ -339,19 +329,14 @@ export class MarketPlace {
   private async createNewMarket(
     marketMetaData: BytesLike,
     verifier: string,
-    slashingPenalty: BigNumberish,
     proverPcrs: BytesLike,
     ivsPcrs: BytesLike,
     options?: Overrides,
   ): Promise<ContractTransactionResponse> {
-    if (new BigNumber(slashingPenalty.toString()).gt(this.exponent)) {
-      throw new Error("Slashing penalty can't be more than " + this.exponent.toFixed(0));
-    }
-
     const marketId = await this.proofMarketPlace.marketCounter();
     console.log("trying to create market. Possible market id. Check transaction logs for exact market id", marketId.toString());
 
-    const marketCreationCost = await this.proofMarketPlace.MARKET_CREATION_COST();
+    const marketCreationCost = await this.proofMarketPlace.marketCreationCost();
 
     const availableBalance = await this.paymentToken.balanceOf(await this.signer.getAddress());
 
@@ -368,7 +353,7 @@ export class MarketPlace {
       console.log("Approved Tokens: ", approvalReceipt?.hash);
     }
 
-    return await this.proofMarketPlace.createMarketplace(marketMetaData, verifier, slashingPenalty.toString(), proverPcrs, ivsPcrs, {
+    return await this.proofMarketPlace.createMarket(marketMetaData, verifier, proverPcrs, ivsPcrs, {
       ...options,
     });
   }
@@ -488,16 +473,16 @@ export class MarketPlace {
       address = await this.signer.getAddress();
     }
 
-    let claimableBalance = await this.proofMarketPlace.claimableAmount(address);
+    let claimableBalance = await this.proofMarketPlace.proverClaimableFeeReward(address);
     if (new BigNumber(claimableBalance.toString()).gt(0)) {
-      return this.proofMarketPlace.flush(address, { ...options });
+      return this.proofMarketPlace.claimProverFeeReward({ ...options });
     }
 
     throw new Error("No claimable amount available");
   }
 
   public async getAskState(askId: BigNumberish): Promise<AskState> {
-    const state = await this.proofMarketPlace.getAskState(askId);
+    const state = await this.proofMarketPlace.getBidState(askId);
     const stateNumber = new BigNumber(state.toString()).toNumber();
 
     if (stateNumber == 0) {

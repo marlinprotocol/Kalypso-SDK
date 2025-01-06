@@ -52,6 +52,8 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.IERC1155Errors__factory>;
     getContractFactory(name: "IERC20Errors", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC20Errors__factory>;
     getContractFactory(name: "IERC721Errors", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC721Errors__factory>;
+    getContractFactory(name: "IERC1363", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC1363__factory>;
+    getContractFactory(name: "IERC1967", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC1967__factory>;
     getContractFactory(name: "IBeacon", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IBeacon__factory>;
     getContractFactory(name: "ERC1967Utils", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.ERC1967Utils__factory>;
     getContractFactory(name: "ERC20", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.ERC20__factory>;
@@ -59,23 +61,54 @@ declare module "hardhat/types/runtime" {
       name: "IERC20Metadata",
       signerOrOptions?: ethers.Signer | FactoryOptions,
     ): Promise<Contracts.IERC20Metadata__factory>;
-    getContractFactory(name: "IERC20Permit", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC20Permit__factory>;
     getContractFactory(name: "IERC20", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC20__factory>;
     getContractFactory(name: "SafeERC20", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.SafeERC20__factory>;
     getContractFactory(name: "Address", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.Address__factory>;
     getContractFactory(name: "ECDSA", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.ECDSA__factory>;
+    getContractFactory(name: "Errors", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.Errors__factory>;
     getContractFactory(name: "IERC165", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC165__factory>;
+    getContractFactory(name: "SafeCast", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.SafeCast__factory>;
+    getContractFactory(name: "Strings", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.Strings__factory>;
     getContractFactory(
       name: "EntityKeyRegistry",
       signerOrOptions?: ethers.Signer | FactoryOptions,
     ): Promise<Contracts.EntityKeyRegistry__factory>;
-    getContractFactory(
-      name: "GeneratorRegistry",
-      signerOrOptions?: ethers.Signer | FactoryOptions,
-    ): Promise<Contracts.GeneratorRegistry__factory>;
     getContractFactory(name: "IL2Staking", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IL2Staking__factory>;
+    getContractFactory(
+      name: "IProofMarketplace",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.IProofMarketplace__factory>;
+    getContractFactory(
+      name: "IProverManager",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.IProverManager__factory>;
     getContractFactory(name: "IVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IVerifier__factory>;
     getContractFactory(name: "SetPmp", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.SetPmp__factory>;
+    getContractFactory(
+      name: "INativeStaking",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.INativeStaking__factory>;
+    getContractFactory(
+      name: "INativeStakingReward",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.INativeStakingReward__factory>;
+    getContractFactory(
+      name: "IRewardDistributor",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.IRewardDistributor__factory>;
+    getContractFactory(
+      name: "IStakingManager",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.IStakingManager__factory>;
+    getContractFactory(name: "IStakingPool", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IStakingPool__factory>;
+    getContractFactory(
+      name: "ISymbioticStaking",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.ISymbioticStaking__factory>;
+    getContractFactory(
+      name: "ISymbioticStakingReward",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.ISymbioticStakingReward__factory>;
     getContractFactory(name: "Dispute", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.Dispute__factory>;
     getContractFactory(name: "Error", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.Error__factory>;
     getContractFactory(
@@ -84,9 +117,12 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.MockAttestationVerifier__factory>;
     getContractFactory(name: "MockToken", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.MockToken__factory>;
     getContractFactory(name: "MockVerifier", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.MockVerifier__factory>;
+    getContractFactory(name: "POND", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.POND__factory>;
     getContractFactory(name: "UC_Rekt", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.UC_Rekt__factory>;
     getContractFactory(name: "UC", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.UC__factory>;
     getContractFactory(name: "UC_with_rg", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.UC_with_rg__factory>;
+    getContractFactory(name: "USDC", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.USDC__factory>;
+    getContractFactory(name: "WETH", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.WETH__factory>;
     getContractFactory(
       name: "AttestationAuther",
       signerOrOptions?: ethers.Signer | FactoryOptions,
@@ -112,6 +148,20 @@ declare module "hardhat/types/runtime" {
       name: "ProofMarketplace",
       signerOrOptions?: ethers.Signer | FactoryOptions,
     ): Promise<Contracts.ProofMarketplace__factory>;
+    getContractFactory(name: "ProverManager", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.ProverManager__factory>;
+    getContractFactory(name: "NativeStaking", signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.NativeStaking__factory>;
+    getContractFactory(
+      name: "StakingManager",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.StakingManager__factory>;
+    getContractFactory(
+      name: "SymbioticStaking",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.SymbioticStaking__factory>;
+    getContractFactory(
+      name: "SymbioticStakingReward",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.SymbioticStakingReward__factory>;
     getContractFactory(
       name: "IVerifier_zksync",
       signerOrOptions?: ethers.Signer | FactoryOptions,
@@ -209,29 +259,61 @@ declare module "hardhat/types/runtime" {
     getContractAt(name: "IERC1155Errors", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC1155Errors>;
     getContractAt(name: "IERC20Errors", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20Errors>;
     getContractAt(name: "IERC721Errors", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC721Errors>;
+    getContractAt(name: "IERC1363", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC1363>;
+    getContractAt(name: "IERC1967", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC1967>;
     getContractAt(name: "IBeacon", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IBeacon>;
     getContractAt(name: "ERC1967Utils", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.ERC1967Utils>;
     getContractAt(name: "ERC20", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.ERC20>;
     getContractAt(name: "IERC20Metadata", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20Metadata>;
-    getContractAt(name: "IERC20Permit", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20Permit>;
     getContractAt(name: "IERC20", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20>;
     getContractAt(name: "SafeERC20", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.SafeERC20>;
     getContractAt(name: "Address", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.Address>;
     getContractAt(name: "ECDSA", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.ECDSA>;
+    getContractAt(name: "Errors", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.Errors>;
     getContractAt(name: "IERC165", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC165>;
+    getContractAt(name: "SafeCast", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.SafeCast>;
+    getContractAt(name: "Strings", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.Strings>;
     getContractAt(
       name: "EntityKeyRegistry",
       address: string | ethers.Addressable,
       signer?: ethers.Signer,
     ): Promise<Contracts.EntityKeyRegistry>;
+    getContractAt(name: "IL2Staking", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IL2Staking>;
     getContractAt(
-      name: "GeneratorRegistry",
+      name: "IProofMarketplace",
       address: string | ethers.Addressable,
       signer?: ethers.Signer,
-    ): Promise<Contracts.GeneratorRegistry>;
-    getContractAt(name: "IL2Staking", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IL2Staking>;
+    ): Promise<Contracts.IProofMarketplace>;
+    getContractAt(name: "IProverManager", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IProverManager>;
     getContractAt(name: "IVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IVerifier>;
     getContractAt(name: "SetPmp", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.SetPmp>;
+    getContractAt(name: "INativeStaking", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.INativeStaking>;
+    getContractAt(
+      name: "INativeStakingReward",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.INativeStakingReward>;
+    getContractAt(
+      name: "IRewardDistributor",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.IRewardDistributor>;
+    getContractAt(
+      name: "IStakingManager",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.IStakingManager>;
+    getContractAt(name: "IStakingPool", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IStakingPool>;
+    getContractAt(
+      name: "ISymbioticStaking",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.ISymbioticStaking>;
+    getContractAt(
+      name: "ISymbioticStakingReward",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.ISymbioticStakingReward>;
     getContractAt(name: "Dispute", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.Dispute>;
     getContractAt(name: "Error", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.Error>;
     getContractAt(
@@ -241,9 +323,12 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.MockAttestationVerifier>;
     getContractAt(name: "MockToken", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.MockToken>;
     getContractAt(name: "MockVerifier", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.MockVerifier>;
+    getContractAt(name: "POND", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.POND>;
     getContractAt(name: "UC_Rekt", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.UC_Rekt>;
     getContractAt(name: "UC", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.UC>;
     getContractAt(name: "UC_with_rg", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.UC_with_rg>;
+    getContractAt(name: "USDC", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.USDC>;
+    getContractAt(name: "WETH", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.WETH>;
     getContractAt(
       name: "AttestationAuther",
       address: string | ethers.Addressable,
@@ -275,6 +360,19 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer,
     ): Promise<Contracts.ProofMarketplace>;
+    getContractAt(name: "ProverManager", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.ProverManager>;
+    getContractAt(name: "NativeStaking", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.NativeStaking>;
+    getContractAt(name: "StakingManager", address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.StakingManager>;
+    getContractAt(
+      name: "SymbioticStaking",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.SymbioticStaking>;
+    getContractAt(
+      name: "SymbioticStakingReward",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.SymbioticStakingReward>;
     getContractAt(
       name: "IVerifier_zksync",
       address: string | ethers.Addressable,
@@ -371,27 +469,51 @@ declare module "hardhat/types/runtime" {
     deployContract(name: "IERC1155Errors", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC1155Errors>;
     deployContract(name: "IERC20Errors", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20Errors>;
     deployContract(name: "IERC721Errors", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC721Errors>;
+    deployContract(name: "IERC1363", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC1363>;
+    deployContract(name: "IERC1967", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC1967>;
     deployContract(name: "IBeacon", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IBeacon>;
     deployContract(name: "ERC1967Utils", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ERC1967Utils>;
     deployContract(name: "ERC20", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ERC20>;
     deployContract(name: "IERC20Metadata", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20Metadata>;
-    deployContract(name: "IERC20Permit", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20Permit>;
     deployContract(name: "IERC20", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>;
     deployContract(name: "SafeERC20", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SafeERC20>;
     deployContract(name: "Address", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Address>;
     deployContract(name: "ECDSA", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ECDSA>;
+    deployContract(name: "Errors", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Errors>;
     deployContract(name: "IERC165", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC165>;
+    deployContract(name: "SafeCast", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SafeCast>;
+    deployContract(name: "Strings", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Strings>;
     deployContract(
       name: "EntityKeyRegistry",
       signerOrOptions?: ethers.Signer | DeployContractOptions,
     ): Promise<Contracts.EntityKeyRegistry>;
-    deployContract(
-      name: "GeneratorRegistry",
-      signerOrOptions?: ethers.Signer | DeployContractOptions,
-    ): Promise<Contracts.GeneratorRegistry>;
     deployContract(name: "IL2Staking", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IL2Staking>;
+    deployContract(
+      name: "IProofMarketplace",
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.IProofMarketplace>;
+    deployContract(name: "IProverManager", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IProverManager>;
     deployContract(name: "IVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IVerifier>;
     deployContract(name: "SetPmp", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SetPmp>;
+    deployContract(name: "INativeStaking", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.INativeStaking>;
+    deployContract(
+      name: "INativeStakingReward",
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.INativeStakingReward>;
+    deployContract(
+      name: "IRewardDistributor",
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.IRewardDistributor>;
+    deployContract(name: "IStakingManager", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IStakingManager>;
+    deployContract(name: "IStakingPool", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IStakingPool>;
+    deployContract(
+      name: "ISymbioticStaking",
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.ISymbioticStaking>;
+    deployContract(
+      name: "ISymbioticStakingReward",
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.ISymbioticStakingReward>;
     deployContract(name: "Dispute", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Dispute>;
     deployContract(name: "Error", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Error>;
     deployContract(
@@ -400,9 +522,12 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.MockAttestationVerifier>;
     deployContract(name: "MockToken", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockToken>;
     deployContract(name: "MockVerifier", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockVerifier>;
+    deployContract(name: "POND", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.POND>;
     deployContract(name: "UC_Rekt", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.UC_Rekt>;
     deployContract(name: "UC", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.UC>;
     deployContract(name: "UC_with_rg", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.UC_with_rg>;
+    deployContract(name: "USDC", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.USDC>;
+    deployContract(name: "WETH", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.WETH>;
     deployContract(
       name: "AttestationAuther",
       signerOrOptions?: ethers.Signer | DeployContractOptions,
@@ -425,6 +550,14 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.IAttestationVerifier>;
     deployContract(name: "PriorityLog", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.PriorityLog>;
     deployContract(name: "ProofMarketplace", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ProofMarketplace>;
+    deployContract(name: "ProverManager", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ProverManager>;
+    deployContract(name: "NativeStaking", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.NativeStaking>;
+    deployContract(name: "StakingManager", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.StakingManager>;
+    deployContract(name: "SymbioticStaking", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SymbioticStaking>;
+    deployContract(
+      name: "SymbioticStakingReward",
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.SymbioticStakingReward>;
     deployContract(name: "IVerifier_zksync", signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IVerifier_zksync>;
     deployContract(
       name: "BaseUltraVerifier",
@@ -530,6 +663,8 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions,
     ): Promise<Contracts.IERC721Errors>;
+    deployContract(name: "IERC1363", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC1363>;
+    deployContract(name: "IERC1967", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC1967>;
     deployContract(name: "IBeacon", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IBeacon>;
     deployContract(
       name: "ERC1967Utils",
@@ -542,29 +677,67 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions,
     ): Promise<Contracts.IERC20Metadata>;
-    deployContract(
-      name: "IERC20Permit",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions,
-    ): Promise<Contracts.IERC20Permit>;
     deployContract(name: "IERC20", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>;
     deployContract(name: "SafeERC20", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SafeERC20>;
     deployContract(name: "Address", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Address>;
     deployContract(name: "ECDSA", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.ECDSA>;
+    deployContract(name: "Errors", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Errors>;
     deployContract(name: "IERC165", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC165>;
+    deployContract(name: "SafeCast", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SafeCast>;
+    deployContract(name: "Strings", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Strings>;
     deployContract(
       name: "EntityKeyRegistry",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions,
     ): Promise<Contracts.EntityKeyRegistry>;
+    deployContract(name: "IL2Staking", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IL2Staking>;
     deployContract(
-      name: "GeneratorRegistry",
+      name: "IProofMarketplace",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions,
-    ): Promise<Contracts.GeneratorRegistry>;
-    deployContract(name: "IL2Staking", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IL2Staking>;
+    ): Promise<Contracts.IProofMarketplace>;
+    deployContract(
+      name: "IProverManager",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.IProverManager>;
     deployContract(name: "IVerifier", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IVerifier>;
     deployContract(name: "SetPmp", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SetPmp>;
+    deployContract(
+      name: "INativeStaking",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.INativeStaking>;
+    deployContract(
+      name: "INativeStakingReward",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.INativeStakingReward>;
+    deployContract(
+      name: "IRewardDistributor",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.IRewardDistributor>;
+    deployContract(
+      name: "IStakingManager",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.IStakingManager>;
+    deployContract(
+      name: "IStakingPool",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.IStakingPool>;
+    deployContract(
+      name: "ISymbioticStaking",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.ISymbioticStaking>;
+    deployContract(
+      name: "ISymbioticStakingReward",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.ISymbioticStakingReward>;
     deployContract(name: "Dispute", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Dispute>;
     deployContract(name: "Error", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.Error>;
     deployContract(
@@ -578,9 +751,12 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions,
     ): Promise<Contracts.MockVerifier>;
+    deployContract(name: "POND", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.POND>;
     deployContract(name: "UC_Rekt", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.UC_Rekt>;
     deployContract(name: "UC", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.UC>;
     deployContract(name: "UC_with_rg", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.UC_with_rg>;
+    deployContract(name: "USDC", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.USDC>;
+    deployContract(name: "WETH", args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.WETH>;
     deployContract(
       name: "AttestationAuther",
       args: any[],
@@ -616,6 +792,31 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions,
     ): Promise<Contracts.ProofMarketplace>;
+    deployContract(
+      name: "ProverManager",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.ProverManager>;
+    deployContract(
+      name: "NativeStaking",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.NativeStaking>;
+    deployContract(
+      name: "StakingManager",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.StakingManager>;
+    deployContract(
+      name: "SymbioticStaking",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.SymbioticStaking>;
+    deployContract(
+      name: "SymbioticStakingReward",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions,
+    ): Promise<Contracts.SymbioticStakingReward>;
     deployContract(
       name: "IVerifier_zksync",
       args: any[],

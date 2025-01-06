@@ -45,55 +45,10 @@ const _abi = [
     name: "ERC1967NonPayable",
     type: "error",
   },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "previousAdmin",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "newAdmin",
-        type: "address",
-      },
-    ],
-    name: "AdminChanged",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "beacon",
-        type: "address",
-      },
-    ],
-    name: "BeaconUpgraded",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "implementation",
-        type: "address",
-      },
-    ],
-    name: "Upgraded",
-    type: "event",
-  },
 ] as const;
 
 const _bytecode =
-  "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212209068c6752c3401fdf9e59cbe48503cfe5483a28bb4bac15895b92a3caa5712e064736f6c63430008180033";
+  "0x60808060405234601757603a9081601d823930815050f35b600080fdfe600080fdfea26469706673582212209064d693302342fe789c8c84823b930067a649a48d17742c2d94fe2a96996e8664736f6c634300081a0033";
 
 type ERC1967UtilsConstructorParams = [signer?: Signer] | ConstructorParameters<typeof ContractFactory>;
 

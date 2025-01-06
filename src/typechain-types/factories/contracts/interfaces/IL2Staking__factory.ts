@@ -23,7 +23,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "generatorAddress",
+        name: "proverAddress",
         type: "address",
       },
       {

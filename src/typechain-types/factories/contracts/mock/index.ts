@@ -5,5 +5,8 @@ export * as ucNewSol from "./UCNew.sol";
 export { MockAttestationVerifier__factory } from "./MockAttestationVerifier__factory";
 export { MockToken__factory } from "./MockToken__factory";
 export { MockVerifier__factory } from "./MockVerifier__factory";
+export { POND__factory } from "./POND__factory";
 export { UC__factory } from "./UC__factory";
 export { UC_Rekt__factory } from "./UC_Rekt__factory";
+export { USDC__factory } from "./USDC__factory";
+export { WETH__factory } from "./WETH__factory";

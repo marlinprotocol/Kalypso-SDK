@@ -23,8 +23,8 @@ import type {
   TypedContractMethod,
 } from "../common";
 
-export declare namespace ProofMarketplace {
-  export type AskStruct = {
+export declare namespace Struct {
+  export type BidStruct = {
     marketId: BigNumberish;
     reward: BigNumberish;
     expiry: BigNumberish;
@@ -34,7 +34,7 @@ export declare namespace ProofMarketplace {
     proverData: BytesLike;
   };
 
-  export type AskStructOutput = [
+  export type BidStructOutput = [
     marketId: bigint,
     reward: bigint,
     expiry: bigint,
@@ -57,50 +57,64 @@ export interface ProofMarketplaceInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "DEFAULT_ADMIN_ROLE"
-      | "ENTITY_KEY_REGISTRY"
-      | "GENERATOR_REGISTRY"
       | "MARKET_ACTIVATION_DELAY"
-      | "MARKET_CREATION_COST"
       | "MATCHING_ENGINE_ROLE"
-      | "PAYMENT_TOKEN"
+      | "STAKING_MANAGER_ROLE"
+      | "SYMBIOTIC_STAKING_REWARD_ROLE"
+      | "SYMBIOTIC_STAKING_ROLE"
       | "UPDATER_ROLE"
       | "UPGRADE_INTERFACE_VERSION"
       | "addExtraImages"
-      | "askCounter"
       | "assignTask"
-      | "cancelAsk"
-      | "claimableAmount"
+      | "bidCounter"
+      | "cancelBid"
+      | "claimProverFeeReward"
+      | "claimTransmitterFeeReward"
       | "costPerInputBytes"
-      | "createAsk"
-      | "createMarketplace"
+      | "createBid"
+      | "createMarket"
       | "discardRequest"
-      | "flush"
+      | "distributeTransmitterFeeReward"
+      | "entityKeyRegistry"
       | "freezeMarket"
-      | "getAskState"
+      | "getBidState"
       | "getPlatformFee"
       | "getRoleAdmin"
       | "grantRole"
       | "hasRole"
       | "initialize"
-      | "listOfAsk"
+      | "listOfBid"
       | "marketCounter"
+      | "marketCreationCost"
       | "marketData"
       | "minProvingTime"
       | "pause"
       | "paused"
+      | "paymentToken"
+      | "proverClaimableFeeReward"
+      | "proverManager"
       | "proxiableUUID"
+      | "refundFees"
       | "relayBatchAssignTasks"
       | "removeExtraImages"
       | "renounceRole"
       | "revokeRole"
+      | "setEntityKeyRegistry"
+      | "setMarketCreationCost"
       | "setMatchingEngineImage"
-      | "slashGenerator"
+      | "setPaymentToken"
+      | "setProverManager"
+      | "setTreasury"
       | "submitProof"
       | "submitProofForInvalidInputs"
       | "submitProofs"
       | "supportsInterface"
+      | "transferFeeToken"
+      | "transmitterClaimableFeeReward"
+      | "treasury"
       | "unpause"
       | "updateCostPerBytes"
+      | "updateMarketMetadata"
       | "updateMinProvingTime"
       | "upgradeToAndCall"
       | "verifyMatchingEngine",
@@ -110,20 +124,29 @@ export interface ProofMarketplaceInterface extends Interface {
     nameOrSignatureOrTopic:
       | "AddExtraIVSImage"
       | "AddExtraProverImage"
-      | "AskCancelled"
-      | "AskCreated"
+      | "BidCancelled"
+      | "BidCreated"
+      | "EntityKeyRegistrySet"
       | "Initialized"
       | "InvalidInputsDetected"
+      | "MarketCreationCostSet"
+      | "MarketMetadataUpdated"
       | "MarketplaceCreated"
       | "Paused"
+      | "PaymentTokenSet"
       | "ProofCreated"
       | "ProofNotGenerated"
+      | "ProverFeeRewardAdded"
+      | "ProverManagerSet"
+      | "ProverRewardShareSet"
       | "RemoveExtraIVSImage"
       | "RemoveExtraProverImage"
       | "RoleAdminChanged"
       | "RoleGranted"
       | "RoleRevoked"
       | "TaskCreated"
+      | "TransmitterFeeRewardAdded"
+      | "TreasurySet"
       | "Unpaused"
       | "UpdateCostPerBytes"
       | "UpdateMinProvingTime"
@@ -131,99 +154,130 @@ export interface ProofMarketplaceInterface extends Interface {
   ): EventFragment;
 
   encodeFunctionData(functionFragment: "DEFAULT_ADMIN_ROLE", values?: undefined): string;
-  encodeFunctionData(functionFragment: "ENTITY_KEY_REGISTRY", values?: undefined): string;
-  encodeFunctionData(functionFragment: "GENERATOR_REGISTRY", values?: undefined): string;
   encodeFunctionData(functionFragment: "MARKET_ACTIVATION_DELAY", values?: undefined): string;
-  encodeFunctionData(functionFragment: "MARKET_CREATION_COST", values?: undefined): string;
   encodeFunctionData(functionFragment: "MATCHING_ENGINE_ROLE", values?: undefined): string;
-  encodeFunctionData(functionFragment: "PAYMENT_TOKEN", values?: undefined): string;
+  encodeFunctionData(functionFragment: "STAKING_MANAGER_ROLE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "SYMBIOTIC_STAKING_REWARD_ROLE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "SYMBIOTIC_STAKING_ROLE", values?: undefined): string;
   encodeFunctionData(functionFragment: "UPDATER_ROLE", values?: undefined): string;
   encodeFunctionData(functionFragment: "UPGRADE_INTERFACE_VERSION", values?: undefined): string;
   encodeFunctionData(functionFragment: "addExtraImages", values: [BigNumberish, BytesLike[], BytesLike[]]): string;
-  encodeFunctionData(functionFragment: "askCounter", values?: undefined): string;
   encodeFunctionData(functionFragment: "assignTask", values: [BigNumberish, AddressLike, BytesLike]): string;
-  encodeFunctionData(functionFragment: "cancelAsk", values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: "claimableAmount", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "bidCounter", values?: undefined): string;
+  encodeFunctionData(functionFragment: "cancelBid", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "claimProverFeeReward", values?: undefined): string;
+  encodeFunctionData(functionFragment: "claimTransmitterFeeReward", values?: undefined): string;
   encodeFunctionData(functionFragment: "costPerInputBytes", values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: "createAsk", values: [ProofMarketplace.AskStruct, BigNumberish, BytesLike, BytesLike]): string;
-  encodeFunctionData(functionFragment: "createMarketplace", values: [BytesLike, AddressLike, BigNumberish, BytesLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "createBid", values: [Struct.BidStruct, BigNumberish, BytesLike, BytesLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "createMarket", values: [BytesLike, AddressLike, BytesLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "discardRequest", values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: "flush", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "distributeTransmitterFeeReward", values: [AddressLike, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "entityKeyRegistry", values?: undefined): string;
   encodeFunctionData(functionFragment: "freezeMarket", values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: "getAskState", values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: "getPlatformFee", values: [BigNumberish, ProofMarketplace.AskStruct, BytesLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "getBidState", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "getPlatformFee", values: [BigNumberish, Struct.BidStruct, BytesLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "getRoleAdmin", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "grantRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "hasRole", values: [BytesLike, AddressLike]): string;
-  encodeFunctionData(functionFragment: "initialize", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "listOfAsk", values: [BigNumberish]): string;
+  encodeFunctionData(
+    functionFragment: "initialize",
+    values: [AddressLike, AddressLike, AddressLike, AddressLike, AddressLike, BigNumberish],
+  ): string;
+  encodeFunctionData(functionFragment: "listOfBid", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "marketCounter", values?: undefined): string;
+  encodeFunctionData(functionFragment: "marketCreationCost", values?: undefined): string;
   encodeFunctionData(functionFragment: "marketData", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "minProvingTime", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "pause", values?: undefined): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
+  encodeFunctionData(functionFragment: "paymentToken", values?: undefined): string;
+  encodeFunctionData(functionFragment: "proverClaimableFeeReward", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "proverManager", values?: undefined): string;
   encodeFunctionData(functionFragment: "proxiableUUID", values?: undefined): string;
+  encodeFunctionData(functionFragment: "refundFees", values: [BigNumberish[]]): string;
   encodeFunctionData(functionFragment: "relayBatchAssignTasks", values: [BigNumberish[], AddressLike[], BytesLike[], BytesLike]): string;
   encodeFunctionData(functionFragment: "removeExtraImages", values: [BigNumberish, BytesLike[], BytesLike[]]): string;
   encodeFunctionData(functionFragment: "renounceRole", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "revokeRole", values: [BytesLike, AddressLike]): string;
+  encodeFunctionData(functionFragment: "setEntityKeyRegistry", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "setMarketCreationCost", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "setMatchingEngineImage", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "slashGenerator", values: [BigNumberish, AddressLike]): string;
+  encodeFunctionData(functionFragment: "setPaymentToken", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "setProverManager", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "setTreasury", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "submitProof", values: [BigNumberish, BytesLike]): string;
   encodeFunctionData(functionFragment: "submitProofForInvalidInputs", values: [BigNumberish, BytesLike]): string;
   encodeFunctionData(functionFragment: "submitProofs", values: [BigNumberish[], BytesLike[]]): string;
   encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "transferFeeToken", values: [AddressLike, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "transmitterClaimableFeeReward", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "treasury", values?: undefined): string;
   encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
   encodeFunctionData(functionFragment: "updateCostPerBytes", values: [BigNumberish, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "updateMarketMetadata", values: [BigNumberish, BytesLike]): string;
   encodeFunctionData(functionFragment: "updateMinProvingTime", values: [BigNumberish, BigNumberish]): string;
   encodeFunctionData(functionFragment: "upgradeToAndCall", values: [AddressLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "verifyMatchingEngine", values: [BytesLike, BytesLike]): string;
 
   decodeFunctionResult(functionFragment: "DEFAULT_ADMIN_ROLE", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "ENTITY_KEY_REGISTRY", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "GENERATOR_REGISTRY", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "MARKET_ACTIVATION_DELAY", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "MARKET_CREATION_COST", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "MATCHING_ENGINE_ROLE", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "PAYMENT_TOKEN", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "STAKING_MANAGER_ROLE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "SYMBIOTIC_STAKING_REWARD_ROLE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "SYMBIOTIC_STAKING_ROLE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "UPDATER_ROLE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "UPGRADE_INTERFACE_VERSION", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addExtraImages", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "askCounter", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "assignTask", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "cancelAsk", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "claimableAmount", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "bidCounter", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "cancelBid", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "claimProverFeeReward", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "claimTransmitterFeeReward", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "costPerInputBytes", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "createAsk", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "createMarketplace", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "createBid", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "createMarket", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "discardRequest", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "flush", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "distributeTransmitterFeeReward", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "entityKeyRegistry", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "freezeMarket", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getAskState", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getBidState", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getPlatformFee", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getRoleAdmin", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "listOfAsk", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "listOfBid", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "marketCounter", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "marketCreationCost", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "marketData", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "minProvingTime", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "paymentToken", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "proverClaimableFeeReward", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "proverManager", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "proxiableUUID", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "refundFees", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "relayBatchAssignTasks", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "removeExtraImages", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "renounceRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setEntityKeyRegistry", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setMarketCreationCost", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setMatchingEngineImage", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "slashGenerator", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setPaymentToken", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setProverManager", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setTreasury", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "submitProof", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "submitProofForInvalidInputs", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "submitProofs", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "supportsInterface", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "transferFeeToken", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "transmitterClaimableFeeReward", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "treasury", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "updateCostPerBytes", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "updateMarketMetadata", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "updateMinProvingTime", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "upgradeToAndCall", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "verifyMatchingEngine", data: BytesLike): Result;
@@ -255,11 +309,11 @@ export namespace AddExtraProverImageEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace AskCancelledEvent {
-  export type InputTuple = [askId: BigNumberish];
-  export type OutputTuple = [askId: bigint];
+export namespace BidCancelledEvent {
+  export type InputTuple = [bidId: BigNumberish];
+  export type OutputTuple = [bidId: bigint];
   export interface OutputObject {
-    askId: bigint;
+    bidId: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -267,14 +321,27 @@ export namespace AskCancelledEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace AskCreatedEvent {
-  export type InputTuple = [askId: BigNumberish, hasPrivateInputs: boolean, secret_data: BytesLike, acl: BytesLike];
-  export type OutputTuple = [askId: bigint, hasPrivateInputs: boolean, secret_data: string, acl: string];
+export namespace BidCreatedEvent {
+  export type InputTuple = [bidId: BigNumberish, hasPrivateInputs: boolean, secret_data: BytesLike, acl: BytesLike, extra_data: BytesLike];
+  export type OutputTuple = [bidId: bigint, hasPrivateInputs: boolean, secret_data: string, acl: string, extra_data: string];
   export interface OutputObject {
-    askId: bigint;
+    bidId: bigint;
     hasPrivateInputs: boolean;
     secret_data: string;
     acl: string;
+    extra_data: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace EntityKeyRegistrySetEvent {
+  export type InputTuple = [entityRegistry: AddressLike];
+  export type OutputTuple = [entityRegistry: string];
+  export interface OutputObject {
+    entityRegistry: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -295,10 +362,35 @@ export namespace InitializedEvent {
 }
 
 export namespace InvalidInputsDetectedEvent {
-  export type InputTuple = [askId: BigNumberish];
-  export type OutputTuple = [askId: bigint];
+  export type InputTuple = [bidId: BigNumberish];
+  export type OutputTuple = [bidId: bigint];
   export interface OutputObject {
-    askId: bigint;
+    bidId: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace MarketCreationCostSetEvent {
+  export type InputTuple = [marketCreationCost: BigNumberish];
+  export type OutputTuple = [marketCreationCost: bigint];
+  export interface OutputObject {
+    marketCreationCost: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace MarketMetadataUpdatedEvent {
+  export type InputTuple = [marketId: BigNumberish, metadata: BytesLike];
+  export type OutputTuple = [marketId: bigint, metadata: string];
+  export interface OutputObject {
+    marketId: bigint;
+    metadata: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -330,11 +422,23 @@ export namespace PausedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace ProofCreatedEvent {
-  export type InputTuple = [askId: BigNumberish, proof: BytesLike];
-  export type OutputTuple = [askId: bigint, proof: string];
+export namespace PaymentTokenSetEvent {
+  export type InputTuple = [paymentToken: AddressLike];
+  export type OutputTuple = [paymentToken: string];
   export interface OutputObject {
-    askId: bigint;
+    paymentToken: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace ProofCreatedEvent {
+  export type InputTuple = [bidId: BigNumberish, proof: BytesLike];
+  export type OutputTuple = [bidId: bigint, proof: string];
+  export interface OutputObject {
+    bidId: bigint;
     proof: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
@@ -344,10 +448,48 @@ export namespace ProofCreatedEvent {
 }
 
 export namespace ProofNotGeneratedEvent {
-  export type InputTuple = [askId: BigNumberish];
-  export type OutputTuple = [askId: bigint];
+  export type InputTuple = [bidId: BigNumberish];
+  export type OutputTuple = [bidId: bigint];
   export interface OutputObject {
-    askId: bigint;
+    bidId: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace ProverFeeRewardAddedEvent {
+  export type InputTuple = [prover: AddressLike, feeRewardAmount: BigNumberish];
+  export type OutputTuple = [prover: string, feeRewardAmount: bigint];
+  export interface OutputObject {
+    prover: string;
+    feeRewardAmount: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace ProverManagerSetEvent {
+  export type InputTuple = [proverManager: AddressLike];
+  export type OutputTuple = [proverManager: string];
+  export interface OutputObject {
+    proverManager: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace ProverRewardShareSetEvent {
+  export type InputTuple = [prover: AddressLike, rewardShare: BigNumberish];
+  export type OutputTuple = [prover: string, rewardShare: bigint];
+  export interface OutputObject {
+    prover: string;
+    rewardShare: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -424,12 +566,37 @@ export namespace RoleRevokedEvent {
 }
 
 export namespace TaskCreatedEvent {
-  export type InputTuple = [askId: BigNumberish, generator: AddressLike, new_acl: BytesLike];
-  export type OutputTuple = [askId: bigint, generator: string, new_acl: string];
+  export type InputTuple = [bidId: BigNumberish, prover: AddressLike, new_acl: BytesLike];
+  export type OutputTuple = [bidId: bigint, prover: string, new_acl: string];
   export interface OutputObject {
-    askId: bigint;
-    generator: string;
+    bidId: bigint;
+    prover: string;
     new_acl: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace TransmitterFeeRewardAddedEvent {
+  export type InputTuple = [transmitter: AddressLike, feeRewardAmount: BigNumberish];
+  export type OutputTuple = [transmitter: string, feeRewardAmount: bigint];
+  export interface OutputObject {
+    transmitter: string;
+    feeRewardAmount: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace TreasurySetEvent {
+  export type InputTuple = [treasury: AddressLike];
+  export type OutputTuple = [treasury: string];
+  export interface OutputObject {
+    treasury: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -516,17 +683,15 @@ export interface ProofMarketplace extends BaseContract {
 
   DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
 
-  ENTITY_KEY_REGISTRY: TypedContractMethod<[], [string], "view">;
-
-  GENERATOR_REGISTRY: TypedContractMethod<[], [string], "view">;
-
   MARKET_ACTIVATION_DELAY: TypedContractMethod<[], [bigint], "view">;
-
-  MARKET_CREATION_COST: TypedContractMethod<[], [bigint], "view">;
 
   MATCHING_ENGINE_ROLE: TypedContractMethod<[], [string], "view">;
 
-  PAYMENT_TOKEN: TypedContractMethod<[], [string], "view">;
+  STAKING_MANAGER_ROLE: TypedContractMethod<[], [string], "view">;
+
+  SYMBIOTIC_STAKING_REWARD_ROLE: TypedContractMethod<[], [string], "view">;
+
+  SYMBIOTIC_STAKING_ROLE: TypedContractMethod<[], [string], "view">;
 
   UPDATER_ROLE: TypedContractMethod<[], [string], "view">;
 
@@ -534,38 +699,42 @@ export interface ProofMarketplace extends BaseContract {
 
   addExtraImages: TypedContractMethod<[marketId: BigNumberish, _proverPcrs: BytesLike[], _ivsPcrs: BytesLike[]], [void], "nonpayable">;
 
-  askCounter: TypedContractMethod<[], [bigint], "view">;
+  assignTask: TypedContractMethod<[bidId: BigNumberish, prover: AddressLike, new_acl: BytesLike], [void], "nonpayable">;
 
-  assignTask: TypedContractMethod<[askId: BigNumberish, generator: AddressLike, new_acl: BytesLike], [void], "nonpayable">;
+  bidCounter: TypedContractMethod<[], [bigint], "view">;
 
-  cancelAsk: TypedContractMethod<[askId: BigNumberish], [void], "nonpayable">;
+  cancelBid: TypedContractMethod<[bidId: BigNumberish], [void], "nonpayable">;
 
-  claimableAmount: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+  claimProverFeeReward: TypedContractMethod<[], [void], "nonpayable">;
+
+  claimTransmitterFeeReward: TypedContractMethod<[], [void], "nonpayable">;
 
   costPerInputBytes: TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
 
-  createAsk: TypedContractMethod<
-    [ask: ProofMarketplace.AskStruct, secretType: BigNumberish, privateInputs: BytesLike, acl: BytesLike],
+  createBid: TypedContractMethod<
+    [bid: Struct.BidStruct, secretType: BigNumberish, privateInputs: BytesLike, acl: BytesLike, extraData: BytesLike],
     [void],
     "nonpayable"
   >;
 
-  createMarketplace: TypedContractMethod<
-    [_marketmetadata: BytesLike, _verifier: AddressLike, _penalty: BigNumberish, _proverPcrs: BytesLike, _ivsPcrs: BytesLike],
+  createMarket: TypedContractMethod<
+    [_marketmetadata: BytesLike, _verifier: AddressLike, _proverPcrs: BytesLike, _ivsPcrs: BytesLike],
     [void],
     "nonpayable"
   >;
 
-  discardRequest: TypedContractMethod<[askId: BigNumberish], [bigint], "nonpayable">;
+  discardRequest: TypedContractMethod<[bidId: BigNumberish], [void], "nonpayable">;
 
-  flush: TypedContractMethod<[_address: AddressLike], [void], "nonpayable">;
+  distributeTransmitterFeeReward: TypedContractMethod<[_transmitter: AddressLike, _feeRewardAmount: BigNumberish], [void], "nonpayable">;
+
+  entityKeyRegistry: TypedContractMethod<[], [string], "view">;
 
   freezeMarket: TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
 
-  getAskState: TypedContractMethod<[askId: BigNumberish], [bigint], "view">;
+  getBidState: TypedContractMethod<[bidId: BigNumberish], [bigint], "view">;
 
   getPlatformFee: TypedContractMethod<
-    [secretType: BigNumberish, ask: ProofMarketplace.AskStruct, privateInputs: BytesLike, acl: BytesLike],
+    [secretType: BigNumberish, bid: Struct.BidStruct, privateInputs: BytesLike, acl: BytesLike],
     [bigint],
     "view"
   >;
@@ -576,16 +745,27 @@ export interface ProofMarketplace extends BaseContract {
 
   hasRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
 
-  initialize: TypedContractMethod<[_admin: AddressLike], [void], "nonpayable">;
+  initialize: TypedContractMethod<
+    [
+      _admin: AddressLike,
+      _paymentToken: AddressLike,
+      _treasury: AddressLike,
+      _proverManager: AddressLike,
+      _entityKeyRegistry: AddressLike,
+      _marketCreationCost: BigNumberish,
+    ],
+    [void],
+    "nonpayable"
+  >;
 
-  listOfAsk: TypedContractMethod<
+  listOfBid: TypedContractMethod<
     [arg0: BigNumberish],
     [
-      [ProofMarketplace.AskStructOutput, bigint, string, string] & {
-        ask: ProofMarketplace.AskStructOutput;
+      [Struct.BidStructOutput, bigint, string, string] & {
+        bid: Struct.BidStructOutput;
         state: bigint;
         requester: string;
-        generator: string;
+        prover: string;
       },
     ],
     "view"
@@ -593,14 +773,14 @@ export interface ProofMarketplace extends BaseContract {
 
   marketCounter: TypedContractMethod<[], [bigint], "view">;
 
+  marketCreationCost: TypedContractMethod<[], [bigint], "view">;
+
   marketData: TypedContractMethod<
     [arg0: BigNumberish],
     [
-      [string, string, bigint, bigint, string, string, string] & {
+      [string, string, string, string, string] & {
         verifier: string;
         proverImageId: string;
-        slashingPenalty: bigint;
-        activationBlock: bigint;
         ivsImageId: string;
         creator: string;
         marketmetadata: string;
@@ -615,10 +795,18 @@ export interface ProofMarketplace extends BaseContract {
 
   paused: TypedContractMethod<[], [boolean], "view">;
 
+  paymentToken: TypedContractMethod<[], [string], "view">;
+
+  proverClaimableFeeReward: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+
+  proverManager: TypedContractMethod<[], [string], "view">;
+
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
+  refundFees: TypedContractMethod<[bidIds: BigNumberish[]], [void], "nonpayable">;
+
   relayBatchAssignTasks: TypedContractMethod<
-    [askIds: BigNumberish[], generators: AddressLike[], newAcls: BytesLike[], signature: BytesLike],
+    [bidIds: BigNumberish[], provers: AddressLike[], newAcls: BytesLike[], signature: BytesLike],
     [void],
     "nonpayable"
   >;
@@ -629,21 +817,37 @@ export interface ProofMarketplace extends BaseContract {
 
   revokeRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
 
+  setEntityKeyRegistry: TypedContractMethod<[_entityKeyRegistry: AddressLike], [void], "nonpayable">;
+
+  setMarketCreationCost: TypedContractMethod<[_marketCreationCost: BigNumberish], [void], "nonpayable">;
+
   setMatchingEngineImage: TypedContractMethod<[pcrs: BytesLike], [void], "nonpayable">;
 
-  slashGenerator: TypedContractMethod<[askId: BigNumberish, rewardAddress: AddressLike], [bigint], "nonpayable">;
+  setPaymentToken: TypedContractMethod<[_paymentToken: AddressLike], [void], "nonpayable">;
 
-  submitProof: TypedContractMethod<[askId: BigNumberish, proof: BytesLike], [void], "nonpayable">;
+  setProverManager: TypedContractMethod<[_proverManager: AddressLike], [void], "nonpayable">;
 
-  submitProofForInvalidInputs: TypedContractMethod<[askId: BigNumberish, invalidProofSignature: BytesLike], [void], "nonpayable">;
+  setTreasury: TypedContractMethod<[_treasury: AddressLike], [void], "nonpayable">;
+
+  submitProof: TypedContractMethod<[bidId: BigNumberish, proof: BytesLike], [void], "nonpayable">;
+
+  submitProofForInvalidInputs: TypedContractMethod<[bidId: BigNumberish, invalidProofSignature: BytesLike], [void], "nonpayable">;
 
   submitProofs: TypedContractMethod<[taskIds: BigNumberish[], proofs: BytesLike[]], [void], "nonpayable">;
 
   supportsInterface: TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
 
+  transferFeeToken: TypedContractMethod<[_recipient: AddressLike, _amount: BigNumberish], [void], "nonpayable">;
+
+  transmitterClaimableFeeReward: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+
+  treasury: TypedContractMethod<[], [string], "view">;
+
   unpause: TypedContractMethod<[], [void], "nonpayable">;
 
   updateCostPerBytes: TypedContractMethod<[secretType: BigNumberish, costPerByte: BigNumberish], [void], "nonpayable">;
+
+  updateMarketMetadata: TypedContractMethod<[marketId: BigNumberish, metadata: BytesLike], [void], "nonpayable">;
 
   updateMinProvingTime: TypedContractMethod<[secretType: BigNumberish, newProvingTime: BigNumberish], [void], "nonpayable">;
 
@@ -654,74 +858,85 @@ export interface ProofMarketplace extends BaseContract {
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "DEFAULT_ADMIN_ROLE"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "ENTITY_KEY_REGISTRY"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "GENERATOR_REGISTRY"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "MARKET_ACTIVATION_DELAY"): TypedContractMethod<[], [bigint], "view">;
-  getFunction(nameOrSignature: "MARKET_CREATION_COST"): TypedContractMethod<[], [bigint], "view">;
   getFunction(nameOrSignature: "MATCHING_ENGINE_ROLE"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "PAYMENT_TOKEN"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "STAKING_MANAGER_ROLE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "SYMBIOTIC_STAKING_REWARD_ROLE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "SYMBIOTIC_STAKING_ROLE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "UPDATER_ROLE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "UPGRADE_INTERFACE_VERSION"): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "addExtraImages",
   ): TypedContractMethod<[marketId: BigNumberish, _proverPcrs: BytesLike[], _ivsPcrs: BytesLike[]], [void], "nonpayable">;
-  getFunction(nameOrSignature: "askCounter"): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "assignTask",
-  ): TypedContractMethod<[askId: BigNumberish, generator: AddressLike, new_acl: BytesLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "cancelAsk"): TypedContractMethod<[askId: BigNumberish], [void], "nonpayable">;
-  getFunction(nameOrSignature: "claimableAmount"): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+  ): TypedContractMethod<[bidId: BigNumberish, prover: AddressLike, new_acl: BytesLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "bidCounter"): TypedContractMethod<[], [bigint], "view">;
+  getFunction(nameOrSignature: "cancelBid"): TypedContractMethod<[bidId: BigNumberish], [void], "nonpayable">;
+  getFunction(nameOrSignature: "claimProverFeeReward"): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(nameOrSignature: "claimTransmitterFeeReward"): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(nameOrSignature: "costPerInputBytes"): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
   getFunction(
-    nameOrSignature: "createAsk",
+    nameOrSignature: "createBid",
   ): TypedContractMethod<
-    [ask: ProofMarketplace.AskStruct, secretType: BigNumberish, privateInputs: BytesLike, acl: BytesLike],
+    [bid: Struct.BidStruct, secretType: BigNumberish, privateInputs: BytesLike, acl: BytesLike, extraData: BytesLike],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "createMarketplace",
+    nameOrSignature: "createMarket",
   ): TypedContractMethod<
-    [_marketmetadata: BytesLike, _verifier: AddressLike, _penalty: BigNumberish, _proverPcrs: BytesLike, _ivsPcrs: BytesLike],
+    [_marketmetadata: BytesLike, _verifier: AddressLike, _proverPcrs: BytesLike, _ivsPcrs: BytesLike],
     [void],
     "nonpayable"
   >;
-  getFunction(nameOrSignature: "discardRequest"): TypedContractMethod<[askId: BigNumberish], [bigint], "nonpayable">;
-  getFunction(nameOrSignature: "flush"): TypedContractMethod<[_address: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "discardRequest"): TypedContractMethod<[bidId: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "distributeTransmitterFeeReward",
+  ): TypedContractMethod<[_transmitter: AddressLike, _feeRewardAmount: BigNumberish], [void], "nonpayable">;
+  getFunction(nameOrSignature: "entityKeyRegistry"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "freezeMarket"): TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
-  getFunction(nameOrSignature: "getAskState"): TypedContractMethod<[askId: BigNumberish], [bigint], "view">;
+  getFunction(nameOrSignature: "getBidState"): TypedContractMethod<[bidId: BigNumberish], [bigint], "view">;
   getFunction(
     nameOrSignature: "getPlatformFee",
-  ): TypedContractMethod<
-    [secretType: BigNumberish, ask: ProofMarketplace.AskStruct, privateInputs: BytesLike, acl: BytesLike],
-    [bigint],
-    "view"
-  >;
+  ): TypedContractMethod<[secretType: BigNumberish, bid: Struct.BidStruct, privateInputs: BytesLike, acl: BytesLike], [bigint], "view">;
   getFunction(nameOrSignature: "getRoleAdmin"): TypedContractMethod<[role: BytesLike], [string], "view">;
   getFunction(nameOrSignature: "grantRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "hasRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
-  getFunction(nameOrSignature: "initialize"): TypedContractMethod<[_admin: AddressLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "listOfAsk"): TypedContractMethod<
+  getFunction(
+    nameOrSignature: "initialize",
+  ): TypedContractMethod<
+    [
+      _admin: AddressLike,
+      _paymentToken: AddressLike,
+      _treasury: AddressLike,
+      _proverManager: AddressLike,
+      _entityKeyRegistry: AddressLike,
+      _marketCreationCost: BigNumberish,
+    ],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(nameOrSignature: "listOfBid"): TypedContractMethod<
     [arg0: BigNumberish],
     [
-      [ProofMarketplace.AskStructOutput, bigint, string, string] & {
-        ask: ProofMarketplace.AskStructOutput;
+      [Struct.BidStructOutput, bigint, string, string] & {
+        bid: Struct.BidStructOutput;
         state: bigint;
         requester: string;
-        generator: string;
+        prover: string;
       },
     ],
     "view"
   >;
   getFunction(nameOrSignature: "marketCounter"): TypedContractMethod<[], [bigint], "view">;
+  getFunction(nameOrSignature: "marketCreationCost"): TypedContractMethod<[], [bigint], "view">;
   getFunction(nameOrSignature: "marketData"): TypedContractMethod<
     [arg0: BigNumberish],
     [
-      [string, string, bigint, bigint, string, string, string] & {
+      [string, string, string, string, string] & {
         verifier: string;
         proverImageId: string;
-        slashingPenalty: bigint;
-        activationBlock: bigint;
         ivsImageId: string;
         creator: string;
         marketmetadata: string;
@@ -732,11 +947,15 @@ export interface ProofMarketplace extends BaseContract {
   getFunction(nameOrSignature: "minProvingTime"): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
   getFunction(nameOrSignature: "pause"): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(nameOrSignature: "paused"): TypedContractMethod<[], [boolean], "view">;
+  getFunction(nameOrSignature: "paymentToken"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "proverClaimableFeeReward"): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+  getFunction(nameOrSignature: "proverManager"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "proxiableUUID"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "refundFees"): TypedContractMethod<[bidIds: BigNumberish[]], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "relayBatchAssignTasks",
   ): TypedContractMethod<
-    [askIds: BigNumberish[], generators: AddressLike[], newAcls: BytesLike[], signature: BytesLike],
+    [bidIds: BigNumberish[], provers: AddressLike[], newAcls: BytesLike[], signature: BytesLike],
     [void],
     "nonpayable"
   >;
@@ -747,20 +966,30 @@ export interface ProofMarketplace extends BaseContract {
     nameOrSignature: "renounceRole",
   ): TypedContractMethod<[role: BytesLike, callerConfirmation: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "revokeRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "setEntityKeyRegistry"): TypedContractMethod<[_entityKeyRegistry: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "setMarketCreationCost"): TypedContractMethod<[_marketCreationCost: BigNumberish], [void], "nonpayable">;
   getFunction(nameOrSignature: "setMatchingEngineImage"): TypedContractMethod<[pcrs: BytesLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "slashGenerator",
-  ): TypedContractMethod<[askId: BigNumberish, rewardAddress: AddressLike], [bigint], "nonpayable">;
-  getFunction(nameOrSignature: "submitProof"): TypedContractMethod<[askId: BigNumberish, proof: BytesLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "setPaymentToken"): TypedContractMethod<[_paymentToken: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "setProverManager"): TypedContractMethod<[_proverManager: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "setTreasury"): TypedContractMethod<[_treasury: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "submitProof"): TypedContractMethod<[bidId: BigNumberish, proof: BytesLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "submitProofForInvalidInputs",
-  ): TypedContractMethod<[askId: BigNumberish, invalidProofSignature: BytesLike], [void], "nonpayable">;
+  ): TypedContractMethod<[bidId: BigNumberish, invalidProofSignature: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "submitProofs"): TypedContractMethod<[taskIds: BigNumberish[], proofs: BytesLike[]], [void], "nonpayable">;
   getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "transferFeeToken",
+  ): TypedContractMethod<[_recipient: AddressLike, _amount: BigNumberish], [void], "nonpayable">;
+  getFunction(nameOrSignature: "transmitterClaimableFeeReward"): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+  getFunction(nameOrSignature: "treasury"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "unpause"): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "updateCostPerBytes",
   ): TypedContractMethod<[secretType: BigNumberish, costPerByte: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "updateMarketMetadata",
+  ): TypedContractMethod<[marketId: BigNumberish, metadata: BytesLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "updateMinProvingTime",
   ): TypedContractMethod<[secretType: BigNumberish, newProvingTime: BigNumberish], [void], "nonpayable">;
@@ -778,9 +1007,16 @@ export interface ProofMarketplace extends BaseContract {
     key: "AddExtraProverImage",
   ): TypedContractEvent<AddExtraProverImageEvent.InputTuple, AddExtraProverImageEvent.OutputTuple, AddExtraProverImageEvent.OutputObject>;
   getEvent(
-    key: "AskCancelled",
-  ): TypedContractEvent<AskCancelledEvent.InputTuple, AskCancelledEvent.OutputTuple, AskCancelledEvent.OutputObject>;
-  getEvent(key: "AskCreated"): TypedContractEvent<AskCreatedEvent.InputTuple, AskCreatedEvent.OutputTuple, AskCreatedEvent.OutputObject>;
+    key: "BidCancelled",
+  ): TypedContractEvent<BidCancelledEvent.InputTuple, BidCancelledEvent.OutputTuple, BidCancelledEvent.OutputObject>;
+  getEvent(key: "BidCreated"): TypedContractEvent<BidCreatedEvent.InputTuple, BidCreatedEvent.OutputTuple, BidCreatedEvent.OutputObject>;
+  getEvent(
+    key: "EntityKeyRegistrySet",
+  ): TypedContractEvent<
+    EntityKeyRegistrySetEvent.InputTuple,
+    EntityKeyRegistrySetEvent.OutputTuple,
+    EntityKeyRegistrySetEvent.OutputObject
+  >;
   getEvent(
     key: "Initialized",
   ): TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
@@ -792,15 +1028,49 @@ export interface ProofMarketplace extends BaseContract {
     InvalidInputsDetectedEvent.OutputObject
   >;
   getEvent(
+    key: "MarketCreationCostSet",
+  ): TypedContractEvent<
+    MarketCreationCostSetEvent.InputTuple,
+    MarketCreationCostSetEvent.OutputTuple,
+    MarketCreationCostSetEvent.OutputObject
+  >;
+  getEvent(
+    key: "MarketMetadataUpdated",
+  ): TypedContractEvent<
+    MarketMetadataUpdatedEvent.InputTuple,
+    MarketMetadataUpdatedEvent.OutputTuple,
+    MarketMetadataUpdatedEvent.OutputObject
+  >;
+  getEvent(
     key: "MarketplaceCreated",
   ): TypedContractEvent<MarketplaceCreatedEvent.InputTuple, MarketplaceCreatedEvent.OutputTuple, MarketplaceCreatedEvent.OutputObject>;
   getEvent(key: "Paused"): TypedContractEvent<PausedEvent.InputTuple, PausedEvent.OutputTuple, PausedEvent.OutputObject>;
+  getEvent(
+    key: "PaymentTokenSet",
+  ): TypedContractEvent<PaymentTokenSetEvent.InputTuple, PaymentTokenSetEvent.OutputTuple, PaymentTokenSetEvent.OutputObject>;
   getEvent(
     key: "ProofCreated",
   ): TypedContractEvent<ProofCreatedEvent.InputTuple, ProofCreatedEvent.OutputTuple, ProofCreatedEvent.OutputObject>;
   getEvent(
     key: "ProofNotGenerated",
   ): TypedContractEvent<ProofNotGeneratedEvent.InputTuple, ProofNotGeneratedEvent.OutputTuple, ProofNotGeneratedEvent.OutputObject>;
+  getEvent(
+    key: "ProverFeeRewardAdded",
+  ): TypedContractEvent<
+    ProverFeeRewardAddedEvent.InputTuple,
+    ProverFeeRewardAddedEvent.OutputTuple,
+    ProverFeeRewardAddedEvent.OutputObject
+  >;
+  getEvent(
+    key: "ProverManagerSet",
+  ): TypedContractEvent<ProverManagerSetEvent.InputTuple, ProverManagerSetEvent.OutputTuple, ProverManagerSetEvent.OutputObject>;
+  getEvent(
+    key: "ProverRewardShareSet",
+  ): TypedContractEvent<
+    ProverRewardShareSetEvent.InputTuple,
+    ProverRewardShareSetEvent.OutputTuple,
+    ProverRewardShareSetEvent.OutputObject
+  >;
   getEvent(
     key: "RemoveExtraIVSImage",
   ): TypedContractEvent<RemoveExtraIVSImageEvent.InputTuple, RemoveExtraIVSImageEvent.OutputTuple, RemoveExtraIVSImageEvent.OutputObject>;
@@ -823,6 +1093,16 @@ export interface ProofMarketplace extends BaseContract {
   getEvent(
     key: "TaskCreated",
   ): TypedContractEvent<TaskCreatedEvent.InputTuple, TaskCreatedEvent.OutputTuple, TaskCreatedEvent.OutputObject>;
+  getEvent(
+    key: "TransmitterFeeRewardAdded",
+  ): TypedContractEvent<
+    TransmitterFeeRewardAddedEvent.InputTuple,
+    TransmitterFeeRewardAddedEvent.OutputTuple,
+    TransmitterFeeRewardAddedEvent.OutputObject
+  >;
+  getEvent(
+    key: "TreasurySet",
+  ): TypedContractEvent<TreasurySetEvent.InputTuple, TreasurySetEvent.OutputTuple, TreasurySetEvent.OutputObject>;
   getEvent(key: "Unpaused"): TypedContractEvent<UnpausedEvent.InputTuple, UnpausedEvent.OutputTuple, UnpausedEvent.OutputObject>;
   getEvent(
     key: "UpdateCostPerBytes",
@@ -859,19 +1139,30 @@ export interface ProofMarketplace extends BaseContract {
       AddExtraProverImageEvent.OutputObject
     >;
 
-    "AskCancelled(uint256)": TypedContractEvent<
-      AskCancelledEvent.InputTuple,
-      AskCancelledEvent.OutputTuple,
-      AskCancelledEvent.OutputObject
+    "BidCancelled(uint256)": TypedContractEvent<
+      BidCancelledEvent.InputTuple,
+      BidCancelledEvent.OutputTuple,
+      BidCancelledEvent.OutputObject
     >;
-    AskCancelled: TypedContractEvent<AskCancelledEvent.InputTuple, AskCancelledEvent.OutputTuple, AskCancelledEvent.OutputObject>;
+    BidCancelled: TypedContractEvent<BidCancelledEvent.InputTuple, BidCancelledEvent.OutputTuple, BidCancelledEvent.OutputObject>;
 
-    "AskCreated(uint256,bool,bytes,bytes)": TypedContractEvent<
-      AskCreatedEvent.InputTuple,
-      AskCreatedEvent.OutputTuple,
-      AskCreatedEvent.OutputObject
+    "BidCreated(uint256,bool,bytes,bytes,bytes)": TypedContractEvent<
+      BidCreatedEvent.InputTuple,
+      BidCreatedEvent.OutputTuple,
+      BidCreatedEvent.OutputObject
     >;
-    AskCreated: TypedContractEvent<AskCreatedEvent.InputTuple, AskCreatedEvent.OutputTuple, AskCreatedEvent.OutputObject>;
+    BidCreated: TypedContractEvent<BidCreatedEvent.InputTuple, BidCreatedEvent.OutputTuple, BidCreatedEvent.OutputObject>;
+
+    "EntityKeyRegistrySet(address)": TypedContractEvent<
+      EntityKeyRegistrySetEvent.InputTuple,
+      EntityKeyRegistrySetEvent.OutputTuple,
+      EntityKeyRegistrySetEvent.OutputObject
+    >;
+    EntityKeyRegistrySet: TypedContractEvent<
+      EntityKeyRegistrySetEvent.InputTuple,
+      EntityKeyRegistrySetEvent.OutputTuple,
+      EntityKeyRegistrySetEvent.OutputObject
+    >;
 
     "Initialized(uint64)": TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
     Initialized: TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
@@ -887,6 +1178,28 @@ export interface ProofMarketplace extends BaseContract {
       InvalidInputsDetectedEvent.OutputObject
     >;
 
+    "MarketCreationCostSet(uint256)": TypedContractEvent<
+      MarketCreationCostSetEvent.InputTuple,
+      MarketCreationCostSetEvent.OutputTuple,
+      MarketCreationCostSetEvent.OutputObject
+    >;
+    MarketCreationCostSet: TypedContractEvent<
+      MarketCreationCostSetEvent.InputTuple,
+      MarketCreationCostSetEvent.OutputTuple,
+      MarketCreationCostSetEvent.OutputObject
+    >;
+
+    "MarketMetadataUpdated(uint256,bytes)": TypedContractEvent<
+      MarketMetadataUpdatedEvent.InputTuple,
+      MarketMetadataUpdatedEvent.OutputTuple,
+      MarketMetadataUpdatedEvent.OutputObject
+    >;
+    MarketMetadataUpdated: TypedContractEvent<
+      MarketMetadataUpdatedEvent.InputTuple,
+      MarketMetadataUpdatedEvent.OutputTuple,
+      MarketMetadataUpdatedEvent.OutputObject
+    >;
+
     "MarketplaceCreated(uint256)": TypedContractEvent<
       MarketplaceCreatedEvent.InputTuple,
       MarketplaceCreatedEvent.OutputTuple,
@@ -900,6 +1213,17 @@ export interface ProofMarketplace extends BaseContract {
 
     "Paused(address)": TypedContractEvent<PausedEvent.InputTuple, PausedEvent.OutputTuple, PausedEvent.OutputObject>;
     Paused: TypedContractEvent<PausedEvent.InputTuple, PausedEvent.OutputTuple, PausedEvent.OutputObject>;
+
+    "PaymentTokenSet(address)": TypedContractEvent<
+      PaymentTokenSetEvent.InputTuple,
+      PaymentTokenSetEvent.OutputTuple,
+      PaymentTokenSetEvent.OutputObject
+    >;
+    PaymentTokenSet: TypedContractEvent<
+      PaymentTokenSetEvent.InputTuple,
+      PaymentTokenSetEvent.OutputTuple,
+      PaymentTokenSetEvent.OutputObject
+    >;
 
     "ProofCreated(uint256,bytes)": TypedContractEvent<
       ProofCreatedEvent.InputTuple,
@@ -917,6 +1241,39 @@ export interface ProofMarketplace extends BaseContract {
       ProofNotGeneratedEvent.InputTuple,
       ProofNotGeneratedEvent.OutputTuple,
       ProofNotGeneratedEvent.OutputObject
+    >;
+
+    "ProverFeeRewardAdded(address,uint256)": TypedContractEvent<
+      ProverFeeRewardAddedEvent.InputTuple,
+      ProverFeeRewardAddedEvent.OutputTuple,
+      ProverFeeRewardAddedEvent.OutputObject
+    >;
+    ProverFeeRewardAdded: TypedContractEvent<
+      ProverFeeRewardAddedEvent.InputTuple,
+      ProverFeeRewardAddedEvent.OutputTuple,
+      ProverFeeRewardAddedEvent.OutputObject
+    >;
+
+    "ProverManagerSet(address)": TypedContractEvent<
+      ProverManagerSetEvent.InputTuple,
+      ProverManagerSetEvent.OutputTuple,
+      ProverManagerSetEvent.OutputObject
+    >;
+    ProverManagerSet: TypedContractEvent<
+      ProverManagerSetEvent.InputTuple,
+      ProverManagerSetEvent.OutputTuple,
+      ProverManagerSetEvent.OutputObject
+    >;
+
+    "ProverRewardShareSet(address,uint256)": TypedContractEvent<
+      ProverRewardShareSetEvent.InputTuple,
+      ProverRewardShareSetEvent.OutputTuple,
+      ProverRewardShareSetEvent.OutputObject
+    >;
+    ProverRewardShareSet: TypedContractEvent<
+      ProverRewardShareSetEvent.InputTuple,
+      ProverRewardShareSetEvent.OutputTuple,
+      ProverRewardShareSetEvent.OutputObject
     >;
 
     "RemoveExtraIVSImage(uint256,bytes32)": TypedContractEvent<
@@ -972,6 +1329,20 @@ export interface ProofMarketplace extends BaseContract {
       TaskCreatedEvent.OutputObject
     >;
     TaskCreated: TypedContractEvent<TaskCreatedEvent.InputTuple, TaskCreatedEvent.OutputTuple, TaskCreatedEvent.OutputObject>;
+
+    "TransmitterFeeRewardAdded(address,uint256)": TypedContractEvent<
+      TransmitterFeeRewardAddedEvent.InputTuple,
+      TransmitterFeeRewardAddedEvent.OutputTuple,
+      TransmitterFeeRewardAddedEvent.OutputObject
+    >;
+    TransmitterFeeRewardAdded: TypedContractEvent<
+      TransmitterFeeRewardAddedEvent.InputTuple,
+      TransmitterFeeRewardAddedEvent.OutputTuple,
+      TransmitterFeeRewardAddedEvent.OutputObject
+    >;
+
+    "TreasurySet(address)": TypedContractEvent<TreasurySetEvent.InputTuple, TreasurySetEvent.OutputTuple, TreasurySetEvent.OutputObject>;
+    TreasurySet: TypedContractEvent<TreasurySetEvent.InputTuple, TreasurySetEvent.OutputTuple, TreasurySetEvent.OutputObject>;
 
     "Unpaused(address)": TypedContractEvent<UnpausedEvent.InputTuple, UnpausedEvent.OutputTuple, UnpausedEvent.OutputObject>;
     Unpaused: TypedContractEvent<UnpausedEvent.InputTuple, UnpausedEvent.OutputTuple, UnpausedEvent.OutputObject>;

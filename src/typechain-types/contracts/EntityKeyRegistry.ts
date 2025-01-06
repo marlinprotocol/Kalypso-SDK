@@ -66,7 +66,7 @@ export interface EntityKeyRegistryInterface extends Interface {
       | "KEY_REGISTER_ROLE"
       | "MODERATOR_ROLE"
       | "UPGRADE_INTERFACE_VERSION"
-      | "addGeneratorRegistry"
+      | "addProverManager"
       | "allowOnlyVerifiedFamily"
       | "blackListedImages"
       | "blacklistImage"
@@ -116,7 +116,7 @@ export interface EntityKeyRegistryInterface extends Interface {
   encodeFunctionData(functionFragment: "KEY_REGISTER_ROLE", values?: undefined): string;
   encodeFunctionData(functionFragment: "MODERATOR_ROLE", values?: undefined): string;
   encodeFunctionData(functionFragment: "UPGRADE_INTERFACE_VERSION", values?: undefined): string;
-  encodeFunctionData(functionFragment: "addGeneratorRegistry", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "addProverManager", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "allowOnlyVerifiedFamily", values: [BytesLike, AddressLike]): string;
   encodeFunctionData(functionFragment: "blackListedImages", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "blacklistImage", values: [BytesLike]): string;
@@ -146,7 +146,7 @@ export interface EntityKeyRegistryInterface extends Interface {
   decodeFunctionResult(functionFragment: "KEY_REGISTER_ROLE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "MODERATOR_ROLE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "UPGRADE_INTERFACE_VERSION", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "addGeneratorRegistry", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "addProverManager", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "allowOnlyVerifiedFamily", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "blackListedImages", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "blacklistImage", data: BytesLike): Result;
@@ -405,7 +405,7 @@ export interface EntityKeyRegistry extends BaseContract {
 
   UPGRADE_INTERFACE_VERSION: TypedContractMethod<[], [string], "view">;
 
-  addGeneratorRegistry: TypedContractMethod<[_generatorRegistry: AddressLike], [void], "nonpayable">;
+  addProverManager: TypedContractMethod<[_proverManager: AddressLike], [void], "nonpayable">;
 
   allowOnlyVerifiedFamily: TypedContractMethod<[familyId: BytesLike, _key: AddressLike], [void], "view">;
 
@@ -471,7 +471,7 @@ export interface EntityKeyRegistry extends BaseContract {
   getFunction(nameOrSignature: "KEY_REGISTER_ROLE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "MODERATOR_ROLE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "UPGRADE_INTERFACE_VERSION"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "addGeneratorRegistry"): TypedContractMethod<[_generatorRegistry: AddressLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "addProverManager"): TypedContractMethod<[_proverManager: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "allowOnlyVerifiedFamily"): TypedContractMethod<[familyId: BytesLike, _key: AddressLike], [void], "view">;
   getFunction(nameOrSignature: "blackListedImages"): TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
   getFunction(nameOrSignature: "blacklistImage"): TypedContractMethod<[imageId: BytesLike], [void], "nonpayable">;
