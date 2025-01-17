@@ -416,7 +416,7 @@ export interface SymbioticStakingReward extends BaseContract {
 
   setSymbioticStaking: TypedContractMethod<[_symbioticStaking: AddressLike], [void], "nonpayable">;
 
-  supportsInterface: TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+  supportsInterface: TypedContractMethod<[_interfaceId: BytesLike], [boolean], "view">;
 
   symbioticStaking: TypedContractMethod<[], [string], "view">;
 
@@ -464,7 +464,7 @@ export interface SymbioticStakingReward extends BaseContract {
   getFunction(nameOrSignature: "setProofMarketplace"): TypedContractMethod<[_proofMarketplace: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "setStakingPool"): TypedContractMethod<[_symbioticStaking: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "setSymbioticStaking"): TypedContractMethod<[_symbioticStaking: AddressLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+  getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[_interfaceId: BytesLike], [boolean], "view">;
   getFunction(nameOrSignature: "symbioticStaking"): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "updateFeeReward",

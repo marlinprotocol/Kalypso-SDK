@@ -888,7 +888,7 @@ export interface SymbioticStaking extends BaseContract {
     "nonpayable"
   >;
 
-  supportsInterface: TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+  supportsInterface: TypedContractMethod<[_interfaceId: BytesLike], [boolean], "view">;
 
   txCountInfo: TypedContractMethod<
     [captureTimestamp: BigNumberish, submissionType: BytesLike],
@@ -1055,7 +1055,7 @@ export interface SymbioticStaking extends BaseContract {
     [void],
     "nonpayable"
   >;
-  getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+  getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[_interfaceId: BytesLike], [boolean], "view">;
   getFunction(
     nameOrSignature: "txCountInfo",
   ): TypedContractMethod<

@@ -48,7 +48,7 @@ export interface StakingManagerInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "DEFAULT_ADMIN_ROLE"
-      | "PROVER_REGISTRY_ROLE"
+      | "PROVER_MANAGER_ROLE"
       | "SYMBIOTIC_STAKING_ROLE"
       | "UPGRADE_INTERFACE_VERSION"
       | "addStakingPool"
@@ -95,7 +95,7 @@ export interface StakingManagerInterface extends Interface {
   ): EventFragment;
 
   encodeFunctionData(functionFragment: "DEFAULT_ADMIN_ROLE", values?: undefined): string;
-  encodeFunctionData(functionFragment: "PROVER_REGISTRY_ROLE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "PROVER_MANAGER_ROLE", values?: undefined): string;
   encodeFunctionData(functionFragment: "SYMBIOTIC_STAKING_ROLE", values?: undefined): string;
   encodeFunctionData(functionFragment: "UPGRADE_INTERFACE_VERSION", values?: undefined): string;
   encodeFunctionData(functionFragment: "addStakingPool", values: [AddressLike]): string;
@@ -125,7 +125,7 @@ export interface StakingManagerInterface extends Interface {
   encodeFunctionData(functionFragment: "upgradeToAndCall", values: [AddressLike, BytesLike]): string;
 
   decodeFunctionResult(functionFragment: "DEFAULT_ADMIN_ROLE", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "PROVER_REGISTRY_ROLE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "PROVER_MANAGER_ROLE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "SYMBIOTIC_STAKING_ROLE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "UPGRADE_INTERFACE_VERSION", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addStakingPool", data: BytesLike): Result;
@@ -336,7 +336,7 @@ export interface StakingManager extends BaseContract {
 
   DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
 
-  PROVER_REGISTRY_ROLE: TypedContractMethod<[], [string], "view">;
+  PROVER_MANAGER_ROLE: TypedContractMethod<[], [string], "view">;
 
   SYMBIOTIC_STAKING_ROLE: TypedContractMethod<[], [string], "view">;
 
@@ -390,7 +390,7 @@ export interface StakingManager extends BaseContract {
 
   setSymbioticStaking: TypedContractMethod<[_symbioticStaking: AddressLike], [void], "nonpayable">;
 
-  supportsInterface: TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+  supportsInterface: TypedContractMethod<[_interfaceId: BytesLike], [boolean], "view">;
 
   symbioticStaking: TypedContractMethod<[], [string], "view">;
 
@@ -399,7 +399,7 @@ export interface StakingManager extends BaseContract {
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "DEFAULT_ADMIN_ROLE"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "PROVER_REGISTRY_ROLE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "PROVER_MANAGER_ROLE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "SYMBIOTIC_STAKING_ROLE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "UPGRADE_INTERFACE_VERSION"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "addStakingPool"): TypedContractMethod<[_stakingPool: AddressLike], [void], "nonpayable">;
@@ -438,7 +438,7 @@ export interface StakingManager extends BaseContract {
   ): TypedContractMethod<[_pools: AddressLike[], _shares: BigNumberish[]], [void], "nonpayable">;
   getFunction(nameOrSignature: "setProofMarketplace"): TypedContractMethod<[_proofMarketplace: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "setSymbioticStaking"): TypedContractMethod<[_symbioticStaking: AddressLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+  getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[_interfaceId: BytesLike], [boolean], "view">;
   getFunction(nameOrSignature: "symbioticStaking"): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "upgradeToAndCall",

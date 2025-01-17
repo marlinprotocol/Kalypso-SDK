@@ -158,6 +158,11 @@ const _abi = [
     type: "error",
   },
   {
+    inputs: [],
+    name: "ExceedsMaximumMatchtime",
+    type: "error",
+  },
+  {
     inputs: [
       {
         internalType: "bytes32",
@@ -364,6 +369,11 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "InvalidProverProposedTime",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "InvalidProverRewardShare",
     type: "error",
   },
@@ -400,6 +410,11 @@ const _abi = [
   {
     inputs: [],
     name: "InvalidSymbioticStaking",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidTimeForProofGeneration",
     type: "error",
   },
   {
@@ -724,7 +739,7 @@ const _abi = [
 ] as const;
 
 const _bytecode =
-  "0x60808060405234601757603a9081601d823930815050f35b600080fdfe600080fdfea26469706673582212207b0bb94374a12e1daa9f2e24cf16d7495a289cc0b68decf9df238081d076a0c264736f6c634300081a0033";
+  "0x60808060405234601757603a9081601d823930815050f35b600080fdfe600080fdfea2646970667358221220fa1e45c9a9a0df2261c998316725fdcdd9d48bea80e7d46de57f33c37145518064736f6c634300081a0033";
 
 type ErrorConstructorParams = [signer?: Signer] | ConstructorParameters<typeof ContractFactory>;
 

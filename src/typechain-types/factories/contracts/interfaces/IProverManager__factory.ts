@@ -130,6 +130,25 @@ const _abi = [
         name: "prover",
         type: "address",
       },
+      {
+        indexed: false,
+        internalType: "bytes",
+        name: "proverData",
+        type: "bytes",
+      },
+    ],
+    name: "ProverDataUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "prover",
+        type: "address",
+      },
     ],
     name: "ProverDeregistered",
     type: "event",
@@ -199,6 +218,12 @@ const _abi = [
         name: "initialCompute",
         type: "uint256",
       },
+      {
+        indexed: false,
+        internalType: "bytes",
+        name: "proverData",
+        type: "bytes",
+      },
     ],
     name: "ProverRegistered",
     type: "event",
@@ -244,7 +269,7 @@ const _abi = [
 ] as const;
 
 const _bytecode =
-  "0x60808060405234601357603a908160198239f35b600080fdfe600080fdfea26469706673582212206ca206c5006479c8df68cd750f092cbe49409f09f9f6958a4cd698da5ca84f2564736f6c634300081a0033";
+  "0x60808060405234601357603a908160198239f35b600080fdfe600080fdfea2646970667358221220a3b6a00aeb1ddc5f96d67e20b9b678d202776a31e7eba96a626140b89f0ea2bd64736f6c634300081a0033";
 
 type IProverManagerConstructorParams = [signer?: Signer] | ConstructorParameters<typeof ContractFactory>;
 

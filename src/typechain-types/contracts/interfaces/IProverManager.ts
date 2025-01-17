@@ -4,6 +4,7 @@
 import type {
   BaseContract,
   BigNumberish,
+  BytesLike,
   FunctionFragment,
   Interface,
   EventFragment,
@@ -23,6 +24,7 @@ export interface IProverManagerInterface extends Interface {
       | "ComputeLocked"
       | "ComputeReleased"
       | "IvKeyAdded"
+      | "ProverDataUpdated"
       | "ProverDeregistered"
       | "ProverJoinedMarketplace"
       | "ProverLeftMarketplace"
@@ -110,6 +112,19 @@ export namespace IvKeyAddedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
+export namespace ProverDataUpdatedEvent {
+  export type InputTuple = [prover: AddressLike, proverData: BytesLike];
+  export type OutputTuple = [prover: string, proverData: string];
+  export interface OutputObject {
+    prover: string;
+    proverData: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
 export namespace ProverDeregisteredEvent {
   export type InputTuple = [prover: AddressLike];
   export type OutputTuple = [prover: string];
@@ -151,11 +166,12 @@ export namespace ProverLeftMarketplaceEvent {
 }
 
 export namespace ProverRegisteredEvent {
-  export type InputTuple = [prover: AddressLike, initialCompute: BigNumberish];
-  export type OutputTuple = [prover: string, initialCompute: bigint];
+  export type InputTuple = [prover: AddressLike, initialCompute: BigNumberish, proverData: BytesLike];
+  export type OutputTuple = [prover: string, initialCompute: bigint, proverData: string];
   export interface OutputObject {
     prover: string;
     initialCompute: bigint;
+    proverData: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -238,6 +254,9 @@ export interface IProverManager extends BaseContract {
     key: "ComputeReleased",
   ): TypedContractEvent<ComputeReleasedEvent.InputTuple, ComputeReleasedEvent.OutputTuple, ComputeReleasedEvent.OutputObject>;
   getEvent(key: "IvKeyAdded"): TypedContractEvent<IvKeyAddedEvent.InputTuple, IvKeyAddedEvent.OutputTuple, IvKeyAddedEvent.OutputObject>;
+  getEvent(
+    key: "ProverDataUpdated",
+  ): TypedContractEvent<ProverDataUpdatedEvent.InputTuple, ProverDataUpdatedEvent.OutputTuple, ProverDataUpdatedEvent.OutputObject>;
   getEvent(
     key: "ProverDeregistered",
   ): TypedContractEvent<ProverDeregisteredEvent.InputTuple, ProverDeregisteredEvent.OutputTuple, ProverDeregisteredEvent.OutputObject>;
@@ -332,6 +351,17 @@ export interface IProverManager extends BaseContract {
     >;
     IvKeyAdded: TypedContractEvent<IvKeyAddedEvent.InputTuple, IvKeyAddedEvent.OutputTuple, IvKeyAddedEvent.OutputObject>;
 
+    "ProverDataUpdated(address,bytes)": TypedContractEvent<
+      ProverDataUpdatedEvent.InputTuple,
+      ProverDataUpdatedEvent.OutputTuple,
+      ProverDataUpdatedEvent.OutputObject
+    >;
+    ProverDataUpdated: TypedContractEvent<
+      ProverDataUpdatedEvent.InputTuple,
+      ProverDataUpdatedEvent.OutputTuple,
+      ProverDataUpdatedEvent.OutputObject
+    >;
+
     "ProverDeregistered(address)": TypedContractEvent<
       ProverDeregisteredEvent.InputTuple,
       ProverDeregisteredEvent.OutputTuple,
@@ -365,7 +395,7 @@ export interface IProverManager extends BaseContract {
       ProverLeftMarketplaceEvent.OutputObject
     >;
 
-    "ProverRegistered(address,uint256)": TypedContractEvent<
+    "ProverRegistered(address,uint256,bytes)": TypedContractEvent<
       ProverRegisteredEvent.InputTuple,
       ProverRegisteredEvent.OutputTuple,
       ProverRegisteredEvent.OutputObject

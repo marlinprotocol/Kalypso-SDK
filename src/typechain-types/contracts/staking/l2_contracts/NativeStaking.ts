@@ -562,7 +562,7 @@ export interface NativeStaking extends BaseContract {
 
   stakingManager: TypedContractMethod<[], [string], "view">;
 
-  supportsInterface: TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+  supportsInterface: TypedContractMethod<[_interfaceId: BytesLike], [boolean], "view">;
 
   upgradeToAndCall: TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;
 
@@ -656,7 +656,7 @@ export interface NativeStaking extends BaseContract {
   getFunction(nameOrSignature: "stakeTokenSelectionWeight"): TypedContractMethod<[stakeToken: AddressLike], [bigint], "view">;
   getFunction(nameOrSignature: "stakeTokenSelectionWeightSum"): TypedContractMethod<[], [bigint], "view">;
   getFunction(nameOrSignature: "stakingManager"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+  getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[_interfaceId: BytesLike], [boolean], "view">;
   getFunction(
     nameOrSignature: "upgradeToAndCall",
   ): TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;

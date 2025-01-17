@@ -407,11 +407,11 @@ export interface EntityKeyRegistry extends BaseContract {
 
   addProverManager: TypedContractMethod<[_proverManager: AddressLike], [void], "nonpayable">;
 
-  allowOnlyVerifiedFamily: TypedContractMethod<[familyId: BytesLike, _key: AddressLike], [void], "view">;
+  allowOnlyVerifiedFamily: TypedContractMethod<[_familyId: BytesLike, _key: AddressLike], [void], "view">;
 
   blackListedImages: TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
 
-  blacklistImage: TypedContractMethod<[imageId: BytesLike], [void], "nonpayable">;
+  blacklistImage: TypedContractMethod<[_imageId: BytesLike], [void], "nonpayable">;
 
   getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
 
@@ -424,7 +424,7 @@ export interface EntityKeyRegistry extends BaseContract {
   hasRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], "view">;
 
   initialize: TypedContractMethod<
-    [_admin: AddressLike, initWhitelistImages: AttestationAutherUpgradeable.EnclaveImageStruct[]],
+    [_admin: AddressLike, _initWhitelistImages: AttestationAutherUpgradeable.EnclaveImageStruct[]],
     [void],
     "nonpayable"
   >;
@@ -435,18 +435,18 @@ export interface EntityKeyRegistry extends BaseContract {
 
   pub_key: TypedContractMethod<[arg0: AddressLike, arg1: BigNumberish], [string], "view">;
 
-  removeEnclaveImageFromFamily: TypedContractMethod<[imageId: BytesLike, family: BytesLike], [void], "nonpayable">;
+  removeEnclaveImageFromFamily: TypedContractMethod<[_imageId: BytesLike, _family: BytesLike], [void], "nonpayable">;
 
-  removePubkey: TypedContractMethod<[keyOwner: AddressLike, keyIndex: BigNumberish], [void], "nonpayable">;
+  removePubkey: TypedContractMethod<[_keyOwner: AddressLike, _keyIndex: BigNumberish], [void], "nonpayable">;
 
   renounceRole: TypedContractMethod<[role: BytesLike, callerConfirmation: AddressLike], [void], "nonpayable">;
 
   revokeRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
 
-  supportsInterface: TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+  supportsInterface: TypedContractMethod<[_interfaceId: BytesLike], [boolean], "view">;
 
   updatePubkey: TypedContractMethod<
-    [keyOwner: AddressLike, keyIndex: BigNumberish, pubkey: BytesLike, attestation_data: BytesLike],
+    [_keyOwner: AddressLike, _keyIndex: BigNumberish, _pubkey: BytesLike, _attestationData: BytesLike],
     [void],
     "nonpayable"
   >;
@@ -459,9 +459,9 @@ export interface EntityKeyRegistry extends BaseContract {
     "nonpayable"
   >;
 
-  verifyKey: TypedContractMethod<[attestation_data: BytesLike], [void], "nonpayable">;
+  verifyKey: TypedContractMethod<[_attestationData: BytesLike], [void], "nonpayable">;
 
-  whitelistImageUsingPcrs: TypedContractMethod<[family: BytesLike, pcrs: BytesLike], [void], "nonpayable">;
+  whitelistImageUsingPcrs: TypedContractMethod<[_family: BytesLike, _pcrs: BytesLike], [void], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
@@ -472,9 +472,9 @@ export interface EntityKeyRegistry extends BaseContract {
   getFunction(nameOrSignature: "MODERATOR_ROLE"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "UPGRADE_INTERFACE_VERSION"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "addProverManager"): TypedContractMethod<[_proverManager: AddressLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "allowOnlyVerifiedFamily"): TypedContractMethod<[familyId: BytesLike, _key: AddressLike], [void], "view">;
+  getFunction(nameOrSignature: "allowOnlyVerifiedFamily"): TypedContractMethod<[_familyId: BytesLike, _key: AddressLike], [void], "view">;
   getFunction(nameOrSignature: "blackListedImages"): TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
-  getFunction(nameOrSignature: "blacklistImage"): TypedContractMethod<[imageId: BytesLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "blacklistImage"): TypedContractMethod<[_imageId: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "getRoleAdmin"): TypedContractMethod<[role: BytesLike], [string], "view">;
   getFunction(nameOrSignature: "getVerifiedKey"): TypedContractMethod<[_key: AddressLike], [string], "view">;
   getFunction(
@@ -485,7 +485,7 @@ export interface EntityKeyRegistry extends BaseContract {
   getFunction(
     nameOrSignature: "initialize",
   ): TypedContractMethod<
-    [_admin: AddressLike, initWhitelistImages: AttestationAutherUpgradeable.EnclaveImageStruct[]],
+    [_admin: AddressLike, _initWhitelistImages: AttestationAutherUpgradeable.EnclaveImageStruct[]],
     [void],
     "nonpayable"
   >;
@@ -494,17 +494,19 @@ export interface EntityKeyRegistry extends BaseContract {
   getFunction(nameOrSignature: "pub_key"): TypedContractMethod<[arg0: AddressLike, arg1: BigNumberish], [string], "view">;
   getFunction(
     nameOrSignature: "removeEnclaveImageFromFamily",
-  ): TypedContractMethod<[imageId: BytesLike, family: BytesLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "removePubkey"): TypedContractMethod<[keyOwner: AddressLike, keyIndex: BigNumberish], [void], "nonpayable">;
+  ): TypedContractMethod<[_imageId: BytesLike, _family: BytesLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "removePubkey",
+  ): TypedContractMethod<[_keyOwner: AddressLike, _keyIndex: BigNumberish], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "renounceRole",
   ): TypedContractMethod<[role: BytesLike, callerConfirmation: AddressLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "revokeRole"): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+  getFunction(nameOrSignature: "supportsInterface"): TypedContractMethod<[_interfaceId: BytesLike], [boolean], "view">;
   getFunction(
     nameOrSignature: "updatePubkey",
   ): TypedContractMethod<
-    [keyOwner: AddressLike, keyIndex: BigNumberish, pubkey: BytesLike, attestation_data: BytesLike],
+    [_keyOwner: AddressLike, _keyIndex: BigNumberish, _pubkey: BytesLike, _attestationData: BytesLike],
     [void],
     "nonpayable"
   >;
@@ -514,8 +516,10 @@ export interface EntityKeyRegistry extends BaseContract {
   getFunction(
     nameOrSignature: "verifyEnclaveKey",
   ): TypedContractMethod<[signature: BytesLike, attestation: IAttestationVerifier.AttestationStruct], [boolean], "nonpayable">;
-  getFunction(nameOrSignature: "verifyKey"): TypedContractMethod<[attestation_data: BytesLike], [void], "nonpayable">;
-  getFunction(nameOrSignature: "whitelistImageUsingPcrs"): TypedContractMethod<[family: BytesLike, pcrs: BytesLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "verifyKey"): TypedContractMethod<[_attestationData: BytesLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "whitelistImageUsingPcrs",
+  ): TypedContractMethod<[_family: BytesLike, _pcrs: BytesLike], [void], "nonpayable">;
 
   getEvent(
     key: "EnclaveImageAddedToFamily",

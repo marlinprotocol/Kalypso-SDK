@@ -58,7 +58,7 @@ export class Generator {
     generatorData: BytesLike,
     options?: Overrides,
   ): Promise<ContractTransactionResponse> {
-    const result = await this.generatorRegistry.proverManager(await this.signer.getAddress());
+    const result = await this.generatorRegistry.proverRegistry(await this.signer.getAddress());
     if (result.rewardAddress != "0x0000000000000000000000000000000000000000") {
       throw new Error("Generator is already registered");
     }
@@ -79,7 +79,7 @@ export class Generator {
    * @returns Returns the total compute of the generator in ecosystem
    */
   public async getCompute(): Promise<BigNumberish> {
-    return (await this.generatorRegistry.proverManager(await this.signer.getAddress())).declaredCompute;
+    return (await this.generatorRegistry.proverRegistry(await this.signer.getAddress())).declaredCompute;
   }
 
   /**

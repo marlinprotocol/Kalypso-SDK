@@ -20,7 +20,7 @@ export declare namespace Struct {
     marketId: BigNumberish;
     reward: BigNumberish;
     expiry: BigNumberish;
-    timeTakenForProofGeneration: BigNumberish;
+    timeForProofGeneration: BigNumberish;
     deadline: BigNumberish;
     refundAddress: AddressLike;
     proverData: BytesLike;
@@ -30,7 +30,7 @@ export declare namespace Struct {
     marketId: bigint,
     reward: bigint,
     expiry: bigint,
-    timeTakenForProofGeneration: bigint,
+    timeForProofGeneration: bigint,
     deadline: bigint,
     refundAddress: string,
     proverData: string,
@@ -38,7 +38,7 @@ export declare namespace Struct {
     marketId: bigint;
     reward: bigint;
     expiry: bigint;
-    timeTakenForProofGeneration: bigint;
+    timeForProofGeneration: bigint;
     deadline: bigint;
     refundAddress: string;
     proverData: string;

@@ -27,9 +27,10 @@ export interface ProverManagerInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "DEFAULT_ADMIN_ROLE"
+      | "MAX_PROVING_TIME"
+      | "MIN_PROVING_TIME"
       | "PARALLEL_REQUESTS_UPPER_LIMIT"
       | "PROOF_MARKET_PLACE_ROLE"
-      | "UNLOCK_WAIT_BLOCKS"
       | "UPGRADE_INTERFACE_VERSION"
       | "addIvsKey"
       | "assignProverTask"
@@ -52,8 +53,9 @@ export interface ProverManagerInterface extends Interface {
       | "leaveMarketplaces"
       | "proofMarketplace"
       | "proverInfoPerMarket"
-      | "proverManager"
+      | "proverRegistry"
       | "proxiableUUID"
+      | "reduceComputeRequestTimestamp"
       | "register"
       | "releaseProverCompute"
       | "removeEncryptionKey"
@@ -64,6 +66,7 @@ export interface ProverManagerInterface extends Interface {
       | "stakingManager"
       | "supportsInterface"
       | "updateEncryptionKey"
+      | "updateProverData"
       | "updateProverRewardAddress"
       | "upgradeToAndCall",
   ): FunctionFragment;
@@ -77,6 +80,7 @@ export interface ProverManagerInterface extends Interface {
       | "ComputeReleased"
       | "Initialized"
       | "IvKeyAdded"
+      | "ProverDataUpdated"
       | "ProverDeregistered"
       | "ProverJoinedMarketplace"
       | "ProverLeftMarketplace"
@@ -90,9 +94,10 @@ export interface ProverManagerInterface extends Interface {
   ): EventFragment;
 
   encodeFunctionData(functionFragment: "DEFAULT_ADMIN_ROLE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "MAX_PROVING_TIME", values?: undefined): string;
+  encodeFunctionData(functionFragment: "MIN_PROVING_TIME", values?: undefined): string;
   encodeFunctionData(functionFragment: "PARALLEL_REQUESTS_UPPER_LIMIT", values?: undefined): string;
   encodeFunctionData(functionFragment: "PROOF_MARKET_PLACE_ROLE", values?: undefined): string;
-  encodeFunctionData(functionFragment: "UNLOCK_WAIT_BLOCKS", values?: undefined): string;
   encodeFunctionData(functionFragment: "UPGRADE_INTERFACE_VERSION", values?: undefined): string;
   encodeFunctionData(functionFragment: "addIvsKey", values: [BigNumberish, BytesLike, BytesLike]): string;
   encodeFunctionData(functionFragment: "assignProverTask", values: [BigNumberish, AddressLike, BigNumberish]): string;
@@ -118,8 +123,9 @@ export interface ProverManagerInterface extends Interface {
   encodeFunctionData(functionFragment: "leaveMarketplaces", values: [BigNumberish[]]): string;
   encodeFunctionData(functionFragment: "proofMarketplace", values?: undefined): string;
   encodeFunctionData(functionFragment: "proverInfoPerMarket", values: [AddressLike, BigNumberish]): string;
-  encodeFunctionData(functionFragment: "proverManager", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "proverRegistry", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "proxiableUUID", values?: undefined): string;
+  encodeFunctionData(functionFragment: "reduceComputeRequestTimestamp", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "register", values: [AddressLike, BigNumberish, BytesLike]): string;
   encodeFunctionData(functionFragment: "releaseProverCompute", values: [AddressLike, BigNumberish]): string;
   encodeFunctionData(functionFragment: "removeEncryptionKey", values: [BigNumberish]): string;
@@ -130,13 +136,15 @@ export interface ProverManagerInterface extends Interface {
   encodeFunctionData(functionFragment: "stakingManager", values?: undefined): string;
   encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "updateEncryptionKey", values: [BigNumberish, BytesLike, BytesLike]): string;
+  encodeFunctionData(functionFragment: "updateProverData", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "updateProverRewardAddress", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "upgradeToAndCall", values: [AddressLike, BytesLike]): string;
 
   decodeFunctionResult(functionFragment: "DEFAULT_ADMIN_ROLE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "MAX_PROVING_TIME", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "MIN_PROVING_TIME", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "PARALLEL_REQUESTS_UPPER_LIMIT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "PROOF_MARKET_PLACE_ROLE", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "UNLOCK_WAIT_BLOCKS", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "UPGRADE_INTERFACE_VERSION", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addIvsKey", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "assignProverTask", data: BytesLike): Result;
@@ -159,8 +167,9 @@ export interface ProverManagerInterface extends Interface {
   decodeFunctionResult(functionFragment: "leaveMarketplaces", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "proofMarketplace", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "proverInfoPerMarket", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "proverManager", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "proverRegistry", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "proxiableUUID", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "reduceComputeRequestTimestamp", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "register", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "releaseProverCompute", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "removeEncryptionKey", data: BytesLike): Result;
@@ -171,6 +180,7 @@ export interface ProverManagerInterface extends Interface {
   decodeFunctionResult(functionFragment: "stakingManager", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "supportsInterface", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "updateEncryptionKey", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "updateProverData", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "updateProverRewardAddress", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "upgradeToAndCall", data: BytesLike): Result;
 }
@@ -265,6 +275,19 @@ export namespace IvKeyAddedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
+export namespace ProverDataUpdatedEvent {
+  export type InputTuple = [prover: AddressLike, proverData: BytesLike];
+  export type OutputTuple = [prover: string, proverData: string];
+  export interface OutputObject {
+    prover: string;
+    proverData: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
 export namespace ProverDeregisteredEvent {
   export type InputTuple = [prover: AddressLike];
   export type OutputTuple = [prover: string];
@@ -306,11 +329,12 @@ export namespace ProverLeftMarketplaceEvent {
 }
 
 export namespace ProverRegisteredEvent {
-  export type InputTuple = [prover: AddressLike, initialCompute: BigNumberish];
-  export type OutputTuple = [prover: string, initialCompute: bigint];
+  export type InputTuple = [prover: AddressLike, initialCompute: BigNumberish, proverData: BytesLike];
+  export type OutputTuple = [prover: string, initialCompute: bigint, proverData: string];
   export interface OutputObject {
     prover: string;
     initialCompute: bigint;
+    proverData: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -427,11 +451,13 @@ export interface ProverManager extends BaseContract {
 
   DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
 
+  MAX_PROVING_TIME: TypedContractMethod<[], [bigint], "view">;
+
+  MIN_PROVING_TIME: TypedContractMethod<[], [bigint], "view">;
+
   PARALLEL_REQUESTS_UPPER_LIMIT: TypedContractMethod<[], [bigint], "view">;
 
   PROOF_MARKET_PLACE_ROLE: TypedContractMethod<[], [string], "view">;
-
-  UNLOCK_WAIT_BLOCKS: TypedContractMethod<[], [bigint], "view">;
 
   UPGRADE_INTERFACE_VERSION: TypedContractMethod<[], [string], "view">;
 
@@ -457,7 +483,7 @@ export interface ProverManager extends BaseContract {
 
   getProverAssignmentDetails: TypedContractMethod<[_proverAddress: AddressLike, _marketId: BigNumberish], [[bigint, bigint]], "view">;
 
-  getProverCommission: TypedContractMethod<[marketId: BigNumberish, proverAddress: AddressLike], [bigint], "view">;
+  getProverCommission: TypedContractMethod<[_marketId: BigNumberish, _proverAddress: AddressLike], [bigint], "view">;
 
   getProverRewardDetails: TypedContractMethod<[_proverAddress: AddressLike, _marketId: BigNumberish], [[string, bigint]], "view">;
 
@@ -494,7 +520,7 @@ export interface ProverManager extends BaseContract {
     "nonpayable"
   >;
 
-  leaveMarketplace: TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
+  leaveMarketplace: TypedContractMethod<[_marketId: BigNumberish], [void], "nonpayable">;
 
   leaveMarketplaces: TypedContractMethod<[marketIds: BigNumberish[]], [void], "nonpayable">;
 
@@ -515,7 +541,7 @@ export interface ProverManager extends BaseContract {
     "view"
   >;
 
-  proverManager: TypedContractMethod<
+  proverRegistry: TypedContractMethod<
     [arg0: AddressLike],
     [
       [string, bigint, bigint, bigint, bigint, bigint, string] & {
@@ -533,7 +559,13 @@ export interface ProverManager extends BaseContract {
 
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
-  register: TypedContractMethod<[rewardAddress: AddressLike, declaredCompute: BigNumberish, proverData: BytesLike], [void], "nonpayable">;
+  reduceComputeRequestTimestamp: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+
+  register: TypedContractMethod<
+    [_rewardAddress: AddressLike, _declaredCompute: BigNumberish, _proverData: BytesLike],
+    [void],
+    "nonpayable"
+  >;
 
   releaseProverCompute: TypedContractMethod<[_proverAddress: AddressLike, _marketId: BigNumberish], [void], "nonpayable">;
 
@@ -557,6 +589,8 @@ export interface ProverManager extends BaseContract {
     "nonpayable"
   >;
 
+  updateProverData: TypedContractMethod<[_proverData: BytesLike], [void], "nonpayable">;
+
   updateProverRewardAddress: TypedContractMethod<[_newRewardAddress: AddressLike], [void], "nonpayable">;
 
   upgradeToAndCall: TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], "payable">;
@@ -564,9 +598,10 @@ export interface ProverManager extends BaseContract {
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "DEFAULT_ADMIN_ROLE"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "MAX_PROVING_TIME"): TypedContractMethod<[], [bigint], "view">;
+  getFunction(nameOrSignature: "MIN_PROVING_TIME"): TypedContractMethod<[], [bigint], "view">;
   getFunction(nameOrSignature: "PARALLEL_REQUESTS_UPPER_LIMIT"): TypedContractMethod<[], [bigint], "view">;
   getFunction(nameOrSignature: "PROOF_MARKET_PLACE_ROLE"): TypedContractMethod<[], [string], "view">;
-  getFunction(nameOrSignature: "UNLOCK_WAIT_BLOCKS"): TypedContractMethod<[], [bigint], "view">;
   getFunction(nameOrSignature: "UPGRADE_INTERFACE_VERSION"): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "addIvsKey",
@@ -589,7 +624,7 @@ export interface ProverManager extends BaseContract {
   ): TypedContractMethod<[_proverAddress: AddressLike, _marketId: BigNumberish], [[bigint, bigint]], "view">;
   getFunction(
     nameOrSignature: "getProverCommission",
-  ): TypedContractMethod<[marketId: BigNumberish, proverAddress: AddressLike], [bigint], "view">;
+  ): TypedContractMethod<[_marketId: BigNumberish, _proverAddress: AddressLike], [bigint], "view">;
   getFunction(
     nameOrSignature: "getProverRewardDetails",
   ): TypedContractMethod<[_proverAddress: AddressLike, _marketId: BigNumberish], [[string, bigint]], "view">;
@@ -624,7 +659,7 @@ export interface ProverManager extends BaseContract {
     [void],
     "nonpayable"
   >;
-  getFunction(nameOrSignature: "leaveMarketplace"): TypedContractMethod<[marketId: BigNumberish], [void], "nonpayable">;
+  getFunction(nameOrSignature: "leaveMarketplace"): TypedContractMethod<[_marketId: BigNumberish], [void], "nonpayable">;
   getFunction(nameOrSignature: "leaveMarketplaces"): TypedContractMethod<[marketIds: BigNumberish[]], [void], "nonpayable">;
   getFunction(nameOrSignature: "proofMarketplace"): TypedContractMethod<[], [string], "view">;
   getFunction(nameOrSignature: "proverInfoPerMarket"): TypedContractMethod<
@@ -641,7 +676,7 @@ export interface ProverManager extends BaseContract {
     ],
     "view"
   >;
-  getFunction(nameOrSignature: "proverManager"): TypedContractMethod<
+  getFunction(nameOrSignature: "proverRegistry"): TypedContractMethod<
     [arg0: AddressLike],
     [
       [string, bigint, bigint, bigint, bigint, bigint, string] & {
@@ -657,9 +692,10 @@ export interface ProverManager extends BaseContract {
     "view"
   >;
   getFunction(nameOrSignature: "proxiableUUID"): TypedContractMethod<[], [string], "view">;
+  getFunction(nameOrSignature: "reduceComputeRequestTimestamp"): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
   getFunction(
     nameOrSignature: "register",
-  ): TypedContractMethod<[rewardAddress: AddressLike, declaredCompute: BigNumberish, proverData: BytesLike], [void], "nonpayable">;
+  ): TypedContractMethod<[_rewardAddress: AddressLike, _declaredCompute: BigNumberish, _proverData: BytesLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "releaseProverCompute",
   ): TypedContractMethod<[_proverAddress: AddressLike, _marketId: BigNumberish], [void], "nonpayable">;
@@ -675,6 +711,7 @@ export interface ProverManager extends BaseContract {
   getFunction(
     nameOrSignature: "updateEncryptionKey",
   ): TypedContractMethod<[_marketId: BigNumberish, _attestationData: BytesLike, _enclaveSignature: BytesLike], [void], "nonpayable">;
+  getFunction(nameOrSignature: "updateProverData"): TypedContractMethod<[_proverData: BytesLike], [void], "nonpayable">;
   getFunction(nameOrSignature: "updateProverRewardAddress"): TypedContractMethod<[_newRewardAddress: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "upgradeToAndCall",
@@ -703,6 +740,9 @@ export interface ProverManager extends BaseContract {
     key: "Initialized",
   ): TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>;
   getEvent(key: "IvKeyAdded"): TypedContractEvent<IvKeyAddedEvent.InputTuple, IvKeyAddedEvent.OutputTuple, IvKeyAddedEvent.OutputObject>;
+  getEvent(
+    key: "ProverDataUpdated",
+  ): TypedContractEvent<ProverDataUpdatedEvent.InputTuple, ProverDataUpdatedEvent.OutputTuple, ProverDataUpdatedEvent.OutputObject>;
   getEvent(
     key: "ProverDeregistered",
   ): TypedContractEvent<ProverDeregisteredEvent.InputTuple, ProverDeregisteredEvent.OutputTuple, ProverDeregisteredEvent.OutputObject>;
@@ -810,6 +850,17 @@ export interface ProverManager extends BaseContract {
     >;
     IvKeyAdded: TypedContractEvent<IvKeyAddedEvent.InputTuple, IvKeyAddedEvent.OutputTuple, IvKeyAddedEvent.OutputObject>;
 
+    "ProverDataUpdated(address,bytes)": TypedContractEvent<
+      ProverDataUpdatedEvent.InputTuple,
+      ProverDataUpdatedEvent.OutputTuple,
+      ProverDataUpdatedEvent.OutputObject
+    >;
+    ProverDataUpdated: TypedContractEvent<
+      ProverDataUpdatedEvent.InputTuple,
+      ProverDataUpdatedEvent.OutputTuple,
+      ProverDataUpdatedEvent.OutputObject
+    >;
+
     "ProverDeregistered(address)": TypedContractEvent<
       ProverDeregisteredEvent.InputTuple,
       ProverDeregisteredEvent.OutputTuple,
@@ -843,7 +894,7 @@ export interface ProverManager extends BaseContract {
       ProverLeftMarketplaceEvent.OutputObject
     >;
 
-    "ProverRegistered(address,uint256)": TypedContractEvent<
+    "ProverRegistered(address,uint256,bytes)": TypedContractEvent<
       ProverRegisteredEvent.InputTuple,
       ProverRegisteredEvent.OutputTuple,
       ProverRegisteredEvent.OutputObject
